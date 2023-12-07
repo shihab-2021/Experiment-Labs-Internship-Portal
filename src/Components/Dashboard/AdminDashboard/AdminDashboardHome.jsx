@@ -92,17 +92,18 @@ const AdminDashboardHome = () => {
       </div>
       <div className="mt-10">
         <div className="flex justify-between">
-          <button className="font-medium text-[20px]">In Process</button>
+          <button className="font-medium text-[20px]">In Process Tasks</button>
           <button className="font-medium text-[16px]">View all</button>
         </div>
-        <div className="flex">
+        <div className="flex justify-between items-center">
+        <div className="flex mt-[17px] gap-[11px] shadow-sm">
           <div className="bg-[#FFF] border border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md">
             <div className="flex justify-between items-center">
               <h1 className="font-bold text-[17px]">Animation Task</h1>
               <HiDotsVertical />
             </div>
             <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">make an animation introduce our company vision....</p>
-            <AvatarGroup total={16}>
+            <AvatarGroup className="grid justify-end mt-[14px]" total={16}>
               <Avatar alt="Remy Sharp" src={std1} />
               <Avatar alt="Travis Howard" src={std2} />
               <Avatar alt="Agnes Walker" src={std3} />
@@ -116,6 +117,52 @@ const AdminDashboardHome = () => {
               <p className="text-[#3F3F3F] text-[14px] font-medium">29/Jan/2022</p>
             </div>
           </div>
+          <div className="bg-[#FFF] border border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md">
+            <div className="flex justify-between items-center">
+              <h1 className="font-bold text-[17px]">logo design</h1>
+              <HiDotsVertical />
+            </div>
+            <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">make our company original logo wth introduce our......</p>
+            <AvatarGroup className="grid justify-end mt-[14px]" total={16}>
+              <Avatar alt="Remy Sharp" src={std1} />
+              <Avatar alt="Travis Howard" src={std2} />
+              <Avatar alt="Agnes Walker" src={std3} />
+              <Avatar alt="Trevor Henderson" src={std4} />
+            </AvatarGroup>
+            <div>
+              <div className="mt-[14px] flex justify-between text-[14px] font-medium">
+                <p>Progress</p>
+                <p className="text-[#3F3F3F]">4/12</p>
+              </div>
+              <p className="text-[#3F3F3F] text-[14px] font-medium">22/Jan/2022</p>
+            </div>
+          </div>
+          <div className="bg-[#FFF] border border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md">
+            <div className="flex justify-between items-center">
+              <h1 className="font-bold text-[17px]">UI AND UX</h1>
+              <HiDotsVertical />
+            </div>
+            <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">Make our company landing page who have enging.....</p>
+            <AvatarGroup className="grid justify-end mt-[14px]" total={16}>
+              <Avatar alt="Remy Sharp" src={std1} />
+              <Avatar alt="Travis Howard" src={std2} />
+              <Avatar alt="Agnes Walker" src={std3} />
+              <Avatar alt="Trevor Henderson" src={std4} />
+            </AvatarGroup>
+            <div>
+              <div className="mt-[14px] flex justify-between text-[14px] font-medium">
+                <p>Progress</p>
+                <p className="text-[#3F3F3F]">4/12</p>
+              </div>
+              <p className="text-[#3F3F3F] text-[14px] font-medium">25/Jan/2022</p>
+            </div>
+          </div>
+        </div>
+        <button className="border rounded-sm p-2 w-[98px] grid justify-center">
+          <FaPlus className="text-[#AEAEAE] w-[25px] h-[25px] "></FaPlus>
+          <span className="text-[#AEAEAE] font-medium text-[15px] w-[90px]">Add New Task</span>
+        </button>
+        <button>sadada</button>
         </div>
       </div>
     </div>
