@@ -1,14 +1,67 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import HeroSectionImage from "../../../assets/Home/HeroSectionImage.png";
 import LoginFormImage from "../../../assets/Home/LoginFormImage.png";
 import ExperimentLabsLogo from "../../../assets/Shared/experiment_labs_logo.png";
 import GoogleIcon from "../../../assets/Shared/icon_google.png";
 import DialogLayout from "../../Shared/DialogLayout";
+import { AuthContext } from "../../../Contexts/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 const HeroSection = () => {
+  const { user, signIn, createUser, updateUserProfile } =
+    useContext(AuthContext);
+  const navigate = useNavigate();
   const [showLoginForm, setShowLoginForm] = useState(false);
-  // console.log(process.env.REACT_APP_apiKey);
-  console.log(import.meta.env.VITE_apiKey);
+  console.log(user);
+  const handleLoginSubmit = async (e) => {
+    e.preventDefault();
+
+    const form = e?.target;
+    const email = form.email.value;
+    const password = form.password.value;
+    console.log(email, password);
+
+    try {
+      await signIn(email, password).then(() => {
+        console.log("user logged in");
+        navigate("/dashboard");
+      });
+    } catch (error) {
+      console.error(error);
+      // toast.error("password or email error");
+    }
+  };
+  const registerUser = (e) => {
+    e.preventDefault();
+    console.log("something");
+    const form = e?.target;
+    const name = form.name.value;
+    const userData = {
+      email: form.email.value,
+      password: form.password.value,
+      fastName: form.firstName.value,
+      lastName: form.lastName.value,
+      phone: form.phone.value,
+      phoneCountryCode: form.phoneCountryCode.value,
+    };
+    console.log(userData);
+
+    createUser(userData.email, userData.password)
+      .then((result) => {
+        const user = result?.user;
+        console.log(user);
+
+        alert("Register successful");
+        // setOpen2(false);
+
+        updateUserProfile({
+          displayName: name,
+        });
+        saveUser(email);
+        form.reset();
+      })
+      .catch((err) => console.error(err));
+  };
   return (
     <div className="container mx-auto px-4">
       <DialogLayout
@@ -24,7 +77,10 @@ const HeroSection = () => {
               alt="LoginFormImage"
             />
           </div>
-          <div className="md:col-span-7 col-span-12 px-4 py-[50px]">
+          <form
+            onSubmit={handleLoginSubmit}
+            className="md:col-span-7 col-span-12 px-4 py-[50px]"
+          >
             <div className="max-w-[450px] mx-auto ">
               <div className="flex items-center text-[17px] font-[700] ">
                 <img
@@ -48,6 +104,7 @@ const HeroSection = () => {
                 </label>
                 <input
                   type="email"
+                  name="email"
                   placeholder="Enter your email"
                   className="py-[15px] px-[10px] border-[1px] border-[#C9C9C9] "
                 />{" "}
@@ -59,6 +116,7 @@ const HeroSection = () => {
                 </label>
                 <input
                   type="password"
+                  name="password"
                   placeholder="Enter your password"
                   className="py-[15px] px-[10px] border-[1px] border-[#C9C9C9] "
                 />
@@ -69,7 +127,10 @@ const HeroSection = () => {
                   <img src={GoogleIcon} alt="GoogleIcon" /> Continue with google
                 </button>
                 <div className="mt-[50px]">
-                  <button className="py-[15px] text-white text-[20px] font-[500] w-full px-[10px] border-[1px] border-[#C9C9C9] bg-[#1976D2] flex items-center justify-center mb-[20px] ">
+                  <button
+                    type="submit"
+                    className="py-[15px] text-white text-[20px] font-[500] w-full px-[10px] border-[1px] border-[#C9C9C9] bg-[#1976D2] flex items-center justify-center mb-[20px] "
+                  >
                     Login
                   </button>
                   <button className="py-[15px] text-[#737373] text-[20px] font-[500 w-full px-[10px] border-[1px] border-[#C9C9C9] flex items-center justify-center ">
@@ -78,7 +139,7 @@ const HeroSection = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </DialogLayout>
       <div className="flex flex-col md:flex-row">
@@ -94,13 +155,17 @@ const HeroSection = () => {
           <img src={HeroSectionImage} />
         </div>
         <div className="basis-full md:basis-1/2">
-          <div className="m-2 border-[#CCC] border-[1px] p-4 rounded-lg flex flex-col tracking-[1.5px] ">
+          <form
+            onSubmit={registerUser}
+            className="m-2 border-[#CCC] border-[1px] p-4 rounded-lg flex flex-col tracking-[1.5px] "
+          >
             <label className="font-[500] text-[20px] space-x-1 mb-[10px] ">
               Official Email.id
             </label>
             <input
               className="border-[1px] border-[#C2C2C2] rounded-full p-[10px] mb-[20px] "
               type="email"
+              name="email"
               placeholder="Write your email"
             />
             <label className="font-[500] text-[20px] space-x-1 mb-[10px] ">
@@ -109,6 +174,7 @@ const HeroSection = () => {
             <input
               className="border-[1px] border-[#C2C2C2] rounded-full p-[10px] mb-[20px] "
               type="password"
+              name="password"
               placeholder="Minimum 6 character"
             />
             <div className="flex ">
@@ -119,6 +185,7 @@ const HeroSection = () => {
                 <input
                   className="border-[1px] border-[#C2C2C2] rounded-full p-[10px] mb-[20px] "
                   type="text"
+                  name="firstName"
                   placeholder="Your first name"
                 />
               </div>
@@ -129,6 +196,7 @@ const HeroSection = () => {
                 <input
                   className="border-[1px] border-[#C2C2C2] rounded-full p-[10px] mb-[20px] "
                   type="text"
+                  name="lastName"
                   placeholder="Your last name"
                 />
               </div>
@@ -140,14 +208,15 @@ const HeroSection = () => {
               <div className="flex gap-2">
                 <select
                   className="border-[1px] border-[#C2C2C2] rounded-full p-[10px] mb-[20px] bg-white "
-                  name=""
+                  name="phoneCountryCode"
                   id=""
                 >
                   <option>91+</option>
                 </select>
                 <input
                   className="border-[1px] basis-full border-[#C2C2C2] rounded-full p-[10px] mb-[20px] "
-                  type="password"
+                  type="number"
+                  name="phone"
                   placeholder="Minimum 6 character"
                 />
               </div>
@@ -158,16 +227,22 @@ const HeroSection = () => {
                 Term and condition
               </span>
             </h3>
-            <button className="w-full py-[15px] px-[10px] text-center text-white rounded-full text-[20px] font-[500] bg-[#3E4DAC]">
+            <button
+              type="submit"
+              className="w-full py-[15px] px-[10px] text-center text-white rounded-full text-[20px] font-[500] bg-[#3E4DAC]"
+            >
               Free Sign up
             </button>
             <button
-              onClick={() => setShowLoginForm(true)}
+              onClick={(e) => {
+                e.preventDefault();
+                setShowLoginForm(true);
+              }}
               className="w-full py-[15px] px-[10px] text-center text-white rounded-full text-[20px] font-[500] bg-[#0A98EA] mt-[25px] "
             >
               Log in
             </button>
-          </div>
+          </form>
         </div>
       </div>
     </div>
