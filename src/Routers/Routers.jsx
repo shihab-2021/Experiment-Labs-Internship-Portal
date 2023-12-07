@@ -1,7 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import Home from "../Pages/Home";
-import AdminDashboardHome from "../Components/Dashboard/AdminDashboard/AdminDashboardHome";
-
+import DashboardHome from "../Pages/Dashboard/DashboardHome";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -9,6 +8,6 @@ export const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <AdminDashboardHome></AdminDashboardHome>,
+    element: <DashboardHome></DashboardHome>,
   },
 ]);

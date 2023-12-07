@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import ExperimentLabsLogo from "../../../assets/Shared/experiment_labs_logo.png";
-
+import { GoHome } from "react-icons/go";
+import { GoHomeFill } from "react-icons/go";
 const DashboardLayout = ({ children }) => {
   const [toggleButton, setToggleButton] = useState(true);
   const location = useLocation();
@@ -9,7 +10,7 @@ const DashboardLayout = ({ children }) => {
     <div>
       <>
         <div>
-          <div className="">
+          <div className="font-raleway">
             <div className="flex overflow-hidden">
               <aside
                 id="sidebar"
@@ -59,19 +60,19 @@ const DashboardLayout = ({ children }) => {
                             className={`text-white font-normal rounded-[15px] flex items-center px-[20px] py-[13px]  group`}
                           >
                             {location.pathname === "/dashboard" ? (
-                              <img className="" src="" alt="icon" />
+                              <GoHome></GoHome>
                             ) : (
-                              <img className="" src="" alt="icon" />
+                              <GoHomeFill></GoHomeFill>
                             )}
 
                             <span
                               className={`${
                                 location.pathname === "/dashboard"
-                                  ? "text-white"
+                                  ? "text-white "
                                   : "text-[#8F8F8F]"
                               } ml-3 text-[18px] font-[500]`}
                             >
-                              Dashboard
+                              Home
                             </span>
                           </Link>
                         </li>
