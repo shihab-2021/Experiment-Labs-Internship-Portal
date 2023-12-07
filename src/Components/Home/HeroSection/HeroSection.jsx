@@ -7,6 +7,8 @@ import DialogLayout from "../../Shared/DialogLayout";
 
 const HeroSection = () => {
   const [showLoginForm, setShowLoginForm] = useState(false);
+  // console.log(process.env.REACT_APP_apiKey);
+  console.log(import.meta.env.VITE_apiKey);
   return (
     <div className="container mx-auto px-4">
       <DialogLayout
