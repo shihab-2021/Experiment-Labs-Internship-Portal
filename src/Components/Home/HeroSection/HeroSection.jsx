@@ -6,6 +6,7 @@ import GoogleIcon from "../../../assets/Shared/icon_google.png";
 import DialogLayout from "../../Shared/DialogLayout";
 import { AuthContext } from "../../../Contexts/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const HeroSection = () => {
   const { user, signIn, createUser, updateUserProfile } =
@@ -35,7 +36,7 @@ const HeroSection = () => {
     e.preventDefault();
     console.log("something");
     const form = e?.target;
-    const name = form.name.value;
+    // const name = form.name.value;
     const userData = {
       email: form.email.value,
       password: form.password.value,
@@ -47,17 +48,24 @@ const HeroSection = () => {
     console.log(userData);
 
     createUser(userData.email, userData.password)
-      .then((result) => {
+      .then(async (result) => {
         const user = result?.user;
         console.log(user);
+
+        const newUser = await axios.post(
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users`,
+          userData
+        );
+
+        console.log(newUser);
 
         alert("Register successful");
         // setOpen2(false);
 
         updateUserProfile({
-          displayName: name,
+          displayName: user?.fastName,
         });
-        saveUser(email);
+        // saveUser(email);
         form.reset();
       })
       .catch((err) => console.error(err));
