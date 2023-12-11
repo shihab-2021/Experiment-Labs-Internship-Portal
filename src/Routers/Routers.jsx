@@ -4,6 +4,7 @@ import DashboardHome from "../Pages/Dashboard/DashboardHome";
 import CreateTask from "../Pages/Dashboard/CreateTask";
 import TaskDetails from "../Pages/Dashboard/TaskDetails";
 import CompleteShowMore from "../Pages/Dashboard/CompleteShowMore";
+import Team from "../Pages/Dashboard/Team";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -25,4 +26,9 @@ export const router = createBrowserRouter([
     path : "/completeShowMore",
     element : <CompleteShowMore/>
   },
+  {
+    path : "/team",
+    element : <Team/>
+  },
+
 ]);
