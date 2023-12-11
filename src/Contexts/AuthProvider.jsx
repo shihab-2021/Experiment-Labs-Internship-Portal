@@ -9,7 +9,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import app from "../firebase/firebase.config";
-// import axios from "axios";
+import axios from "axios";
 
 export const AuthContext = createContext();
 const auth = getAuth(app);
@@ -63,14 +63,18 @@ const AuthProvider = ({ children }) => {
     };
   }, [user?.email]);
 
-  //   useEffect(() => {
-  //     axios
-  //       .get(`${process.env.REACT_APP_BACKEND_API}/users?email=${user?.email}`)
-  //       .then((user) => {
-  //         setUserInfo(user?.data);
-  //       })
-  //       .catch((error) => console.error(error));
-  //   }, [user?.email, userInfo?.email]);
+  useEffect(() => {
+    axios
+      .get(
+        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${
+          user?.email
+        }`
+      )
+      .then((user) => {
+        setUserInfo(user?.data);
+      })
+      .catch((error) => console.error(error));
+  }, [user?.email, userInfo?.email]);
 
   const authInfo = {
     user,

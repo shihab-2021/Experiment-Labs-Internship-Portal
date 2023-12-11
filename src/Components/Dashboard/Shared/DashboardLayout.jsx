@@ -1,11 +1,26 @@
-import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import ExperimentLabsLogo from "../../../assets/Shared/experiment_labs_logo.png";
+import React, { useContext, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import ExperimentLabsLogo from "../../../assets/Dashboard/Shared/ExperimentLabsLogo.png";
+import HomeIconLight from "../../../assets/Dashboard/Shared/HomeIconLight.png";
+import HomeIconDark from "../../../assets/Dashboard/Shared/HomeIconDark.png";
+import CreateTaskIconLight from "../../../assets/Dashboard/Shared/CreateTaskIconLight.png";
+import CreateTaskIconDark from "../../../assets/Dashboard/Shared/CreateTaskIconDark.png";
+import DashboardIconLight from "../../../assets/Dashboard/Shared/DashboardIconLight.png";
+import DashboardIconDark from "../../../assets/Dashboard/Shared/DashboardIconDark.png";
+import TaskDetailsIconLight from "../../../assets/Dashboard/Shared/TaskDetailsIconLight.png";
+import TaskDetailsIconDark from "../../../assets/Dashboard/Shared/TaskDetailsIconDark.png";
+import TeamIconLight from "../../../assets/Dashboard/Shared/TeamIconLight.png";
+import TeamIconDark from "../../../assets/Dashboard/Shared/TeamIconDark.png";
+import MessageIconLight from "../../../assets/Dashboard/Shared/MessageIconLight.png";
+import MessageIconDark from "../../../assets/Dashboard/Shared/MessageIconDark.png";
 import { GoHome } from "react-icons/go";
 import { GoHomeFill } from "react-icons/go";
+import { AuthContext } from "../../../Contexts/AuthProvider";
 const DashboardLayout = ({ children }) => {
+  const { logOut } = useContext(AuthContext);
   const [toggleButton, setToggleButton] = useState(true);
   const location = useLocation();
+  const navigate = useNavigate();
   return (
     <div>
       <>
@@ -26,7 +41,7 @@ const DashboardLayout = ({ children }) => {
                         <Link className="hidden lg:block" to={"/"}>
                           <img
                             // className="h-6 lg:h-8"
-                            className="w-[100px]"
+                            className="my-5"
                             src={ExperimentLabsLogo}
                             alt="icon"
                           />
@@ -60,24 +75,207 @@ const DashboardLayout = ({ children }) => {
                             className={`text-white font-normal rounded-[15px] flex items-center px-[20px] py-[13px]  group`}
                           >
                             {location.pathname === "/dashboard" ? (
-                              <GoHome></GoHome>
+                              <img src={HomeIconLight} alt="HomeIconLight" />
                             ) : (
-                              <GoHomeFill></GoHomeFill>
+                              <img src={HomeIconDark} alt="HomeIconDark" />
                             )}
-
                             <span
                               className={`${
                                 location.pathname === "/dashboard"
                                   ? "text-white "
                                   : "text-[#8F8F8F]"
-                              } ml-3 text-[18px] font-[500]`}
+                              } ml-3 text-[16px] font-[600]`}
                             >
                               Home
                             </span>
                           </Link>
                         </li>
+                        <li>
+                          <Link
+                            style={
+                              location.pathname === "/createTask"
+                                ? {
+                                    background:
+                                      "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
+                                  }
+                                : {}
+                            }
+                            to="/createTask"
+                            className={`text-white font-normal rounded-[15px] flex items-center px-[20px] py-[13px]  group`}
+                          >
+                            {location.pathname === "/createTask" ? (
+                              <img
+                                src={CreateTaskIconLight}
+                                alt="CreateTaskIconLight"
+                              />
+                            ) : (
+                              <img
+                                src={CreateTaskIconDark}
+                                alt="CreateTaskIconDark"
+                              />
+                            )}
+                            <span
+                              className={`${
+                                location.pathname === "/createTask"
+                                  ? "text-white "
+                                  : "text-[#8F8F8F]"
+                              } ml-3 text-[16px] font-[600]`}
+                            >
+                              Create Task
+                            </span>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            style={
+                              location.pathname === "/"
+                                ? {
+                                    background:
+                                      "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
+                                  }
+                                : {}
+                            }
+                            to="/"
+                            className={`text-white font-normal rounded-[15px] flex items-center px-[20px] py-[13px]  group`}
+                          >
+                            {location.pathname === "/" ? (
+                              <img
+                                src={DashboardIconLight}
+                                alt="DashboardIconLight"
+                              />
+                            ) : (
+                              <img
+                                src={DashboardIconDark}
+                                alt="DashboardIconDark"
+                              />
+                            )}
+                            <span
+                              className={`${
+                                location.pathname === "/"
+                                  ? "text-white "
+                                  : "text-[#8F8F8F]"
+                              } ml-3 text-[16px] font-[600]`}
+                            >
+                              Dashboard
+                            </span>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            style={
+                              location.pathname === "/"
+                                ? {
+                                    background:
+                                      "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
+                                  }
+                                : {}
+                            }
+                            to="/"
+                            className={`text-white font-normal rounded-[15px] flex items-center px-[20px] py-[13px]  group`}
+                          >
+                            {location.pathname === "/" ? (
+                              <img
+                                src={TaskDetailsIconLight}
+                                alt="TaskDetailsIconLight"
+                              />
+                            ) : (
+                              <img
+                                src={TaskDetailsIconDark}
+                                alt="TaskDetailsIconDark"
+                              />
+                            )}
+                            <span
+                              className={`${
+                                location.pathname === "/"
+                                  ? "text-white "
+                                  : "text-[#8F8F8F]"
+                              } ml-3 text-[16px] font-[600]`}
+                            >
+                              Task Details
+                            </span>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            style={
+                              location.pathname === "/"
+                                ? {
+                                    background:
+                                      "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
+                                  }
+                                : {}
+                            }
+                            to="/"
+                            className={`text-white font-normal rounded-[15px] flex items-center px-[20px] py-[13px]  group`}
+                          >
+                            {location.pathname === "/" ? (
+                              <img src={TeamIconLight} alt="TeamIconLight" />
+                            ) : (
+                              <img src={TeamIconDark} alt="TeamIconDark" />
+                            )}
+                            <span
+                              className={`${
+                                location.pathname === "/"
+                                  ? "text-white "
+                                  : "text-[#8F8F8F]"
+                              } ml-3 text-[16px] font-[600]`}
+                            >
+                              Team
+                            </span>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            style={
+                              location.pathname === "/"
+                                ? {
+                                    background:
+                                      "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
+                                  }
+                                : {}
+                            }
+                            to="/"
+                            className={`text-white font-normal rounded-[15px] flex items-center px-[20px] py-[13px]  group`}
+                          >
+                            {location.pathname === "/" ? (
+                              <img
+                                src={MessageIconLight}
+                                alt="MessageIconLight"
+                              />
+                            ) : (
+                              <img
+                                src={MessageIconDark}
+                                alt="MessageIconDark"
+                              />
+                            )}
+                            <span
+                              className={`${
+                                location.pathname === "/"
+                                  ? "text-white "
+                                  : "text-[#8F8F8F]"
+                              } ml-3 text-[16px] font-[600]`}
+                            >
+                              Message
+                            </span>
+                          </Link>
+                        </li>
                       </ul>
                     </div>
+                    <button
+                      onClick={() => {
+                        logOut()
+                          .then((res) => {
+                            console.log(res);
+                            navigate(`/`);
+                          })
+                          .catch((error) => console.error(error));
+                      }}
+                      className={`text-white bg-blue-500 mx-4 text-center font-normal rounded-[15px]  py-[13px]`}
+                    >
+                      <span className={`text-white text-[16px] font-[600]`}>
+                        Logout
+                      </span>
+                    </button>
                   </div>
                 </div>
               </aside>
