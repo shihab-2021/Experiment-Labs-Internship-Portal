@@ -6,7 +6,7 @@ const CreateTask = () => {
   return (
     <div>
       <DashboardLayout>
-      <AdminCreateTask></AdminCreateTask>
+        <AdminCreateTask></AdminCreateTask>
       </DashboardLayout>
     </div>
   );
