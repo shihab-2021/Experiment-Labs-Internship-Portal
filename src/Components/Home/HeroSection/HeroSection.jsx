@@ -9,11 +9,12 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const HeroSection = () => {
-  const { user, signIn, createUser, updateUserProfile } =
+  const { user, userInfo, signIn, createUser, updateUserProfile } =
     useContext(AuthContext);
   const navigate = useNavigate();
   const [showLoginForm, setShowLoginForm] = useState(false);
-  console.log(user);
+  console.log(userInfo);
+
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
 
