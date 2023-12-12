@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BsPersonCircle } from "react-icons/bs";
 import { HiDotsVertical } from "react-icons/hi";
 import { FaAngleRight, FaMagnifyingGlass } from "react-icons/fa6";
 import AvatarGroup from "@mui/material/AvatarGroup";
 import Avatar from "@mui/material/Avatar";
 import Person from "../../../assets/Home/Person.png";
-import deadLineImage from "../../../assets/Dashboard/AdminDashboard/deadLineImage.svg"
-import clock from "../../../assets/Dashboard/AdminDashboard/clock.svg"
-import { FaEdit, FaEllipsisV } from 'react-icons/fa';
+import deadLineImage from "../../../assets/Dashboard/AdminDashboard/deadLineImage.svg";
+import clock from "../../../assets/Dashboard/AdminDashboard/clock.svg";
+import { FaEdit, FaEllipsisV } from "react-icons/fa";
 import { Link } from "react-router-dom";
-
+import { AuthContext } from "../../../Contexts/AuthProvider";
+import axios from "axios";
 
 const AdminTaskDetails = () => {
   // Function to format the date as day/month/year
@@ -42,6 +43,26 @@ const AdminTaskDetails = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
+  const { userInfo } = useContext(AuthContext);
+
+  const [adminApprovedTasks, setAdminApprovedTasks] = useState([]);
+
+  useEffect(() => {
+    if (userInfo?.organizations)
+      axios
+        .get(
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${
+            userInfo?.organizations[0]?.organizationId
+          }/taskStatus/AdminApproved`
+        )
+        .then((tasks) => {
+          setAdminApprovedTasks(tasks?.data);
+        })
+        .catch((error) => console.error(error));
+  }, [userInfo]);
+
+  console.log(adminApprovedTasks);
+
   return (
     <div className="w-11/12 mx-auto mt-14">
       {/*top section*/}
@@ -50,7 +71,9 @@ const AdminTaskDetails = () => {
           <div className="flex gap-10">
             <div>
               <h1 className="font-bold text-[30px]">Hello Aman</h1>
-              <p className="text-[21px] font-medium tracking-wide">{formatDate()}</p>
+              <p className="text-[21px] font-medium tracking-wide">
+                {formatDate()}
+              </p>
             </div>
             <div
               style={{
@@ -63,18 +86,17 @@ const AdminTaskDetails = () => {
               <input className="w-[90%]" placeholder="Search"></input>
             </div>
           </div>
-
         </div>
 
         <div className="relative inline-block text-left">
-          <div className="w-[275px] h-[52px] px-2"
+          <div
+            className="w-[275px] h-[52px] px-2"
             style={{
               borderRadius: "7px",
               border: "1px solid #F0F0F0",
               background: "#FFF",
-              boxShadow: "0px 4px 30px 0px #F2F4FF"
+              boxShadow: "0px 4px 30px 0px #F2F4FF",
             }}
-
           >
             <button
               type="button"
@@ -103,8 +125,9 @@ const AdminTaskDetails = () => {
           </div>
 
           <div
-            className={`absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${isDropdownOpen ? "" : "hidden"
-              }`}
+            className={`absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${
+              isDropdownOpen ? "" : "hidden"
+            }`}
             role="menu"
             aria-orientation="vertical"
             aria-labelledby="menu-button"
@@ -138,13 +161,14 @@ const AdminTaskDetails = () => {
             <div className="bg-[#FFF] border border-[#E7E7E7] w-[315px] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md">
               <div className="flex justify-between items-center">
                 <h1 className="font-bold text-[17px]">Graphic design</h1>
-                <FaEdit style={{ color: '#3E4DAC' }} />
+                <FaEdit style={{ color: "#3E4DAC" }} />
               </div>
               <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
                 Task no.1
               </p>
               <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
-                Make poster for advertising our company product and gain sales...
+                Make poster for advertising our company product and gain
+                sales...
               </p>
               <AvatarGroup className="grid justify-end mt-[14px]" total={16}>
                 <Avatar alt="Remy Sharp" src={Person} />
@@ -163,23 +187,20 @@ const AdminTaskDetails = () => {
                       className="bg-[#3E4DAC] h-2 rounded-lg"
                       // className="bg-cyan-600 h-2 rounded-sm"
                       style={{ width: `4%` }}
-                    // style={{ width: "20%" }}
+                      // style={{ width: "20%" }}
                     ></div>
                   </div>
                 </div>
                 <p className="text-[#3F3F3F] text-[14px] font-medium">
                   29/Jan/2022
                 </p>
-              </div >
-              <div className="mt-3">
-                <Link to='' className="text-[#0D47A1] text-[13px] font-medium " >Show details</Link>
-
               </div>
-
-
+              <div className="mt-3">
+                <Link to="" className="text-[#0D47A1] text-[13px] font-medium ">
+                  Show details
+                </Link>
+              </div>
             </div>
-
-
           </div>
         </div>
       </div>
@@ -187,8 +208,12 @@ const AdminTaskDetails = () => {
       {/* In Progress */}
       <div className="mt-6">
         <div className="flex justify-between items-center">
-          <h1 className="text-[20px] font-bold mt-8 text-[#1976D2]">In Progress</h1>
-          <p><FaEllipsisV style={{ color: '#3E4DAC' }} /> </p>
+          <h1 className="text-[20px] font-bold mt-8 text-[#1976D2]">
+            In Progress
+          </h1>
+          <p>
+            <FaEllipsisV style={{ color: "#3E4DAC" }} />{" "}
+          </p>
         </div>
 
         <div className="flex justify-between items-center">
@@ -196,13 +221,14 @@ const AdminTaskDetails = () => {
             <div className="bg-[#FFF] border w-[50%] border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md">
               <div className="flex justify-between items-center">
                 <h1 className="font-bold text-[17px]">Animation task</h1>
-                <FaEdit style={{ color: '#3E4DAC' }} />
+                <FaEdit style={{ color: "#3E4DAC" }} />
               </div>
               <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
                 Task no.1
               </p>
               <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
-                Make poster for advertising our company product and gain sales...
+                Make poster for advertising our company product and gain
+                sales...
               </p>
               <AvatarGroup className="grid justify-end mt-[14px]" total={16}>
                 <Avatar alt="Remy Sharp" src={Person} />
@@ -221,31 +247,31 @@ const AdminTaskDetails = () => {
                       className="bg-[#3E4DAC] h-2 rounded-lg"
                       // className="bg-cyan-600 h-2 rounded-sm"
                       style={{ width: `4%` }}
-                    // style={{ width: "20%" }}
+                      // style={{ width: "20%" }}
                     ></div>
                   </div>
                 </div>
                 <p className="text-[#3F3F3F] text-[14px] font-medium">
                   29/Jan/2022
                 </p>
-              </div >
-              <div className="mt-3">
-                <Link to='' className="text-[#0D47A1] text-[13px] font-medium " >Show details</Link>
-
               </div>
-
-
+              <div className="mt-3">
+                <Link to="" className="text-[#0D47A1] text-[13px] font-medium ">
+                  Show details
+                </Link>
+              </div>
             </div>
             <div className="bg-[#FFF] border w-[50%] border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md">
               <div className="flex justify-between items-center">
                 <h1 className="font-bold text-[17px]">Logo design</h1>
-                <FaEdit style={{ color: '#3E4DAC' }} />
+                <FaEdit style={{ color: "#3E4DAC" }} />
               </div>
               <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
                 Task no.1
               </p>
               <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
-                Make poster for advertising our company product and gain sales...
+                Make poster for advertising our company product and gain
+                sales...
               </p>
               <AvatarGroup className="grid justify-end mt-[14px]" total={16}>
                 <Avatar alt="Remy Sharp" src={Person} />
@@ -264,31 +290,31 @@ const AdminTaskDetails = () => {
                       className="bg-[#3E4DAC] h-2 rounded-lg"
                       // className="bg-cyan-600 h-2 rounded-sm"
                       style={{ width: `4%` }}
-                    // style={{ width: "20%" }}
+                      // style={{ width: "20%" }}
                     ></div>
                   </div>
                 </div>
                 <p className="text-[#3F3F3F] text-[14px] font-medium">
                   29/Jan/2022
                 </p>
-              </div >
-              <div className="mt-3">
-                <Link to='' className="text-[#0D47A1] text-[13px] font-medium " >Show details</Link>
-
               </div>
-
-
+              <div className="mt-3">
+                <Link to="" className="text-[#0D47A1] text-[13px] font-medium ">
+                  Show details
+                </Link>
+              </div>
             </div>
             <div className="bg-[#FFF] border w-[50%] border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md">
               <div className="flex justify-between items-center">
                 <h1 className="font-bold text-[17px]">Logo design</h1>
-                <FaEdit style={{ color: '#3E4DAC' }} />
+                <FaEdit style={{ color: "#3E4DAC" }} />
               </div>
               <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
                 Task no.1
               </p>
               <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
-                Make poster for advertising our company product and gain sales...
+                Make poster for advertising our company product and gain
+                sales...
               </p>
               <AvatarGroup className="grid justify-end mt-[14px]" total={16}>
                 <Avatar alt="Remy Sharp" src={Person} />
@@ -307,23 +333,20 @@ const AdminTaskDetails = () => {
                       className="bg-[#3E4DAC] h-2 rounded-lg"
                       // className="bg-cyan-600 h-2 rounded-sm"
                       style={{ width: `4%` }}
-                    // style={{ width: "20%" }}
+                      // style={{ width: "20%" }}
                     ></div>
                   </div>
                 </div>
                 <p className="text-[#3F3F3F] text-[14px] font-medium">
                   29/Jan/2022
                 </p>
-              </div >
-              <div className="mt-3">
-                <Link to='' className="text-[#0D47A1] text-[13px] font-medium " >Show details</Link>
-
               </div>
-
-
+              <div className="mt-3">
+                <Link to="" className="text-[#0D47A1] text-[13px] font-medium ">
+                  Show details
+                </Link>
+              </div>
             </div>
-
-
           </div>
         </div>
       </div>
@@ -331,23 +354,27 @@ const AdminTaskDetails = () => {
       {/*  Completed */}
       <div className="my-6">
         <div className="flex justify-between items-center">
-          <h1 className="text-[20px] font-bold mt-8 text-[#20B15A]"> Completed</h1>
-          <p><FaEllipsisV style={{ color: '#3E4DAC' }} /> </p>
+          <h1 className="text-[20px] font-bold mt-8 text-[#20B15A]">
+            {" "}
+            Completed
+          </h1>
+          <p>
+            <FaEllipsisV style={{ color: "#3E4DAC" }} />{" "}
+          </p>
         </div>
 
         <div className="flex justify-between items-center">
           <div className="flex gap-6 mt-[17px] w-[100%]">
-
             <div className="bg-[#FFF] border w-[50%] border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md">
               <div className="flex justify-between items-center">
                 <h1 className="font-bold text-[17px]">UI AND UX</h1>
-             
               </div>
               <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
                 Task no.1
               </p>
               <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
-                "Create our company landing page with an engaging interface that matches industry standards."
+                "Create our company landing page with an engaging interface that
+                matches industry standards."
               </p>
               <AvatarGroup className="grid justify-end mt-[14px]" total={16}>
                 <Avatar alt="Remy Sharp" src={Person} />
@@ -364,45 +391,44 @@ const AdminTaskDetails = () => {
                   <div className="w-full bg-gray-200 rounded-lg h-2">
                     <div
                       className="bg-[#3E4DAC] h-2 rounded-lg"
-                     
                       style={{ width: `4%` }}
-                   
                     ></div>
                   </div>
                 </div>
                 <p className="text-[#3F3F3F] text-[14px] font-medium">
                   29/Jan/2022
                 </p>
-              </div >
+              </div>
               <div className=" flex gap-4 items-center mt-6">
                 <div className="flex gap-2 items-center">
-                  <img src={deadLineImage} alt="Icon"/>
+                  <img src={deadLineImage} alt="Icon" />
                   <p>deadline 26/jan/2022</p>
                 </div>
                 <div className="flex gap-2 items-center">
-                  <img src={clock} alt="Icon"/>
+                  <img src={clock} alt="Icon" />
                   <p>deadline 26/jan/2022</p>
                 </div>
-
               </div>
               <div className="mt-3 text-center">
-                <Link to='/completeShowMore' className="text-[#0D47A1] text-[13px] font-bold " >Show more deatails</Link>
-
+                <Link
+                  to="/completeShowMore"
+                  className="text-[#0D47A1] text-[13px] font-bold "
+                >
+                  Show more deatails
+                </Link>
               </div>
-
-
             </div>
 
             <div className="bg-[#FFF] border w-[50%] border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md">
               <div className="flex justify-between items-center">
                 <h1 className="font-bold text-[17px]">UI AND UX</h1>
-              
               </div>
               <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
                 Task no.1
               </p>
               <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
-                "Create our company landing page with an engaging interface that matches industry standards."
+                "Create our company landing page with an engaging interface that
+                matches industry standards."
               </p>
               <AvatarGroup className="grid justify-end mt-[14px]" total={16}>
                 <Avatar alt="Remy Sharp" src={Person} />
@@ -419,41 +445,36 @@ const AdminTaskDetails = () => {
                   <div className="w-full bg-gray-200 rounded-lg h-2">
                     <div
                       className="bg-[#3E4DAC] h-2 rounded-lg"
-                     
                       style={{ width: `4%` }}
-                   
                     ></div>
                   </div>
                 </div>
                 <p className="text-[#3F3F3F] text-[14px] font-medium">
                   29/Jan/2022
                 </p>
-              </div >
+              </div>
               <div className=" flex gap-4 items-center mt-6">
                 <div className="flex gap-2 items-center">
-                  <img src={deadLineImage} alt="Icon"/>
+                  <img src={deadLineImage} alt="Icon" />
                   <p>deadline 26/jan/2022</p>
                 </div>
                 <div className="flex gap-2 items-center">
-                  <img src={clock} alt="Icon"/>
+                  <img src={clock} alt="Icon" />
                   <p>deadline 26/jan/2022</p>
                 </div>
-
               </div>
               <div className="mt-3 text-center">
-                <Link to='/completeShowMore' className="text-[#0D47A1] text-[13px] font-bold " >Show more deatails</Link>
-
+                <Link
+                  to="/completeShowMore"
+                  className="text-[#0D47A1] text-[13px] font-bold "
+                >
+                  Show more deatails
+                </Link>
               </div>
-
-
             </div>
-
-
-
           </div>
         </div>
       </div>
-
     </div>
   );
 };
