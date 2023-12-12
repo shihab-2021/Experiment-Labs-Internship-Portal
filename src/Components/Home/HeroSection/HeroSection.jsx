@@ -72,7 +72,7 @@ const HeroSection = () => {
       .catch((err) => console.error(err));
   };
   return (
-    <div className="container mx-auto px-4">
+    <div className=" w-11/12 mx-auto px-4">
       <DialogLayout
         open={showLoginForm}
         setOpen={setShowLoginForm}
@@ -151,7 +151,7 @@ const HeroSection = () => {
           </form>
         </div>
       </DialogLayout>
-      <div className="flex flex-col md:flex-row">
+      <div className="flex flex-col md:flex-row gap-4 ">
         <div className=" basis-full md:basis-1/2">
           <div>
             <h1 className="font-[700] text-[37px]">
@@ -186,24 +186,26 @@ const HeroSection = () => {
               name="password"
               placeholder="Minimum 6 character"
             />
-            <div className="flex ">
-              <div>
+            <div className="flex gap-2 ">
+              <div className="basis-1/2">
                 <label className="font-[500] text-[20px] space-x-1 mb-[10px] ">
                   First Name
                 </label>
+                <br />
                 <input
-                  className="border-[1px] border-[#C2C2C2] rounded-full p-[10px] mb-[20px] "
+                  className="border-[1px] w-full border-[#C2C2C2] rounded-full p-[10px] mb-[20px] "
                   type="text"
                   name="firstName"
                   placeholder="Your first name"
                 />
               </div>
-              <div>
+              <div className="basis-1/2">
                 <label className="font-[500] text-[20px] space-x-1 mb-[10px] ">
                   Last Name
                 </label>
+                <br />
                 <input
-                  className="border-[1px] border-[#C2C2C2] rounded-full p-[10px] mb-[20px] "
+                  className="border-[1px] w-full border-[#C2C2C2] rounded-full p-[10px] mb-[20px] "
                   type="text"
                   name="lastName"
                   placeholder="Your last name"
