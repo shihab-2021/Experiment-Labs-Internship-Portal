@@ -28,6 +28,72 @@ import groupIcon from "../../../assets/Dashboard/AdminDashboard/Group_icon.svg"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, PieChart, Pie, Cell } from 'recharts';
 
 const AdminDashboardHome = () => {
+  const cardData = [
+    {
+      title: "Animation Task",
+      taskDesc: "Make an animation introduce our company vision.....",
+      studentsImg: [
+        {
+          img: Person
+        },
+        {
+          img: Person
+        },
+        {
+          img: Person
+        },
+        {
+          img: Person
+        },
+
+      ],
+      progressBar: { current: 4, total: 12 },
+      date: "29/Jan/2022",
+    },
+    {
+      title: "Logo Design",
+      taskDesc: "Make our company original logo wth introduce our......",
+      studentsImg: [
+        {
+          img: Person
+        },
+        {
+          img: Person
+        },
+        {
+          img: Person
+        },
+        {
+          img: Person
+        },
+
+      ],
+      progressBar: { current: 6, total: 10 },
+      date: "22/Jan/2022",
+    },
+    {
+      title: "UI & UX",
+      taskDesc: "Make our company landing page who have enging.....",
+      studentsImg: [
+        {
+          img: Person
+        },
+        {
+          img: Person
+        },
+        {
+          img: Person
+        },
+        {
+          img: Person
+        },
+
+      ],
+      progressBar: { current: 12, total: 12 },
+      date: "25/Jan/2022",
+    },
+
+  ]
   const pieChartdata = [
     { name: 'Reject', value: 2 },
     { name: 'Select', value: 8 },
@@ -141,108 +207,39 @@ const AdminDashboardHome = () => {
         </div>
         <div className="flex justify-between items-center">
           <div className="flex mt-[17px] gap-[11px]">
-            <div className="bg-[#FFF] border border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md">
-              <div className="flex justify-between items-center">
-                <h1 className="font-bold text-[17px]">Animation Task</h1>
-                <HiDotsVertical />
-              </div>
-              <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
-                make an animation introduce our company vision....
-              </p>
-              <AvatarGroup className="grid justify-end mt-[14px]" total={16}>
-                <Avatar alt="Remy Sharp" src={Person} />
-                <Avatar alt="Travis Howard" src={Person} />
-                <Avatar alt="Agnes Walker" src={Person} />
-                <Avatar alt="Trevor Henderson" src={Person} />
-              </AvatarGroup>
-              <div>
-                <div className="mt-[14px] flex justify-between text-[14px] font-medium">
-                  <p>Progress</p>
-                  <p className="text-[#3F3F3F]">4/12</p>
+            {cardData.map((item, index) => (
+              <div key={index} className="bg-[#FFF] border border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md">
+                <div className="flex justify-between items-center">
+                  <h1 className="font-bold text-[17px]">{item?.title}</h1>
+                  <HiDotsVertical />
                 </div>
-                <div className="relative w-full">
-                  <div className="w-full bg-gray-200 rounded-lg h-2">
-                    <div
-                      className="bg-[#3E4DAC] h-2 rounded-lg"
-                      // className="bg-cyan-600 h-2 rounded-sm"
-                      style={{ width: `4%` }}
-                    // style={{ width: "20%" }}
-                    ></div>
-                  </div>
-                </div>
-                <p className="text-[#3F3F3F] text-[14px] font-medium">
-                  29/Jan/2022
+                <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
+                  {item?.taskDesc}
                 </p>
-              </div>
-            </div>
-            <div className="bg-[#FFF] border border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md">
-              <div className="flex justify-between items-center">
-                <h1 className="font-bold text-[17px]">logo design</h1>
-                <HiDotsVertical />
-              </div>
-              <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
-                make our company original logo wth introduce our......
-              </p>
-              <AvatarGroup className="grid justify-end mt-[14px]" total={16}>
-                <Avatar alt="Remy Sharp" src={Person} />
-                <Avatar alt="Travis Howard" src={Person} />
-                <Avatar alt="Agnes Walker" src={Person} />
-                <Avatar alt="Trevor Henderson" src={Person} />
-              </AvatarGroup>
-              <div>
-                <div className="mt-[14px] flex justify-between text-[14px] font-medium">
-                  <p>Progress</p>
-                  <p className="text-[#3F3F3F]">10/12</p>
-                </div>
-                <div className="relative w-full">
-                  <div className="w-full bg-gray-200 rounded-lg h-2">
-                    <div
-                      className="bg-[#3E4DAC] h-2 rounded-lg"
-                      // className="bg-cyan-600 h-2 rounded-sm"
-                      style={{ width: `80%` }}
-                    // style={{ width: "20%" }}
-                    ></div>
+                <AvatarGroup className="grid justify-end mt-[14px]" total={16}>
+                  {item?.studentsImg.map((each, index) => (
+                    <Avatar key={index} alt="Remy Sharp" src={each.img} />
+                  ))}
+                </AvatarGroup>
+                <div>
+                  <div className="mt-[14px] flex justify-between text-[14px] font-medium">
+                    <p>Progress</p>
+                    <p className="text-[#3F3F3F]">{item?.progressBar?.current}/{item?.progressBar?.total}</p>
                   </div>
-                </div>
-                <p className="text-[#3F3F3F] text-[14px] font-medium">
-                  22/Jan/2022
-                </p>
-              </div>
-            </div>
-            <div className="bg-[#FFF] border border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md">
-              <div className="flex justify-between items-center">
-                <h1 className="font-bold text-[17px]">UI AND UX</h1>
-                <HiDotsVertical />
-              </div>
-              <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
-                Make our company landing page who have enging.....
-              </p>
-              <AvatarGroup className="grid justify-end mt-[14px]" total={16}>
-                <Avatar alt="Remy Sharp" src={Person} />
-                <Avatar alt="Travis Howard" src={Person} />
-                <Avatar alt="Agnes Walker" src={Person} />
-                <Avatar alt="Trevor Henderson" src={Person} />
-              </AvatarGroup>
-              <div>
-                <div className="mt-[14px] flex justify-between text-[14px] font-medium">
-                  <p>Progress</p>
-                  <p className="text-[#3F3F3F]">4/12</p>
-                </div>
-                <div className="relative w-full">
-                  <div className="w-full bg-gray-200 rounded-lg h-2">
-                    <div
-                      className="bg-[#3E4DAC] h-2 rounded-lg"
-                      // className="bg-cyan-600 h-2 rounded-sm"
-                      style={{ width: `100%` }}
-                    // style={{ width: "20%" }}
-                    ></div>
+                  <div className="relative w-full">
+                    <div className="w-full bg-gray-200 rounded-lg h-2">
+                      <div
+                        className="bg-[#3E4DAC] h-2 rounded-lg"
+                        style={{ width: `${(item?.progressBar?.current / item?.progressBar?.total) * 100}%` }}
+                      ></div>
+                    </div>
                   </div>
+                  <p className="text-[#3F3F3F] text-[14px] font-medium">
+                    {item?.date}
+                  </p>
                 </div>
-                <p className="text-[#3F3F3F] text-[14px] font-medium">
-                  25/Jan/2022
-                </p>
               </div>
-            </div>
+            ))}
             <button className="ml-14 p-2 w-[98px] justify-center items-center">
               <FaPlus className="text-[#AEAEAE] w-[25px] h-[25px] mx-auto mb-2 "></FaPlus>
               <span className="text-[#AEAEAE] font-bold text-[15px] w-[90px]">

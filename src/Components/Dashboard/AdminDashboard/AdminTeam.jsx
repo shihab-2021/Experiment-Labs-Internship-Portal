@@ -14,6 +14,57 @@ import { Avatar, AvatarGroup } from "@mui/material";
 import { useState } from "react";
 import { BsPersonCircle } from "react-icons/bs";
 const AdminTeam = () => {
+    const cardData = [
+        {
+            title: "Animation Task",
+            taskNo: "Task no.1",
+            taskDesc: "Make poster for advertising our company product and gain sales...",
+            studentsImg: [
+                {
+                    img: Person
+                },
+                {
+                    img: Person
+                },
+                {
+                    img: Person
+                },
+                {
+                    img: Person
+                },
+
+            ],
+            progressBar: { current: 4, total: 12 },
+            date: "29/Jan/2022",
+            access: "Public",
+            createdBy: "Anjali",
+        },
+        {
+            title: "Animation Task",
+            taskNo: "Task no.1",
+            taskDesc: "Make poster for advertising our company product and gain sales...",
+            studentsImg: [
+                {
+                    img: Person
+                },
+                {
+                    img: Person
+                },
+                {
+                    img: Person
+                },
+                {
+                    img: Person
+                },
+
+            ],
+            progressBar: { current: 4, total: 12 },
+            date: "29/Jan/2022",
+            access: "Private",
+            createdBy: "Anjali",
+        },
+
+    ]
     const [toggle, setToggle] = useState("task");
     const [addMember, setAddMember] = useState(false);
     const handleToggle = (event, type) => {
@@ -157,7 +208,7 @@ const AdminTeam = () => {
                                 <input placeholder="write team member mobile number" type="text" name="memberNumber" id="memberNumber" className="bg-[#EEF0FF] px-[10px] py-1 rounded-md shadow" />
                             </div>
                             <div className="w-full flex justify-center">
-                            <button className="mt-8 py-3 px-7 text-white bg-[#3E4DAC] items-center rounded-3xl"> Add team member</button>
+                                <button className="mt-8 py-3 px-7 text-white bg-[#3E4DAC] items-center rounded-3xl"> Add team member</button>
                             </div>
                         </form></div> : <>
                         <div className="w-11/12 mx-auto mt-10">
@@ -408,90 +459,48 @@ const AdminTeam = () => {
                                         </div>
                                         <h1 className="text-[#1976D2] text-xl font-bold tracking-widest mt-9">Task created by anjali mem</h1>
                                         <div className="flex gap-5">
-                                            <div className="my-4 bg-[#FFF] border w-[315px] border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md">
-                                                <div className="flex justify-between items-center">
-                                                    <h1 className="font-bold text-[20px]">Animation task</h1>
-                                                    <RiEditBoxLine className="w-6 h-6" style={{ color: '#3E4DAC' }} />
-                                                </div>
-                                                <p className="text-[16px] mt-[12px] font-medium text-[#797979] tracking-wide">
-                                                    Task no.1
-                                                </p>
-                                                <p className="text-[14px] mt-[12px] font-medium text-[#797979] tracking-wide">
-                                                    Make poster for advertising our company product and gain sales...
-                                                </p>
-                                                <AvatarGroup className="grid justify-end mt-[14px]" total={16}>
-                                                    <Avatar alt="Remy Sharp" src={Person} />
-                                                    <Avatar alt="Travis Howard" src={Person} />
-                                                    <Avatar alt="Agnes Walker" src={Person} />
-                                                    <Avatar alt="Trevor Henderson" src={Person} />
-                                                </AvatarGroup>
-                                                <div>
-                                                    <div className="mt-[14px] flex justify-between text-[14px] font-medium">
-                                                        <p>Progress</p>
-                                                        <p className="text-[#3F3F3F]">4/12</p>
-                                                    </div>
-                                                    <div className="relative w-full">
-                                                        <div className="w-full bg-gray-200 rounded-lg h-2">
-                                                            <div
-                                                                className="bg-[#3E4DAC] h-2 rounded-lg"
-                                                                // className="bg-cyan-600 h-2 rounded-sm"
-                                                                style={{ width: `30%` }}
-                                                            // style={{ width: "20%" }}
-                                                            ></div>
+                                            {
+                                                cardData?.map((item, index) => (
+                                                    <div key={index} className="my-4 bg-[#FFF] border w-[315px] border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md">
+                                                        <div className="flex justify-between items-center">
+                                                            <h1 className="font-bold text-[20px]">{item?.title}</h1>
+                                                            <RiEditBoxLine className="w-6 h-6" style={{ color: '#3E4DAC' }} />
+                                                        </div>
+                                                        <p className="text-[16px] mt-[12px] font-medium text-[#797979] tracking-wide">
+                                                            {item?.taskNo}
+                                                        </p>
+                                                        <p className="text-[14px] mt-[12px] font-medium text-[#797979] tracking-wide">
+                                                            {item?.taskDesc}
+                                                        </p>
+                                                        <AvatarGroup className="grid justify-end mt-[14px]" total={16}>
+                                                            {item?.studentsImg.map((each, index) => (
+                                                                <Avatar key={index} alt="Remy Sharp" src={each.img} />
+                                                            ))}
+                                                        </AvatarGroup>
+                                                        <div>
+                                                            <div className="mt-[14px] flex justify-between text-[14px] font-medium">
+                                                                <p>Progress</p>
+                                                                <p className="text-[#3F3F3F]">{item?.progressBar?.current}/{item?.progressBar?.total}</p>
+                                                            </div>
+                                                            <div className="relative w-full">
+                                                                <div className="w-full bg-gray-200 rounded-lg h-2">
+                                                                    <div
+                                                                        className="bg-[#3E4DAC] h-2 rounded-lg"
+                                                                        style={{ width: `${(item?.progressBar?.current/item?.progressBar?.total)*100}%` }}
+                                                                    ></div>
+                                                                </div>
+                                                            </div>
+                                                            <p className="text-[#3F3F3F] text-[14px] font-medium">
+                                                                {item?.date}
+                                                            </p>
+                                                        </div>
+                                                        <div className="mt-3 flex justify-around items-center">
+                                                            {item?.access === "Public" ? <button className="text-white py-[3px] px-4 bg-[#0A98EA] rounded-3xl text-[14px] font-medium flex items-center gap-1"><HiOutlineGlobeAsiaAustralia className="w-6 h-5" />  Public <img src={cancelIcon} alt="" /> </button> : <button className="text-[#0D47A1] border border-[#1976D2] py-[3px] px-4 rounded-3xl text-[14px] font-medium flex items-center gap-1"><GoShieldLock className="w-6 h-5" />  Private <img src={cancelIcon} alt="" /> </button>}
+                                                            <p className="text-[#4555BA] text-[14px] font-medium tracking-widest">Created by <span>{item?.createdBy}</span></p>
                                                         </div>
                                                     </div>
-                                                    <p className="text-[#3F3F3F] text-[14px] font-medium">
-                                                        29/Jan/2022
-                                                    </p>
-                                                </div>
-                                                <div className="mt-3 flex justify-around items-center">
-                                                    <button className="text-white py-[3px] px-4 bg-[#0A98EA] rounded-3xl text-[14px] font-medium flex items-center gap-1"><HiOutlineGlobeAsiaAustralia className="w-6 h-5" />  Public <img src={cancelIcon} alt="" /> </button>
-                                                    <p className="text-[#4555BA] text-[14px] font-medium tracking-widest">Created by Anjali</p>
-                                                </div>
-                                            </div>
-                                            <div className="my-4 bg-[#FFF] border w-[315px] border-[#E7E7E7] shadow-md  shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md">
-                                                <div className="flex justify-between items-center">
-                                                    <h1 className="font-bold text-[20px]">Animation task</h1>
-                                                    <RiEditBoxLine className="w-6 h-6" style={{ color: '#3E4DAC' }} />
-                                                </div>
-                                                <p className="text-[16px] mt-[12px] font-medium text-[#797979] tracking-wide">
-                                                    Task no.1
-                                                </p>
-                                                <p className="text-[14px] mt-[12px] font-medium text-[#797979] tracking-wide">
-                                                    Make poster for advertising our company product and gain sales...
-                                                </p>
-                                                <AvatarGroup className="grid justify-end mt-[14px]" total={16}>
-                                                    <Avatar alt="Remy Sharp" src={Person} />
-                                                    <Avatar alt="Travis Howard" src={Person} />
-                                                    <Avatar alt="Agnes Walker" src={Person} />
-                                                    <Avatar alt="Trevor Henderson" src={Person} />
-                                                </AvatarGroup>
-                                                <div>
-                                                    <div className="mt-[14px] flex justify-between text-[14px] font-medium">
-                                                        <p>Progress</p>
-                                                        <p className="text-[#3F3F3F]">4/12</p>
-                                                    </div>
-                                                    <div className="relative w-full">
-                                                        <div className="w-full bg-gray-200 rounded-lg h-2">
-                                                            <div
-                                                                className="bg-[#3E4DAC] h-2 rounded-lg"
-                                                                // className="bg-cyan-600 h-2 rounded-sm"
-                                                                style={{ width: `30%` }}
-                                                            // style={{ width: "20%" }}
-                                                            ></div>
-                                                        </div>
-                                                    </div>
-                                                    <p className="text-[#3F3F3F] text-[14px] font-medium">
-                                                        29/Jan/2022
-                                                    </p>
-                                                </div>
-                                                <div className="mt-3 flex justify-around items-center">
-                                                    <button className="border border-[#0D47A1] text-[#0D47A1] py-[3px] px-4  rounded-3xl text-[14px] font-medium flex items-center gap-1"><GoShieldLock className="w-6 h-5" />  Public <img src={cancelIcon} alt="" /> </button>
-                                                    <p className="text-[#4555BA] text-[14px] font-medium tracking-widest">Created by Anjali</p>
-                                                </div>
-
-
-                                            </div>
+                                                ))
+                                            }
                                         </div></> :
                                     <>
                                         <div className="relative w-full">
