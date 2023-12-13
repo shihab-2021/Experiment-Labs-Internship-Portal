@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BsPersonCircle } from "react-icons/bs";
 import { HiDotsVertical } from "react-icons/hi";
 import { FaAngleRight, FaMagnifyingGlass } from "react-icons/fa6";
 import AvatarGroup from "@mui/material/AvatarGroup";
 import Avatar from "@mui/material/Avatar";
 import Person from "../../../assets/Home/Person.png";
-import deadLineImage from "../../../assets/Dashboard/AdminDashboard/deadLineImage.svg"
-import clock from "../../../assets/Dashboard/AdminDashboard/clock.svg"
-import { FaEdit, FaEllipsisV } from 'react-icons/fa';
+import deadLineImage from "../../../assets/Dashboard/AdminDashboard/deadLineImage.svg";
+import clock from "../../../assets/Dashboard/AdminDashboard/clock.svg";
+import { FaEdit, FaEllipsisV } from "react-icons/fa";
 import { Link } from "react-router-dom";
-
+import { AuthContext } from "../../../Contexts/AuthProvider";
+import axios from "axios";
 
 const AdminTaskDetails = () => {
   // Function to format the date as day/month/year
@@ -142,6 +143,25 @@ const AdminTaskDetails = () => {
 
     ],
   }
+  const { userInfo } = useContext(AuthContext);
+
+  const [adminApprovedTasks, setAdminApprovedTasks] = useState([]);
+
+  useEffect(() => {
+    if (userInfo?.organizations)
+      axios
+        .get(
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${
+            userInfo?.organizations[0]?.organizationId
+          }/taskStatus/AdminApproved`
+        )
+        .then((tasks) => {
+          setAdminApprovedTasks(tasks?.data);
+        })
+        .catch((error) => console.error(error));
+  }, [userInfo]);
+
+  console.log(adminApprovedTasks);
 
   return (
     <div className="w-11/12 mx-auto mt-14">
@@ -151,7 +171,9 @@ const AdminTaskDetails = () => {
           <div className="flex gap-10">
             <div>
               <h1 className="font-bold text-[30px]">Hello Aman</h1>
-              <p className="text-[21px] font-medium tracking-wide">{formatDate()}</p>
+              <p className="text-[21px] font-medium tracking-wide">
+                {formatDate()}
+              </p>
             </div>
             <div
               style={{
@@ -164,18 +186,17 @@ const AdminTaskDetails = () => {
               <input className="w-[90%]" placeholder="Search"></input>
             </div>
           </div>
-
         </div>
 
         <div className="relative inline-block text-left">
-          <div className="w-[275px] h-[52px] px-2"
+          <div
+            className="w-[275px] h-[52px] px-2"
             style={{
               borderRadius: "7px",
               border: "1px solid #F0F0F0",
               background: "#FFF",
-              boxShadow: "0px 4px 30px 0px #F2F4FF"
+              boxShadow: "0px 4px 30px 0px #F2F4FF",
             }}
-
           >
             <button
               type="button"
@@ -204,8 +225,9 @@ const AdminTaskDetails = () => {
           </div>
 
           <div
-            className={`absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${isDropdownOpen ? "" : "hidden"
-              }`}
+            className={`absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${
+              isDropdownOpen ? "" : "hidden"
+            }`}
             role="menu"
             aria-orientation="vertical"
             aria-labelledby="menu-button"
@@ -292,8 +314,12 @@ const AdminTaskDetails = () => {
       {/* In Progress */}
       <div className="mt-6">
         <div className="flex justify-between items-center">
-          <h1 className="text-[20px] font-bold mt-8 text-[#1976D2]">In Progress</h1>
-          <p><FaEllipsisV style={{ color: '#3E4DAC' }} /> </p>
+          <h1 className="text-[20px] font-bold mt-8 text-[#1976D2]">
+            In Progress
+          </h1>
+          <p>
+            <FaEllipsisV style={{ color: "#3E4DAC" }} />{" "}
+          </p>
         </div>
 
         <div className="flex justify-between items-center">
@@ -356,8 +382,13 @@ const AdminTaskDetails = () => {
       {/*  Completed */}
       <div className="my-6">
         <div className="flex justify-between items-center">
-          <h1 className="text-[20px] font-bold mt-8 text-[#20B15A]"> Completed</h1>
-          <p><FaEllipsisV style={{ color: '#3E4DAC' }} /> </p>
+          <h1 className="text-[20px] font-bold mt-8 text-[#20B15A]">
+            {" "}
+            Completed
+          </h1>
+          <p>
+            <FaEllipsisV style={{ color: "#3E4DAC" }} />{" "}
+          </p>
         </div>
 
         <div className="flex justify-between items-center">
@@ -431,7 +462,6 @@ const AdminTaskDetails = () => {
           </div>
         </div>
       </div>
-
     </div>
   );
 };

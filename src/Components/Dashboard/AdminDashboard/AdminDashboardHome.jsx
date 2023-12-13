@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import DashboardLayout from "../Shared/DashboardLayout";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { FaAngleRight } from "react-icons/fa";
@@ -24,23 +24,36 @@ import std2 from "../../../assets/Dashboard/AdminDashboard/student2.svg";
 import std3 from "../../../assets/Dashboard/AdminDashboard/student3.svg";
 import std4 from "../../../assets/Dashboard/AdminDashboard/student4.svg";
 import Person from "../../../assets/Home/Person.png";
-import groupIcon from "../../../assets/Dashboard/AdminDashboard/Group_icon.svg"
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, PieChart, Pie, Cell } from 'recharts';
+import groupIcon from "../../../assets/Dashboard/AdminDashboard/Group_icon.svg";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  PieChart,
+  Pie,
+  Cell,
+} from "recharts";
+import { AuthContext } from "../../../Contexts/AuthProvider";
 
 const AdminDashboardHome = () => {
+  const { userInfo } = useContext(AuthContext);
   const pieChartdata = [
-    { name: 'Reject', value: 2 },
-    { name: 'Select', value: 8 },
+    { name: "Reject", value: 2 },
+    { name: "Select", value: 8 },
   ];
-  const COLORS = ['#DD2025', '#1976D2'];
+  const COLORS = ["#DD2025", "#1976D2"];
   const lineChartdata = [
-    { day: 'Mon', tasks_done: 0 },
-    { day: 'Tues', tasks_done: 5 },
-    { day: 'Wed', tasks_done: 0 },
-    { day: 'Thur', tasks_done: 5 },
-    { day: 'Fri', tasks_done: 0 },
-    { day: 'Sat', tasks_done: 5 },
-    { day: 'Sun', tasks_done: 0 },
+    { day: "Mon", tasks_done: 0 },
+    { day: "Tues", tasks_done: 5 },
+    { day: "Wed", tasks_done: 0 },
+    { day: "Thur", tasks_done: 5 },
+    { day: "Fri", tasks_done: 0 },
+    { day: "Sat", tasks_done: 5 },
+    { day: "Sun", tasks_done: 0 },
   ];
 
   const yTicks = [5, 10, 25, 50, 75, 100, 125, 150];
@@ -76,8 +89,12 @@ const AdminDashboardHome = () => {
         <div>
           <div className="flex gap-10">
             <div>
-              <h1 className="font-bold text-[30px]">Hello Aman</h1>
-              <p className="text-[21px] font-medium tracking-wide">{formatDate()}</p>
+              <h1 className="font-bold text-[30px]">
+                Hello {userInfo?.fastName}
+              </h1>
+              <p className="text-[21px] font-medium tracking-wide">
+                {formatDate()}
+              </p>
             </div>
             <div
               style={{
@@ -117,7 +134,9 @@ const AdminDashboardHome = () => {
         <div className="border border-[#F0F0F0] shadow-md w-[275px] h-[200px]">
           <div className="w-5/6 mx-auto flex items-center gap-2 pt-[7px]">
             <BsPersonCircle className="text-[#4555BA] w-[35px] h-[35px]" />
-            <p className="text-[19px] font-medium">Aman Kumar</p>
+            <p className="text-[19px] font-medium">
+              {userInfo?.fastName} {userInfo?.lastName}
+            </p>
           </div>
           <div className="w-5/6 mx-auto border-b border-[#4555BA] pt-[17px] text-[16px] font-medium flex justify-between">
             <p className="text-[#3F3F3F]">Animation</p>
@@ -166,7 +185,7 @@ const AdminDashboardHome = () => {
                       className="bg-[#3E4DAC] h-2 rounded-lg"
                       // className="bg-cyan-600 h-2 rounded-sm"
                       style={{ width: `4%` }}
-                    // style={{ width: "20%" }}
+                      // style={{ width: "20%" }}
                     ></div>
                   </div>
                 </div>
@@ -200,7 +219,7 @@ const AdminDashboardHome = () => {
                       className="bg-[#3E4DAC] h-2 rounded-lg"
                       // className="bg-cyan-600 h-2 rounded-sm"
                       style={{ width: `80%` }}
-                    // style={{ width: "20%" }}
+                      // style={{ width: "20%" }}
                     ></div>
                   </div>
                 </div>
@@ -234,7 +253,7 @@ const AdminDashboardHome = () => {
                       className="bg-[#3E4DAC] h-2 rounded-lg"
                       // className="bg-cyan-600 h-2 rounded-sm"
                       style={{ width: `100%` }}
-                    // style={{ width: "20%" }}
+                      // style={{ width: "20%" }}
                     ></div>
                   </div>
                 </div>
@@ -256,7 +275,10 @@ const AdminDashboardHome = () => {
       <div className="mt-10 flex justify-between">
         <div className="bg-[#FFF] border border-[#E8E8E8] p-4 rounded-md w-[471px] h-[290px]">
           <div className="flex justify-between pb-4">
-            <p className="flex flex-col"><span>Weekly Task Report</span><span>{formatDate()}</span></p>
+            <p className="flex flex-col">
+              <span>Weekly Task Report</span>
+              <span>{formatDate()}</span>
+            </p>
             <p>Animation Task</p>
           </div>
           <LineChart
@@ -274,13 +296,20 @@ const AdminDashboardHome = () => {
             <XAxis dataKey="day" />
             <YAxis ticks={yTicks} />
             <Tooltip />
-            <Line type="monotone" dataKey="tasks_done" stroke="#8884d8" activeDot={{ r: 8 }} />
+            <Line
+              type="monotone"
+              dataKey="tasks_done"
+              stroke="#8884d8"
+              activeDot={{ r: 8 }}
+            />
           </LineChart>
         </div>
         <div className="bg-[#FFF] w-[325px] h-[301.624px] shadow-md rounded-md">
           <div className="px-4 flex justify-between items-start">
             <div>
-              <p className="text-[16px] font-semibold text-[#828282]">Total Submission</p>
+              <p className="text-[16px] font-semibold text-[#828282]">
+                Total Submission
+              </p>
               <p className="text-[40px] font-medium">22</p>
               <p className="text-[14px] ">Students application chart</p>
             </div>
@@ -300,14 +329,15 @@ const AdminDashboardHome = () => {
               dataKey="value"
             >
               {pieChartdata.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                <Cell
+                  key={`cell-${index}`}
+                  fill={COLORS[index % COLORS.length]}
+                />
               ))}
             </Pie>
           </PieChart>
         </div>
-        <div>
-
-        </div>
+        <div></div>
       </div>
       {/*companies */}
       <div className="mt-[60px]">
