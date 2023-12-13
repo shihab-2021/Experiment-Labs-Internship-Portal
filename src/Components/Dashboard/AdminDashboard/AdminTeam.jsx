@@ -11,7 +11,7 @@ import { RiEditBoxLine } from "react-icons/ri";
 import roundtask from "../../../assets/Shared/roundtask.svg";
 import { Avatar, AvatarGroup } from "@mui/material";
 
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BsPersonCircle } from "react-icons/bs";
 import { AuthContext } from "../../../Contexts/AuthProvider";
 import axios from "axios";
@@ -55,6 +55,25 @@ const AdminTeam = () => {
   };
 
   const { userInfo } = useContext(AuthContext);
+  const [teamMembers, setTeamMembers] = useState([]);
+
+  useEffect(() => {
+    if (userInfo?.organizations)
+      axios
+        .get(
+          `${
+            import.meta.env.VITE_APP_SERVER_API
+          }/api/v1/users/usersByOrganization/${
+            userInfo?.organizations[0]?.organizationId
+          }`
+        )
+        .then((org) => {
+          setTeamMembers(org.data);
+        })
+        .catch((error) => console.error(error));
+  }, [userInfo]);
+
+  console.log(teamMembers);
 
   const handleAddMember = async (event) => {
     event.preventDefault();

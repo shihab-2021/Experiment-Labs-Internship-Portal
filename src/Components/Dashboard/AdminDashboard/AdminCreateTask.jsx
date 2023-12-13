@@ -107,18 +107,34 @@ const AdminCreateTask = () => {
   const handleNext = async (event) => {
     event.preventDefault();
     const form = event?.target;
-    const companyData = {
-      orgName: form.companyName.value,
-      aboutOrg: form.aboutCompany.value,
-      officialEmail: user?.email,
-      orgLogo: orgLogo,
-    };
-    console.log(companyData);
-    const newTask = await axios.post(
-      `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations`,
-      companyData
-    );
-    console.log(newTask);
+
+    if (organizationInfo) {
+      organizationInfo.orgName = form.companyName.value;
+      organizationInfo.aboutOrg = form.aboutCompany.value;
+      organizationInfo.orgLogo = orgLogo;
+      delete organizationInfo._id;
+
+      const updateOrganization = await axios.put(
+        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${
+          userInfo?.organizations[0]?.organizationId
+        }`,
+        organizationInfo
+      );
+      console.log(updateOrganization);
+    } else {
+      const companyData = {
+        orgName: form.companyName.value,
+        aboutOrg: form.aboutCompany.value,
+        officialEmail: user?.email,
+        orgLogo: orgLogo,
+      };
+      console.log(companyData);
+      const newOrganization = await axios.post(
+        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations`,
+        companyData
+      );
+      console.log(newOrganization);
+    }
     setPage(2);
     form.reset();
   };
