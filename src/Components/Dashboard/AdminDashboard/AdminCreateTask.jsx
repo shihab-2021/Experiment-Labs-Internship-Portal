@@ -1,30 +1,144 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import inputImg from "../../../assets/Shared/input.svg";
 import roundtask from "../../../assets/Shared/roundtask.svg";
 import { FaArrowRight } from "react-icons/fa";
 import axios from "axios";
-const AdminCreateTask = () => {
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [page, setPage] = useState(1);
-  const handleImageChange = (event) => {
-    // Get the selected image from the input
-    const file = event.target.files[0];
+import { AuthContext } from "../../../Contexts/AuthProvider";
 
-    // Do something with the selected image, e.g., set it in state
-    setSelectedImage(file);
+const AdminCreateTask = () => {
+  const { user, userInfo } = useContext(AuthContext);
+  const [fileLoading, setFileLoading] = useState(false);
+  const [selectedFile, setSelectedFile] = useState();
+  const [page, setPage] = useState(1);
+  const [organizationInfo, setOrganizationInfo] = useState({});
+  const [orgLogo, setOrgLogo] = useState("");
+
+  useEffect(() => {
+    if (userInfo?.organizations)
+      axios
+        .get(
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${
+            userInfo?.organizations[0]?.organizationId
+          }`
+        )
+        .then((org) => {
+          setOrganizationInfo(org?.data);
+          if (org?.data?.orgName && org?.data?.orgName && org?.data?.orgLogo)
+            setPage(2);
+          if (org?.data?.orgLogo) setOrgLogo(org?.data?.orgLogo);
+        })
+        .catch((error) => console.error(error));
+  }, [userInfo]);
+
+  const handleDragEnter = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(true);
   };
-  const handleNext = (event) => {
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    //setDragActive(false);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDrop = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    setFileLoading(false);
+
+    const file = e.dataTransfer.files[0];
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      console.log(formData);
+
+      const response = await axios.post(
+        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/uploadFile/upload`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      setOrgLogo(response.data.fileUrl);
+    } catch (error) {
+      console.error("Error uploading file:", error);
+    }
+    setSelectedFile(file);
+    setFileLoading(true);
+  };
+
+  const handleFileChange = async (e) => {
+    setFileLoading(true);
+    const file = e.target.files[0];
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      console.log(formData);
+
+      const response = await axios.post(
+        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/uploadFile/upload`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      setOrgLogo(response.data.fileUrl);
+    } catch (error) {
+      console.error("Error uploading file:", error);
+    }
+    setSelectedFile(file);
+    setFileLoading(false);
+  };
+
+  const handleNext = async (event) => {
     event.preventDefault();
     const form = event?.target;
-    const companyData = {
-      companyName: form.companyName.value,
-      aboutCompany: form.aboutCompany.value,
-    };
-    console.log(companyData);
+
+    if (organizationInfo) {
+      organizationInfo.orgName = form.companyName.value;
+      organizationInfo.aboutOrg = form.aboutCompany.value;
+      organizationInfo.orgLogo = orgLogo;
+      delete organizationInfo._id;
+
+      const updateOrganization = await axios.put(
+        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${
+          userInfo?.organizations[0]?.organizationId
+        }`,
+        organizationInfo
+      );
+      console.log(updateOrganization);
+    } else {
+      const companyData = {
+        orgName: form.companyName.value,
+        aboutOrg: form.aboutCompany.value,
+        officialEmail: user?.email,
+        orgLogo: orgLogo,
+      };
+      console.log(companyData);
+      const newOrganization = await axios.post(
+        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations`,
+        companyData
+      );
+      console.log(newOrganization);
+    }
     setPage(2);
     form.reset();
   };
+
   const handleCreateTask = async (event) => {
     event.preventDefault();
     const form = event?.target;
@@ -36,6 +150,12 @@ const AdminCreateTask = () => {
       taskTime: form.taskTime.value,
       taskDeadline: form.taskDeadline.value,
       taskLimit: form.taskLimit.value,
+      creator: {
+        email: user?.email,
+        organizationId: organizationInfo?._id,
+        role: userInfo?.organizations[0]?.role,
+      },
+      taskStatus: "AdminApproved",
     };
     console.log(taskData);
     const newTask = await axios.post(
@@ -45,6 +165,7 @@ const AdminCreateTask = () => {
     console.log(newTask);
     form.reset();
   };
+
   const formatDate = () => {
     const monthNames = [
       "Jan",
@@ -112,16 +233,56 @@ const AdminCreateTask = () => {
             <h1 className="text-[18px] font-medium tracking-wide text-center mt-[45px]">
               Upload Company image
             </h1>
-            <div className="grid justify-center ">
-              <div className="border border-[#4555BA] w-[242px] h-[114px]">
-                <img src={inputImg} className="mx-auto mt-2" alt="" />
+            <label>
+              <div
+                className="grid justify-center w-fit mx-auto "
+                onDragOver={handleDragOver}
+                onDragEnter={handleDragEnter}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+              >
+                {fileLoading && (
+                  <div className="border border-[#4555BA] min-w-[242px] min-h-[114px]">
+                    <img
+                      src={inputImg}
+                      className="mx-auto mt-2 animate-ping"
+                      alt="inputImg"
+                    />
+                  </div>
+                )}
+                {!fileLoading && (
+                  <div className="border border-[#4555BA] min-w-[242px] min-h-[114px]">
+                    <img
+                      src={inputImg}
+                      className="mx-auto mt-2"
+                      alt="inputImg"
+                    />
+                    {selectedFile && (
+                      <p className="text-[18px] font-[700] m-[5px] ">
+                        File:{" "}
+                        <span className="font-[500]">{selectedFile?.name}</span>
+                      </p>
+                    )}
+                  </div>
+                )}
               </div>
-            </div>
+              <input
+                className="hidden"
+                type="file"
+                name="file"
+                placeholder="upload"
+                onChange={handleFileChange}
+              />
+            </label>
+            {orgLogo && (
+              <img src={orgLogo} className="mx-auto my-4" alt="orgLogo" />
+            )}
             <div className="flex flex-col gap-2">
               <label htmlFor="companyName" className="text-[17px] font-medium">
                 Company name
               </label>
               <input
+                defaultValue={organizationInfo?.orgName}
                 placeholder="write company name"
                 type="text"
                 name="companyName"
@@ -134,6 +295,7 @@ const AdminCreateTask = () => {
                 Write about company
               </label>
               <textarea
+                defaultValue={organizationInfo?.aboutOrg}
                 maxLength={200}
                 placeholder="ex,write about company what company does"
                 type="text"

@@ -5,6 +5,7 @@ import CreateTask from "../Pages/Dashboard/CreateTask";
 import TaskDetails from "../Pages/Dashboard/TaskDetails";
 import CompleteShowMore from "../Pages/Dashboard/CompleteShowMore";
 import Team from "../Pages/Dashboard/Team";
+import DashboardBar from "../Pages/Dashboard/DashboardBar";
 import Message from "../Pages/Dashboard/Message";
 export const router = createBrowserRouter([
   {
@@ -35,4 +36,9 @@ export const router = createBrowserRouter([
     path: "/message",
     element: <Message />,
   },
+  {
+    path : "/dashboardBar",
+    element : <DashboardBar/>
+  },
+
 ]);
