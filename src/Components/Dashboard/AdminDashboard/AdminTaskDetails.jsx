@@ -42,6 +42,107 @@ const AdminTaskDetails = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
+  const data = {
+    newTask: [
+      {
+        title: "Graphic design",
+        subtitle: "Task no.1",
+        description: "Make poster for advertising our company product and gain sales..",
+        student: [
+          {
+            profileImage: ""
+          }
+        ],
+        totalCompleteTask: "4",
+        totalStudent: "12",
+        date: '29/jan/2023'
+
+      },
+
+
+    ],
+    inProgressTask: [
+      {
+        title: "Animation task",
+        subtitle: "Task no.1",
+        description: "Make poster for advertising our company product and gain sales..",
+        student: [
+          {
+            profileImage: ""
+          }
+        ],
+        totalCompleteTask: "4",
+        totalStudent: "12",
+        date: '29/jan/2023'
+
+      },
+      {
+        title: "Logo design",
+        subtitle: "Task no.1",
+        description: "Make poster for advertising our company product and gain sales..",
+        student: [
+          {
+            profileImage: ""
+          }
+        ],
+        totalCompleteTask: "4",
+        totalStudent: "12",
+        date: '29/jan/2023'
+
+      },
+      {
+        title: "Animation task",
+        subtitle: "Task no.1",
+        description: "Make poster for advertising our company product and gain sales..",
+        student: [
+          {
+            profileImage: ""
+          }
+        ],
+        totalCompleteTask: "4",
+        totalStudent: "12",
+        date: '29/jan/2023'
+
+      },
+    ],
+    completedTask: [
+      {
+        title: "UI AND UX",
+        subtitle: "Task no.1",
+        description: "Create our company landing page with an engaging interface that matches industry standards.",
+        student: [
+          {
+            profileImage: ""
+          }
+        ],
+        totalCompleteTask: "12",
+        totalStudent: "12",
+        date: '29/jan/2023',
+        deadline: "22/jan/2023",
+        duration: "48hrs",
+
+      },
+      {
+        title: "UI AND UX",
+        subtitle: "Task no.1",
+        description: "Create our company landing page with an engaging interface that matches industry standards.",
+        student: [
+          {
+            profileImage: ""
+          }
+        ],
+        totalCompleteTask: "12",
+        totalStudent: "12",
+        date: '29/jan/2023',
+        deadline: "22/jan/2023",
+        duration: "48hrs",
+
+      },
+
+
+    ],
+  }
+
   return (
     <div className="w-11/12 mx-auto mt-14">
       {/*top section*/}
@@ -135,49 +236,53 @@ const AdminTaskDetails = () => {
 
         <div className="flex justify-between items-center">
           <div className="flex mt-[17px] gap-[11px]">
-            <div className="bg-[#FFF] border border-[#E7E7E7] w-[315px] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md">
-              <div className="flex justify-between items-center">
-                <h1 className="font-bold text-[17px]">Graphic design</h1>
-                <FaEdit style={{ color: '#3E4DAC' }} />
-              </div>
-              <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
-                Task no.1
-              </p>
-              <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
-                Make poster for advertising our company product and gain sales...
-              </p>
-              <AvatarGroup className="grid justify-end mt-[14px]" total={16}>
-                <Avatar alt="Remy Sharp" src={Person} />
-                <Avatar alt="Travis Howard" src={Person} />
-                <Avatar alt="Agnes Walker" src={Person} />
-                <Avatar alt="Trevor Henderson" src={Person} />
-              </AvatarGroup>
-              <div>
-                <div className="mt-[14px] flex justify-between text-[14px] font-medium">
-                  <p>Progress</p>
-                  <p className="text-[#3F3F3F]">4/12</p>
-                </div>
-                <div className="relative w-full">
-                  <div className="w-full bg-gray-200 rounded-lg h-2">
-                    <div
-                      className="bg-[#3E4DAC] h-2 rounded-lg"
-                      // className="bg-cyan-600 h-2 rounded-sm"
-                      style={{ width: `4%` }}
-                    // style={{ width: "20%" }}
-                    ></div>
+            {
+              data.newTask?.map((item) => (
+                <div className="bg-[#FFF] border border-[#E7E7E7] w-[315px] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md">
+                  <div className="flex justify-between items-center">
+                    <h1 className="font-bold text-[17px]">{item?.title}</h1>
+                    <FaEdit style={{ color: '#3E4DAC' }} />
                   </div>
+                  <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
+                    {item?.subtitle}
+                  </p>
+                  <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
+                    {item?.description}
+                  </p>
+                  <AvatarGroup className="grid justify-end mt-[14px]" total={16}>
+                    <Avatar alt="Remy Sharp" src={Person} />
+                    <Avatar alt="Travis Howard" src={Person} />
+                    <Avatar alt="Agnes Walker" src={Person} />
+                    <Avatar alt="Trevor Henderson" src={Person} />
+                  </AvatarGroup>
+                  <div>
+                    <div className="mt-[14px] flex justify-between text-[14px] font-medium">
+                      <p>Progress</p>
+                      <p className="text-[#3F3F3F]">{item?.totalCompleteTask}/{item?.totalStudent}</p>
+                    </div>
+                    <div className="relative w-full">
+                      <div className="w-full bg-gray-200 rounded-lg h-2">
+                        <div
+                          className="bg-[#3E4DAC] h-2 rounded-lg"
+                          // className="bg-cyan-600 h-2 rounded-sm"
+                          style={{ width: `4%` }}
+                        // style={{ width: "20%" }}
+                        ></div>
+                      </div>
+                    </div>
+                    <p className="text-[#3F3F3F] text-[14px] font-medium">
+                      {item?.date}
+                    </p>
+                  </div >
+                  <div className="mt-3">
+                    <Link to='' className="text-[#0D47A1] text-[13px] font-medium " >Show details</Link>
+
+                  </div>
+
+
                 </div>
-                <p className="text-[#3F3F3F] text-[14px] font-medium">
-                  29/Jan/2022
-                </p>
-              </div >
-              <div className="mt-3">
-                <Link to='' className="text-[#0D47A1] text-[13px] font-medium " >Show details</Link>
-
-              </div>
-
-
-            </div>
+              ))
+            }
 
 
           </div>
@@ -193,135 +298,55 @@ const AdminTaskDetails = () => {
 
         <div className="flex justify-between items-center">
           <div className="flex w-full mt-[17px] gap-[11px]">
-            <div className="bg-[#FFF] border w-[50%] border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md">
-              <div className="flex justify-between items-center">
-                <h1 className="font-bold text-[17px]">Animation task</h1>
-                <FaEdit style={{ color: '#3E4DAC' }} />
-              </div>
-              <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
-                Task no.1
-              </p>
-              <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
-                Make poster for advertising our company product and gain sales...
-              </p>
-              <AvatarGroup className="grid justify-end mt-[14px]" total={16}>
-                <Avatar alt="Remy Sharp" src={Person} />
-                <Avatar alt="Travis Howard" src={Person} />
-                <Avatar alt="Agnes Walker" src={Person} />
-                <Avatar alt="Trevor Henderson" src={Person} />
-              </AvatarGroup>
-              <div>
-                <div className="mt-[14px] flex justify-between text-[14px] font-medium">
-                  <p>Progress</p>
-                  <p className="text-[#3F3F3F]">4/12</p>
-                </div>
-                <div className="relative w-full">
-                  <div className="w-full bg-gray-200 rounded-lg h-2">
-                    <div
-                      className="bg-[#3E4DAC] h-2 rounded-lg"
-                      // className="bg-cyan-600 h-2 rounded-sm"
-                      style={{ width: `4%` }}
-                    // style={{ width: "20%" }}
-                    ></div>
+            {
+              data.inProgressTask?.map((item) => (
+                <div className="bg-[#FFF] border w-[50%] border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md">
+                  <div className="flex justify-between items-center">
+                    <h1 className="font-bold text-[17px]">{item?.title}</h1>
+                    <FaEdit style={{ color: '#3E4DAC' }} />
                   </div>
-                </div>
-                <p className="text-[#3F3F3F] text-[14px] font-medium">
-                  29/Jan/2022
-                </p>
-              </div >
-              <div className="mt-3">
-                <Link to='' className="text-[#0D47A1] text-[13px] font-medium " >Show details</Link>
+                  <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
+                    {item?.subtitle}
+                  </p>
+                  <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
+                    {item?.description}
+                  </p>
+                  <AvatarGroup className="grid justify-end mt-[14px]" total={16}>
+                    <Avatar alt="Remy Sharp" src={Person} />
+                    <Avatar alt="Travis Howard" src={Person} />
+                    <Avatar alt="Agnes Walker" src={Person} />
+                    <Avatar alt="Trevor Henderson" src={Person} />
+                  </AvatarGroup>
+                  <div>
+                    <div className="mt-[14px] flex justify-between text-[14px] font-medium">
+                      <p>Progress</p>
+                      <p className="text-[#3F3F3F]">{item?.totalCompleteTask}/{item?.totalStudent}</p>
+                    </div>
+                    <div className="relative w-full">
+                      <div className="w-full bg-gray-200 rounded-lg h-2">
+                        <div
+                          className="bg-[#3E4DAC] h-2 rounded-lg"
+                          // className="bg-cyan-600 h-2 rounded-sm"
+                          style={{ width: `4%` }}
+                        // style={{ width: "20%" }}
+                        ></div>
+                      </div>
+                    </div>
+                    <p className="text-[#3F3F3F] text-[14px] font-medium">
+                      {item?.date}
+                    </p>
+                  </div >
+                  <div className="mt-3">
+                    <Link to='' className="text-[#0D47A1] text-[13px] font-medium " >Show details</Link>
 
-              </div>
-
-
-            </div>
-            <div className="bg-[#FFF] border w-[50%] border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md">
-              <div className="flex justify-between items-center">
-                <h1 className="font-bold text-[17px]">Logo design</h1>
-                <FaEdit style={{ color: '#3E4DAC' }} />
-              </div>
-              <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
-                Task no.1
-              </p>
-              <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
-                Make poster for advertising our company product and gain sales...
-              </p>
-              <AvatarGroup className="grid justify-end mt-[14px]" total={16}>
-                <Avatar alt="Remy Sharp" src={Person} />
-                <Avatar alt="Travis Howard" src={Person} />
-                <Avatar alt="Agnes Walker" src={Person} />
-                <Avatar alt="Trevor Henderson" src={Person} />
-              </AvatarGroup>
-              <div>
-                <div className="mt-[14px] flex justify-between text-[14px] font-medium">
-                  <p>Progress</p>
-                  <p className="text-[#3F3F3F]">4/12</p>
-                </div>
-                <div className="relative w-full">
-                  <div className="w-full bg-gray-200 rounded-lg h-2">
-                    <div
-                      className="bg-[#3E4DAC] h-2 rounded-lg"
-                      // className="bg-cyan-600 h-2 rounded-sm"
-                      style={{ width: `4%` }}
-                    // style={{ width: "20%" }}
-                    ></div>
                   </div>
+
+
                 </div>
-                <p className="text-[#3F3F3F] text-[14px] font-medium">
-                  29/Jan/2022
-                </p>
-              </div >
-              <div className="mt-3">
-                <Link to='' className="text-[#0D47A1] text-[13px] font-medium " >Show details</Link>
-
-              </div>
+              ))
+            }
 
 
-            </div>
-            <div className="bg-[#FFF] border w-[50%] border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md">
-              <div className="flex justify-between items-center">
-                <h1 className="font-bold text-[17px]">Logo design</h1>
-                <FaEdit style={{ color: '#3E4DAC' }} />
-              </div>
-              <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
-                Task no.1
-              </p>
-              <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
-                Make poster for advertising our company product and gain sales...
-              </p>
-              <AvatarGroup className="grid justify-end mt-[14px]" total={16}>
-                <Avatar alt="Remy Sharp" src={Person} />
-                <Avatar alt="Travis Howard" src={Person} />
-                <Avatar alt="Agnes Walker" src={Person} />
-                <Avatar alt="Trevor Henderson" src={Person} />
-              </AvatarGroup>
-              <div>
-                <div className="mt-[14px] flex justify-between text-[14px] font-medium">
-                  <p>Progress</p>
-                  <p className="text-[#3F3F3F]">4/12</p>
-                </div>
-                <div className="relative w-full">
-                  <div className="w-full bg-gray-200 rounded-lg h-2">
-                    <div
-                      className="bg-[#3E4DAC] h-2 rounded-lg"
-                      // className="bg-cyan-600 h-2 rounded-sm"
-                      style={{ width: `4%` }}
-                    // style={{ width: "20%" }}
-                    ></div>
-                  </div>
-                </div>
-                <p className="text-[#3F3F3F] text-[14px] font-medium">
-                  29/Jan/2022
-                </p>
-              </div >
-              <div className="mt-3">
-                <Link to='' className="text-[#0D47A1] text-[13px] font-medium " >Show details</Link>
-
-              </div>
-
-
-            </div>
 
 
           </div>
@@ -338,115 +363,68 @@ const AdminTaskDetails = () => {
         <div className="flex justify-between items-center">
           <div className="flex gap-6 mt-[17px] w-[100%]">
 
-            <div className="bg-[#FFF] border w-[50%] border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md">
-              <div className="flex justify-between items-center">
-                <h1 className="font-bold text-[17px]">UI AND UX</h1>
-             
-              </div>
-              <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
-                Task no.1
-              </p>
-              <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
-                "Create our company landing page with an engaging interface that matches industry standards."
-              </p>
-              <AvatarGroup className="grid justify-end mt-[14px]" total={16}>
-                <Avatar alt="Remy Sharp" src={Person} />
-                <Avatar alt="Travis Howard" src={Person} />
-                <Avatar alt="Agnes Walker" src={Person} />
-                <Avatar alt="Trevor Henderson" src={Person} />
-              </AvatarGroup>
-              <div>
-                <div className="mt-[14px] flex justify-between text-[14px] font-medium">
-                  <p>Progress</p>
-                  <p className="text-[#3F3F3F]">4/12</p>
-                </div>
-                <div className="relative w-full">
-                  <div className="w-full bg-gray-200 rounded-lg h-2">
-                    <div
-                      className="bg-[#3E4DAC] h-2 rounded-lg"
-                     
-                      style={{ width: `4%` }}
-                   
-                    ></div>
+            {
+              data?.completedTask?.map((item) => (
+                <div className="bg-[#FFF] border w-[50%] border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md">
+                  <div className="flex justify-between items-center">
+                    <h1 className="font-bold text-[17px]">{item?.title}</h1>
+
                   </div>
-                </div>
-                <p className="text-[#3F3F3F] text-[14px] font-medium">
-                  29/Jan/2022
-                </p>
-              </div >
-              <div className=" flex gap-4 items-center mt-6">
-                <div className="flex gap-2 items-center">
-                  <img src={deadLineImage} alt="Icon"/>
-                  <p>deadline 26/jan/2022</p>
-                </div>
-                <div className="flex gap-2 items-center">
-                  <img src={clock} alt="Icon"/>
-                  <p>deadline 26/jan/2022</p>
-                </div>
+                  <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
+                    {item?.subtitle}
+                  </p>
+                  <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
+                   {item?.description}
+                  </p>
+                  <AvatarGroup className="grid justify-end mt-[14px]" total={16}>
+                    <Avatar alt="Remy Sharp" src={Person} />
+                    <Avatar alt="Travis Howard" src={Person} />
+                    <Avatar alt="Agnes Walker" src={Person} />
+                    <Avatar alt="Trevor Henderson" src={Person} />
+                  </AvatarGroup>
+                  <div>
+                    <div className="mt-[14px] flex justify-between text-[14px] font-medium">
+                      <p>Progress</p>
+                      <p className="text-[#3F3F3F]">{item?.totalCompleteTask}/{item?.totalStudent}</p>
+                    </div>
+                    <div className="relative w-full">
+                      <div className="w-full bg-gray-200 rounded-lg h-2">
+                        <div
+                          className="bg-[#3E4DAC] h-2 rounded-lg"
 
-              </div>
-              <div className="mt-3 text-center">
-                <Link to='/completeShowMore' className="text-[#0D47A1] text-[13px] font-bold " >Show more deatails</Link>
+                          style={{ width: `100%` }}
 
-              </div>
+                        ></div>
+                      </div>
+                    </div>
+                    <p className="text-[#3F3F3F] text-[14px] font-medium">
+                      {item?.date}
+                    </p>
+                  </div >
+                  <div className=" flex gap-4 items-center mt-6">
+                    <div className="flex gap-2 items-center">
+                      <img src={deadLineImage} alt="Icon" />
+                      <p>deadline {item?.deadline}</p>
+                    </div>
+                    <div className="flex gap-2 items-center">
+                      <img src={clock} alt="Icon" />
+                      <p>Task time duration {item?.duration}</p>
+                    </div>
 
-
-            </div>
-
-            <div className="bg-[#FFF] border w-[50%] border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md">
-              <div className="flex justify-between items-center">
-                <h1 className="font-bold text-[17px]">UI AND UX</h1>
-              
-              </div>
-              <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
-                Task no.1
-              </p>
-              <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
-                "Create our company landing page with an engaging interface that matches industry standards."
-              </p>
-              <AvatarGroup className="grid justify-end mt-[14px]" total={16}>
-                <Avatar alt="Remy Sharp" src={Person} />
-                <Avatar alt="Travis Howard" src={Person} />
-                <Avatar alt="Agnes Walker" src={Person} />
-                <Avatar alt="Trevor Henderson" src={Person} />
-              </AvatarGroup>
-              <div>
-                <div className="mt-[14px] flex justify-between text-[14px] font-medium">
-                  <p>Progress</p>
-                  <p className="text-[#3F3F3F]">4/12</p>
-                </div>
-                <div className="relative w-full">
-                  <div className="w-full bg-gray-200 rounded-lg h-2">
-                    <div
-                      className="bg-[#3E4DAC] h-2 rounded-lg"
-                     
-                      style={{ width: `4%` }}
-                   
-                    ></div>
                   </div>
+                  <div className="mt-3 text-center">
+                    <Link to='/completeShowMore' className="text-[#0D47A1] text-[13px] font-bold " >Show more deatails</Link>
+
+                  </div>
+
+
                 </div>
-                <p className="text-[#3F3F3F] text-[14px] font-medium">
-                  29/Jan/2022
-                </p>
-              </div >
-              <div className=" flex gap-4 items-center mt-6">
-                <div className="flex gap-2 items-center">
-                  <img src={deadLineImage} alt="Icon"/>
-                  <p>deadline 26/jan/2022</p>
-                </div>
-                <div className="flex gap-2 items-center">
-                  <img src={clock} alt="Icon"/>
-                  <p>deadline 26/jan/2022</p>
-                </div>
-
-              </div>
-              <div className="mt-3 text-center">
-                <Link to='/completeShowMore' className="text-[#0D47A1] text-[13px] font-bold " >Show more deatails</Link>
-
-              </div>
+              ))
+            }
 
 
-            </div>
+
+
 
 
 
