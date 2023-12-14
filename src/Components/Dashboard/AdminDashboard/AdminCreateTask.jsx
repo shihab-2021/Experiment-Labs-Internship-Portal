@@ -156,6 +156,7 @@ const AdminCreateTask = () => {
         role: userInfo?.organizations[0]?.role,
       },
       taskStatus: "AdminApproved",
+      postingDateTime: new Date(),
     };
     console.log(taskData);
     const newTask = await axios.post(
