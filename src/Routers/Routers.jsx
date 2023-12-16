@@ -8,6 +8,7 @@ import Team from "../Pages/Dashboard/Team";
 import DashboardBar from "../Pages/Dashboard/DashboardBar";
 import Message from "../Pages/Dashboard/Message";
 import UserDashboardHome from "../Pages/UserDashboard/UserDashboardHome";
+import UserDashboardLeaderBoard from "../Pages/UserDashboard/UserDashboardLeaderBoard";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -45,4 +46,9 @@ export const router = createBrowserRouter([
     path: "/userDashboard",
     element: <UserDashboardHome />,
   },
+  {
+    path: "/leaderboard",
+    element: <UserDashboardLeaderBoard/>,
+  },
+
 ]);
