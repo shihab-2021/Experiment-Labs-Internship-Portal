@@ -8,6 +8,7 @@ import Team from "../Pages/Dashboard/Team";
 import DashboardBar from "../Pages/Dashboard/DashboardBar";
 import Message from "../Pages/Dashboard/Message";
 import UserDashboardHome from "../Pages/UserDashboard/UserDashboardHome";
+import UserDashboardLeaderBoard from "../Pages/UserDashboard/UserDashboardLeaderBoard";
 import Internship from "../Pages/UserDashboard/Internship";
 import MyApplication from "../Pages/UserDashboard/MyApplication";
 import WorkHours from "../Pages/UserDashboard/WorkHours";
@@ -49,6 +50,10 @@ export const router = createBrowserRouter([
   {
     path: "/userDashboard",
     element: <UserDashboardHome />,
+  },
+  {
+    path: "/leaderboard",
+    element: <UserDashboardLeaderBoard />,
   },
   {
     path: "/internship",
