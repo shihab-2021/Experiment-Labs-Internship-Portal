@@ -7,11 +7,17 @@ import User from "../../../../assets/Shared/user.svg";
 import SolutionSubmissionIcon from "../../../../assets/Dashboard/UserDashboard/SolutionSubmissionIcon.png";
 import Thumbs from "../../../../assets/Dashboard/UserDashboard/Thumbs.png";
 import UploadIcon from "../../../../assets/Dashboard/UserDashboard/UploadIcon.png";
+import GoogleDriveLogo from "../../../../assets/Dashboard/UserDashboard/googleDriveLogo.png";
 import axios from "axios";
+import TextEditor from "../../../Shared/TextEditor/TextEditor";
 
 const SubmissionTracker = () => {
-  const { userInfo } = useContext(AuthContext);
+  const { userInfo, user } = useContext(AuthContext);
   const { id } = useParams();
+
+  const [fileLoading, setFileLoading] = useState(false);
+  const [selectedFile, setSelectedFile] = useState();
+  const [fileLink, setFileLink] = useState("");
 
   const formatDate = () => {
     const monthNames = [
@@ -36,9 +42,83 @@ const SubmissionTracker = () => {
     return `${day}/ ${month}/ ${year}`;
   };
 
+  const handleDragEnter = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(true);
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    //setDragActive(false);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDrop = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    setFileLoading(false);
+
+    const file = e.dataTransfer.files[0];
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      console.log(formData);
+
+      const response = await axios.post(
+        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/uploadFile/upload`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      setFileLink(response.data.fileUrl);
+    } catch (error) {
+      console.error("Error uploading file:", error);
+    }
+    setSelectedFile(file);
+    setFileLoading(true);
+  };
+
+  const handleFileChange = async (e) => {
+    setFileLoading(true);
+    const file = e.target.files[0];
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      console.log(formData);
+
+      const response = await axios.post(
+        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/uploadFile/upload`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      setFileLink(response.data.fileUrl);
+    } catch (error) {
+      console.error("Error uploading file:", error);
+    }
+    setSelectedFile(file);
+    setFileLoading(false);
+  };
+
   const [task, setTask] = useState({});
   const [organizationInfo, setOrganizationInfo] = useState({});
   const [taskCreatorInfo, setTaskCreatorInfo] = useState({});
+  const [aboutSolution, setAboutSolution] = useState("");
 
   useEffect(() => {
     axios
@@ -72,7 +152,16 @@ const SubmissionTracker = () => {
       .catch((error) => console.error(error));
   }, [task]);
 
-  console.log(task);
+  const handleSubmitTask = () => {
+    const submitData = {
+      aboutSolution: aboutSolution,
+      fileLink: fileLink,
+      submitter: user?.email,
+      taskId: task?._id,
+      organizationId: organizationInfo?._id,
+    };
+    console.log(submitData);
+  };
 
   return (
     <div>
@@ -265,11 +354,10 @@ const SubmissionTracker = () => {
               </div>
               <div className=" px-2 flex-col justify-start items-start gap-[13px] flex">
                 <div className=" text-black text-[17px] font-medium font-raleway tracking-widest">
-                  UI AND UX
+                  {task?.taskName}
                 </div>
                 <div className="self-stretch text-neutral-500 text-base font-medium font-raleway tracking-wider">
-                  "Create our company landing page with an engaging interface
-                  that matches industry standards."
+                  "{task?.aboutTask}"
                 </div>
               </div>
             </div>
@@ -282,12 +370,11 @@ const SubmissionTracker = () => {
                       Write about Solution
                     </div>
                   </div>
-                  <div className="justify-start items-start gap-[11px] flex">
-                    <div className="w-6 h-6 relative" />
-                    <div className="w-6 h-6 relative" />
-                  </div>
                 </div>
-                <div className="self-stretch h-[95px] bg-white rounded-bl-[3px] rounded-br-[3px] border border-zinc-300" />
+                {/* Text editor */}
+                <div className="bg-white text-black w-full">
+                  <TextEditor setValue={setAboutSolution} />
+                </div>
               </div>
               <div className="text-sky-600 text-base font-medium font-['Raleway'] tracking-wider">
                 Words limit/200
@@ -296,17 +383,58 @@ const SubmissionTracker = () => {
           </div>
           <div className="w-full min-h-[98px] border border-zinc-300 flex-col justify-center items-center gap-3 flex">
             <div className="self-stretch py-[5px] bg-violet-50 justify-center items-start gap-2.5 inline-flex">
-              <h1 className="grow shrink basis-0 self-stretch text-black text-base font-medium font-['Raleway'] tracking-wider">
-                {" "}
+              <h1 className="grow shrink basis-0 self-stretch text-black text-base font-medium font-['Raleway'] tracking-wider ml-4">
                 Upload Task link
               </h1>
             </div>
-            <img
-              className="h-[49px] px-[7px] justify-center items-center inline-flex mb-4"
-              src={UploadIcon}
-              alt="UploadIcon"
-            />
+            <label>
+              <div
+                className="grid justify-center w-fit mx-auto "
+                onDragOver={handleDragOver}
+                onDragEnter={handleDragEnter}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+              >
+                {fileLoading && (
+                  <div>
+                    <img
+                      src={UploadIcon}
+                      className=" animate-ping h-[49px] px-[7px] justify-center items-center inline-flex mb-4"
+                      alt="inputImg"
+                    />
+                  </div>
+                )}
+                {!fileLoading && (
+                  <div>
+                    <img
+                      src={UploadIcon}
+                      className="h-[49px] px-[7px] justify-center items-center inline-flex mb-4"
+                      alt="inputImg"
+                    />
+                  </div>
+                )}
+              </div>
+              <input
+                className="hidden"
+                type="file"
+                name="file"
+                placeholder="upload"
+                onChange={handleFileChange}
+              />
+            </label>
           </div>
+          {selectedFile && (
+            <div className="w-full h-8 px-[5px] py-2.5 bg-violet-100 justify-start items-center gap-[9px] inline-flex">
+              <img
+                className="w-[29.07px] h-[26px] m-1 relative"
+                src={GoogleDriveLogo}
+                alt="GoogleDriveLogo"
+              />
+              <h1 className="text-zinc-500 text-base font-medium font-['Raleway'] tracking-wider">
+                {selectedFile?.name}
+              </h1>
+            </div>
+          )}
           <div className="px-2.5 w-full bg-white justify-center items-center gap-[498px] inline-flex">
             <div className=" min-h-[52px] p-2.5 justify-center items-center gap-2.5 flex">
               <img src={Thumbs} alt="Thumbs" />
@@ -315,9 +443,12 @@ const SubmissionTracker = () => {
               </div>
             </div>
             <div className="px-[21px] py-2.5 bg-indigo-700 rounded-[19px] justify-center items-center gap-2.5 flex">
-              <div className="text-white text-base font-medium font-['Raleway'] tracking-wider">
+              <button
+                onClick={() => handleSubmitTask()}
+                className="text-white text-base font-medium font-['Raleway'] tracking-wider"
+              >
                 Submit
-              </div>
+              </button>
             </div>
           </div>
         </div>
