@@ -100,6 +100,7 @@ const InternshipTaskCard = ({ task }) => {
     const participantData = {
       participantEmail: user?.email,
       applyDateTime: new Date(),
+      organizationId: organizationInfo?._id,
     };
 
     try {
@@ -205,7 +206,7 @@ const InternshipTaskCard = ({ task }) => {
                 />
                 <div>
                   <h1 className="text-[16px] font-[600] tracking-wide">
-                    {taskCreatorInfo?.fastName} {taskCreatorInfo?.lastName}
+                    {taskCreatorInfo?.firstName} {taskCreatorInfo?.lastName}
                   </h1>
                   <h1 className="text-[12px] text-[#797979] font-[400] ">
                     {task?.creator?.role}
@@ -320,7 +321,7 @@ const InternshipTaskCard = ({ task }) => {
                 />
                 <div>
                   <h1 className="text-[16px] font-[600] tracking-wide">
-                    {taskCreatorInfo?.fastName} {taskCreatorInfo?.lastName}
+                    {taskCreatorInfo?.firstName} {taskCreatorInfo?.lastName}
                   </h1>
                   <h1 className="text-[12px] text-[#797979] font-[400] ">
                     {task?.creator?.role}
@@ -350,7 +351,7 @@ const InternshipTaskCard = ({ task }) => {
                 src={taskCreatorInfo?.image ? taskCreatorInfo?.image : User}
               />
               <h1 className="relative w-fit font-raleway font-bold text-[#797979] text-[14px] tracking-[1.31px] leading-[normal] whitespace-nowrap">
-                {taskCreatorInfo?.fastName} {taskCreatorInfo?.lastName}
+                {taskCreatorInfo?.firstName} {taskCreatorInfo?.lastName}
               </h1>
             </div>
             <h2 className="relative w-fit font-raleway font-medium text-[#3d3d3d] text-[15px] tracking-[1.50px] leading-[normal] whitespace-nowrap">

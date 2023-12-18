@@ -8,6 +8,7 @@ import SolutionSubmissionIcon from "../../../../assets/Dashboard/UserDashboard/S
 import Thumbs from "../../../../assets/Dashboard/UserDashboard/Thumbs.png";
 import UploadIcon from "../../../../assets/Dashboard/UserDashboard/UploadIcon.png";
 import GoogleDriveLogo from "../../../../assets/Dashboard/UserDashboard/googleDriveLogo.png";
+import SeeApplicationIcon from "../../../../assets/Dashboard/UserDashboard/SeeApplicationIcon.png";
 import axios from "axios";
 import TextEditor from "../../../Shared/TextEditor/TextEditor";
 import Swal from "sweetalert2";
@@ -16,8 +17,9 @@ const SubmissionTracker = () => {
   const { userInfo, user } = useContext(AuthContext);
   const { id } = useParams();
 
+  const [task, setTask] = useState({});
   const [fileLoading, setFileLoading] = useState(false);
-  const [selectedFile, setSelectedFile] = useState();
+  const [selectedFile, setSelectedFile] = useState(task?.fileLink);
   const [fileLink, setFileLink] = useState("");
 
   const formatDate = () => {
@@ -116,7 +118,6 @@ const SubmissionTracker = () => {
     setFileLoading(false);
   };
 
-  const [task, setTask] = useState({});
   const [organizationInfo, setOrganizationInfo] = useState({});
   const [taskCreatorInfo, setTaskCreatorInfo] = useState({});
   const [aboutSolution, setAboutSolution] = useState("");
@@ -164,9 +165,7 @@ const SubmissionTracker = () => {
         (participant) => participant?.participantEmail === user?.email
       )
     );
-  }, [task]);
-
-  console.log(participationInfo);
+  }, [task, user]);
 
   const handleSubmitTask = async () => {
     const submitData = {
@@ -177,7 +176,10 @@ const SubmissionTracker = () => {
       organizationId: organizationInfo?._id,
       submissionDateTime: new Date(),
     };
-    console.log(submitData);
+    setParticipationInfo({
+      ...participationInfo,
+      submissionDateTime: submitData?.submissionDateTime,
+    });
     const newSubmission = await axios.post(
       `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/submitTask`,
       submitData
@@ -191,13 +193,15 @@ const SubmissionTracker = () => {
     }
   };
 
+  console.log(participationInfo);
+
   return (
     <div>
       <div className=" border-b ">
         <div className="flex px-4 gap-10 mt-10 mb-2 items-center">
           <div>
             <h1 className="font-bold text-[30px]">
-              Hello {userInfo?.fastName}
+              Hello {userInfo?.firstName}
             </h1>
             <p className="text-[21px] font-medium tracking-wide">
               {formatDate()}
@@ -217,45 +221,115 @@ const SubmissionTracker = () => {
       </div>
       <div className="p-4">
         <div className="border rounded-md">
-          <div className=" p-4 mb-2">
-            <h1 className=" text-[17px] font-[700] tracking-wider ">
-              Application Tracker
-            </h1>
-            <h2 className=" text-[#3F3F3F] text-[16px] font-[500] ">
-              Track your solution
-            </h2>
+          <div className="flex gap-5">
+            <div className=" p-4 mb-2">
+              <h1 className=" text-[17px] font-[700] tracking-wider ">
+                Application Tracker
+              </h1>
+              <h2 className=" text-[#3F3F3F] text-[16px] font-[500] ">
+                Track your solution
+              </h2>
+            </div>
+            <div className="w-[141px] mt-4 h-[39px] px-[21px] py-2.5 bg-indigo-50 rounded-[19px] justify-center items-center gap-2.5 inline-flex">
+              <p className="text-indigo-700 text-base font-bold font-raleway tracking-wider">
+                Processing
+              </p>
+            </div>
           </div>
           <div className="mb-4">
             <div>
               <div className=" grid grid-cols-3 w-3/4 mx-auto h-1 mb-[-20px]">
-                <div className="bg-[#D9D9D9]"></div>
-                <div className="bg-[#D9D9D9]"></div>
-                <div className="bg-[#D9D9D9]"></div>
+                <div
+                  className={`${
+                    participationInfo?.submissionDateTime
+                      ? "bg-[#4555BA]"
+                      : "bg-[#D9D9D9]"
+                  } `}
+                ></div>
+                <div
+                  className={`${
+                    participationInfo?.selectedDateTime
+                      ? "bg-[#4555BA]"
+                      : "bg-[#D9D9D9]"
+                  } `}
+                ></div>
+                <div
+                  className={`${
+                    participationInfo?.prizeDateTime
+                      ? "bg-[#4555BA]"
+                      : "bg-[#D9D9D9]"
+                  } `}
+                ></div>
               </div>
             </div>
             <div className=" grid grid-cols-4 gap-[10px]">
-              <div className="flex items-center flex-col gap-2">
+              <div className="flex items-center flex-col ">
                 <p className="bg-[#4555BA] rounded-full flex items-center justify-center w-[40px] h-[40px] text-[16px] font-medium text-white text-center">
                   1
                 </p>
-                <p>Start task</p>
-                <p>12:00pm</p>
-                <p>24/jan/2022</p>
+                <div className="text-center">
+                  <p className="text-[16px] font-[500] font-raleway ">
+                    Start task
+                  </p>
+                  {participationInfo?.applyDateTime && (
+                    <>
+                      <p className=" text-[#737373] text-[13px] font-[500] font-sans ">
+                        {new Date(
+                          participationInfo?.applyDateTime
+                        )?.toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </p>
+                      <p className=" text-[13px] font-[400] font-sans">
+                        {new Date(
+                          participationInfo?.applyDateTime
+                        )?.toDateString()}
+                      </p>
+                    </>
+                  )}
+                </div>
               </div>
-              {/* <p className="bg-[#D9D9D9] w-[50px] h-1"></p> */}
-              <div className="flex items-center flex-col gap-2">
-                <p className="bg-[#8F8F8F] rounded-full  px-[10px] py-[7px]  w-[40px] h-[40px] text-white text-[16px] font-medium text-center">
+              <div className="flex items-center flex-col">
+                <p
+                  className={`${
+                    participationInfo?.submissionDateTime
+                      ? "bg-[#4555BA]"
+                      : "bg-[#8F8F8F]"
+                  } rounded-full  px-[10px] py-[7px]  w-[40px] h-[40px] text-white text-[16px] font-medium text-center`}
+                >
                   2
                 </p>
-                <p>Submit task</p>
+                <div className="text-center">
+                  <p className="text-[16px] font-[500] font-raleway ">
+                    Submit task
+                  </p>
+                  {participationInfo?.submissionDateTime && (
+                    <>
+                      <p className=" text-[#737373] text-[13px] font-[500] font-sans ">
+                        {new Date(
+                          participationInfo?.submissionDateTime
+                        )?.toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </p>
+                      <p className=" text-[13px] font-[400] font-sans">
+                        {new Date(
+                          participationInfo?.submissionDateTime
+                        )?.toDateString()}
+                      </p>
+                    </>
+                  )}
+                </div>
               </div>
-              <div className="flex items-center flex-col gap-2">
+              <div className="flex items-center flex-col">
                 <p className="bg-[#8F8F8F] rounded-full  px-[10px] py-[7px]  w-[40px] h-[40px] text-white text-[16px] font-medium text-center">
                   3
                 </p>
                 <p>Selected by company</p>
               </div>
-              <div className="flex items-center flex-col gap-2">
+              <div className="flex items-center flex-col">
                 <p className="bg-[#8F8F8F] rounded-full  px-[10px] py-[7px]  w-[40px] h-[40px] text-white text-[16px] font-medium text-center">
                   4
                 </p>
@@ -335,7 +409,7 @@ const SubmissionTracker = () => {
                 />
                 <div>
                   <h1 className="text-[16px] font-[600] tracking-wide">
-                    {taskCreatorInfo?.fastName} {taskCreatorInfo?.lastName}
+                    {taskCreatorInfo?.firstName} {taskCreatorInfo?.lastName}
                   </h1>
                   <h1 className="text-[12px] text-[#797979] font-[400] ">
                     {task?.creator?.role}
@@ -389,68 +463,72 @@ const SubmissionTracker = () => {
                 </div>
               </div>
             </div>
-            <div className="min-h-[155px] flex-col justify-center items-end gap-[7px] flex">
-              <div className="self-stretch min-h-[129px] border flex-col justify-start items-start gap-px flex">
-                <div className="self-stretch px-2.5 bg-violet-50 border border-neutral-200 justify-start items-center gap-[90px] inline-flex">
-                  <div className="w-[802px] py-[7px] flex-col justify-center items-center gap-8 inline-flex">
-                    <div className="self-stretch text-black text-base font-medium font-['Raleway'] tracking-wider">
-                      {" "}
-                      Write about Solution
+            {!participationInfo?.submissionDateTime && (
+              <div className="min-h-[155px] flex-col justify-center items-end gap-[7px] flex">
+                <div className="self-stretch min-h-[129px] border flex-col justify-start items-start gap-px flex">
+                  <div className="self-stretch px-2.5 bg-violet-50 border border-neutral-200 justify-start items-center gap-[90px] inline-flex">
+                    <div className="w-[802px] py-[7px] flex-col justify-center items-center gap-8 inline-flex">
+                      <div className="self-stretch text-black text-base font-medium font-raleway tracking-wider">
+                        {" "}
+                        Write about Solution
+                      </div>
                     </div>
                   </div>
-                </div>
-                {/* Text editor */}
-                <div className="bg-white text-black w-full">
-                  <TextEditor setValue={setAboutSolution} />
-                </div>
-              </div>
-              <div className="text-sky-600 text-base font-medium font-['Raleway'] tracking-wider">
-                Words limit/200
-              </div>
-            </div>
-          </div>
-          <div className="w-full min-h-[98px] border border-zinc-300 flex-col justify-center items-center gap-3 flex">
-            <div className="self-stretch py-[5px] bg-violet-50 justify-center items-start gap-2.5 inline-flex">
-              <h1 className="grow shrink basis-0 self-stretch text-black text-base font-medium font-['Raleway'] tracking-wider ml-4">
-                Upload Task link
-              </h1>
-            </div>
-            <label>
-              <div
-                className="grid justify-center w-fit mx-auto "
-                onDragOver={handleDragOver}
-                onDragEnter={handleDragEnter}
-                onDragLeave={handleDragLeave}
-                onDrop={handleDrop}
-              >
-                {fileLoading && (
-                  <div>
-                    <img
-                      src={UploadIcon}
-                      className=" animate-ping h-[49px] px-[7px] justify-center items-center inline-flex mb-4"
-                      alt="inputImg"
-                    />
+                  {/* Text editor */}
+                  <div className="bg-white text-black w-full">
+                    <TextEditor setValue={setAboutSolution} />
                   </div>
-                )}
-                {!fileLoading && (
-                  <div>
-                    <img
-                      src={UploadIcon}
-                      className="h-[49px] px-[7px] justify-center items-center inline-flex mb-4"
-                      alt="inputImg"
-                    />
-                  </div>
-                )}
+                </div>
+                <div className="text-sky-600 text-base font-medium font-raleway tracking-wider">
+                  Words limit/200
+                </div>
               </div>
-              <input
-                className="hidden"
-                type="file"
-                name="file"
-                placeholder="upload"
-                onChange={handleFileChange}
-              />
-            </label>
+            )}
           </div>
+          {!participationInfo?.submissionDateTime && (
+            <div className="w-full min-h-[98px] border border-zinc-300 flex-col justify-center items-center gap-3 flex">
+              <div className="self-stretch py-[5px] bg-violet-50 justify-center items-start gap-2.5 inline-flex">
+                <h1 className="grow shrink basis-0 self-stretch text-black text-base font-medium font-raleway tracking-wider ml-4">
+                  Upload Task link
+                </h1>
+              </div>
+              <label>
+                <div
+                  className="grid justify-center w-fit mx-auto "
+                  onDragOver={handleDragOver}
+                  onDragEnter={handleDragEnter}
+                  onDragLeave={handleDragLeave}
+                  onDrop={handleDrop}
+                >
+                  {fileLoading && (
+                    <div>
+                      <img
+                        src={UploadIcon}
+                        className=" animate-ping h-[49px] px-[7px] justify-center items-center inline-flex mb-4"
+                        alt="inputImg"
+                      />
+                    </div>
+                  )}
+                  {!fileLoading && (
+                    <div>
+                      <img
+                        src={UploadIcon}
+                        className="h-[49px] px-[7px] justify-center items-center inline-flex mb-4"
+                        alt="inputImg"
+                      />
+                    </div>
+                  )}
+                </div>
+                <input
+                  className="hidden"
+                  type="file"
+                  name="file"
+                  placeholder="upload"
+                  onChange={handleFileChange}
+                />
+              </label>
+            </div>
+          )}
           {selectedFile && (
             <div className="w-full h-8 px-[5px] py-2.5 bg-violet-100 justify-start items-center gap-[9px] inline-flex">
               <img
@@ -458,7 +536,7 @@ const SubmissionTracker = () => {
                 src={GoogleDriveLogo}
                 alt="GoogleDriveLogo"
               />
-              <h1 className="text-zinc-500 text-base font-medium font-['Raleway'] tracking-wider">
+              <h1 className="text-zinc-500 text-base font-medium font-raleway tracking-wider">
                 {selectedFile?.name}
               </h1>
             </div>
@@ -466,18 +544,36 @@ const SubmissionTracker = () => {
           <div className="px-2.5 w-full bg-white justify-center items-center gap-[498px] inline-flex">
             <div className=" min-h-[52px] p-2.5 justify-center items-center gap-2.5 flex">
               <img src={Thumbs} alt="Thumbs" />
-              <div className="text-neutral-700 text-[15px] font-bold font-['Raleway'] tracking-wider">
-                "You are ready to submit task”
-              </div>
+              {!participationInfo?.submissionDateTime && (
+                <p className="text-neutral-700 text-[15px] font-bold font-raleway tracking-wider">
+                  "You are ready to submit task”
+                </p>
+              )}
+              {participationInfo?.submissionDateTime && (
+                <p className="text-neutral-700 text-[15px] font-bold font-raleway tracking-wider">
+                  "Your solution has been submitted successfully."
+                </p>
+              )}
             </div>
-            <div className="px-[21px] py-2.5 bg-indigo-700 rounded-[19px] justify-center items-center gap-2.5 flex">
+            {participationInfo?.submissionDateTime ? (
+              <button className="flex w-fit gap-2 justify-end min-w-[200px]">
+                <img
+                  className=" w-[18px] h-[24px] "
+                  src={SeeApplicationIcon}
+                  alt="SeeApplicationIcon"
+                />
+                <span className="text-sky-600 text-base font-bold font-raleway tracking-wider w-fit">
+                  See Application
+                </span>
+              </button>
+            ) : (
               <button
                 onClick={() => handleSubmitTask()}
-                className="text-white text-base font-medium font-['Raleway'] tracking-wider"
+                className="text-white text-base font-medium font-raleway tracking-wider px-[21px] py-2.5 bg-indigo-700 rounded-[19px] justify-center items-center gap-2.5 flex"
               >
                 Submit
               </button>
-            </div>
+            )}
           </div>
         </div>
       </div>
