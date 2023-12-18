@@ -10,6 +10,7 @@ import UploadIcon from "../../../../assets/Dashboard/UserDashboard/UploadIcon.pn
 import GoogleDriveLogo from "../../../../assets/Dashboard/UserDashboard/googleDriveLogo.png";
 import axios from "axios";
 import TextEditor from "../../../Shared/TextEditor/TextEditor";
+import Swal from "sweetalert2";
 
 const SubmissionTracker = () => {
   const { userInfo, user } = useContext(AuthContext);
@@ -119,6 +120,7 @@ const SubmissionTracker = () => {
   const [organizationInfo, setOrganizationInfo] = useState({});
   const [taskCreatorInfo, setTaskCreatorInfo] = useState({});
   const [aboutSolution, setAboutSolution] = useState("");
+  const [participationInfo, setParticipationInfo] = useState({});
 
   useEffect(() => {
     axios
@@ -130,37 +132,63 @@ const SubmissionTracker = () => {
   }, [id]);
 
   useEffect(() => {
-    axios
-      .get(
-        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${
-          task?.creator?.email
-        }`
-      )
-      .then((user) => {
-        setTaskCreatorInfo(user?.data);
-      })
-      .catch((error) => console.error(error));
-    axios
-      .get(
-        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${
-          task?.creator?.organizationId
-        }`
-      )
-      .then((org) => {
-        setOrganizationInfo(org?.data);
-      })
-      .catch((error) => console.error(error));
+    if (task?.creator?.email) {
+      axios
+        .get(
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${
+            task?.creator?.email
+          }`
+        )
+        .then((user) => {
+          setTaskCreatorInfo(user?.data);
+        })
+        .catch((error) => console.error(error));
+    }
+    if (task?.creator?.organizationId) {
+      axios
+        .get(
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${
+            task?.creator?.organizationId
+          }`
+        )
+        .then((org) => {
+          setOrganizationInfo(org?.data);
+        })
+        .catch((error) => console.error(error));
+    }
   }, [task]);
 
-  const handleSubmitTask = () => {
+  useEffect(() => {
+    setParticipationInfo(
+      task?.participants?.find(
+        (participant) => participant?.participantEmail === user?.email
+      )
+    );
+  }, [task]);
+
+  console.log(participationInfo);
+
+  const handleSubmitTask = async () => {
     const submitData = {
       aboutSolution: aboutSolution,
       fileLink: fileLink,
-      submitter: user?.email,
+      participantEmail: user?.email,
       taskId: task?._id,
       organizationId: organizationInfo?._id,
+      submissionDateTime: new Date(),
     };
     console.log(submitData);
+    const newSubmission = await axios.post(
+      `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/submitTask`,
+      submitData
+    );
+    if (newSubmission.statusText === "OK") {
+      Swal.fire({
+        icon: "success",
+        title: "Task Submitted",
+        text: "Your task has been submitted!",
+      });
+    }
   };
 
   return (
