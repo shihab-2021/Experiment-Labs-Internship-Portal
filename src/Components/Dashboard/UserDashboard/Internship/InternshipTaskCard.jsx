@@ -1,14 +1,18 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import User from "../../../../assets/Shared/user.svg";
 import DialogLayout from "../../../Shared/DialogLayout";
 import OutCome from "../../../../assets/Dashboard/UserDashboard/OutCome.png";
 import LinkIcon from "../../../../assets/Dashboard/UserDashboard/LinkIcon.png";
 import WarningIcon from "../../../../assets/Shared/warningIcon.png";
 import { FaArrowRight } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../../../Contexts/AuthProvider";
+import Swal from "sweetalert2";
 
 const InternshipTaskCard = ({ task }) => {
+  const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
   const [taskCreatorInfo, setTaskCreatorInfo] = useState({});
   const [organizationInfo, setOrganizationInfo] = useState({});
   const [showTaskDetails, setShowTaskDetails] = useState(false);
@@ -90,6 +94,37 @@ const InternshipTaskCard = ({ task }) => {
     const month = monthNames[currentDate.getMonth()]; // Get month name
     const year = currentDate.getFullYear();
     return `${day}/ ${month}/ ${year}`;
+  };
+
+  const handleApplyTask = async () => {
+    const participantData = {
+      participantEmail: user?.email,
+      applyDateTime: new Date(),
+    };
+
+    try {
+      const apply = await axios.put(
+        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/applyTask/${
+          task?._id
+        }`,
+        participantData
+      );
+      if (apply.statusText) {
+        navigate(`/internshipSubmission/${task?._id}`);
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Failed To Apply",
+          text: "Your can not apply this task!",
+        });
+      }
+    } catch {
+      Swal.fire({
+        icon: "error",
+        title: "Failed To Apply",
+        text: "Your can not apply this task!",
+      });
+    }
   };
 
   return (
@@ -294,12 +329,12 @@ const InternshipTaskCard = ({ task }) => {
               </div>
             </div>
             <div>
-              <Link
-                to={`/internshipSubmission/${task?._id}`}
+              <button
+                onClick={handleApplyTask}
                 className=" text-[16px] font-[500] text-white tracking-widest bg-[#20B15A] px-[26px] py-[10px] rounded-full "
               >
                 Start task
-              </Link>
+              </button>
             </div>
           </div>
         </div>
