@@ -10,19 +10,17 @@ const Internship = () => {
   const [adminApprovedTasks, setAdminApprovedTasks] = useState([]);
 
   useEffect(() => {
-    if (userInfo?.organizations)
-      axios
-        .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${
-            userInfo?.organizations[0]?.organizationId
-          }/taskStatus/AdminApproved`
-        )
-        .then((tasks) => {
-          setAdminApprovedTasks(tasks?.data);
-        })
-        .catch((error) => console.error(error));
-  }, [userInfo]);
-  console.log(adminApprovedTasks);
+    axios
+      .get(
+        `${
+          import.meta.env.VITE_APP_SERVER_API
+        }/api/v1/tasks/taskStatus/AdminApproved`
+      )
+      .then((tasks) => {
+        setAdminApprovedTasks(tasks?.data);
+      })
+      .catch((error) => console.error(error));
+  }, []);
   return (
     <div>
       <DashboardLayout>
@@ -69,15 +67,6 @@ const Internship = () => {
           </div>
           <div className=" mt-7 ">
             <div className="flex gap-5 flex-wrap">
-              {adminApprovedTasks?.map((task) => (
-                <InternshipTaskCard task={task} />
-              ))}
-              {adminApprovedTasks?.map((task) => (
-                <InternshipTaskCard task={task} />
-              ))}
-              {adminApprovedTasks?.map((task) => (
-                <InternshipTaskCard task={task} />
-              ))}
               {adminApprovedTasks?.map((task) => (
                 <InternshipTaskCard task={task} />
               ))}

@@ -46,18 +46,17 @@ const AdminDashboardHome = () => {
       taskDesc: "Make an animation introduce our company vision.....",
       studentsImg: [
         {
-          img: Person
+          img: Person,
         },
         {
-          img: Person
+          img: Person,
         },
         {
-          img: Person
+          img: Person,
         },
         {
-          img: Person
+          img: Person,
         },
-
       ],
       progressBar: { current: 4, total: 12 },
       date: "29/Jan/2022",
@@ -67,18 +66,17 @@ const AdminDashboardHome = () => {
       taskDesc: "Make our company original logo wth introduce our......",
       studentsImg: [
         {
-          img: Person
+          img: Person,
         },
         {
-          img: Person
+          img: Person,
         },
         {
-          img: Person
+          img: Person,
         },
         {
-          img: Person
+          img: Person,
         },
-
       ],
       progressBar: { current: 6, total: 10 },
       date: "22/Jan/2022",
@@ -88,24 +86,22 @@ const AdminDashboardHome = () => {
       taskDesc: "Make our company landing page who have enging.....",
       studentsImg: [
         {
-          img: Person
+          img: Person,
         },
         {
-          img: Person
+          img: Person,
         },
         {
-          img: Person
+          img: Person,
         },
         {
-          img: Person
+          img: Person,
         },
-
       ],
       progressBar: { current: 12, total: 12 },
       date: "25/Jan/2022",
     },
-
-  ]
+  ];
   const { userInfo } = useContext(AuthContext);
   const pieChartdata = [
     { name: "Reject", value: 2 },
@@ -156,7 +152,7 @@ const AdminDashboardHome = () => {
           <div className="flex gap-10">
             <div>
               <h1 className="font-bold text-[30px]">
-                Hello {userInfo?.fastName}
+                Hello {userInfo?.firstName}
               </h1>
               <p className="text-[21px] font-medium tracking-wide">
                 {formatDate()}
@@ -201,7 +197,7 @@ const AdminDashboardHome = () => {
           <div className="w-5/6 mx-auto flex items-center gap-2 pt-[7px]">
             <BsPersonCircle className="text-[#4555BA] w-[35px] h-[35px]" />
             <p className="text-[19px] font-medium">
-              {userInfo?.fastName} {userInfo?.lastName}
+              {userInfo?.firstName} {userInfo?.lastName}
             </p>
           </div>
           <div className="w-5/6 mx-auto border-b border-[#4555BA] pt-[17px] text-[16px] font-medium flex justify-between">
@@ -227,7 +223,10 @@ const AdminDashboardHome = () => {
         <div className="flex justify-between items-center">
           <div className="flex mt-[17px] gap-[11px]">
             {cardData.map((item, index) => (
-              <div key={index} className="bg-[#FFF] border border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md">
+              <div
+                key={index}
+                className="bg-[#FFF] border border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md"
+              >
                 <div className="flex justify-between items-center">
                   <h1 className="font-bold text-[17px]">{item?.title}</h1>
                   <HiDotsVertical />
@@ -243,13 +242,21 @@ const AdminDashboardHome = () => {
                 <div>
                   <div className="mt-[14px] flex justify-between text-[14px] font-medium">
                     <p>Progress</p>
-                    <p className="text-[#3F3F3F]">{item?.progressBar?.current}/{item?.progressBar?.total}</p>
+                    <p className="text-[#3F3F3F]">
+                      {item?.progressBar?.current}/{item?.progressBar?.total}
+                    </p>
                   </div>
                   <div className="relative w-full">
                     <div className="w-full bg-gray-200 rounded-lg h-2">
                       <div
                         className="bg-[#3E4DAC] h-2 rounded-lg"
-                        style={{ width: `${(item?.progressBar?.current / item?.progressBar?.total) * 100}%` }}
+                        style={{
+                          width: `${
+                            (item?.progressBar?.current /
+                              item?.progressBar?.total) *
+                            100
+                          }%`,
+                        }}
                       ></div>
                     </div>
                   </div>
