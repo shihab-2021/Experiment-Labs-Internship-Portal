@@ -391,7 +391,7 @@ const SubmissionTracker = () => {
             </div>
             <div className="max-w-[220px] flex flex-col items-center">
               <h1 className=" font-raleway text-[16px] font-[500] text-[#1e1e1e]">
-                {task?.taskLimit} Students
+                {task?.participantLimit} Students
               </h1>
               <h1 className=" font-raleway font-bold text-[#007d00] text-[15px] tracking-[1.50px] px-[7px] w-fit py-[4px] bg-[#d6ffd6] rounded-[10px]">
                 4 spot left
