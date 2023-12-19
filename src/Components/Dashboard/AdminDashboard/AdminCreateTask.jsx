@@ -442,7 +442,7 @@ const AdminCreateTask = () => {
                 </label>
                 <input
                   placeholder="month/date/year"
-                  type="date"
+                  type="datetime-local"
                   name="taskDeadline"
                   id="taskDeadline"
                   className="bg-[#EEF0FF] px-[10px] py-1 rounded-md shadow"

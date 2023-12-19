@@ -16,6 +16,7 @@ import {
 } from "recharts";
 import { FaRegCheckCircle } from "react-icons/fa";
 import stdImg from "../../../assets/Dashboard/AdminDashboard/profile1.svg";
+import { Link } from "react-router-dom";
 const AdminDashboardBar = () => {
   const pieChartdata = [
     { statusInfo: "4 Considering solutions", value: 4 },
@@ -206,9 +207,9 @@ const AdminDashboardBar = () => {
                 Anjali <span>10th class student</span>
               </p>
             </div>
-            <button className="mb-1 py-[9px] px-[16px] text-[18px] text-white tracking-wider font-medium rounded-[26px] bg-[#17A1FA]">
+            <Link to='/message' className="mb-1 py-[9px] px-[16px] text-[18px] text-white tracking-wider font-medium rounded-[26px] bg-[#17A1FA]">
               Message
-            </button>
+            </Link>
           </div>
         </div>
       </div>
