@@ -106,7 +106,6 @@ const AdminTeam = () => {
   };
   const { userInfo } = useContext(AuthContext);
   const [teamMembers, setTeamMembers] = useState([]);
-
   useEffect(() => {
     if (userInfo?.organizations)
       axios
@@ -120,7 +119,7 @@ const AdminTeam = () => {
         })
         .catch((error) => console.error(error));
   }, [userInfo]);
-
+  // let OrgId = ;
   console.log(teamMembers);
 
   const handleAddMember = async (event) => {
@@ -394,135 +393,39 @@ const AdminTeam = () => {
                     <tr className="text-left">
                       <th className="p-2">Team member name</th>
                       <th className="p-2">Designation</th>
-                      <th className="p-2 ">Member Profile</th>
+                      <th className="p-2">Member Profile</th>
                     </tr>
                   </thead>
-                  <tbody className="w-full ">
-                    <tr className="border border-[#E2E2E2]">
-                      <td className="flex items-center gap-1 text-[15px] font-medium my-2"><IoPersonCircleOutline className="h-[29px] w-[29px]" /> Himanshu sir</td>
-                      <td className="text-[15px] font-medium">Senior marketing head</td>
-                      <td>
-                        <div className="flex gap-6 items-center">
-                          <button className="text-[18px] bg-[#DD2025] w-24 text-[#FFF] rounded-3xl">Delete</button>
-                          <button className="text-[18px] bg-[#6278FF] w-20 text-[#FFF]  rounded-3xl">Edit</button>
-                          <button className="text-[#1976D2] font-bold tracking-wider text-[15px]">More details</button>
-
-                        </div>
-                      </td>
-                    </tr>
-                    <tr className="border border-[#E2E2E2]">
-                      <td className="flex items-center gap-1 text-[15px] font-medium my-2"><IoPersonCircleOutline className="h-[29px] w-[29px]" /> Himanshu sir</td>
-                      <td className="text-[15px] font-medium">Senior marketing head</td>
-                      <td>
-                        <div className="flex gap-6 items-center">
-                          <button className="text-[18px] bg-[#DD2025] w-24 text-[#FFF] rounded-3xl">Delete</button>
-                          <button className="text-[18px] bg-[#6278FF] w-20 text-[#FFF]  rounded-3xl">Edit</button>
-                          <button className="text-[#1976D2] font-bold tracking-wider text-[15px]">More details</button>
-
-                        </div>
-                      </td>
-                    </tr>
-                    <tr className="border border-[#E2E2E2]">
-                      <td className="flex items-center gap-1 text-[15px] font-medium my-2"><IoPersonCircleOutline className="h-[29px] w-[29px]" /> Himanshu sir</td>
-                      <td className="text-[15px] font-medium">Senior marketing head</td>
-                      <td>
-                        <div className="flex gap-6 items-center">
-                          <button className="text-[18px] bg-[#DD2025] w-24 text-[#FFF] rounded-3xl">Delete</button>
-                          <button className="text-[18px] bg-[#6278FF] w-20 text-[#FFF]  rounded-3xl">Edit</button>
-                          <button className="text-[#1976D2] font-bold tracking-wider text-[15px]">More details</button>
-
-                        </div>
-                      </td>
-                    </tr>
-                    <tr className="border border-[#E2E2E2]">
-                      <td className="flex items-center gap-1 text-[15px] font-medium my-2"><IoPersonCircleOutline className="h-[29px] w-[29px]" /> Himanshu sir</td>
-                      <td className="text-[15px] font-medium">Senior marketing head</td>
-                      <td>
-                        <div className="flex gap-6 items-center">
-                          <button className="text-[18px] bg-[#DD2025] w-24 text-[#FFF] rounded-3xl">Delete</button>
-                          <button className="text-[18px] bg-[#6278FF] w-20 text-[#FFF]  rounded-3xl">Edit</button>
-                          <button className="text-[#1976D2] font-bold tracking-wider text-[15px]">More details</button>
-
-                        </div>
-                      </td>
-                    </tr>
-                    <tr className="border border-[#E2E2E2]">
-                      <td className="flex items-center gap-1 text-[15px] font-medium my-2"><IoPersonCircleOutline className="h-[29px] w-[29px]" /> Himanshu sir</td>
-                      <td className="text-[15px] font-medium">Senior marketing head</td>
-                      <td>
-                        <div className="flex gap-6 items-center">
-                          <button className="text-[18px] bg-[#DD2025] w-24 text-[#FFF] rounded-3xl">Delete</button>
-                          <button className="text-[18px] bg-[#6278FF] w-20 text-[#FFF]  rounded-3xl">Edit</button>
-                          <button className="text-[#1976D2] font-bold tracking-wider text-[15px]">More details</button>
-
-                        </div>
-                      </td>
-                    </tr>
-                    <tr className="border border-[#E2E2E2]">
-                      <td className="flex items-center gap-1 text-[15px] font-medium my-2"><IoPersonCircleOutline className="h-[29px] w-[29px]" /> Himanshu sir</td>
-                      <td className="text-[15px] font-medium">Senior marketing head</td>
-                      <td>
-                        <div className="flex gap-6 items-center">
-                          <button className="text-[18px] bg-[#DD2025] w-24 text-[#FFF] rounded-3xl">Delete</button>
-                          <button className="text-[18px] bg-[#6278FF] w-20 text-[#FFF]  rounded-3xl">Edit</button>
-                          <button className="text-[#1976D2] font-bold tracking-wider text-[15px]">More details</button>
-
-                        </div>
-                      </td>
-                    </tr>
-                    <tr className="border border-[#E2E2E2]">
-                      <td className="flex items-center gap-1 text-[15px] font-medium my-2"><IoPersonCircleOutline className="h-[29px] w-[29px]" /> Himanshu sir</td>
-                      <td className="text-[15px] font-medium">Senior marketing head</td>
-                      <td>
-                        <div className="flex gap-6 items-center">
-                          <button className="text-[18px] bg-[#DD2025] w-24 text-[#FFF] rounded-3xl">Delete</button>
-                          <button className="text-[18px] bg-[#6278FF] w-20 text-[#FFF]  rounded-3xl">Edit</button>
-                          <button className="text-[#1976D2] font-bold tracking-wider text-[15px]">More details</button>
-
-                        </div>
-                      </td>
-                    </tr>
-                    <tr className="border border-[#E2E2E2]">
-                      <td className="flex items-center gap-1 text-[15px] font-medium my-2"><IoPersonCircleOutline className="h-[29px] w-[29px]" /> Himanshu sir</td>
-                      <td className="text-[15px] font-medium">Senior marketing head</td>
-                      <td>
-                        <div className="flex gap-6 items-center">
-                          <button className="text-[18px] bg-[#DD2025] w-24 text-[#FFF] rounded-3xl">Delete</button>
-                          <button className="text-[18px] bg-[#6278FF] w-20 text-[#FFF]  rounded-3xl">Edit</button>
-                          <button className="text-[#1976D2] font-bold tracking-wider text-[15px]">More details</button>
-
-                        </div>
-                      </td>
-                    </tr>
-                    <tr className="border border-[#E2E2E2]">
-                      <td className="flex items-center gap-1 text-[15px] font-medium my-2"><IoPersonCircleOutline className="h-[29px] w-[29px]" /> Himanshu sir</td>
-                      <td className="text-[15px] font-medium">Senior marketing head</td>
-                      <td>
-                        <div className="flex gap-6 items-center">
-                          <button className="text-[18px] bg-[#DD2025] w-24 text-[#FFF] rounded-3xl">Delete</button>
-                          <button className="text-[18px] bg-[#6278FF] w-20 text-[#FFF]  rounded-3xl">Edit</button>
-                          <button className="text-[#1976D2] font-bold tracking-wider text-[15px]">More details</button>
-
-                        </div>
-                      </td>
-                    </tr>
-                    <tr className="border border-[#E2E2E2]">
-                      <td className="flex items-center gap-1 text-[15px] font-medium my-2"><IoPersonCircleOutline className="h-[29px] w-[29px]" /> Himanshu sir</td>
-                      <td className="text-[15px] font-medium">Senior marketing head</td>
-                      <td>
-                        <div className="flex gap-6 items-center">
-                          <button className="text-[18px] bg-[#DD2025] w-24 text-[#FFF] rounded-3xl">Delete</button>
-                          <button className="text-[18px] bg-[#6278FF] w-20 text-[#FFF]  rounded-3xl">Edit</button>
-                          <button className="text-[#1976D2] font-bold tracking-wider text-[15px]">More details</button>
-
-                        </div>
-                      </td>
-                    </tr>
+                  <tbody className="w-full">
+                    {teamMembers?.map((member, index) => (
+                      <tr className="border border-[#E2E2E2]" key={index}>
+                        <td className="p-2 flex items-center gap-1 text-[15px] font-medium">
+                          <IoPersonCircleOutline className="h-[29px] w-[29px]" /> {member?.firstName}
+                        </td>
+                        <td className="p-2 text-[15px] font-medium">
+                          {member.organizations.map((org, j) => (
+                            <div key={j}>
+                              {userInfo?.organizations && userInfo.organizations[0]?.organizationId === org.organizationId
+                                ? org.role
+                                : ""}
+                            </div>
+                          ))}
+                        </td>
+                        <td className="p-2">
+                          <div className="flex gap-6 items-center">
+                            <button className="text-[18px] bg-[#DD2025] w-24 text-[#FFF] rounded-3xl">Delete</button>
+                            <button className="text-[18px] bg-[#6278FF] w-20 text-[#FFF]  rounded-3xl">Edit</button>
+                            <button className="text-[#1976D2] font-bold tracking-wider text-[15px]">More details</button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
-                <Pagination className="grid justify-center mt-10" count={2} color="primary" />
+                {/* <Pagination className="grid justify-center mt-10" count={2} color="primary" /> */}
               </div>
-              <div className="flex gap-[76px] my-3">
+
+              <div className="flex gap-[76px] mt-10 mb-3">
                 <button onClick={() => handleToggle(event, "permission")} className="text-[#4555BA] text-[20px] font-bold tracking-wider">Task Created</button>
                 <button onClick={() => handleToggle(event, "task")} className="text-[20px] font-medium tracking-wider">Permissions</button>
               </div>
@@ -704,7 +607,7 @@ const AdminTeam = () => {
             </div></>
       }
     </>
-);
+  );
 };
 
 export default AdminTeam;
