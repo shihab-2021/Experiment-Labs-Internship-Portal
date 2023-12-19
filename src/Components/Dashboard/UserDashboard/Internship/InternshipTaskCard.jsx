@@ -285,13 +285,15 @@ const InternshipTaskCard = ({ task }) => {
               <h1 className="text-[#8F8F8F] text-[17px] font-[500] tracking-wide ">
                 Company
               </h1>
-              <h1 className="text-[16px]">{organizationInfo?.orgName}</h1>
+              <h1 className="text-[16px] w-fit py-[4px]">
+                {organizationInfo?.orgName}
+              </h1>
             </div>
             <div className="max-w-[220px]">
               <h1 className="text-[#8F8F8F] text-[17px] font-[500] tracking-wide ">
                 Task Posting
               </h1>
-              <h1 className="text-[16px]">
+              <h1 className="text-[16px] font-sans w-fit py-[4px]">
                 {formatDate(task?.postingDateTime)}
               </h1>
             </div>
@@ -299,14 +301,17 @@ const InternshipTaskCard = ({ task }) => {
               <h1 className="text-[#8F8F8F] text-[17px] font-[500] tracking-wide ">
                 Deadline
               </h1>
-              <h1 className="text-[16px]">{formatDate(task?.taskDeadline)}</h1>
+              <h1 className="text-[16px] font-sans w-fit py-[4px]">
+                {formatDate(task?.taskDeadline)}
+              </h1>
             </div>
             <div className="max-w-[220px]">
               <h1 className=" text-center font-raleway text-[16px] font-[500] text-[#1e1e1e]">
                 {task?.participantLimit} Students
               </h1>
-              <h1 className=" font-raleway font-bold text-[#007d00] text-[15px] tracking-[1.50px] px-[7px] w-fit py-[4px] bg-[#d6ffd6] rounded-[10px]">
-                4 spot left
+              <h1 className=" font-sans font-bold text-[#007d00] text-[15px] tracking-[1.50px] px-[7px] w-fit py-[4px] bg-[#d6ffd6] rounded-[10px]">
+                {parseInt(task?.participantLimit) - task?.participants?.length}{" "}
+                spot left
               </h1>
             </div>
           </div>
@@ -390,7 +395,8 @@ const InternshipTaskCard = ({ task }) => {
               {task?.participantLimit} Students
             </h1>
             <h1 className=" font-raleway font-bold text-[#007d00] text-[15px] tracking-[1.50px] relative w-fit leading-[normal] whitespace-nowrap px-[7px] py-[4px] bg-[#d6ffd6] rounded-[10px]">
-              4 spot left
+              {parseInt(task?.participantLimit) - task?.participants?.length}{" "}
+              spot left
             </h1>
           </div>
         </div>
