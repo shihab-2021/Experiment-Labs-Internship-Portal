@@ -41,7 +41,7 @@ const HeroSection = () => {
     const userData = {
       email: form.email.value,
       password: form.password.value,
-      fastName: form.firstName.value,
+      firstName: form.firstName.value,
       lastName: form.lastName.value,
       phone: form.phone.value,
       phoneCountryCode: form.phoneCountryCode.value,
@@ -64,7 +64,7 @@ const HeroSection = () => {
         // setOpen2(false);
 
         updateUserProfile({
-          displayName: user?.fastName,
+          displayName: user?.firstName,
         });
         // saveUser(email);
         form.reset();

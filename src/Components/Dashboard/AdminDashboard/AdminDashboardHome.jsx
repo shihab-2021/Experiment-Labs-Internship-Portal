@@ -156,7 +156,7 @@ const AdminDashboardHome = () => {
           <div className="flex gap-10">
             <div>
               <h1 className="font-bold text-[30px]">
-                Hello {userInfo?.fastName}
+                Hello {userInfo?.firstName}
               </h1>
               <p className="text-[21px] font-medium tracking-wide">
                 {formatDate()}
@@ -201,7 +201,7 @@ const AdminDashboardHome = () => {
           <div className="w-5/6 mx-auto flex items-center gap-2 pt-[7px]">
             <BsPersonCircle className="text-[#4555BA] w-[35px] h-[35px]" />
             <p className="text-[19px] font-medium">
-              {userInfo?.fastName} {userInfo?.lastName}
+              {userInfo?.firstName} {userInfo?.lastName}
             </p>
           </div>
           <div className="w-5/6 mx-auto border-b border-[#4555BA] pt-[17px] text-[16px] font-medium flex justify-between">
