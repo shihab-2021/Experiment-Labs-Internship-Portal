@@ -110,7 +110,7 @@ const InternshipTaskCard = ({ task }) => {
         }`,
         participantData
       );
-      if (apply.statusText) {
+      if (apply) {
         navigate(`/internshipSubmission/${task?._id}`);
       } else {
         Swal.fire({
