@@ -15,6 +15,7 @@ import { useContext, useEffect, useState } from "react";
 import { BsPersonCircle } from "react-icons/bs";
 import { AuthContext } from "../../../Contexts/AuthProvider";
 import axios from "axios";
+import { Link } from "react-router-dom";
 const AdminTeam = () => {
   const cardData = [
     {
@@ -104,8 +105,8 @@ const AdminTeam = () => {
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
-  const { userInfo } = useContext(AuthContext);
   const [teamMembers, setTeamMembers] = useState([]);
+  const { userInfo } = useContext(AuthContext);
   useEffect(() => {
     if (userInfo?.organizations)
       axios
@@ -414,7 +415,7 @@ const AdminTeam = () => {
                         <td className="p-2">
                           <div className="flex gap-6 items-center">
                             <button className="text-[18px] bg-[#DD2025] w-24 text-[#FFF] rounded-3xl">Delete</button>
-                            <button className="text-[18px] bg-[#6278FF] w-20 text-[#FFF]  rounded-3xl">Edit</button>
+                            <Link className="text-[18px] bg-[#6278FF] w-20 text-center text-[#FFF]  rounded-3xl" to={`/editProfile/${member?._id}`} >Edit</Link>
                             <button className="text-[#1976D2] font-bold tracking-wider text-[15px]">More details</button>
                           </div>
                         </td>

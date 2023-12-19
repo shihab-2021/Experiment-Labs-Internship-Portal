@@ -13,6 +13,7 @@ import Internship from "../Pages/UserDashboard/Internship";
 import MyApplication from "../Pages/UserDashboard/MyApplication";
 import WorkHours from "../Pages/UserDashboard/WorkHours";
 import InternshipSubmission from "../Pages/UserDashboard/InternshipSubmission";
+import EditProfile from "../Pages/Dashboard/EditProfile";
 
 export const router = createBrowserRouter([
   {
@@ -70,5 +71,9 @@ export const router = createBrowserRouter([
   {
     path: "/internshipSubmission/:id",
     element: <InternshipSubmission />,
+  },
+  {
+    path: "/editProfile/:id",
+    element: <EditProfile/>,
   },
 ]);
