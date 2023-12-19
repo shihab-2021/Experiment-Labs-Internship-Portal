@@ -146,7 +146,7 @@ const InternshipTaskCard = ({ task }) => {
             </h1>
             <p>Task no. 4</p>
             <h1 className=" mt-4 font-raleway text-[16px] font-[500] text-[#1e1e1e]">
-              {task?.taskLimit} Students
+              {task?.participantLimit} Students
             </h1>
             <h1 className=" font-raleway font-bold text-[#007d00] text-[15px] tracking-[1.50px] px-[7px] w-fit py-[4px] bg-[#d6ffd6] rounded-[10px]">
               4 spot left
@@ -303,7 +303,7 @@ const InternshipTaskCard = ({ task }) => {
             </div>
             <div className="max-w-[220px]">
               <h1 className=" text-center font-raleway text-[16px] font-[500] text-[#1e1e1e]">
-                {task?.taskLimit} Students
+                {task?.participantLimit} Students
               </h1>
               <h1 className=" font-raleway font-bold text-[#007d00] text-[15px] tracking-[1.50px] px-[7px] w-fit py-[4px] bg-[#d6ffd6] rounded-[10px]">
                 4 spot left
@@ -387,7 +387,7 @@ const InternshipTaskCard = ({ task }) => {
           </div>
           <div className="inline-flex flex-col items-center justify-center gap-[10px] relative flex-[0_0_auto]">
             <h1 className=" font-raleway text-[#1e1e1e] relative w-fit whitespace-nowrap">
-              {task?.taskLimit} Students
+              {task?.participantLimit} Students
             </h1>
             <h1 className=" font-raleway font-bold text-[#007d00] text-[15px] tracking-[1.50px] relative w-fit leading-[normal] whitespace-nowrap px-[7px] py-[4px] bg-[#d6ffd6] rounded-[10px]">
               4 spot left
