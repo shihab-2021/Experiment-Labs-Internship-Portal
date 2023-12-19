@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { AuthContext } from "../../../../Contexts/AuthProvider";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import LinkIcon from "../../../../assets/Dashboard/UserDashboard/LinkIcon.png";
 import User from "../../../../assets/Shared/user.svg";
 import SolutionSubmissionIcon from "../../../../assets/Dashboard/UserDashboard/SolutionSubmissionIcon.png";
@@ -556,7 +556,10 @@ const SubmissionTracker = () => {
               )}
             </div>
             {participationInfo?.submissionDateTime ? (
-              <button className="flex w-fit gap-2 justify-end min-w-[200px]">
+              <Link
+                to="/myApplication"
+                className="flex w-fit gap-2 justify-end min-w-[200px]"
+              >
                 <img
                   className=" w-[18px] h-[24px] "
                   src={SeeApplicationIcon}
@@ -565,7 +568,7 @@ const SubmissionTracker = () => {
                 <span className="text-sky-600 text-base font-bold font-raleway tracking-wider w-fit">
                   See Application
                 </span>
-              </button>
+              </Link>
             ) : (
               <button
                 onClick={() => handleSubmitTask()}
