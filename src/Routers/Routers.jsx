@@ -32,7 +32,7 @@ export const router = createBrowserRouter([
     element: <TaskDetails />,
   },
   {
-    path: "/completeShowMore",
+    path: "/completeShowMore/:id",
     element: <CompleteShowMore />,
   },
   {
