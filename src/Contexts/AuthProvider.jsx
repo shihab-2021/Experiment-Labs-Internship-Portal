@@ -72,6 +72,9 @@ const AuthProvider = ({ children }) => {
       )
       .then((user) => {
         setUserInfo(user?.data);
+        if (user?.data?.organizations)
+          localStorage.setItem("role", user?.data?.organizations[0].role);
+        else localStorage.setItem("role", "Intern");
       })
       .catch((error) => console.error(error));
   }, [user?.email, userInfo?.email]);
