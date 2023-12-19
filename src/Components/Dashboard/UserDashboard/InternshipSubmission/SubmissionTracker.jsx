@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { AuthContext } from "../../../../Contexts/AuthProvider";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import LinkIcon from "../../../../assets/Dashboard/UserDashboard/LinkIcon.png";
 import User from "../../../../assets/Shared/user.svg";
 import SolutionSubmissionIcon from "../../../../assets/Dashboard/UserDashboard/SolutionSubmissionIcon.png";
@@ -391,7 +391,7 @@ const SubmissionTracker = () => {
             </div>
             <div className="max-w-[220px] flex flex-col items-center">
               <h1 className=" font-raleway text-[16px] font-[500] text-[#1e1e1e]">
-                {task?.taskLimit} Students
+                {task?.participantLimit} Students
               </h1>
               <h1 className=" font-raleway font-bold text-[#007d00] text-[15px] tracking-[1.50px] px-[7px] w-fit py-[4px] bg-[#d6ffd6] rounded-[10px]">
                 4 spot left
@@ -556,7 +556,10 @@ const SubmissionTracker = () => {
               )}
             </div>
             {participationInfo?.submissionDateTime ? (
-              <button className="flex w-fit gap-2 justify-end min-w-[200px]">
+              <Link
+                to="/myApplication"
+                className="flex w-fit gap-2 justify-end min-w-[200px]"
+              >
                 <img
                   className=" w-[18px] h-[24px] "
                   src={SeeApplicationIcon}
@@ -565,7 +568,7 @@ const SubmissionTracker = () => {
                 <span className="text-sky-600 text-base font-bold font-raleway tracking-wider w-fit">
                   See Application
                 </span>
-              </button>
+              </Link>
             ) : (
               <button
                 onClick={() => handleSubmitTask()}

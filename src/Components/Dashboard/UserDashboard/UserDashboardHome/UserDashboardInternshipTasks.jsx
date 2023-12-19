@@ -26,31 +26,31 @@ const UserDashboardInternshipTasks = ({ cardData }) => {
                 </button>
                 <button
                     onClick={(event) => handleTab(event, "In Progress")}
-                    className={`text-[18px] font-medium py-[6px] px-[25px] rounded-3xl ${isActive("In Progress") ? 'text-white bg-[#8064F0]' : 'text-[#3F3F3F] bg-transparent'}`}
+                    className={`text-[18px] font-medium py-[6px] px-[25px] rounded-3xl ${isActive("In Progress") ? 'text-white bg-[#1976D2]' : 'text-[#3F3F3F] bg-transparent'}`}
                 >
                     In Progress
                 </button>
                 <button
                     onClick={(event) => handleTab(event, "Completed")}
-                    className={`text-[18px] font-medium py-[6px] px-[25px] rounded-3xl ${isActive("Completed") ? 'text-white bg-[#8064F0]' : 'text-[#3F3F3F] bg-transparent'}`}
+                    className={`text-[18px] font-medium py-[6px] px-[25px] rounded-3xl ${isActive("Completed") ? 'text-white bg-[#20B15A]' : 'text-[#3F3F3F] bg-transparent'}`}
                 >
                     Completed
                 </button>
                 <button
                     onClick={(event) => handleTab(event, "Selected")}
-                    className={`text-[18px] font-medium py-[6px] px-[25px] rounded-3xl ${isActive("Selected") ? 'text-white bg-[#8064F0]' : 'text-[#3F3F3F] bg-transparent'}`}
+                    className={`text-[18px] font-medium py-[6px] px-[25px] rounded-3xl ${isActive("Selected") ? 'text-white bg-[#E8B912]' : 'text-[#3F3F3F] bg-transparent'}`}
                 >
                     Selected
                 </button>
                 <button
                     onClick={(event) => handleTab(event, "Rejected")}
-                    className={`text-[18px] font-medium py-[6px] px-[25px] rounded-3xl ${isActive("Rejected") ? 'text-white bg-[#8064F0]' : 'text-[#3F3F3F] bg-transparent'}`}
+                    className={`text-[18px] font-medium py-[6px] px-[25px] rounded-3xl ${isActive("Rejected") ? 'text-white bg-[#DD2025]' : 'text-[#3F3F3F] bg-transparent'}`}
                 >
                     Rejected
                 </button>
                 <button
                     onClick={(event) => handleTab(event, "Pending")}
-                    className={`text-[18px] font-medium py-[6px] px-[25px] rounded-3xl ${isActive("Pending") ? 'text-white bg-[#8064F0]' : 'text-[#3F3F3F] bg-transparent'}`}
+                    className={`text-[18px] font-medium py-[6px] px-[25px] rounded-3xl ${isActive("Pending") ? 'text-white bg-[#FF6B00]' : 'text-[#3F3F3F] bg-transparent'}`}
                 >
                     Pending
                 </button>

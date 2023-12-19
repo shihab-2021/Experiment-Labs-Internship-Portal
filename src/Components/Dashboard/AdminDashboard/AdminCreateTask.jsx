@@ -149,7 +149,7 @@ const AdminCreateTask = () => {
       taskLink: form.taskLink.value,
       taskTime: form.taskTime.value,
       taskDeadline: form.taskDeadline.value,
-      taskLimit: form.taskLimit.value,
+      participantLimit: form.participantLimit.value,
       creator: {
         email: user?.email,
         organizationId: organizationInfo?._id,
@@ -442,7 +442,7 @@ const AdminCreateTask = () => {
                 </label>
                 <input
                   placeholder="month/date/year"
-                  type="date"
+                  type="datetime-local"
                   name="taskDeadline"
                   id="taskDeadline"
                   className="bg-[#EEF0FF] px-[10px] py-1 rounded-md shadow"
@@ -450,7 +450,7 @@ const AdminCreateTask = () => {
               </div>
               <div className="flex flex-col gap-2">
                 <label
-                  htmlFor="taskLimit"
+                  htmlFor="participantLimit"
                   className="text-[16px] text-[#3F3F3F] font-medium"
                 >
                   Limit
@@ -458,8 +458,8 @@ const AdminCreateTask = () => {
                 <input
                   placeholder="0"
                   type="number"
-                  name="taskLimit"
-                  id="taskLimit"
+                  name="participantLimit"
+                  id="participantLimit"
                   className="bg-[#EEF0FF] px-[10px] py-1 rounded-md shadow"
                 />
               </div>

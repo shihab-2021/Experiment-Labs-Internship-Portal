@@ -7,174 +7,174 @@ import Person from "../../../../assets/Home/Person.png"
 import UserDashboardStatistics from "./UserDashboardStatistics";
 const UserDashboardHeroSection = () => {
   const cardData = [
-    {
-      title: "Animation Task",
-      taskDesc: "Make an animation introduce our company vision.....",
-      studentsImg: [
-        {
-          img: Person
-        },
-        {
-          img: Person
-        },
-        {
-          img: Person
-        },
-        {
-          img: Person
-        },
+    // {
+    //   title: "Animation Task",
+    //   taskDesc: "Make an animation introduce our company vision.....",
+    //   studentsImg: [
+    //     {
+    //       img: Person
+    //     },
+    //     {
+    //       img: Person
+    //     },
+    //     {
+    //       img: Person
+    //     },
+    //     {
+    //       img: Person
+    //     },
 
-      ],
-      progressBar: { current: 1, total: 2 },
-      date: "29/Jan/2022",
-      deadline: "25/Jan/2022",
-      duration: "4hrs task",
-      status: "In Progress",
-    },
-    {
-      title: "Logo Design",
-      taskDesc: "Make our company original logo wth introduce our......",
-      studentsImg: [
-        {
-          img: Person
-        },
-        {
-          img: Person
-        },
-        {
-          img: Person
-        },
-        {
-          img: Person
-        },
+    //   ],
+    //   progressBar: { current: 1, total: 2 },
+    //   date: "29/Jan/2022",
+    //   deadline: "25/Jan/2022",
+    //   duration: "4hrs task",
+    //   status: "In Progress",
+    // },
+    // {
+    //   title: "Logo Design",
+    //   taskDesc: "Make our company original logo wth introduce our......",
+    //   studentsImg: [
+    //     {
+    //       img: Person
+    //     },
+    //     {
+    //       img: Person
+    //     },
+    //     {
+    //       img: Person
+    //     },
+    //     {
+    //       img: Person
+    //     },
 
-      ],
-      progressBar: { current: 1, total: 2 },
-      date: "22/Jan/2022",
-      deadline: "25/Jan/2022",
-      duration: "4hrs task",
-      status: "In Progress"
-    },
-    {
-      title: "UI & UX",
-      taskDesc: "Make our company landing page who have enging.....",
-      studentsImg: [
-        {
-          img: Person
-        },
-        {
-          img: Person
-        },
-        {
-          img: Person
-        },
-        {
-          img: Person
-        },
+    //   ],
+    //   progressBar: { current: 1, total: 2 },
+    //   date: "22/Jan/2022",
+    //   deadline: "25/Jan/2022",
+    //   duration: "4hrs task",
+    //   status: "In Progress"
+    // },
+    // {
+    //   title: "UI & UX",
+    //   taskDesc: "Make our company landing page who have enging.....",
+    //   studentsImg: [
+    //     {
+    //       img: Person
+    //     },
+    //     {
+    //       img: Person
+    //     },
+    //     {
+    //       img: Person
+    //     },
+    //     {
+    //       img: Person
+    //     },
 
-      ],
-      progressBar: { current: 1, total: 2 },
-      date: "25/Jan/2022",
-      deadline: "25/Jan/2022",
-      duration: "4hrs task",
-      status: "In Progress"
-    },
-    {
-      title: "Animation Task",
-      taskDesc: "Make an animation introduce our company vision.....",
-      studentsImg: [
-        {
-          img: Person
-        },
-        {
-          img: Person
-        },
-        {
-          img: Person
-        },
-        {
-          img: Person
-        },
+    //   ],
+    //   progressBar: { current: 1, total: 2 },
+    //   date: "25/Jan/2022",
+    //   deadline: "25/Jan/2022",
+    //   duration: "4hrs task",
+    //   status: "In Progress"
+    // },
+    // {
+    //   title: "Animation Task",
+    //   taskDesc: "Make an animation introduce our company vision.....",
+    //   studentsImg: [
+    //     {
+    //       img: Person
+    //     },
+    //     {
+    //       img: Person
+    //     },
+    //     {
+    //       img: Person
+    //     },
+    //     {
+    //       img: Person
+    //     },
 
-      ],
-      progressBar: { current: 2, total: 2 },
-      date: "29/Jan/2022",
-      deadline: "25/Jan/2022",
-      duration: "4hrs task"
-      , status: "Completed",
-    },
-    {
-      title: "Logo Design",
-      taskDesc: "Make our company original logo wth introduce our......",
-      studentsImg: [
-        {
-          img: Person
-        },
-        {
-          img: Person
-        },
-        {
-          img: Person
-        },
-        {
-          img: Person
-        },
+    //   ],
+    //   progressBar: { current: 2, total: 2 },
+    //   date: "29/Jan/2022",
+    //   deadline: "25/Jan/2022",
+    //   duration: "4hrs task"
+    //   , status: "Completed",
+    // },
+    // {
+    //   title: "Logo Design",
+    //   taskDesc: "Make our company original logo wth introduce our......",
+    //   studentsImg: [
+    //     {
+    //       img: Person
+    //     },
+    //     {
+    //       img: Person
+    //     },
+    //     {
+    //       img: Person
+    //     },
+    //     {
+    //       img: Person
+    //     },
 
-      ],
-      progressBar: { current: 2, total: 2 },
-      date: "22/Jan/2022",
-      deadline: "25/Jan/2022",
-      duration: "4hrs task",
-      status: "Selected"
-    },
-    {
-      title: "UI & UX",
-      taskDesc: "Make our company landing page who have enging.....",
-      studentsImg: [
-        {
-          img: Person
-        },
-        {
-          img: Person
-        },
-        {
-          img: Person
-        },
-        {
-          img: Person
-        },
+    //   ],
+    //   progressBar: { current: 2, total: 2 },
+    //   date: "22/Jan/2022",
+    //   deadline: "25/Jan/2022",
+    //   duration: "4hrs task",
+    //   status: "Selected"
+    // },
+    // {
+    //   title: "UI & UX",
+    //   taskDesc: "Make our company landing page who have enging.....",
+    //   studentsImg: [
+    //     {
+    //       img: Person
+    //     },
+    //     {
+    //       img: Person
+    //     },
+    //     {
+    //       img: Person
+    //     },
+    //     {
+    //       img: Person
+    //     },
 
-      ],
-      progressBar: { current: 2, total: 2 },
-      date: "25/Jan/2022",
-      deadline: "25/Jan/2022",
-      duration: "4hrs task",
-      status: "Rejected",
-    },
-    {
-      title: "UI & UX",
-      taskDesc: "Make our company landing page who have enging.....",
-      studentsImg: [
-        {
-          img: Person
-        },
-        {
-          img: Person
-        },
-        {
-          img: Person
-        },
-        {
-          img: Person
-        },
+    //   ],
+    //   progressBar: { current: 2, total: 2 },
+    //   date: "25/Jan/2022",
+    //   deadline: "25/Jan/2022",
+    //   duration: "4hrs task",
+    //   status: "Rejected",
+    // },
+    // {
+    //   title: "UI & UX",
+    //   taskDesc: "Make our company landing page who have enging.....",
+    //   studentsImg: [
+    //     {
+    //       img: Person
+    //     },
+    //     {
+    //       img: Person
+    //     },
+    //     {
+    //       img: Person
+    //     },
+    //     {
+    //       img: Person
+    //     },
 
-      ],
-      progressBar: { current: 1, total: 2 },
-      date: "25/Jan/2022",
-      deadline: "25/Jan/2022",
-      duration: "4hrs task",
-      status: "Pending"
-    },
+    //   ],
+    //   progressBar: { current: 1, total: 2 },
+    //   date: "25/Jan/2022",
+    //   deadline: "25/Jan/2022",
+    //   duration: "4hrs task",
+    //   status: "Pending"
+    // },
 
   ]
   return <div className="w-11/12 mx-auto mt-10">
@@ -198,28 +198,28 @@ const UserDashboardHeroSection = () => {
               <h1 className="text-[16px] font-medium">Total Internship</h1>
               <FaAngleRight className="w-[25px] h-[25px]"></FaAngleRight>
             </div>
-            <p className="text-[45px] font-bold">7</p>
+            <p className="text-[45px] font-bold">0</p>
           </div>
           <div className="bg-[#2196F3] rounded-lg grid justify-between text-white w-[140px] py-[12px] px-[12px]">
             <div className="flex justify-between">
               <h1 className="text-[17px] font-medium">In Progress</h1>
               <FaAngleRight className="w-[25px] h-[25px]"></FaAngleRight>
             </div>
-            <p className="text-[45px] font-bold">4</p>
+            <p className="text-[45px] font-bold">0</p>
           </div>
           <div className="bg-[#20B15A] rounded-lg grid justify-between text-white w-[140px] py-[12px] px-[12px]">
             <div className="flex justify-between">
               <h1 className="text-[17px] font-medium">Completed</h1>
               <FaAngleRight className="w-[25px] h-[25px]"></FaAngleRight>
             </div>
-            <p className="text-[45px] font-bold">1</p>
+            <p className="text-[45px] font-bold">0</p>
           </div>
           <div className="bg-[#F1511B] rounded-lg grid justify-between text-white w-[140px] py-[12px] px-[12px]">
             <div className="flex justify-between">
               <h1 className="text-[17px] font-medium">Task Pending</h1>
               <FaAngleRight className="w-[25px] h-[25px]"></FaAngleRight>
             </div>
-            <p className="text-[45px] font-bold">1</p>
+            <p className="text-[45px] font-bold">0</p>
           </div>
         </div>
       </div>

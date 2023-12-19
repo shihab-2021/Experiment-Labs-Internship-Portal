@@ -33,25 +33,33 @@ const SingleApplicationRow = ({ submission }) => {
       .catch((error) => console.error(error));
   }, [submission]);
 
+  console.log(organizationInfo);
+
   return (
-    <div className="flex justify-between items-center w-full border mt-1 h-[75px] px-3">
-      <div className=" text-[15px] text-[#3F3F3F] font-semibold">
-        <h1>{organizationInfo?.orgName}</h1>
+    <div className="grid grid-cols-6 gap-[2px] w-full border mt-1 h-[75px]">
+      <div className="text-center flex items-center justify-center text-[15px] text-[#3F3F3F] font-semibold">
+        <img
+          className="max-w-[150px] max-h-[70px] "
+          src={organizationInfo?.orgLogo}
+          alt="orgLogo"
+        />
       </div>
-      <div className=" text-[15px] text-[#3F3F3F] font-semibold">
+      <div className="text-center flex items-center justify-center text-[15px] text-[#3F3F3F] font-semibold">
         <h1>{task?.taskName}</h1>
       </div>
-      <div className=" text-[15px] text-[#3F3F3F] font-normal">
+      <div className="text-center flex items-center justify-center text-[15px] text-[#3F3F3F] font-normal">
         {submission?.submissionDateTime ? (
-          <h1>{new Date(submission?.submissionDateTime)?.toDateString()}</h1>
+          <h1 className=" font-sans ">
+            {new Date(submission?.submissionDateTime)?.toDateString()}
+          </h1>
         ) : (
-          <h1>-</h1>
+          <h1 className="text-xl">-</h1>
         )}
       </div>
-      <div className=" text-[15px] font-semibold">
-        <h1>{task?.taskTime} hrs </h1>
+      <div className="text-center flex items-center justify-center text-[15px] font-semibold">
+        <h1 className="font-sans">{task?.taskTime} hrs </h1>
       </div>
-      <div className=" text-[15px] font-semibold">
+      <div className="text-center flex items-center justify-center text-[15px] font-semibold">
         <h1
           className={`p-2 rounded-md w-[95px] text-center ${
             submission?.submissionStatus === "Processing"
@@ -66,7 +74,7 @@ const SingleApplicationRow = ({ submission }) => {
           {submission?.submissionStatus}
         </h1>
       </div>
-      <div className=" text-[15px] font-semibold">
+      <div className="text-center flex items-center justify-center text-[15px] font-semibold">
         <Link to={`/internshipSubmission/${task?._id}`}>
           <img src={reviewIcon} alt="icon" />
         </Link>
@@ -125,23 +133,23 @@ const MyApplication = () => {
             My Application
           </h1>
 
-          <div className="flex justify-between items-center w-full bg-[#E8EBFB] h-[75px] px-3">
-            <div className=" text-[18px] font-bold">
+          <div className="grid grid-cols-6 gap-[2px] w-full bg-[#E8EBFB] h-[75px]">
+            <div className=" text-center flex items-center justify-center text-[18px] font-bold">
               <h1>Company</h1>
             </div>
-            <div className=" text-[18px] font-bold">
+            <div className=" text-center flex items-center justify-center text-[18px] font-bold">
               <h1>Task</h1>
             </div>
-            <div className=" text-[18px] font-bold">
+            <div className=" text-center flex items-center justify-center text-[18px] font-bold">
               <h1>Submitted on</h1>
             </div>
-            <div className=" text-[18px] font-bold">
+            <div className=" text-center flex items-center justify-center text-[18px] font-bold">
               <h1>Hours</h1>
             </div>
-            <div className=" text-[18px] font-bold">
+            <div className=" text-center flex items-center justify-center text-[18px] font-bold">
               <h1>Status</h1>
             </div>
-            <div className=" text-[18px] font-bold">
+            <div className=" text-center flex items-center justify-center text-[18px] font-bold">
               <h1>Review</h1>
             </div>
           </div>

@@ -38,74 +38,75 @@ import {
   Cell,
 } from "recharts";
 import { AuthContext } from "../../../Contexts/AuthProvider";
+import { Link } from "react-router-dom";
 
 const AdminDashboardHome = () => {
   const cardData = [
-    {
-      title: "Animation Task",
-      taskDesc: "Make an animation introduce our company vision.....",
-      studentsImg: [
-        {
-          img: Person,
-        },
-        {
-          img: Person,
-        },
-        {
-          img: Person,
-        },
-        {
-          img: Person,
-        },
-      ],
-      progressBar: { current: 4, total: 12 },
-      date: "29/Jan/2022",
-    },
-    {
-      title: "Logo Design",
-      taskDesc: "Make our company original logo wth introduce our......",
-      studentsImg: [
-        {
-          img: Person,
-        },
-        {
-          img: Person,
-        },
-        {
-          img: Person,
-        },
-        {
-          img: Person,
-        },
-      ],
-      progressBar: { current: 6, total: 10 },
-      date: "22/Jan/2022",
-    },
-    {
-      title: "UI & UX",
-      taskDesc: "Make our company landing page who have enging.....",
-      studentsImg: [
-        {
-          img: Person,
-        },
-        {
-          img: Person,
-        },
-        {
-          img: Person,
-        },
-        {
-          img: Person,
-        },
-      ],
-      progressBar: { current: 12, total: 12 },
-      date: "25/Jan/2022",
-    },
+    // {
+    //   title: "Animation Task",
+    //   taskDesc: "Make an animation introduce our company vision.....",
+    //   studentsImg: [
+    //     {
+    //       img: Person,
+    //     },
+    //     {
+    //       img: Person,
+    //     },
+    //     {
+    //       img: Person,
+    //     },
+    //     {
+    //       img: Person,
+    //     },
+    //   ],
+    //   progressBar: { current: 4, total: 12 },
+    //   date: "29/Jan/2022",
+    // },
+    // {
+    //   title: "Logo Design",
+    //   taskDesc: "Make our company original logo wth introduce our......",
+    //   studentsImg: [
+    //     {
+    //       img: Person,
+    //     },
+    //     {
+    //       img: Person,
+    //     },
+    //     {
+    //       img: Person,
+    //     },
+    //     {
+    //       img: Person,
+    //     },
+    //   ],
+    //   progressBar: { current: 6, total: 10 },
+    //   date: "22/Jan/2022",
+    // },
+    // {
+    //   title: "UI & UX",
+    //   taskDesc: "Make our company landing page who have enging.....",
+    //   studentsImg: [
+    //     {
+    //       img: Person,
+    //     },
+    //     {
+    //       img: Person,
+    //     },
+    //     {
+    //       img: Person,
+    //     },
+    //     {
+    //       img: Person,
+    //     },
+    //   ],
+    //   progressBar: { current: 12, total: 12 },
+    //   date: "25/Jan/2022",
+    // },
   ];
   const { userInfo } = useContext(AuthContext);
   const pieChartdata = [
-    { name: "Reject", value: 2 },
-    { name: "Select", value: 8 },
+    { name: "Reject", value: 0 },
+    { name: "Select", value: 0 },
   ];
   const COLORS = ["#DD2025", "#1976D2"];
   const lineChartdata = [
@@ -175,21 +176,21 @@ const AdminDashboardHome = () => {
                 <h1 className="text-[20px] font-medium">New Task</h1>
                 <FaAngleRight className="w-[25px] h-[25px]"></FaAngleRight>
               </div>
-              <p className="text-[45px] font-bold">3</p>
+              <p className="text-[45px] font-bold">0</p>
             </div>
             <div className="bg-[#2196F3] rounded-lg text-white w-[185px] py-[12px] px-[12px] h-[125px]">
               <div className="flex justify-between">
                 <h1 className="text-[20px] font-medium">In Progress</h1>
                 <FaAngleRight className="w-[25px] h-[25px]"></FaAngleRight>
               </div>
-              <p className="text-[45px] font-bold">10</p>
+              <p className="text-[45px] font-bold">0</p>
             </div>
             <div className="bg-[#20B15A] rounded-lg text-white w-[185px] py-[12px] px-[12px] h-[125px]">
               <div className="flex justify-between">
                 <h1 className="text-[20px] font-medium">Completed</h1>
                 <FaAngleRight className="w-[25px] h-[25px]"></FaAngleRight>
               </div>
-              <p className="text-[45px] font-bold">22</p>
+              <p className="text-[45px] font-bold">0</p>
             </div>
           </div>
         </div>
@@ -222,56 +223,60 @@ const AdminDashboardHome = () => {
         </div>
         <div className="flex justify-between items-center">
           <div className="flex mt-[17px] gap-[11px]">
-            {cardData.map((item, index) => (
-              <div
-                key={index}
-                className="bg-[#FFF] border border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md"
-              >
-                <div className="flex justify-between items-center">
-                  <h1 className="font-bold text-[17px]">{item?.title}</h1>
-                  <HiDotsVertical />
-                </div>
-                <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
-                  {item?.taskDesc}
-                </p>
-                <AvatarGroup className="grid justify-end mt-[14px]" total={16}>
-                  {item?.studentsImg.map((each, index) => (
-                    <Avatar key={index} alt="Remy Sharp" src={each.img} />
-                  ))}
-                </AvatarGroup>
-                <div>
-                  <div className="mt-[14px] flex justify-between text-[14px] font-medium">
-                    <p>Progress</p>
-                    <p className="text-[#3F3F3F]">
-                      {item?.progressBar?.current}/{item?.progressBar?.total}
+            {cardData.length === 0 ? <p  className="font-semibold text-orange-500 text-[20px] text-center mt-5">No Processing task found</p> : 
+            <>{
+              cardData.map((item, index) => (
+                <div
+                  key={index}
+                  className="bg-[#FFF] border border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md"
+                >
+                  <div className="flex justify-between items-center">
+                    <h1 className="font-bold text-[17px]">{item?.title}</h1>
+                    <HiDotsVertical />
+                  </div>
+                  <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
+                    {item?.taskDesc}
+                  </p>
+                  <AvatarGroup className="grid justify-end mt-[14px]" total={16}>
+                    {item?.studentsImg.map((each, index) => (
+                      <Avatar key={index} alt="Remy Sharp" src={each.img} />
+                    ))}
+                  </AvatarGroup>
+                  <div>
+                    <div className="mt-[14px] flex justify-between text-[14px] font-medium">
+                      <p>Progress</p>
+                      <p className="text-[#3F3F3F]">
+                        {item?.progressBar?.current}/{item?.progressBar?.total}
+                      </p>
+                    </div>
+                    <div className="relative w-full">
+                      <div className="w-full bg-gray-200 rounded-lg h-2">
+                        <div
+                          className="bg-[#3E4DAC] h-2 rounded-lg"
+                          style={{
+                            width: `${(item?.progressBar?.current /
+                                item?.progressBar?.total) *
+                              100
+                              }%`,
+                          }}
+                        ></div>
+                      </div>
+                    </div>
+                    <p className="text-[#3F3F3F] text-[14px] font-medium">
+                      {item?.date}
                     </p>
                   </div>
-                  <div className="relative w-full">
-                    <div className="w-full bg-gray-200 rounded-lg h-2">
-                      <div
-                        className="bg-[#3E4DAC] h-2 rounded-lg"
-                        style={{
-                          width: `${
-                            (item?.progressBar?.current /
-                              item?.progressBar?.total) *
-                            100
-                          }%`,
-                        }}
-                      ></div>
-                    </div>
-                  </div>
-                  <p className="text-[#3F3F3F] text-[14px] font-medium">
-                    {item?.date}
-                  </p>
                 </div>
-              </div>
-            ))}
-            <button className="ml-14 p-2 w-[98px] justify-center items-center">
+              ))
+            }</>}
+            <Link to='/createTask'>
+            <div className="ml-14 p-2 w-[98px] justify-center  items-center">
               <FaPlus className="text-[#AEAEAE] w-[25px] h-[25px] mx-auto mb-2 "></FaPlus>
-              <span className="text-[#AEAEAE] font-bold text-[15px] w-[90px]">
+              <span className="text-[#AEAEAE] font-bold text-[15px] w-[90px] text-center">
                 Add New Task
               </span>
-            </button>
+            </div>
+            </Link>
           </div>
         </div>
       </div>
@@ -314,7 +319,7 @@ const AdminDashboardHome = () => {
               <p className="text-[16px] font-semibold text-[#828282]">
                 Total Submission
               </p>
-              <p className="text-[40px] font-medium">22</p>
+              <p className="text-[40px] font-medium">0</p>
               <p className="text-[14px] ">Students application chart</p>
             </div>
             <img src={groupIcon} alt="" />
