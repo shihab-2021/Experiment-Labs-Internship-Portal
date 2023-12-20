@@ -481,7 +481,9 @@ const DashboardLayout = ({ children }) => {
                         logOut()
                           .then((res) => {
                             console.log(res);
-                            navigate(`/`);
+                            const orgId = localStorage.getItem("orgId");
+                            if (orgId) navigate(`/organization/${orgId}`);
+                            else navigate(`/`);
                           })
                           .catch((error) => console.error(error));
                       }}
