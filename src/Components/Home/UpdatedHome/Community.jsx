@@ -23,7 +23,16 @@ const Community = () => {
 
         speed: 5000,
         loop: true,
-        slidesPerView: 4,
+        breakpoints: {
+            // when window width is >= 768px
+            768: {
+                slidesPerView: 3,
+            },
+            // when window width is >= 576px
+            576: {
+                slidesPerView: 2,
+            },
+        },
         spaceBetween: 20,
         freeMode: true,
         autoplay: {
@@ -46,7 +55,7 @@ const Community = () => {
         { img: image11 },
     ];
     return (
-        <div className="bg-[#D3D3D3] bg-opacity-50 md:py-2 mt-16 md:mt-[80px]">
+        <div className="bg-[#F0F5FF] md:py-2 mt-16 md:mt-[80px]">
             <div className="w-11/12 mx-auto ">
                 <div className=' flex items-center h-[80px] md:h-[90px] gap-2'>
                     <h2 className='text-center text-[14px] md:text-[16px] font-bold'>Internships with <span className="text-[#4250AC] text-[17px] md:text-[20px]">Dream companies.</span></h2>
@@ -54,7 +63,7 @@ const Community = () => {
                         {sliderElement.map((item, index) => (
                             <SwiperSlide key={index}>
                                 <div className="grid grid-flow-row items-center">
-                                    <img className="h-[40px]  md:h-[70px]" src={item.img} alt="" />
+                                    <img className="h-[50px]  md:h-[60px]" src={item.img} alt="" />
                                 </div>
                             </SwiperSlide>
                         ))}
