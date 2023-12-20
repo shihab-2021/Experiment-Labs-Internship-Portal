@@ -16,7 +16,7 @@ const PostYourInternships = () => {
                 >Post Internship now</button>
             </div>
             <div>
-                <img src={HomeImage} alt='Image' />
+                <img src={HomeImage} className='shadow-md rounded-3xl' alt='Image' />
             </div>
         </div>
     );
