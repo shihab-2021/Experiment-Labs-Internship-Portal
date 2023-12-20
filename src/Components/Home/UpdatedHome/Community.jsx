@@ -6,7 +6,15 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/swiper-bundle.css";
+import image1 from "../../../assets/UpdatedHome/image 1.png";
+import image2 from "../../../assets/UpdatedHome/image 2.png";
 
+import image4 from "../../../assets/UpdatedHome/image 4.png";
+import image6 from "../../../assets/UpdatedHome/image 6.png";
+import image7 from "../../../assets/UpdatedHome/image 7.png";
+import image8 from "../../../assets/UpdatedHome/image 8.png";
+import image9 from "../../../assets/UpdatedHome/image 9.png";
+import image10 from "../../../assets/UpdatedHome/image 10.png";
 import { Autoplay, FreeMode } from 'swiper/modules';
 
 const Community = () => {
@@ -26,18 +34,18 @@ const Community = () => {
 
     const sliderElement = [
 
-        { img: "https://businessinspection.com.bd/wp-content/uploads/2022/01/10MIN-NEWS-FEA-1.jpg" },
-        { img: "https://new-media.dhakatribune.com/en/uploads/2022/01/22/shikho-logo.jpeg" },
-        { img: "https://cdn.dribbble.com/users/1488337/screenshots/6944906/programming_hero_logo.jpg" },
-        { img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRStZZaGIyMZVdodNgNB9oUhlqtnQLWp2FnUBKe9byI4x3GLtJzRzH9kuqXHC0NE7qHbVA&usqp=CAU" },
-        { img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVldg16515Ds3cm2wEUBpTvwkm5tahp3D6fdYsWeHEj3eJyy9wfiCiuKdGUd3qslGw7xE&usqp=CAU" },
-        { img: "https://i.ytimg.com/vi/1Xnl58WLzw8/maxresdefault.jpg" },
-        { img: "https://images.crunchbase.com/c_lpad,f_auto,q_auto:eco,dpr_1/lvjpyc2vvwgfy11zvkt7" },
-        { img: "https://media.licdn.com/dms/image/C510BAQFxP5fk_8BTPQ/company-logo_200_200/0/1577948015347?e=2147483647&v=beta&t=JqG-y6a4FAbR1_wVe5W1tgCq-GIQ9t_aPeJL7-4dUD0" },
+        { img: image1 },
+        { img: image2 },
+        { img: image4 },
+        { img: image6 },
+        { img: image7 },
+        { img: image8 },
+        { img: image9 },
+        { img: image10 },
     ];
     return (
         <div className="w-11/12 mx-auto">
-            <div className='mt-16 md:mt-36 flex items-center h-[90px]'>
+            <div className='mt-16 md:mt-[80px] flex items-center h-[90px]'>
                 <h2 className='text-center text-[16px] font-bold'>Internships with <span className="text-[#4250AC] text-[20px]">Dream companies.</span></h2>
                 <Swiper {...swiperOptions}>
                     {sliderElement.map((item, index) => (
