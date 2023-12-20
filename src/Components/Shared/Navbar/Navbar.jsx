@@ -3,11 +3,15 @@ import logo from "../../../assets/UpdatedHome/logo.png";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import LoginAndRegisterForm from "../LoginAndRegisterForm";
+import { Helmet } from "react-helmet";
+import DynamicFavicon from "../../../DynamicFavicon";
 
 const Navbar = () => {
   const { id } = useParams();
   const [showLoginForm, setShowLoginForm] = useState(false);
   const [organizationInfo, setOrganizationInfo] = useState({});
+
+  if (!id) localStorage.setItem("orgId", "");
 
   useEffect(() => {
     axios
@@ -37,6 +41,13 @@ const Navbar = () => {
   }, []);
   return (
     <div className="sticky top-0 bg-[#4250AC] flex items-center justify-between px-2 lg:px-[40px] py-[11px] z-[1000]">
+      {organizationInfo?.orgName && (
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>{organizationInfo?.orgName}</title>
+        </Helmet>
+      )}
+      <DynamicFavicon />
       <LoginAndRegisterForm
         setShowLoginForm={setShowLoginForm}
         showLoginForm={showLoginForm}

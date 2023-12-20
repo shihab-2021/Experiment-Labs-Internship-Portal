@@ -59,7 +59,10 @@ const DashboardLayout = ({ children }) => {
                   <div className="flex-1 flex flex-col pb-4 overflow-y-auto">
                     <div className="flex-1 space-y-1">
                       <div className="py-2 border-b border-[#303031] flex items-center justify-between lg:justify-center">
-                        <Link className="hidden lg:block" to={"/"}>
+                        <Link
+                          className="hidden lg:block"
+                          to={orgId ? `/organization/${orgId}` : "/"}
+                        >
                           {orgId ? (
                             <img
                               // className="h-6 lg:h-8"
@@ -90,7 +93,7 @@ const DashboardLayout = ({ children }) => {
                         </button>
                       </div>
                       <ul className="space-y-2 px-[22px] py-2 text-white">
-                        {role === "Admin" && (
+                        {role === "Employer" && (
                           <>
                             <li>
                               <Link
@@ -263,7 +266,7 @@ const DashboardLayout = ({ children }) => {
                             </li>
                           </>
                         )}
-                        {role === "Intern" && (
+                        {role === "Student" && (
                           <>
                             <li>
                               <Link
