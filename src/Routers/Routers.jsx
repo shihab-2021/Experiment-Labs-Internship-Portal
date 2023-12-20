@@ -21,6 +21,10 @@ export const router = createBrowserRouter([
     element: <Home />,
   },
   {
+    path: "/organization/:id",
+    element: <Home />,
+  },
+  {
     path: "/dashboard",
     element: <DashboardHome />,
   },
@@ -74,6 +78,6 @@ export const router = createBrowserRouter([
   },
   {
     path: "/editProfile/:id",
-    element: <EditProfile/>,
+    element: <EditProfile />,
   },
 ]);

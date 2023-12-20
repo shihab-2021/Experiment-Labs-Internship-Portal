@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import ExperimentLabsLogo from "../../../assets/Dashboard/Shared/ExperimentLabsLogo.png";
 import HomeIconLight from "../../../assets/Dashboard/Shared/HomeIconLight.png";
@@ -22,12 +22,26 @@ import WorkHoursIconDark from "../../../assets/Dashboard/Shared/WorkHoursIconDar
 import LeaderBoardIconLight from "../../../assets/Dashboard/Shared/LeaderBoardIconLight.png";
 import LeaderBoardIconDark from "../../../assets/Dashboard/Shared/LeaderBoardIconDark.png";
 import { AuthContext } from "../../../Contexts/AuthProvider";
+import axios from "axios";
 const DashboardLayout = ({ children }) => {
   const { logOut } = useContext(AuthContext);
   const [toggleButton, setToggleButton] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
   const role = localStorage.getItem("role");
+  const orgId = localStorage.getItem("orgId");
+  const [organizationInfo, setOrganizationInfo] = useState({});
+
+  useEffect(() => {
+    axios
+      .get(
+        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${orgId}`
+      )
+      .then((org) => {
+        setOrganizationInfo(org?.data);
+      })
+      .catch((error) => console.error(error));
+  }, [orgId]);
   return (
     <div>
       <>
@@ -46,12 +60,21 @@ const DashboardLayout = ({ children }) => {
                     <div className="flex-1 space-y-1">
                       <div className="py-2 border-b border-[#303031] flex items-center justify-between lg:justify-center">
                         <Link className="hidden lg:block" to={"/"}>
-                          <img
-                            // className="h-6 lg:h-8"
-                            className="my-5"
-                            src={ExperimentLabsLogo}
-                            alt="icon"
-                          />
+                          {orgId ? (
+                            <img
+                              // className="h-6 lg:h-8"
+                              className="my-5 max-w-[150px]"
+                              src={organizationInfo?.orgLogo}
+                              alt="icon"
+                            />
+                          ) : (
+                            <img
+                              // className="h-6 lg:h-8"
+                              className="my-5 max-w-[150px]"
+                              src={ExperimentLabsLogo}
+                              alt="icon"
+                            />
+                          )}
                         </Link>
                         <p className="text-[#676767] ml-[27px] lg:hidden">
                           Menu
