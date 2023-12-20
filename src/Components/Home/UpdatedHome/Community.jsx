@@ -15,6 +15,7 @@ import image7 from "../../../assets/UpdatedHome/image 7.png";
 import image8 from "../../../assets/UpdatedHome/image 8.png";
 import image9 from "../../../assets/UpdatedHome/image 9.png";
 import image10 from "../../../assets/UpdatedHome/image 10.png";
+import image11 from "../../../assets/UpdatedHome/image 11.png"
 import { Autoplay, FreeMode } from 'swiper/modules';
 
 const Community = () => {
@@ -42,20 +43,23 @@ const Community = () => {
         { img: image8 },
         { img: image9 },
         { img: image10 },
+        { img: image11 },
     ];
     return (
-        <div className="w-11/12 mx-auto">
-            <div className='mt-16 md:mt-[80px] flex items-center h-[90px]'>
-                <h2 className='text-center text-[16px] font-bold'>Internships with <span className="text-[#4250AC] text-[20px]">Dream companies.</span></h2>
-                <Swiper {...swiperOptions}>
-                    {sliderElement.map((item, index) => (
-                        <SwiperSlide key={index}>
-                            <div className="grid grid-flow-row">
-                                <img src={item.img} alt="" />
-                            </div>
-                        </SwiperSlide>
-                    ))}
-                </Swiper>
+        <div className="bg-[#D3D3D3] bg-opacity-50 md:py-2 mt-16 md:mt-[80px]">
+            <div className="w-11/12 mx-auto ">
+                <div className=' flex items-center h-[80px] md:h-[90px] gap-2'>
+                    <h2 className='text-center text-[14px] md:text-[16px] font-bold'>Internships with <span className="text-[#4250AC] text-[17px] md:text-[20px]">Dream companies.</span></h2>
+                    <Swiper {...swiperOptions}>
+                        {sliderElement.map((item, index) => (
+                            <SwiperSlide key={index}>
+                                <div className="grid grid-flow-row items-center">
+                                    <img className="h-[40px]  md:h-[70px]" src={item.img} alt="" />
+                                </div>
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
+                </div>
             </div>
         </div>
     );
