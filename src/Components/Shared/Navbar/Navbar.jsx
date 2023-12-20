@@ -49,7 +49,7 @@ const Navbar = () => {
     };
   }, []);
   return (
-    <div className="bg-[#4250AC]  flex items-center justify-between px-2 lg:px-[40px] py-[11px]">
+    <div className="sticky top-0 bg-[#4250AC] flex items-center justify-between px-2 lg:px-[40px] py-[11px] z-[1000]">
       <DialogLayout
         open={showLoginForm}
         setOpen={setShowLoginForm}
@@ -132,7 +132,7 @@ const Navbar = () => {
         <img src={logo} alt="icon" />
         <h1 className="text-[15px] md:text-base font-bold text-[#fff]">Experiment labs</h1>
       </div>
-      <div className={isMobile ? ' mt-5 flex gap-2' : 'lg:w-full mt-2 lg:mt-0 flex justify-end gap-[13px] items-center'}>
+      <div className={isMobile ? '  flex gap-2' : 'lg:w-full mt-2 lg:mt-0 flex justify-end gap-[13px] items-center'}>
         <button
           className="text-[12px] lg:text-base font-bold text-[#3F3F3F] px-3 py-2 lg:px-[18px] lg:py-[10px]"
           style={{
