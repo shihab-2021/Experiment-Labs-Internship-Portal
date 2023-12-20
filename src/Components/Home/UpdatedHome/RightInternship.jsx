@@ -53,8 +53,8 @@ const RightInternship = () => {
                     </Swiper>
                 </div>
             </div>
-        </div>
-    );
+    </div>
+  );
 };
 
 export default RightInternship;
