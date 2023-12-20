@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import logo from "../../../assets/UpdatedHome/logo.png";
 import DialogLayout from "../DialogLayout";
 import { useNavigate } from "react-router-dom";
@@ -31,8 +31,25 @@ const Navbar = () => {
       // toast.error("password or email error");
     }
   };
+
+  // responsive
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 600);
+    };
+
+    // Attach the event listener
+    window.addEventListener('resize', handleResize);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   return (
-    <div className="bg-[#4250AC] flex justify-between px-[40px] py-[11px]">
+    <div className="bg-[#4250AC]  flex items-center justify-between px-2 lg:px-[40px] py-[11px]">
       <DialogLayout
         open={showLoginForm}
         setOpen={setShowLoginForm}
@@ -111,13 +128,13 @@ const Navbar = () => {
           </form>
         </div>
       </DialogLayout>
-      <div className="flex items-center gap-2">
+      <div className={isMobile ? 'w-6/12 mx-auto flex gap-[8px] items-center' : 'w-8/12 mx-auto lg:w-full mt-2 lg:mt-0 flex gap-[13px] items-center'}>
         <img src={logo} alt="icon" />
-        <h1 className="text-base font-bold text-[#fff]">Experiment labs</h1>
+        <h1 className="text-[15px] md:text-base font-bold text-[#fff]">Experiment labs</h1>
       </div>
-      <div className="flex gap-[13px] items-center">
+      <div className={isMobile ? ' mt-5 flex gap-2' : 'lg:w-full mt-2 lg:mt-0 flex justify-end gap-[13px] items-center'}>
         <button
-          className="text-base font-bold text-[#3F3F3F] px-[18px] py-[10px]"
+          className="text-[12px] lg:text-base font-bold text-[#3F3F3F] px-3 py-2 lg:px-[18px] lg:py-[10px]"
           style={{
             borderRadius: "24px",
             background: "#F6F7FF",
@@ -127,10 +144,10 @@ const Navbar = () => {
         </button>
         <button
           onClick={() => setShowLoginForm(true)}
-          className="text-base font-bold text-[#fff] px-[18px] py-[10px]"
+          className="text-[12px] lg:text-base font-bold text-[#3F3F3F] px-3 py-2 lg:px-[18px] lg:py-[10px]"
           style={{
             borderRadius: "24px",
-            background: "var(--Secontary-color, #007AD3)",
+            background: "#FB9700",
           }}
         >
           Log in
