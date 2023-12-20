@@ -4,6 +4,7 @@ import DashboardLayout from "../../Components/Dashboard/Shared/DashboardLayout";
 import { AuthContext } from "../../Contexts/AuthProvider";
 import { CiSearch } from "react-icons/ci";
 import axios from "axios";
+import { Helmet } from "react-helmet";
 
 const Internship = () => {
   const { userInfo } = useContext(AuthContext);
@@ -23,6 +24,10 @@ const Internship = () => {
   }, []);
   return (
     <div>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Internship</title>
+      </Helmet>
       <DashboardLayout>
         <div className="px-4 pt-10">
           <div className="relative">

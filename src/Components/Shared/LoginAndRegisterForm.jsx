@@ -19,6 +19,7 @@ const LoginAndRegisterForm = ({ showLoginForm, setShowLoginForm }) => {
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
+    localStorage.setItem("role", role);
 
     const form = e?.target;
     const email = form.email.value;
@@ -28,7 +29,7 @@ const LoginAndRegisterForm = ({ showLoginForm, setShowLoginForm }) => {
     try {
       await signIn(email, password).then(() => {
         console.log("user logged in");
-        navigate("/dashboard");
+        navigate(role === "Student" ? "/userDashboard" : "/dashboard");
       });
     } catch (error) {
       console.error(error);
