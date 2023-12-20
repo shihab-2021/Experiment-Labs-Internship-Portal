@@ -1,5 +1,5 @@
 //AdminCompleteShowMore
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BsPersonCircle } from "react-icons/bs";
 
 import { FaMagnifyingGlass } from "react-icons/fa6";
@@ -17,11 +17,108 @@ import arrowDown from "../../../assets/Dashboard/AdminDashboard/arrowDown.svg";
 import driveIcon from "../../../assets/Dashboard/AdminDashboard/driveIcon.svg";
 import arrowUp from "../../../assets/Dashboard/AdminDashboard/arrowUp.svg";
 import arrowRight from "../../../assets/Dashboard/AdminDashboard/arrowRight.svg";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+import axios from "axios";
 
 const AdminCompleteShowMore = () => {
+  const { id } = useParams()
+  console.log(id)
+
+  // taskDetails data
+  const [taskDetails, setTaskDetails] = useState();
+
+  useEffect(() => {
+    if (id)
+      axios
+        .get(
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/${id}`
+        )
+        .then((task) => {
+          setTaskDetails(task?.data);
+        })
+        .catch((error) => console.error(error));
+  }, [id]);
+
+  console.log(taskDetails);
+
+  // creatorDEtails data
+
+  const [creatorDetails, setCreatorDetails] = useState();
+  console.log(taskDetails?.creator?.email)
+
+  useEffect(() => {
+    if (taskDetails?.creator?.email)
+      axios
+        .get(
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${taskDetails?.creator?.email}`
+        )
+        .then((creator) => {
+          setCreatorDetails(creator?.data);
+        })
+        .catch((error) => console.error(error));
+  }, [taskDetails?.creator?.email]);
+
+  console.log(creatorDetails);
+
+ // organizationDetails data
+ const [organizationDetails, setOrganizationDetails] = useState();
+ 
+  console.log(creatorDetails?.organizations[0]?.organizationId)
+ useEffect(() => {
+   if (creatorDetails?.organizations[0]?.organizationId)
+     axios
+       .get(
+         `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${creatorDetails?.organizations[0]?.organizationId}`
+       )
+       .then((organization) => {
+        setOrganizationDetails(organization?.data);
+       })
+       .catch((error) => console.error(error));
+ }, [creatorDetails?.organizations[0]?.organizationId]);
+
+ console.log(organizationDetails);
+
+ //user Details
+   
+
+   const [userDetails, setUserDetails] = useState();
+   console.log(taskDetails?.creator?.email)
+ 
+   useEffect(() => {
+     if (taskDetails)
+       axios
+         .get(
+           `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${taskDetails?.creator?.email}`
+         )
+         .then((user) => {
+          setUserDetails(user?.data);
+         })
+         .catch((error) => console.error(error));
+   }, [taskDetails]);
+ 
+   console.log(creatorDetails);
+
+
+ 
+  const deadline= taskDetails?.taskDeadline;
+  const targetDate = new Date(`${deadline}T00:00:00`);
+
+  // Current date and time
+  const currentDate = new Date();
+
+  // Calculate the difference in milliseconds
+  const timeDifference = targetDate - currentDate;
+
+  // Convert milliseconds to seconds, minutes, hours, and days
+  const seconds = Math.floor(timeDifference / 1000) % 60;
+  const minutes = Math.floor(timeDifference / (1000 * 60)) % 60;
+  const hours = Math.floor(timeDifference / (1000 * 60 * 60)) % 24;
+  const daysRemaining = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+  // console.log(`Remaining time: ${daysRemaining} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`);
+
   const formatDate = () => {
     const monthNames = [
       "Jan",
@@ -44,6 +141,10 @@ const AdminCompleteShowMore = () => {
     const year = currentDate.getFullYear();
     return `${day}/ ${month}/ ${year}`;
   };
+
+  const completionPercentage =
+    (taskDetails?.complete?.length ? taskDetails?.complete?.length : "0"/ taskDetails?.participants?.length) * 100 || 0;
+
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -123,9 +224,8 @@ const AdminCompleteShowMore = () => {
           </div>
 
           <div
-            className={`absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${
-              isDropdownOpen ? "" : "hidden"
-            }`}
+            className={`absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${isDropdownOpen ? "" : "hidden"
+              }`}
             role="menu"
             aria-orientation="vertical"
             aria-labelledby="menu-button"
@@ -161,28 +261,26 @@ const AdminCompleteShowMore = () => {
           className="w-[60%] px-[10px] py-[15px]"
         >
           <p className="text-lg font-medium">Task Details</p>
-          <h1 className="text-xl font-bold mt-3">UI AND UX</h1>
-          <p className=" text-[16px] font-medium text-[#797979]">Task no.4</p>
+          <h1 className="text-xl font-bold mt-3">{taskDetails?.taskName}</h1>
+          {/* <p className=" text-[16px] font-medium text-[#797979]">Task no.4</p> */}
           <p className=" text-[16px] font-medium text-[#797979] mt-4">
-            "Create our company landing page with an engaging interface that
-            matches industry standards."
+            {taskDetails?.aboutTask}
           </p>
           <p className="text-base font-bold mt-4">Out come</p>
           <p className=" text-[16px] font-medium text-[#797979] mt-4">
-            Selected students have the chance to meet our team, and we also
-            provide certificates."
+            {taskDetails?.aboutOutcome}
           </p>
           <p className="flex gap-2 items-center text-base font-normal text-[#4555BA] my-5">
             <img src={driveImage} alt="image" />
-            <Link to="">www.magicpingogledrivelink.com</Link>
+            <Link to={taskDetails?.taskLink}>{taskDetails?.taskLink}</Link>
           </p>
           <div className="flex justify-between">
             <div>
               <p className=" text-[16px] font-medium text-[#797979]">Company</p>
               <p className=" text-base font-normal flex items-center gap-2">
-                Magic pin{" "}
+                {organizationDetails?.orgName}{" "}
                 <span>
-                  <img src={locationIcon} alt="Icon" />
+                  <img src={organizationDetails?.orgLogo} alt="Icon" />
                 </span>
               </p>
             </div>
@@ -192,7 +290,7 @@ const AdminCompleteShowMore = () => {
               </p>
               <p className=" text-base font-normal flex items-center gap-2">
                 {" "}
-                24/jan/2022
+                {taskDetails?.postingDateTime}
               </p>
             </div>
             <div>
@@ -200,7 +298,7 @@ const AdminCompleteShowMore = () => {
                 Deadline
               </p>
               <p className=" text-base font-normal flex items-center gap-2">
-                26/jan/2022
+                {taskDetails?.taskDeadline}
               </p>
             </div>
           </div>
@@ -210,9 +308,9 @@ const AdminCompleteShowMore = () => {
               <img src={profileImage} alt="ImageProfile" />
             </div>
             <div>
-              <h1 className="text-base font-semibold">Arun kumar</h1>
+              <h1 className="text-base font-semibold">{creatorDetails?.firstName} {creatorDetails?.lastName}</h1>
               <p className="text-[13px] font-normal text-[#797979]">
-                Company admin
+                {taskDetails?.creator?.role}
               </p>
             </div>
           </div>
@@ -242,7 +340,7 @@ const AdminCompleteShowMore = () => {
               </p>
             </div>
             <div>
-              <p className="me-8 text-[#6278FF] text-base font-medium">1d</p>
+              <p className="me-8 text-[#6278FF] text-base font-medium">{daysRemaining}d</p>
             </div>
           </div>
           <div
@@ -260,7 +358,7 @@ const AdminCompleteShowMore = () => {
               </p>
             </div>
             <div>
-              <p className="me-8 text-[#0A98EA] text-base font-medium">12</p>
+              <p className="me-8 text-[#0A98EA] text-base font-medium">{taskDetails?.participants.length}</p>
             </div>
           </div>
           <div
@@ -278,7 +376,7 @@ const AdminCompleteShowMore = () => {
               </p>
             </div>
             <div>
-              <p className="me-8 text-[#0A98EA] text-base font-medium">12</p>
+              <p className="me-8 text-[#0A98EA] text-base font-medium">{taskDetails?.participantLimit}</p>
             </div>
           </div>
           <div
@@ -321,20 +419,18 @@ const AdminCompleteShowMore = () => {
             <div className=" w-[50%]">
               <div className="mt-[14px] flex justify-between text-[14px] font-medium">
                 <p>Completed</p>
-                <p className="text-[#3F3F3F]">12/12</p>
+                <p className="text-[#3F3F3F]">{taskDetails?.complete?.length ? taskDetails?.complete?.length : "0"}/{taskDetails?.participants.length}</p>
               </div>
               <div className="relative w-full">
                 <div className="w-full bg-gray-200 rounded-lg h-2">
                   <div
-                    className="bg-[#3E4DAC] h-2 w-[100%] rounded-lg"
-                    // className="bg-cyan-600 h-2 rounded-sm"
-
-                    // style={{ width: "20%" }}
+                    className="bg-[#3E4DAC] h-2  rounded-lg"
+                    style={{ width: `${completionPercentage}%` }}
                   ></div>
                 </div>
               </div>
               <p className="text-[#3F3F3F] text-[14px] font-medium">
-                29/Jan/2022
+                {taskDetails?.taskDeadline}
               </p>
             </div>
           </div>
@@ -355,7 +451,127 @@ const AdminCompleteShowMore = () => {
         <h1 className="text-xl font-medium">Submission</h1>
         <img src={filter} alt="icon" />
       </div>
-      <div
+      {
+          taskDetails?.participants?.map((item)=><>
+            <div
+        className=" flex items-center justify-between py-[14px] px-2 "
+        style={{
+          borderRadius: "7px",
+          border: "1px solid #EEE",
+          background: "#FFF",
+          boxShadow: "0px 4px 20px 0px #EFF1FF",
+        }}
+      >
+        <div className="flex items-center gap-2">
+          <div>
+            <img src={profileImage} alt="ImageProfile" />
+          </div>
+          <div>
+            <h1 className="text-base font-semibold">Arun kumar</h1>
+            <p className="text-[13px] font-normal text-[#797979]">
+              10th class student
+            </p>
+          </div>
+        </div>
+        <div className="text-center">
+          <h1 className=" text-base font-bold">Submission time</h1>
+          <h1 className=" text-base font-medium text-[#737373]">{item?.submissionDateTime ? new Date(item.submissionDateTime).toLocaleTimeString() : ''}</h1>
+
+        </div>
+        <div className="text-center">
+          <h1 className=" text-base font-bold">Submission day</h1>
+          <h1 className=" text-base font-medium text-[#737373]">{item?.submissionDateTime ? new Date(item.submissionDateTime).toLocaleDateString() : ''}</h1>
+
+        </div>
+        <div
+          className="mt-6"
+          style={{
+            borderRadius: "18px",
+            background: "#439DF7",
+          }}
+        >
+          <p className="text-[#fff] text-sm font-bold px-3 py-2 ">Message</p>
+        </div>
+        <div className="text-center">
+          <h1 className="text-base font-bold">Status</h1>
+          <div
+            style={{
+              borderRadius: "18px",
+              background: "#20B15A",
+            }}
+          >
+            <p className="text-[#fff] text-sm font-bold px-5 py-2">Select</p>
+          </div>
+        </div>
+        <div
+          className="mt-6"
+          style={{
+            borderRadius: "18px",
+            background: "#DD2025",
+          }}
+        >
+          <p className="text-[#fff] text-sm font-bold px-3 py-2 ">Reject</p>
+        </div>
+        <div className="text-center">
+          <h1 className="text-base font-bold">Solution</h1>
+          <div
+            style={{
+              borderRadius: "18px",
+            }}
+          >
+            <p className="text-sm font-bold px-5 py-2 flex">
+              <img src={reviewList} alt="icon" />
+              {!isDivVisible && (
+                <img
+                  onClick={() => toggleDivVisibility("solution1")}
+                  style={{ cursor: "pointer" }}
+                  src={arrowDown}
+                  alt="icon"
+                />
+              )}
+              {isDivVisible && (
+                <img
+                  onClick={() => toggleDivVisibility("solution1")}
+                  style={{ cursor: "pointer" }}
+                  src={arrowUp}
+                  alt="icon"
+                />
+              )}
+            </p>
+          </div>
+        </div>
+      </div>
+      {isDivVisible && details === "solution1" && (
+        <div
+          className=" mb-2"
+          style={{
+            borderRadius: "7px",
+            border: "1px solid #EEE",
+            background: "#FFF",
+            boxShadow: "0px 4px 20px 0px #EFF1FF",
+          }}
+        >
+          <div className="p-5">
+            <h1 className="text-xl font-medium mb-[20px]">Animation project</h1>
+            <Link
+              className="p-[10px] my-[15px]"
+              style={{
+                borderRadius: "40px",
+                border: "1px solid #4555BA",
+              }}
+            >
+              WWW.Animationproject.com
+            </Link>
+          </div>
+          <div className="bg-[#E7EBFF] flex items-center gap-5 mt-5 px-[15px] py-[10px]">
+            <img src={driveIcon} alt="Icon" />
+            <Link to="">Http: internship project google drive link</Link>
+          </div>
+        </div>
+      )}
+          </>)
+      }
+    {/*   <div
         className=" flex items-center justify-between py-[14px] px-2 "
         style={{
           borderRadius: "7px",
@@ -468,237 +684,9 @@ const AdminCompleteShowMore = () => {
             <Link to="">Http: internship project google drive link</Link>
           </div>
         </div>
-      )}
+      )} */}
 
-      <div
-        className=" flex items-center justify-between py-[14px] px-2 "
-        style={{
-          borderRadius: "7px",
-          border: "1px solid #EEE",
-          background: "#FFF",
-          boxShadow: "0px 4px 20px 0px #EFF1FF",
-        }}
-      >
-        <div className="flex items-center gap-2">
-          <div>
-            <img src={profileImage} alt="ImageProfile" />
-          </div>
-          <div>
-            <h1 className="text-base font-semibold">Arun kumar</h1>
-            <p className="text-[13px] font-normal text-[#797979]">
-              10th class student
-            </p>
-          </div>
-        </div>
-        <div className="text-center">
-          <h1 className=" text-base font-bold">Submission time</h1>
-          <h1 className=" text-base font-medium text-[#737373]">12:00pm</h1>
-        </div>
-        <div className="text-center">
-          <h1 className=" text-base font-bold">Submission day</h1>
-          <h1 className=" text-base font-medium text-[#737373]">24/jan/2023</h1>
-        </div>
-        <div
-          className="mt-6"
-          style={{
-            borderRadius: "18px",
-            background: "#439DF7",
-          }}
-        >
-          <p className="text-[#fff] text-sm font-bold px-3 py-2 ">Message</p>
-        </div>
-        <div className="text-center">
-          <h1 className="text-base font-bold">Status</h1>
-          <div
-            style={{
-              borderRadius: "18px",
-              background: "#20B15A",
-            }}
-          >
-            <p className="text-[#fff] text-sm font-bold px-5 py-2">Select</p>
-          </div>
-        </div>
-        <div
-          className="mt-6"
-          style={{
-            borderRadius: "18px",
-            background: "#DD2025",
-          }}
-        >
-          <p className="text-[#fff] text-sm font-bold px-3 py-2 ">Reject</p>
-        </div>
-        <div className="text-center">
-          <h1 className="text-base font-bold">Solution</h1>
-          <div
-            style={{
-              borderRadius: "18px",
-            }}
-          >
-            <p className="text-sm font-bold px-5 py-2 flex">
-              <img src={reviewList} alt="icon" />
-              {!isDivVisible && (
-                <img
-                  onClick={() => toggleDivVisibility("solution2")}
-                  style={{ cursor: "pointer" }}
-                  src={arrowDown}
-                  alt="icon"
-                />
-              )}
-              {isDivVisible && (
-                <img
-                  onClick={() => toggleDivVisibility("solution2")}
-                  style={{ cursor: "pointer" }}
-                  src={arrowUp}
-                  alt="icon"
-                />
-              )}
-            </p>
-          </div>
-        </div>
-      </div>
-      {isDivVisible && details === "solution2" && (
-        <div
-          className=" mb-2"
-          style={{
-            borderRadius: "7px",
-            border: "1px solid #EEE",
-            background: "#FFF",
-            boxShadow: "0px 4px 20px 0px #EFF1FF",
-          }}
-        >
-          <div className="p-5">
-            <h1 className="text-xl font-medium mb-[20px]">Animation project</h1>
-            <Link
-              className="p-[10px] my-[15px]"
-              style={{
-                borderRadius: "40px",
-                border: "1px solid #4555BA",
-              }}
-            >
-              WWW.Animationproject.com
-            </Link>
-          </div>
-          <div className="bg-[#E7EBFF] flex items-center gap-5 mt-5 px-[15px] py-[10px]">
-            <img src={driveIcon} alt="Icon" />
-            <Link to="">Http: internship project google drive link</Link>
-          </div>
-        </div>
-      )}
-
-      <div
-        className=" flex items-center justify-between py-[14px] px-2 "
-        style={{
-          borderRadius: "7px",
-          border: "1px solid #EEE",
-          background: "#FFF",
-          boxShadow: "0px 4px 20px 0px #EFF1FF",
-        }}
-      >
-        <div className="flex items-center gap-2">
-          <div>
-            <img src={profileImage} alt="ImageProfile" />
-          </div>
-          <div>
-            <h1 className="text-base font-semibold">Arun kumar</h1>
-            <p className="text-[13px] font-normal text-[#797979]">
-              10th class student
-            </p>
-          </div>
-        </div>
-        <div className="text-center">
-          <h1 className=" text-base font-bold">Submission time</h1>
-          <h1 className=" text-base font-medium text-[#737373]">12:00pm</h1>
-        </div>
-        <div className="text-center">
-          <h1 className=" text-base font-bold">Submission day</h1>
-          <h1 className=" text-base font-medium text-[#737373]">24/jan/2023</h1>
-        </div>
-        <div
-          className="mt-6"
-          style={{
-            borderRadius: "18px",
-            background: "#439DF7",
-          }}
-        >
-          <p className="text-[#fff] text-sm font-bold px-3 py-2 ">Message</p>
-        </div>
-        <div className="text-center">
-          <h1 className="text-base font-bold">Status</h1>
-          <div
-            style={{
-              borderRadius: "18px",
-              background: "#20B15A",
-            }}
-          >
-            <p className="text-[#fff] text-sm font-bold px-5 py-2">Select</p>
-          </div>
-        </div>
-        <div
-          className="mt-6"
-          style={{
-            borderRadius: "18px",
-            background: "#DD2025",
-          }}
-        >
-          <p className="text-[#fff] text-sm font-bold px-3 py-2 ">Reject</p>
-        </div>
-        <div className="text-center">
-          <h1 className="text-base font-bold">Solution</h1>
-          <div
-            style={{
-              borderRadius: "18px",
-            }}
-          >
-            <p className="text-sm font-bold px-5 py-2 flex">
-              <img src={reviewList} alt="icon" />
-              {!isDivVisible && (
-                <img
-                  onClick={() => toggleDivVisibility("solution3")}
-                  style={{ cursor: "pointer" }}
-                  src={arrowDown}
-                  alt="icon"
-                />
-              )}
-              {isDivVisible && details === "solution3" && (
-                <img
-                  onClick={() => toggleDivVisibility("solution3")}
-                  style={{ cursor: "pointer" }}
-                  src={arrowUp}
-                  alt="icon"
-                />
-              )}
-            </p>
-          </div>
-        </div>
-      </div>
-      {isDivVisible && details === "solution3" && (
-        <div
-          className=" mb-2"
-          style={{
-            borderRadius: "7px",
-            border: "1px solid #EEE",
-            background: "#FFF",
-            boxShadow: "0px 4px 20px 0px #EFF1FF",
-          }}
-        >
-          <div className="p-5">
-            <h1 className="text-xl font-medium mb-[20px]">Animation project</h1>
-            <Link
-              className="p-[10px] my-[15px]"
-              style={{
-                borderRadius: "40px",
-                border: "1px solid #4555BA",
-              }}
-            >
-              WWW.Animationproject.com
-            </Link>
-          </div>
-          <div className="bg-[#E7EBFF] flex items-center gap-5 mt-5 px-[15px] py-[10px]">
-            <img src={driveIcon} alt="Icon" />
-            <Link to="">Http: internship project google drive link</Link>
-          </div>
-        </div>
-      )}
+   
 
       <div className="py-10 flex items-center justify-between">
         <div className="w-full flex justify-center">
