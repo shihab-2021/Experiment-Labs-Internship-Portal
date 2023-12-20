@@ -1,5 +1,5 @@
-import React from 'react';
-import intern1 from "../../../assets/UpdatedHome/Frame 194.png"
+import React from "react";
+import intern1 from "../../../assets/UpdatedHome/Frame 194.png";
 const RightInternship = () => {
     return (
         <div className='bg-[#D3D3D3] bg-opacity-70 my-10 h-auto md:h-[406px] w-screen'>
@@ -14,8 +14,8 @@ const RightInternship = () => {
                 <img className='' src={intern1} alt="" />
                 </div>
             </div>
-        </div>
-    );
+    </div>
+  );
 };
 
 export default RightInternship;
