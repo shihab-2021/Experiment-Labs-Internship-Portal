@@ -1,10 +1,8 @@
 //AdminCompleteShowMore
 import React, { useEffect, useState } from "react";
 import { BsPersonCircle } from "react-icons/bs";
-
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import driveImage from "../../../assets/Dashboard/AdminDashboard/driveImage.svg";
-import locationIcon from "../../../assets/Dashboard/AdminDashboard/locationIcon.svg";
 import profileImage from "../../../assets/Dashboard/AdminDashboard/profileImage.svg";
 import timeIcon from "../../../assets/Dashboard/AdminDashboard/timeIcon.svg";
 import totalSubmission from "../../../assets/Dashboard/AdminDashboard/totalSubmission.svg";
@@ -12,15 +10,12 @@ import submissionLimit from "../../../assets/Dashboard/AdminDashboard/submission
 import selectIcon from "../../../assets/Dashboard/AdminDashboard/selectIcon.svg";
 import rejectIcon from "../../../assets/Dashboard/AdminDashboard/rejectIcon.svg";
 import filter from "../../../assets/Dashboard/AdminDashboard/filter.svg";
-import reviewList from "../../../assets/Dashboard/AdminDashboard/reviewList.svg";
-import arrowDown from "../../../assets/Dashboard/AdminDashboard/arrowDown.svg";
-import driveIcon from "../../../assets/Dashboard/AdminDashboard/driveIcon.svg";
-import arrowUp from "../../../assets/Dashboard/AdminDashboard/arrowUp.svg";
 import arrowRight from "../../../assets/Dashboard/AdminDashboard/arrowRight.svg";
 import { Link, useParams } from "react-router-dom";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import axios from "axios";
+import AdminParticipants from "./AdminParticipants";
 
 const AdminCompleteShowMore = () => {
   const { id } = useParams()
@@ -62,47 +57,26 @@ const AdminCompleteShowMore = () => {
 
   console.log(creatorDetails);
 
- // organizationDetails data
- const [organizationDetails, setOrganizationDetails] = useState();
- 
+  // organizationDetails data
+  const [organizationDetails, setOrganizationDetails] = useState();
+
   console.log(creatorDetails?.organizations[0]?.organizationId)
- useEffect(() => {
-   if (creatorDetails?.organizations[0]?.organizationId)
-     axios
-       .get(
-         `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${creatorDetails?.organizations[0]?.organizationId}`
-       )
-       .then((organization) => {
-        setOrganizationDetails(organization?.data);
-       })
-       .catch((error) => console.error(error));
- }, [creatorDetails?.organizations[0]?.organizationId]);
+  useEffect(() => {
+    if (creatorDetails?.organizations[0]?.organizationId)
+      axios
+        .get(
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${creatorDetails?.organizations[0]?.organizationId}`
+        )
+        .then((organization) => {
+          setOrganizationDetails(organization?.data);
+        })
+        .catch((error) => console.error(error));
+  }, [creatorDetails?.organizations[0]?.organizationId]);
 
- console.log(organizationDetails);
-
- //user Details
-   
-
-   const [userDetails, setUserDetails] = useState();
-   console.log(taskDetails?.creator?.email)
- 
-   useEffect(() => {
-     if (taskDetails)
-       axios
-         .get(
-           `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${taskDetails?.creator?.email}`
-         )
-         .then((user) => {
-          setUserDetails(user?.data);
-         })
-         .catch((error) => console.error(error));
-   }, [taskDetails]);
- 
-   console.log(creatorDetails);
+  console.log(organizationDetails);
 
 
- 
-  const deadline= taskDetails?.taskDeadline;
+  const deadline = taskDetails?.taskDeadline;
   const targetDate = new Date(`${deadline}T00:00:00`);
 
   // Current date and time
@@ -143,7 +117,7 @@ const AdminCompleteShowMore = () => {
   };
 
   const completionPercentage =
-    (taskDetails?.complete?.length ? taskDetails?.complete?.length : "0"/ taskDetails?.participants?.length) * 100 || 0;
+    (taskDetails?.complete?.length ? taskDetails?.complete?.length : "0" / taskDetails?.participants?.length) * 100 || 0;
 
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -152,15 +126,9 @@ const AdminCompleteShowMore = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  const [isDivVisible, setDivVisibility] = useState(false);
-  const [details, setDetails] = useState("");
+ 
 
-  const toggleDivVisibility = (detailsName) => {
-    setDivVisibility(!isDivVisible);
-    setDetails(detailsName);
-  };
-  console.log(details);
-  console.log(isDivVisible);
+ 
 
   return (
     <div className="w-11/12 mx-auto mt-14">
@@ -452,241 +420,10 @@ const AdminCompleteShowMore = () => {
         <img src={filter} alt="icon" />
       </div>
       {
-          taskDetails?.participants?.map((item)=><>
-            <div
-        className=" flex items-center justify-between py-[14px] px-2 "
-        style={{
-          borderRadius: "7px",
-          border: "1px solid #EEE",
-          background: "#FFF",
-          boxShadow: "0px 4px 20px 0px #EFF1FF",
-        }}
-      >
-        <div className="flex items-center gap-2">
-          <div>
-            <img src={profileImage} alt="ImageProfile" />
-          </div>
-          <div>
-            <h1 className="text-base font-semibold">Arun kumar</h1>
-            <p className="text-[13px] font-normal text-[#797979]">
-              10th class student
-            </p>
-          </div>
-        </div>
-        <div className="text-center">
-          <h1 className=" text-base font-bold">Submission time</h1>
-          <h1 className=" text-base font-medium text-[#737373]">{item?.submissionDateTime ? new Date(item.submissionDateTime).toLocaleTimeString() : ''}</h1>
-
-        </div>
-        <div className="text-center">
-          <h1 className=" text-base font-bold">Submission day</h1>
-          <h1 className=" text-base font-medium text-[#737373]">{item?.submissionDateTime ? new Date(item.submissionDateTime).toLocaleDateString() : ''}</h1>
-
-        </div>
-        <div
-          className="mt-6"
-          style={{
-            borderRadius: "18px",
-            background: "#439DF7",
-          }}
-        >
-          <p className="text-[#fff] text-sm font-bold px-3 py-2 ">Message</p>
-        </div>
-        <div className="text-center">
-          <h1 className="text-base font-bold">Status</h1>
-          <div
-            style={{
-              borderRadius: "18px",
-              background: "#20B15A",
-            }}
-          >
-            <p className="text-[#fff] text-sm font-bold px-5 py-2">Select</p>
-          </div>
-        </div>
-        <div
-          className="mt-6"
-          style={{
-            borderRadius: "18px",
-            background: "#DD2025",
-          }}
-        >
-          <p className="text-[#fff] text-sm font-bold px-3 py-2 ">Reject</p>
-        </div>
-        <div className="text-center">
-          <h1 className="text-base font-bold">Solution</h1>
-          <div
-            style={{
-              borderRadius: "18px",
-            }}
-          >
-            <p className="text-sm font-bold px-5 py-2 flex">
-              <img src={reviewList} alt="icon" />
-              {!isDivVisible && (
-                <img
-                  onClick={() => toggleDivVisibility("solution1")}
-                  style={{ cursor: "pointer" }}
-                  src={arrowDown}
-                  alt="icon"
-                />
-              )}
-              {isDivVisible && (
-                <img
-                  onClick={() => toggleDivVisibility("solution1")}
-                  style={{ cursor: "pointer" }}
-                  src={arrowUp}
-                  alt="icon"
-                />
-              )}
-            </p>
-          </div>
-        </div>
-      </div>
-      {isDivVisible && details === "solution1" && (
-        <div
-          className=" mb-2"
-          style={{
-            borderRadius: "7px",
-            border: "1px solid #EEE",
-            background: "#FFF",
-            boxShadow: "0px 4px 20px 0px #EFF1FF",
-          }}
-        >
-          <div className="p-5">
-            <h1 className="text-xl font-medium mb-[20px]">Animation project</h1>
-            <Link
-              className="p-[10px] my-[15px]"
-              style={{
-                borderRadius: "40px",
-                border: "1px solid #4555BA",
-              }}
-            >
-              WWW.Animationproject.com
-            </Link>
-          </div>
-          <div className="bg-[#E7EBFF] flex items-center gap-5 mt-5 px-[15px] py-[10px]">
-            <img src={driveIcon} alt="Icon" />
-            <Link to="">Http: internship project google drive link</Link>
-          </div>
-        </div>
-      )}
-          </>)
+        taskDetails?.participants?.map((item) => 
+        <AdminParticipants item={item}/>
+        )
       }
-    {/*   <div
-        className=" flex items-center justify-between py-[14px] px-2 "
-        style={{
-          borderRadius: "7px",
-          border: "1px solid #EEE",
-          background: "#FFF",
-          boxShadow: "0px 4px 20px 0px #EFF1FF",
-        }}
-      >
-        <div className="flex items-center gap-2">
-          <div>
-            <img src={profileImage} alt="ImageProfile" />
-          </div>
-          <div>
-            <h1 className="text-base font-semibold">Arun kumar</h1>
-            <p className="text-[13px] font-normal text-[#797979]">
-              10th class student
-            </p>
-          </div>
-        </div>
-        <div className="text-center">
-          <h1 className=" text-base font-bold">Submission time</h1>
-          <h1 className=" text-base font-medium text-[#737373]">12:00pm</h1>
-        </div>
-        <div className="text-center">
-          <h1 className=" text-base font-bold">Submission day</h1>
-          <h1 className=" text-base font-medium text-[#737373]">24/jan/2023</h1>
-        </div>
-        <div
-          className="mt-6"
-          style={{
-            borderRadius: "18px",
-            background: "#439DF7",
-          }}
-        >
-          <p className="text-[#fff] text-sm font-bold px-3 py-2 ">Message</p>
-        </div>
-        <div className="text-center">
-          <h1 className="text-base font-bold">Status</h1>
-          <div
-            style={{
-              borderRadius: "18px",
-              background: "#20B15A",
-            }}
-          >
-            <p className="text-[#fff] text-sm font-bold px-5 py-2">Select</p>
-          </div>
-        </div>
-        <div
-          className="mt-6"
-          style={{
-            borderRadius: "18px",
-            background: "#DD2025",
-          }}
-        >
-          <p className="text-[#fff] text-sm font-bold px-3 py-2 ">Reject</p>
-        </div>
-        <div className="text-center">
-          <h1 className="text-base font-bold">Solution</h1>
-          <div
-            style={{
-              borderRadius: "18px",
-            }}
-          >
-            <p className="text-sm font-bold px-5 py-2 flex">
-              <img src={reviewList} alt="icon" />
-              {!isDivVisible && (
-                <img
-                  onClick={() => toggleDivVisibility("solution1")}
-                  style={{ cursor: "pointer" }}
-                  src={arrowDown}
-                  alt="icon"
-                />
-              )}
-              {isDivVisible && (
-                <img
-                  onClick={() => toggleDivVisibility("solution1")}
-                  style={{ cursor: "pointer" }}
-                  src={arrowUp}
-                  alt="icon"
-                />
-              )}
-            </p>
-          </div>
-        </div>
-      </div>
-      {isDivVisible && details === "solution1" && (
-        <div
-          className=" mb-2"
-          style={{
-            borderRadius: "7px",
-            border: "1px solid #EEE",
-            background: "#FFF",
-            boxShadow: "0px 4px 20px 0px #EFF1FF",
-          }}
-        >
-          <div className="p-5">
-            <h1 className="text-xl font-medium mb-[20px]">Animation project</h1>
-            <Link
-              className="p-[10px] my-[15px]"
-              style={{
-                borderRadius: "40px",
-                border: "1px solid #4555BA",
-              }}
-            >
-              WWW.Animationproject.com
-            </Link>
-          </div>
-          <div className="bg-[#E7EBFF] flex items-center gap-5 mt-5 px-[15px] py-[10px]">
-            <img src={driveIcon} alt="Icon" />
-            <Link to="">Http: internship project google drive link</Link>
-          </div>
-        </div>
-      )} */}
-
-   
 
       <div className="py-10 flex items-center justify-between">
         <div className="w-full flex justify-center">
