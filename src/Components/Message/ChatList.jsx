@@ -4,9 +4,20 @@ import { AuthContext } from '../../Contexts/AuthProvider';
 import axios from 'axios';
 import './style.css';
 import { getPerson } from './utils';
+import io from "socket.io-client";
+const ENDPOINT = `${import.meta.env.VITE_APP_SERVER_API}`;
+let socket, selectedChatCompare;
 
-const ChatList = ({ chats, setChats, read, setRead, setSelectedChat, selectedChat, setMessages, userNamesMap, setUserNamesMap, lastMessage }) => {
+const ChatList = ({ chats, setChats, read, setRead, setSelectedChat, selectedChat, setMessages, userNamesMap, setUserNamesMap, lastMessage, setLastMessage, messages,socketConnected, setSocketConnected}) => {
     const { userInfo } = useContext(AuthContext);
+
+    useEffect(() => {
+        socket = io(ENDPOINT);
+        socket.emit("setup", userInfo);
+        socket.on("connection", () => setSocketConnected(true));
+
+        // eslint-disable-next-line
+    }, []);
 
     const fetchChat = async () => {
         const chatList = await axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/chats/userId/${userInfo?._id}`);
@@ -19,18 +30,38 @@ const ChatList = ({ chats, setChats, read, setRead, setSelectedChat, selectedCha
 
     useEffect(() => {
         fetchChat();
-    }, [lastMessage])
+    }, [lastMessage]);
+
 
     useEffect(() => {
-
         const fetchMessage = async () => {
             const messageList = await axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/messages/chatId/${selectedChat?._id}`);
             setMessages(messageList?.data?.messages);
         }
-
         fetchMessage();
+        selectedChatCompare = selectedChat;
 
     }, [selectedChat]);
+
+
+    useEffect(() => {
+        socket.on("message received", (newMessageReceived) => {
+            // console.log("New message Receive now");
+            // console.log(messages[0].chat._id);
+            // console.log(selectedChat._id);
+            if (newMessageReceived.chat._id === selectedChatCompare._id && messages[0]?.chat._id === newMessageReceived.chat._id) {
+                // console.log(selectedChat._id);
+                // console.log(newMessageReceived.chat._id);
+                setMessages([...messages, newMessageReceived]);
+                setLastMessage(newMessageReceived);
+            } else {
+                console.log("Didn't went inside");
+            }
+        });
+    });
+
+
+
 
 
     useEffect(() => {
@@ -71,7 +102,12 @@ const ChatList = ({ chats, setChats, read, setRead, setSelectedChat, selectedCha
                         userNamesMap && chats && chats?.map(
                             (chat, i) =>
                                 <div
-                                    onClick={() => setSelectedChat(chat)}
+                                    onClick={() => {
+                                        setSelectedChat(chat),
+                                            socket.emit('join chat', chat?._id),
+                                            setIsTyping(false),
+                                            setTyping(false)
+                                    }}
                                     key={i}
                                     className={`flex flex-col w-[323.7px] items-start gap-[15.56px] px-[5.93px] py-[11.11px] rounded-[5.19px] border-[0.74px] border-solid border-[#c5c5c5] relative flex-[0_0_auto] cursor-pointer ${chat?._id === selectedChat?._id && "bg-[#aec9e58a]"}`}>
                                     <div className="inline-flex flex-col items-start gap-[7.41px] relative flex-[0_0_auto]">
@@ -85,7 +121,7 @@ const ChatList = ({ chats, setChats, read, setRead, setSelectedChat, selectedCha
                                             </p>
                                             <div className="relative w-fit mt-[-0.74px] [font-family:'Raleway-Medium',Helvetica] font-medium text-black text-[12.6px] tracking-[1.26px] leading-[normal] whitespace-nowrap">
                                                 {
-                                                    new Date(chat?.latestMessage?.createdAt).toLocaleDateString()!=="Invalid Date" &&
+                                                    new Date(chat?.latestMessage?.createdAt).toLocaleDateString() !== "Invalid Date" &&
                                                     new Date(chat?.latestMessage?.createdAt).toLocaleDateString()
                                                 }
                                             </div>
@@ -97,7 +133,10 @@ const ChatList = ({ chats, setChats, read, setRead, setSelectedChat, selectedCha
                                     {
                                         chat?.latestMessage?.senderId &&
                                         <p className="relative w-fit [font-family:'Raleway-Medium',Helvetica] font-medium text-[#3f3f3f] text-[12.6px] tracking-[1.26px] leading-[normal] whitespace-nowrap">
-                                            {chat?.latestMessage?.senderId === userInfo?._id ? "you" : userNamesMap[chat._id]} :{chat?.latestMessage?.content.length > 10 ? chat?.latestMessage?.content.slice(0, 10)+'...' : chat?.latestMessage?.content}
+                                            {
+                                                chat?.isGroupChat ? "New Message" :
+                                                    chat?.latestMessage?.senderId === userInfo?._id ? "you" : userNamesMap[chat._id]} :{chat?.latestMessage?.content.length > 10 ? chat?.latestMessage?.content.slice(0, 10) + '...' : chat?.latestMessage?.content
+                                            }
                                         </p>
                                     }
                                     {
