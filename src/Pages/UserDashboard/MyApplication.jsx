@@ -4,6 +4,7 @@ import reviewIcon from "../../assets/Dashboard/AdminDashboard/reviewIcon.svg";
 import axios from "axios";
 import { AuthContext } from "../../Contexts/AuthProvider";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 const SingleApplicationRow = ({ submission }) => {
   const { user } = useContext(AuthContext);
@@ -37,6 +38,10 @@ const SingleApplicationRow = ({ submission }) => {
 
   return (
     <div className="grid grid-cols-6 gap-[2px] w-full border mt-1 h-[75px]">
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>My Application</title>
+      </Helmet>
       <div className="text-center flex items-center justify-center text-[15px] text-[#3F3F3F] font-semibold">
         <img
           className="max-w-[150px] max-h-[70px] "
