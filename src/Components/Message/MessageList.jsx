@@ -59,7 +59,7 @@ const MessageList = ({ messages, selectedChat, userNamesMap }) => {
           <div className="gap-[14.07px] px-0 py-[2.96px] inline-flex items-start relative flex-[0_0_auto]">
             <div className="flex-col gap-[6.67px] inline-flex items-start relative flex-[0_0_auto]">
               <div className="relative w-fit mt-[-0.74px] [font-family:'Raleway-Medium',Helvetica] font-medium text-black text-[14.8px] tracking-[1.48px] leading-[normal] whitespace-nowrap">
-                {userNamesMap[selectedChat?._id]}
+                {selectedChat?.isGroupChat ? selectedChat?.chatName :userNamesMap[selectedChat?._id]}
               </div>
               <div className="relative w-fit [font-family:'Raleway-Medium',Helvetica] font-medium text-[#3f3f3f] text-[14.1px] tracking-[1.41px] leading-[normal]">
                 {currentTime}
