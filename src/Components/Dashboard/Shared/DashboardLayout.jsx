@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import ExperimentLabsLogo from "../../../assets/Dashboard/Shared/ExperimentLabsLogo.png";
 import HomeIconLight from "../../../assets/Dashboard/Shared/HomeIconLight.png";
 import HomeIconDark from "../../../assets/Dashboard/Shared/HomeIconDark.png";
@@ -22,12 +22,27 @@ import WorkHoursIconDark from "../../../assets/Dashboard/Shared/WorkHoursIconDar
 import LeaderBoardIconLight from "../../../assets/Dashboard/Shared/LeaderBoardIconLight.png";
 import LeaderBoardIconDark from "../../../assets/Dashboard/Shared/LeaderBoardIconDark.png";
 import { AuthContext } from "../../../Contexts/AuthProvider";
+import axios from "axios";
 const DashboardLayout = ({ children }) => {
   const { logOut } = useContext(AuthContext);
   const [toggleButton, setToggleButton] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
   const role = localStorage.getItem("role");
+  const orgId = localStorage.getItem("orgId");
+  const [organizationInfo, setOrganizationInfo] = useState({});
+  const { id } = useParams()
+
+  useEffect(() => {
+    axios
+      .get(
+        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${orgId}`
+      )
+      .then((org) => {
+        setOrganizationInfo(org?.data);
+      })
+      .catch((error) => console.error(error));
+  }, [orgId]);
   return (
     <div>
       <>
@@ -45,13 +60,25 @@ const DashboardLayout = ({ children }) => {
                   <div className="flex-1 flex flex-col pb-4 overflow-y-auto">
                     <div className="flex-1 space-y-1">
                       <div className="py-2 border-b border-[#303031] flex items-center justify-between lg:justify-center">
-                        <Link className="hidden lg:block" to={"/"}>
-                          <img
-                            // className="h-6 lg:h-8"
-                            className="my-5"
-                            src={ExperimentLabsLogo}
-                            alt="icon"
-                          />
+                        <Link
+                          className="hidden lg:block"
+                          to={orgId ? `/organization/${orgId}` : "/"}
+                        >
+                          {orgId ? (
+                            <img
+                              // className="h-6 lg:h-8"
+                              className="my-5 max-w-[150px]"
+                              src={organizationInfo?.orgLogo}
+                              alt="icon"
+                            />
+                          ) : (
+                            <img
+                              // className="h-6 lg:h-8"
+                              className="my-5 max-w-[150px]"
+                              src={ExperimentLabsLogo}
+                              alt="icon"
+                            />
+                          )}
                         </Link>
                         <p className="text-[#676767] ml-[27px] lg:hidden">
                           Menu
@@ -67,7 +94,7 @@ const DashboardLayout = ({ children }) => {
                         </button>
                       </div>
                       <ul className="space-y-2 px-[22px] py-2 text-white">
-                        {role === "Admin" && (
+                        {role === "Employer" && (
                           <>
                             <li>
                               <Link
@@ -174,7 +201,7 @@ const DashboardLayout = ({ children }) => {
                             <li>
                               <Link
                                 style={
-                                  location.pathname === "/taskDetails"
+                                  (location.pathname === "/taskDetails" || location.pathname === `/completeShowMore/${id}`)
                                     ? {
                                         background:
                                           "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
@@ -184,7 +211,7 @@ const DashboardLayout = ({ children }) => {
                                 to="/taskDetails"
                                 className={`text-white font-normal rounded-[15px] flex items-center px-[20px] py-[13px]  group`}
                               >
-                                {location.pathname === "/taskDetails" ? (
+                                {(location.pathname === "/taskDetails" || location.pathname === `/completeShowMore/${id}`) ? (
                                   <img
                                     src={TaskDetailsIconLight}
                                     alt="TaskDetailsIconLight"
@@ -197,7 +224,7 @@ const DashboardLayout = ({ children }) => {
                                 )}
                                 <span
                                   className={`${
-                                    location.pathname === "/taskDetails"
+                                    (location.pathname === "/taskDetails" || location.pathname === `/completeShowMore/${id}`)
                                       ? "text-white "
                                       : "text-[#8F8F8F]"
                                   } ml-3 text-[16px] font-[600]`}
@@ -240,7 +267,7 @@ const DashboardLayout = ({ children }) => {
                             </li>
                           </>
                         )}
-                        {role === "Intern" && (
+                        {role === "Student" && (
                           <>
                             <li>
                               <Link
@@ -458,7 +485,9 @@ const DashboardLayout = ({ children }) => {
                         logOut()
                           .then((res) => {
                             console.log(res);
-                            navigate(`/`);
+                            const orgId = localStorage.getItem("orgId");
+                            if (orgId) navigate(`/organization/${orgId}`);
+                            else navigate(`/`);
                           })
                           .catch((error) => console.error(error));
                       }}

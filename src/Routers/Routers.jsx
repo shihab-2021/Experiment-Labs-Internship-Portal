@@ -13,10 +13,15 @@ import Internship from "../Pages/UserDashboard/Internship";
 import MyApplication from "../Pages/UserDashboard/MyApplication";
 import WorkHours from "../Pages/UserDashboard/WorkHours";
 import InternshipSubmission from "../Pages/UserDashboard/InternshipSubmission";
+import EditProfile from "../Pages/Dashboard/EditProfile";
 
 export const router = createBrowserRouter([
   {
     path: "/",
+    element: <Home />,
+  },
+  {
+    path: "/organization/:id",
     element: <Home />,
   },
   {
@@ -32,7 +37,7 @@ export const router = createBrowserRouter([
     element: <TaskDetails />,
   },
   {
-    path: "/completeShowMore",
+    path: "/completeShowMore/:id",
     element: <CompleteShowMore />,
   },
   {
@@ -70,5 +75,9 @@ export const router = createBrowserRouter([
   {
     path: "/internshipSubmission/:id",
     element: <InternshipSubmission />,
+  },
+  {
+    path: "/editProfile/:id",
+    element: <EditProfile />,
   },
 ]);
