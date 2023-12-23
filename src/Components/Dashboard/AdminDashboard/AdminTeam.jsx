@@ -404,7 +404,7 @@ const AdminTeam = () => {
                           <IoPersonCircleOutline className="h-[29px] w-[29px]" /> {member?.firstName}
                         </td>
                         <td className="p-2 text-[15px] font-medium">
-                          {member.organizations.map((org, j) => (
+                          {member?.organizations?.map((org, j) => (
                             <div key={j}>
                               {userInfo?.organizations && userInfo.organizations[0]?.organizationId === org.organizationId
                                 ? org.role
