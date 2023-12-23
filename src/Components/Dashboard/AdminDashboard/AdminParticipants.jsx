@@ -8,15 +8,16 @@ import arrowUp from "../../../assets/Dashboard/AdminDashboard/arrowUp.svg";
 
 import axios from "axios";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
-const AdminParticipants = ({item}) => {
- 
-  console.log(item)
- 
+const AdminParticipants = ({ item }) => {
+
+ // console.log(item)
+
   //user details data
 
   const [userDetails, setUserDetails] = useState();
- 
+
   useEffect(() => {
     if (item?.participantEmail)
       axios
@@ -29,10 +30,13 @@ const AdminParticipants = ({item}) => {
         .catch((error) => console.error(error));
   }, [item?.participantEmail]);
 
+
+ //console.log(userDetails)
+
   //submission details data
 
   const [submissionDetails, setSubmissionDetails] = useState();
- 
+
   useEffect(() => {
     if (item?.submissionId)
       axios
@@ -43,11 +47,47 @@ const AdminParticipants = ({item}) => {
           setSubmissionDetails(user?.data);
         })
         .catch((error) => console.error(error));
+
+        
   }, [item?.submissionId]);
 
   console.log(submissionDetails)
+  
 
+  // handle select or reject
  
+  
+  const updateSubmissionStatus = (status,submissionId) => {
+    
+    const submissionData= {...submissionDetails};
+
+    if (!submissionId) {
+      console.log('Submission ID is missing.');
+      return;
+    }
+
+    axios.put(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/taskSubmissions/submissionId/${submissionId}/submissionStatus/${status}`)
+      .then(response => {
+      
+        const successMessage = `Submission status updated to ${status}`;
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Success!',
+          text: successMessage,
+          confirmButtonText: 'OK'
+        });
+        submissionData.submissionStatus = status;
+        setSubmissionDetails(submissionData)
+      
+      })
+      .catch(error => {
+        console.error(error);
+        // Handle error, show an error message to the user
+      });
+
+      
+  };
 
   const [isDivVisible, setDivVisibility] = useState(false);
   const [details, setDetails] = useState("");
@@ -58,97 +98,8 @@ const AdminParticipants = ({item}) => {
   };
   return (
     <>
-    <div
-      className=" flex items-center justify-between py-[14px] px-2 "
-      style={{
-        borderRadius: "7px",
-        border: "1px solid #EEE",
-        background: "#FFF",
-        boxShadow: "0px 4px 20px 0px #EFF1FF",
-      }}
-    >
-      <div className="flex items-center gap-2">
-        <div>
-          <img src={profileImage} alt="ImageProfile" />
-        </div>
-        <div>
-          <h1 className="text-base font-semibold">{userDetails?.firstName} {userDetails?.lastName}</h1>
-          <p className="text-[13px] font-normal text-[#797979]">
-            10th class student
-          </p>
-        </div>
-      </div>
-      <div className="text-center">
-        <h1 className=" text-base font-bold">Submission time</h1>
-        <h1 className=" text-base font-medium text-[#737373]">{item?.submissionDateTime ? new Date(item.submissionDateTime).toLocaleTimeString() : ''}</h1>
-
-      </div>
-      <div className="text-center">
-        <h1 className=" text-base font-bold">Submission day</h1>
-        <h1 className=" text-base font-medium text-[#737373]">{item?.submissionDateTime ? new Date(item.submissionDateTime).toLocaleDateString() : ''}</h1>
-
-      </div>
       <div
-        className="mt-6"
-        style={{
-          borderRadius: "18px",
-          background: "#439DF7",
-        }}
-      >
-        <p className="text-[#fff] text-sm font-bold px-3 py-2 ">Message</p>
-      </div>
-      <div className="text-center">
-        <h1 className="text-base font-bold">Status</h1>
-        <div
-          style={{
-            borderRadius: "18px",
-            background: "#20B15A",
-          }}
-        >
-          <p className="text-[#fff] text-sm font-bold px-5 py-2">Select</p>
-        </div>
-      </div>
-      <div
-        className="mt-6"
-        style={{
-          borderRadius: "18px",
-          background: "#DD2025",
-        }}
-      >
-        <p className="text-[#fff] text-sm font-bold px-3 py-2 ">Reject</p>
-      </div>
-      <div className="text-center">
-        <h1 className="text-base font-bold">Solution</h1>
-        <div
-          style={{
-            borderRadius: "18px",
-          }}
-        >
-          <p className="text-sm font-bold px-5 py-2 flex">
-            <img src={reviewList} alt="icon" />
-            {!isDivVisible && (
-              <img
-                onClick={() => toggleDivVisibility("solution1")}
-                style={{ cursor: "pointer" }}
-                src={arrowDown}
-                alt="icon"
-              />
-            )}
-            {isDivVisible && (
-              <img
-                onClick={() => toggleDivVisibility("solution1")}
-                style={{ cursor: "pointer" }}
-                src={arrowUp}
-                alt="icon"
-              />
-            )}
-          </p>
-        </div>
-      </div>
-    </div>
-    {isDivVisible && details === "solution1" && (
-      <div
-        className=" mb-2"
+        className=" flex items-center justify-between py-[14px] px-2 "
         style={{
           borderRadius: "7px",
           border: "1px solid #EEE",
@@ -156,25 +107,152 @@ const AdminParticipants = ({item}) => {
           boxShadow: "0px 4px 20px 0px #EFF1FF",
         }}
       >
-        <div className="p-5">
-          <h1 className="text-xl font-medium mb-[20px]">Animation project</h1>
-          <Link
-            className="p-[10px] my-[15px]"
+        <div className="flex items-center gap-2">
+          <div>
+            <img src={profileImage} alt="ImageProfile" />
+          </div>
+          <div>
+            <h1 className="text-base font-semibold">{userDetails?.firstName} {userDetails?.lastName}</h1>
+            <p className="text-[13px] font-normal text-[#797979]">
+              10th class student
+            </p>
+          </div>
+        </div>
+        <div className="text-center">
+          <h1 className=" text-base font-bold">Submission time</h1>
+          <h1 className=" text-base font-medium text-[#737373]">{item?.submissionDateTime ? new Date(item.submissionDateTime).toLocaleTimeString() : ''}</h1>
+
+        </div>
+        <div className="text-center">
+          <h1 className=" text-base font-bold">Submission day</h1>
+          <h1 className=" text-base font-medium text-[#737373]">{item?.submissionDateTime ? new Date(item.submissionDateTime).toLocaleDateString() : ''}</h1>
+
+        </div>
+        <div
+          className="mt-6"
+          style={{
+            borderRadius: "18px",
+            background: "#439DF7",
+          }}
+        >
+          <p className="text-[#fff] text-sm font-bold px-3 py-2 ">Message</p>
+        </div>
+        <div className="text-center">
+          <h1 className="text-base font-bold">Status</h1>
+          {
+            (submissionDetails?.submissionStatus === "Processing") &&
+            <button
+            onClick={() => updateSubmissionStatus('Selected',submissionDetails?._id)}
+            
+              style={{
+                borderRadius: "18px",
+                background: "#20B15A",
+              }}
+            >
+              <p className="text-[#fff] text-sm font-bold px-5 py-2">Select</p>
+            </button>
+          }
+             {
+          (submissionDetails?.submissionStatus === "Rejected" ) &&
+          <p
+            className=""
+           
             style={{
-              borderRadius: "40px",
-              border: "1px solid #4555BA",
+              borderRadius: "18px",
+              background: "#DD2025",
             }}
           >
-            WWW.Animationproject.com
-          </Link>
+            <p className="text-[#fff] text-sm font-bold px-3 py-2 ">Rejected</p>
+          </p>
+
+        }
+          {
+            (submissionDetails?.submissionStatus === "Selected") &&
+            <div
+
+            >
+              <p className=" rounded-2xl text-[#D4A500] bg-[#FFF8E3] text-sm font-bold px-5 py-2">Selected</p>
+            </div>
+          }
+
+
         </div>
-        <div className="bg-[#E7EBFF] flex items-center gap-5 mt-5 px-[15px] py-[10px]">
-          <img src={driveIcon} alt="Icon" />
-          <Link to="">Http: internship project google drive link</Link>
+        {
+
+          ((submissionDetails?.submissionStatus != "Selected" && submissionDetails?.submissionStatus != "Rejected") || submissionDetails?.submissionStatus === "Processing") &&
+          <button
+            className="mt-6"
+            onClick={() => updateSubmissionStatus('Rejected',submissionDetails?._id)}
+            style={{
+              borderRadius: "18px",
+              background: "#DD2025",
+            }}
+          >
+            <p className="text-[#fff] text-sm font-bold px-3 py-2 ">Reject</p>
+          </button>
+
+        }
+     
+
+
+        <div className="text-center">
+          <h1 className="text-base font-bold">Solution</h1>
+          <div
+            style={{
+              borderRadius: "18px",
+            }}
+          >
+            <p className="text-sm font-bold px-5 py-2 flex">
+              <img src={reviewList} alt="icon" />
+              {!isDivVisible && (
+                <img
+                  onClick={() => toggleDivVisibility("solution1")}
+                  style={{ cursor: "pointer" }}
+                  src={arrowDown}
+                  alt="icon"
+                />
+              )}
+              {isDivVisible && (
+                <img
+                  onClick={() => toggleDivVisibility("solution1")}
+                  style={{ cursor: "pointer" }}
+                  src={arrowUp}
+                  alt="icon"
+                />
+              )}
+            </p>
+          </div>
         </div>
       </div>
-    )}
-  </>
+      {isDivVisible && details === "solution1" && (
+        <div
+          className=" mb-2"
+          style={{
+            borderRadius: "7px",
+            border: "1px solid #EEE",
+            background: "#FFF",
+            boxShadow: "0px 4px 20px 0px #EFF1FF",
+          }}
+        >
+          <div className="p-5">
+            <h1 className="text-xl font-medium mb-[20px]">Animation project</h1>
+            <Link
+              className="p-[10px] my-[15px]"
+              style={{
+                borderRadius: "40px",
+                border: "1px solid #4555BA",
+              }}
+            >
+              WWW.Animationproject.com
+            </Link>
+          </div>
+          <div className="bg-[#E7EBFF] flex items-center gap-5 mt-5 px-[15px] py-[10px]">
+            <img src={driveIcon} alt="Icon" />
+            <Link to="">Http: internship project google drive link</Link>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
