@@ -9,6 +9,7 @@ const AdminEditProfile = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [addMember, setAddMember] = useState(false);
     const { id } = useParams();
+    const [teamMembers, setTeamMembers] = useState({});
     const { userInfo } = useContext(AuthContext);
     useEffect(() => {
         if (userInfo?.organizations)
@@ -29,26 +30,55 @@ const AdminEditProfile = () => {
             .get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/users/${id}`)
             .then((user) => {
                 setMember(user?.data);
+                // const current = user?.data
+                // current.organizations.map((org, j) => {
+                //     if (userInfo?.organizations && userInfo.organizations[0]?.organizationId === org.organizationId) {
+                //         org.role = "administrator";
+                //     }
+                // })
             })
             .catch((error) => console.error(error));
     }, [id]);
     console.log(member)
-    const [memberData, setMemberData] = useState({
-        firstName: member?.firstName || '',
-        email: member?.email || '',
-        phone : member?.phone || '',
-        // Add other fields you want to edit
-      });
+    // const [memberData, setMemberData] = useState({
+
+    //     firstName: member?.firstName || '',
+    //     email: member?.email || '',
+    //     phone: member?.phone || '',
+
+    //     // Add other fields you want to edit
+    // });
+    // console.log(memberData)
     const handleEditMember = async (event) => {
         event.preventDefault();
-        const form = event?.target;
 
-        console.log(memberData);
-        const newMember = await axios.patch(
-            `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users/${member?._id}`,
-            memberData
-        );
-        console.log(newMember);
+        const form = event?.target;
+        const memberWithoutId = { ...member };
+        delete memberWithoutId._id;
+
+        // Update the role in the organizations array
+        memberWithoutId.organizations.map((org) => {
+            if (userInfo?.organizations && userInfo.organizations[0]?.organizationId === org.organizationId) {
+                org.role = form.memberDesignation.value;
+            }
+        });
+
+        // Update the phone number
+        memberWithoutId.phone = form.memberNumber.value;
+    
+
+        console.log(memberWithoutId)
+        console.log(form);
+        try {
+            const updatedMember = await axios.patch(
+                `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users/${id}`,
+                memberWithoutId
+            );
+            console.log("User updated successfully:", updatedMember.data.user);
+        } catch (error) {
+            console.error("Error updating user:", error);
+        }
+
         form.reset();
     };
     const toggleDropdown = () => {
@@ -186,18 +216,19 @@ const AdminEditProfile = () => {
                     </label>
                     {member?.organizations?.map((org, j) => (
                         <>
-                        { userInfo?.organizations && userInfo.organizations[0]?.organizationId === org.organizationId ?
-                            <input
-                                placeholder="Ex. Product Manager"
-                                defaultValue={userInfo?.organizations && userInfo.organizations[0]?.organizationId === org.organizationId
-                                    ? org.role
-                                    : ""}
-                                type="text"
-                                name="memberDesignation"
-                                id="memberDesignation"
-                                className="bg-[#EEF0FF] px-[10px] py-1 rounded-md shadow" key={j} />
-                            : ""
-                            }</>
+                            {userInfo?.organizations && userInfo.organizations[0]?.organizationId === org.organizationId ?
+                                <input
+                                    placeholder="Ex. Product Manager"
+                                    defaultValue={userInfo?.organizations && userInfo.organizations[0]?.organizationId === org.organizationId
+                                        ? org.role
+                                        : ""}
+                                    type="text"
+                                    name="memberDesignation"
+                                    id="memberDesignation"
+                                    className="bg-[#EEF0FF] px-[10px] py-1 rounded-md shadow" key={j} />
+                                : ""
+                            }
+                        </>
                     ))}
                 </div>
                 <div className="flex flex-col gap-2 my-4">

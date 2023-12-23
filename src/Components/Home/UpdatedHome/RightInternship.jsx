@@ -14,7 +14,7 @@ const RightInternship = () => {
     const swiperOptions = {
         grabCursor: true,
         pagination: true,
-        navigation: true,
+        
         modules: [EffectFlip, Pagination, Navigation],
         
         breakpoints: {
