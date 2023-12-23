@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import ExperimentLabsLogo from "../../../assets/Dashboard/Shared/ExperimentLabsLogo.png";
 import HomeIconLight from "../../../assets/Dashboard/Shared/HomeIconLight.png";
 import HomeIconDark from "../../../assets/Dashboard/Shared/HomeIconDark.png";
@@ -31,6 +31,7 @@ const DashboardLayout = ({ children }) => {
   const role = localStorage.getItem("role");
   const orgId = localStorage.getItem("orgId");
   const [organizationInfo, setOrganizationInfo] = useState({});
+  const { id } = useParams()
 
   useEffect(() => {
     axios
@@ -200,7 +201,7 @@ const DashboardLayout = ({ children }) => {
                             <li>
                               <Link
                                 style={
-                                  location.pathname === "/taskDetails"
+                                  (location.pathname === "/taskDetails" || location.pathname === `/completeShowMore/${id}`)
                                     ? {
                                         background:
                                           "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
@@ -210,7 +211,7 @@ const DashboardLayout = ({ children }) => {
                                 to="/taskDetails"
                                 className={`text-white font-normal rounded-[15px] flex items-center px-[20px] py-[13px]  group`}
                               >
-                                {location.pathname === "/taskDetails" ? (
+                                {(location.pathname === "/taskDetails" || location.pathname === `/completeShowMore/${id}`) ? (
                                   <img
                                     src={TaskDetailsIconLight}
                                     alt="TaskDetailsIconLight"
@@ -223,7 +224,7 @@ const DashboardLayout = ({ children }) => {
                                 )}
                                 <span
                                   className={`${
-                                    location.pathname === "/taskDetails"
+                                    (location.pathname === "/taskDetails" || location.pathname === `/completeShowMore/${id}`)
                                       ? "text-white "
                                       : "text-[#8F8F8F]"
                                   } ml-3 text-[16px] font-[600]`}
