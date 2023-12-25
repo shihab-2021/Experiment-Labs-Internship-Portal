@@ -2,12 +2,14 @@ import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { BsPersonCircle } from 'react-icons/bs';
 import { FaMagnifyingGlass } from 'react-icons/fa6';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../../../Contexts/AuthProvider';
+import Swal from 'sweetalert2';
 
 const AdminEditProfile = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [addMember, setAddMember] = useState(false);
+    const navigate = useNavigate();
     const { id } = useParams();
     const [teamMembers, setTeamMembers] = useState({});
     const { userInfo } = useContext(AuthContext);
@@ -74,6 +76,9 @@ const AdminEditProfile = () => {
                 `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users/${id}`,
                 memberWithoutId
             );
+            Swal.fire("Team member info is updated!", "", "success");
+                    navigate("/team");
+                    reset();
             console.log("User updated successfully:", updatedMember.data.user);
         } catch (error) {
             console.error("Error updating user:", error);

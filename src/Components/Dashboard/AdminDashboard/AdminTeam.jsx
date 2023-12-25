@@ -15,7 +15,8 @@ import { useContext, useEffect, useState } from "react";
 import { BsPersonCircle } from "react-icons/bs";
 import { AuthContext } from "../../../Contexts/AuthProvider";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 const AdminTeam = () => {
   const cardData = [
     {
@@ -69,6 +70,7 @@ const AdminTeam = () => {
 
   ]
   const [toggle, setToggle] = useState("task");
+  const navigate = useNavigate();
   const [addMember, setAddMember] = useState(false);
   const handleToggle = (event, type) => {
     event.preventDefault();
@@ -141,6 +143,38 @@ const AdminTeam = () => {
     console.log(newMember);
     form.reset();
   };
+  const handleDeleteMember = (user) => {
+    
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log(user);
+        axios
+          .put(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/users/userId/${user._id}/organizationId/${user.organizations[0].organizationId}`)
+          .then(response => {
+            console.log(response.data);
+            Swal.fire(
+              'Deleted!',
+              `${user.firstName} has been deleted!`,
+              'success'
+            );
+            navigate("/team");
+          })
+          .catch(error => {
+            console.error(error);
+            // Handle the error as needed
+          });
+      }
+    });
+  };
+  
   return (
     <>
       {
@@ -414,7 +448,7 @@ const AdminTeam = () => {
                         </td>
                         <td className="p-2">
                           <div className="flex gap-6 items-center">
-                            <button className="text-[18px] bg-[#DD2025] w-24 text-[#FFF] rounded-3xl">Delete</button>
+                            <button onClick={() => handleDeleteMember(member)} className="text-[18px] bg-[#DD2025] w-24 text-[#FFF] rounded-3xl">Delete</button>
                             <Link className="text-[18px] bg-[#6278FF] w-20 text-center text-[#FFF]  rounded-3xl" to={`/editProfile/${member?._id}`} >Edit</Link>
                             <button className="text-[#1976D2] font-bold tracking-wider text-[15px]">More details</button>
                           </div>
