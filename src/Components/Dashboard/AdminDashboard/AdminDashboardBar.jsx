@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaAngleRight } from "react-icons/fa6";
 import { CiFilter } from "react-icons/ci";
 import {
@@ -17,14 +17,11 @@ import {
 import { FaRegCheckCircle } from "react-icons/fa";
 import stdImg from "../../../assets/Dashboard/AdminDashboard/profile1.svg";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../../Contexts/AuthProvider";
+import axios from "axios";
 const AdminDashboardBar = () => {
-  const pieChartdata = [
-    { statusInfo: "4 Considering solutions", value: 4 },
-    { statusInfo: "10 Solution in progress", value: 10 },
-    { statusInfo: "12 Solution selected", value: 12 },
-    { statusInfo: "6 Solution rejected", value: 6 },
-  ];
-  const COLORS = ["#20B15A", "#2196F3", "#E8B912", "#DD2025"];
+
+
   const barChartData = [
     { task: "", tasks_done: 0 },
     { task: "", tasks_done: 0 },
@@ -47,6 +44,58 @@ const AdminDashboardBar = () => {
     },
   ];
   const yTicks = [2, 4, 6, 8, 10, 12, 14];
+  const { userInfo } = useContext(AuthContext);
+
+  const [pendingTasks, setpendingTasks] = useState([]);
+  const [processingTasks, setprocessingTasks] = useState([]);
+  const [completedTasks, setcompletedTasks] = useState([]);
+  const [rejectedTasks, setrejectedTasks] = useState([]);
+  useEffect(() => {
+    if (userInfo?.organizations){
+      axios
+        .get(
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${userInfo?.organizations[0]?.organizationId
+          }/taskStatus/Pending`
+        )
+        .then((tasks) => {
+          setpendingTasks(tasks?.data);
+        })
+        .catch((error) => console.error(error));
+        axios
+        .get(
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${userInfo?.organizations[0]?.organizationId
+          }/taskStatus/Processing`
+        )
+        .then((tasks) => {
+          setprocessingTasks(tasks?.data);
+        })
+        .catch((error) => console.error(error));
+        axios
+        .get(
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${userInfo?.organizations[0]?.organizationId
+          }/taskStatus/Completed`
+        )
+        .then((tasks) => {
+          setcompletedTasks(tasks?.data);
+        })
+        .catch((error) => console.error(error));
+        axios
+        .get(
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${userInfo?.organizations[0]?.organizationId
+          }/taskStatus/Rejected`
+        )
+        .then((tasks) => {
+          setrejectedTasks(tasks?.data);
+        })
+        .catch((error) => console.error(error));
+      }
+  }, [userInfo]);
+  const pieChartdata = [
+    { statusInfo:  `${processingTasks?.length} Solution in progress`, value: processingTasks?.length },
+    { statusInfo: `${completedTasks?.length}  Considering solutions`, value: completedTasks?.length },
+    { statusInfo: `${rejectedTasks?.length} Solution rejected`, value: rejectedTasks?.length },
+  ];
+  const COLORS = [ "#2196F3", "#20B15A", "#DD2025"];
   return (
     <div className="w-11/12 mx-auto mt-14">
       <h1 className="text-[20px] font-medium tracking-widest">Dashboard</h1>
@@ -57,36 +106,36 @@ const AdminDashboardBar = () => {
             <h1 className="text-[20px] font-medium">New Task</h1>
             <FaAngleRight className="w-[25px] h-[25px]"></FaAngleRight>
           </div>
-          <p className="text-[45px] font-bold">3</p>
+          <p className="text-[45px] font-bold">{pendingTasks?.length}</p>
         </div>
         <div className="bg-[#2196F3] rounded-lg text-white w-[185px] py-[12px] px-[12px] h-[125px]">
           <div className="flex justify-between">
             <h1 className="text-[20px] font-medium">In Progress</h1>
             <FaAngleRight className="w-[25px] h-[25px]"></FaAngleRight>
           </div>
-          <p className="text-[45px] font-bold">10</p>
+          <p className="text-[45px] font-bold">{processingTasks?.length}</p>
         </div>
         <div className="bg-[#20B15A] rounded-lg text-white w-[185px] py-[12px] px-[12px] h-[125px]">
           <div className="flex justify-between">
             <h1 className="text-[20px] font-medium">Completed</h1>
             <FaAngleRight className="w-[25px] h-[25px]"></FaAngleRight>
           </div>
-          <p className="text-[45px] font-bold">22</p>
+          <p className="text-[45px] font-bold">{completedTasks?.length}</p>
         </div>
         <div className="bg-[#DD2025] rounded-lg text-white w-[185px] py-[12px] px-[12px] h-[125px]">
           <div className="flex justify-between">
             <h1 className="text-[20px] font-medium">Rejected</h1>
             <FaAngleRight className="w-[25px] h-[25px]"></FaAngleRight>
           </div>
-          <p className="text-[45px] font-bold">6</p>
+          <p className="text-[45px] font-bold">{rejectedTasks?.length}</p>
         </div>
-        <div className="bg-[#E8B912] rounded-lg text-white w-[185px] py-[12px] px-[12px] h-[125px]">
+        {/* <div className="bg-[#E8B912] rounded-lg text-white w-[185px] py-[12px] px-[12px] h-[125px]">
           <div className="flex justify-between">
             <h1 className="text-[20px] font-medium">Selected</h1>
             <FaAngleRight className="w-[25px] h-[25px]"></FaAngleRight>
           </div>
           <p className="text-[45px] font-bold">12</p>
-        </div>
+        </div> */}
       </div>
       {/*statistics*/}
       <div className="mt-10 flex justify-between">
@@ -152,7 +201,7 @@ const AdminDashboardBar = () => {
                 ))}
                 <Label
                   className="text-[18px] text-black font-medium"
-                  value="32 students"
+                  value={`${processingTasks?.length+completedTasks?.length+rejectedTasks?.length} total`}
                   position="center"
                 />
               </Pie>

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import DashboardLayout from "../Shared/DashboardLayout";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { FaAngleRight } from "react-icons/fa";
@@ -39,6 +39,7 @@ import {
 } from "recharts";
 import { AuthContext } from "../../../Contexts/AuthProvider";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const AdminDashboardHome = () => {
   const cardData = [
@@ -104,6 +105,42 @@ const AdminDashboardHome = () => {
     // },
   ];
   const { userInfo } = useContext(AuthContext);
+
+  const [pendingTasks, setpendingTasks] = useState([]);
+  const [processingTasks, setprocessingTasks] = useState([]);
+  const [completedTasks, setcompletedTasks] = useState([]);
+
+  useEffect(() => {
+    if (userInfo?.organizations){
+      axios
+        .get(
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${userInfo?.organizations[0]?.organizationId
+          }/taskStatus/Pending`
+        )
+        .then((tasks) => {
+          setpendingTasks(tasks?.data);
+        })
+        .catch((error) => console.error(error));
+        axios
+        .get(
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${userInfo?.organizations[0]?.organizationId
+          }/taskStatus/Processing`
+        )
+        .then((tasks) => {
+          setprocessingTasks(tasks?.data);
+        })
+        .catch((error) => console.error(error));
+        axios
+        .get(
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${userInfo?.organizations[0]?.organizationId
+          }/taskStatus/Completed`
+        )
+        .then((tasks) => {
+          setcompletedTasks(tasks?.data);
+        })
+        .catch((error) => console.error(error));}
+  }, [userInfo]);
+  console.log(processingTasks)
   const pieChartdata = [
     { name: "Reject", value: 0 },
     { name: "Select", value: 0 },
@@ -176,32 +213,32 @@ const AdminDashboardHome = () => {
                 <h1 className="text-[20px] font-medium">New Task</h1>
                 <FaAngleRight className="w-[25px] h-[25px]"></FaAngleRight>
               </div>
-              <p className="text-[45px] font-bold">0</p>
+              <p className="text-[45px] font-bold">{pendingTasks?.length}</p>
             </div>
             <div className="bg-[#2196F3] rounded-lg text-white w-[185px] py-[12px] px-[12px] h-[125px]">
               <div className="flex justify-between">
                 <h1 className="text-[20px] font-medium">In Progress</h1>
                 <FaAngleRight className="w-[25px] h-[25px]"></FaAngleRight>
               </div>
-              <p className="text-[45px] font-bold">0</p>
+              <p className="text-[45px] font-bold">{processingTasks?.length}</p>
             </div>
             <div className="bg-[#20B15A] rounded-lg text-white w-[185px] py-[12px] px-[12px] h-[125px]">
               <div className="flex justify-between">
                 <h1 className="text-[20px] font-medium">Completed</h1>
                 <FaAngleRight className="w-[25px] h-[25px]"></FaAngleRight>
               </div>
-              <p className="text-[45px] font-bold">0</p>
+              <p className="text-[45px] font-bold">{completedTasks?.length}</p>
             </div>
           </div>
         </div>
-        <div className="border border-[#F0F0F0] shadow-md w-[275px] h-[200px]">
+        <div className="border border-[#F0F0F0] shadow-md w-[275px] h-[50px]">
           <div className="w-5/6 mx-auto flex items-center gap-2 pt-[7px]">
             <BsPersonCircle className="text-[#4555BA] w-[35px] h-[35px]" />
             <p className="text-[19px] font-medium">
               {userInfo?.firstName} {userInfo?.lastName}
             </p>
           </div>
-          <div className="w-5/6 mx-auto border-b border-[#4555BA] pt-[17px] text-[16px] font-medium flex justify-between">
+          {/* <div className="w-5/6 mx-auto border-b border-[#4555BA] pt-[17px] text-[16px] font-medium flex justify-between">
             <p className="text-[#3F3F3F]">Animation</p>
             <p className="text-[#6B6B6B]">task 1</p>
           </div>
@@ -212,7 +249,7 @@ const AdminDashboardHome = () => {
           <div className="w-5/6 mx-auto border-b border-[#4555BA] pt-[17px] text-[16px] font-medium flex justify-between">
             <p className="text-[#3F3F3F]">ui and ux </p>
             <p className="text-[#6B6B6B]">task 3</p>
-          </div>
+          </div> */}
         </div>
       </div>
       {/* In process task*/}
@@ -223,30 +260,30 @@ const AdminDashboardHome = () => {
         </div>
         <div className="flex justify-between items-center">
           <div className="flex mt-[17px] gap-[11px]">
-            {cardData.length === 0 ? <p  className="font-semibold text-orange-500 text-[20px] text-center mt-5">No Processing task found</p> : 
+            {processingTasks.length === 0 ? <p  className="font-semibold text-orange-500 text-[20px] text-center mt-5">No Processing task found</p> : 
             <>{
-              cardData.map((item, index) => (
+              processingTasks.map((item, index) => (
                 <div
                   key={index}
                   className="bg-[#FFF] border border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md"
                 >
                   <div className="flex justify-between items-center">
-                    <h1 className="font-bold text-[17px]">{item?.title}</h1>
+                    <h1 className="font-bold text-[17px]">{item?.taskName}</h1>
                     <HiDotsVertical />
                   </div>
                   <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
-                    {item?.taskDesc}
+                    {item?.aboutTask}
                   </p>
-                  <AvatarGroup className="grid justify-end mt-[14px]" total={16}>
+                  {/* <AvatarGroup className="grid justify-end mt-[14px]" total={16}>
                     {item?.studentsImg.map((each, index) => (
                       <Avatar key={index} alt="Remy Sharp" src={each.img} />
                     ))}
-                  </AvatarGroup>
+                  </AvatarGroup> */}
                   <div>
                     <div className="mt-[14px] flex justify-between text-[14px] font-medium">
                       <p>Progress</p>
                       <p className="text-[#3F3F3F]">
-                        {item?.progressBar?.current}/{item?.progressBar?.total}
+                        {item?.participants.length}/{item?.participantLimit}
                       </p>
                     </div>
                     <div className="relative w-full">
@@ -254,8 +291,8 @@ const AdminDashboardHome = () => {
                         <div
                           className="bg-[#3E4DAC] h-2 rounded-lg"
                           style={{
-                            width: `${(item?.progressBar?.current /
-                                item?.progressBar?.total) *
+                            width: `${(item?.participants.length /
+                            item?.participantLimit) *
                               100
                               }%`,
                           }}
@@ -263,16 +300,16 @@ const AdminDashboardHome = () => {
                       </div>
                     </div>
                     <p className="text-[#3F3F3F] text-[14px] font-medium">
-                      {item?.date}
+                      {item?.taskDeadline}
                     </p>
                   </div>
                 </div>
               ))
             }</>}
             <Link to='/createTask'>
-            <div className="ml-14 p-2 w-[98px] justify-center  items-center">
+            <div className="ml-14 p-2  shadow-sm shadow-slate-300 justify-center  items-center">
               <FaPlus className="text-[#AEAEAE] w-[25px] h-[25px] mx-auto mb-2 "></FaPlus>
-              <span className="text-[#AEAEAE] font-bold text-[15px] w-[90px] text-center">
+              <span className="text-[#AEAEAE] font-bold text-[15px] self-center w-[90px] text-center">
                 Add New Task
               </span>
             </div>
