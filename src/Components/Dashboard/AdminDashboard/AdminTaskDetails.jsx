@@ -105,42 +105,7 @@ const AdminTaskDetails = () => {
 
       },
     ],
-   /*  completedTask: [
-      {
-        title: "UI AND UX",
-        subtitle: "Task no.1",
-        description: "Create our company landing page with an engaging interface that matches industry standards.",
-        student: [
-          {
-            profileImage: ""
-          }
-        ],
-        totalCompleteTask: "12",
-        totalStudent: "12",
-        date: '29/jan/2023',
-        deadline: "22/jan/2023",
-        duration: "48hrs",
-
-      },
-      {
-        title: "UI AND UX",
-        subtitle: "Task no.1",
-        description: "Create our company landing page with an engaging interface that matches industry standards.",
-        student: [
-          {
-            profileImage: ""
-          }
-        ],
-        totalCompleteTask: "12",
-        totalStudent: "12",
-        date: '29/jan/2023',
-        deadline: "22/jan/2023",
-        duration: "48hrs",
-
-      },
-
-
-    ], */
+ 
   }
   const { userInfo } = useContext(AuthContext);
 
@@ -151,7 +116,7 @@ const AdminTaskDetails = () => {
       axios
         .get(
           `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${userInfo?.organizations[0]?.organizationId
-          }/taskStatus/AdminApproved`
+          }/taskStatus/Processing`
         )
         .then((tasks) => {
           setAdminApprovedTasks(tasks?.data);
