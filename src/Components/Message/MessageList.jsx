@@ -4,10 +4,11 @@ import settingsMessage from '../../assets/Message/circum_menu-kebab.svg'
 import tickImg from '../../assets/Message/ic_baseline-done-all.svg'
 import { AuthContext } from '../../Contexts/AuthProvider';
 
-const MessageList = ({ messages, selectedChat, userNamesMap }) => {
+const MessageList = ({ messages, selectedChat, userNamesMap, lastMessage, read }) => {
   const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString());
   const { userInfo } = useContext(AuthContext);
   const [groupedMessages, setGroupedMessages] = useState({});
+  const [senderNameMap, setSenderNameMap] = useState({});
 
   useEffect(() => {
     const intervalID = setInterval(() => {
@@ -52,6 +53,11 @@ const MessageList = ({ messages, selectedChat, userNamesMap }) => {
     return () => clearTimeout(timeout);
   }, [messages]);
 
+
+  // console.log(userNamesMap);
+  // console.log(read);
+  console.log(selectedChat);
+
   return (
     <div>
       {selectedChat?._id && <div className="flex justify-between w-full items-center px-[21.48px] py-0 relative rounded-[0px_12.59px_0px_0px] border-[0.74px] border-solid border-[#cfcfcf]">
@@ -59,7 +65,7 @@ const MessageList = ({ messages, selectedChat, userNamesMap }) => {
           <div className="gap-[14.07px] px-0 py-[2.96px] inline-flex items-start relative flex-[0_0_auto]">
             <div className="flex-col gap-[6.67px] inline-flex items-start relative flex-[0_0_auto]">
               <div className="relative w-fit mt-[-0.74px] [font-family:'Raleway-Medium',Helvetica] font-medium text-black text-[14.8px] tracking-[1.48px] leading-[normal] whitespace-nowrap">
-                {selectedChat?.isGroupChat ? selectedChat?.chatName :userNamesMap[selectedChat?._id]}
+                {selectedChat?.isGroupChat ? selectedChat?.chatName : userNamesMap[selectedChat?._id]}
               </div>
               <div className="relative w-fit [font-family:'Raleway-Medium',Helvetica] font-medium text-[#3f3f3f] text-[14.1px] tracking-[1.41px] leading-[normal]">
                 {currentTime}
