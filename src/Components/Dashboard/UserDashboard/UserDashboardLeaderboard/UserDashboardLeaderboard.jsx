@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../../Contexts/AuthProvider";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import backgroundImg from "../../../../assets/Dashboard/UserDashboard/background.jpg";
@@ -11,8 +11,9 @@ import gold from "../../../../assets/Dashboard/UserDashboard/gold.png";
 import silver from "../../../../assets/Dashboard/UserDashboard/silver.png";
 import bronze from "../../../../assets/Dashboard/UserDashboard/bronze.png";
 import trophy from "../../../../assets/Dashboard/UserDashboard/noto_trophy.svg";
+import axios from "axios";
 const UserDashboardLeaderboard = () => {
-  const { userInfo } = useContext(AuthContext);
+  const { user, userInfo } = useContext(AuthContext);
   const formatDate = () => {
     const monthNames = [
       "Jan",
@@ -35,6 +36,21 @@ const UserDashboardLeaderboard = () => {
     const year = currentDate.getFullYear();
     return `${day}/ ${month}/ ${year}`;
   };
+  const [leaderBoardData, setLeaderBoardData] = useState([]);
+  useEffect(() => {
+    axios
+      .get(
+        `${
+          import.meta.env.VITE_APP_SERVER_API
+        }/api/v1/taskSubmissions/leaderBoard`
+      )
+      .then((taskSubmissions) => {
+        setLeaderBoardData(taskSubmissions?.data);
+      })
+      .catch((error) => console.error(error));
+  }, []);
+  console.log(leaderBoardData);
+
   return (
     <div className="mt-10">
       <div className="w-11/12 mx-auto flex gap-10">
@@ -77,9 +93,11 @@ const UserDashboardLeaderboard = () => {
                   <div className="w-[69px] h-[69px] bg-[#B8F041] rounded-full pt-[11.5px] pr-[11.377px] pb-[11.502px] pl-[16.101px]">
                     <img src={bitmap} alt="" />
                   </div>
-                  <p className="text-white text-[20px] font-bold">Akash</p>
-                  <p className="mb-2 text-[19px] font-medium bg-[#FF557A] py-[8.626px] rounded-3xl px-[28.443px]">
-                    4 hr 30 min
+                  <p className="text-white text-[20px] font-bold">
+                    {leaderBoardData && `${leaderBoardData[1]?.firstName}`}
+                  </p>
+                  <p className="mb-2 text-[19px] font-medium bg-[#FF557A] min-w-[100px] text-center py-[8.626px] rounded-3xl px-[28.443px]">
+                    {leaderBoardData && `${leaderBoardData[1]?.hours}`} hrs
                   </p>
                   <img src={silver} alt="" />
                 </div>
@@ -87,9 +105,11 @@ const UserDashboardLeaderboard = () => {
                   <div className="w-[69px] h-[69px] bg-[#B8F041] rounded-full pt-[11.5px] pr-[11.377px] pb-[11.502px] pl-[16.101px]">
                     <img src={bitmap} alt="" />
                   </div>
-                  <p className="text-white text-[20px] font-bold">Akash</p>
-                  <p className="mb-2 text-[19px] font-medium bg-[#FF557A] py-[8.626px] rounded-3xl px-[28.443px]">
-                    4 hr 30 min
+                  <p className="text-white text-[20px] font-bold">
+                    {leaderBoardData && `${leaderBoardData[0]?.firstName}`}
+                  </p>
+                  <p className="mb-2 text-[19px] font-medium bg-[#FF557A] min-w-[100px] text-center py-[8.626px] rounded-3xl px-[28.443px]">
+                    {leaderBoardData && `${leaderBoardData[0]?.hours}`} hrs
                   </p>
                   <img src={gold} alt="" />
                 </div>
@@ -97,9 +117,11 @@ const UserDashboardLeaderboard = () => {
                   <div className="w-[69px] h-[69px] bg-[#B8F041] rounded-full pt-[11.5px] pr-[11.377px] pb-[11.502px] pl-[16.101px]">
                     <img src={bitmap} alt="" />
                   </div>
-                  <p className="text-white text-[20px] font-bold">Akash</p>
-                  <p className="mb-2 text-[19px] font-medium bg-[#FF557A] py-[8.626px] rounded-3xl px-[28.443px]">
-                    4 hr 30 min
+                  <p className="text-white text-[20px] font-bold">
+                    {leaderBoardData && `${leaderBoardData[2]?.firstName}`}
+                  </p>
+                  <p className="mb-2 text-[19px] font-medium bg-[#FF557A] min-w-[100px] text-center py-[8.626px] rounded-3xl px-[28.443px]">
+                    {leaderBoardData && `${leaderBoardData[2]?.hours}`} hrs
                   </p>
                   <img src={bronze} alt="" />
                 </div>
@@ -111,7 +133,33 @@ const UserDashboardLeaderboard = () => {
             style={{ backgroundImage: `url(${overlay1})`, zIndex: 20 }}
           >
             <div className="w-11/12 mx-auto grid grid-cols-2 pt-12 gap-5">
-              <div className="text-white text-[18px] font-medium flex justify-evenly bg-[#4656B7] items-center rounded-2xl py-[16.157px] px-[24.235px]">
+              {leaderBoardData?.map((itemData, index) => {
+                if (index > 2)
+                  return (
+                    <div
+                      className={`${
+                        itemData?.email === user?.email
+                          ? "text-white bg-[#4656B7]"
+                          : "bg-[#FFF]"
+                      } text-[18px] font-medium flex justify-evenly items-center rounded-2xl py-[16.157px] px-[24.235px]`}
+                    >
+                      <p>{index + 1}.</p>
+                      <div className="bg-[#B8F041] rounded-full py-[3.5px] px-[7.901px] ">
+                        <img
+                          className="w-[29px] h-[37px]"
+                          src={bitmap}
+                          alt=""
+                        />
+                      </div>
+                      <p>{itemData?.firstName}</p>
+                      <p>{itemData?.hours} hrs</p>
+                      <div className="bg-[#FF557A] rounded-full py-[8.886px] px-[17.336px] ">
+                        <img src={trophy} alt="" />
+                      </div>
+                    </div>
+                  );
+              })}
+              {/* <div className="text-white text-[18px] font-medium flex justify-evenly bg-[#4656B7] items-center rounded-2xl py-[16.157px] px-[24.235px]">
                 <p>4.</p>
                 <div className="bg-[#B8F041] rounded-full py-[3.5px] px-[7.901px] ">
                   <img className="w-[29px] h-[37px]" src={bitmap} alt="" />
@@ -176,7 +224,7 @@ const UserDashboardLeaderboard = () => {
                 <div className="bg-[#FF557A] rounded-full py-[8.886px] px-[17.336px] ">
                   <img src={trophy} alt="" />
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
