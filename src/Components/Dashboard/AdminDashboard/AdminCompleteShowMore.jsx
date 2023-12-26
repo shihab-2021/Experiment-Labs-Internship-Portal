@@ -245,10 +245,10 @@ const AdminCompleteShowMore = () => {
           <div className="flex justify-between">
             <div>
               <p className=" text-[16px] font-medium text-[#797979]">Company</p>
-              <p className=" text-base font-normal flex items-center gap-2">
+              <p className=" text-base font-normal flex items-center gap-5 mt-2">
                 {organizationDetails?.orgName}{" "}
                 <span>
-                  <img src={organizationDetails?.orgLogo} alt="Icon" />
+                  <img className="h-[30px]" src={organizationDetails?.orgLogo} alt="Icon" />
                 </span>
               </p>
             </div>
@@ -256,17 +256,17 @@ const AdminCompleteShowMore = () => {
               <p className=" text-[16px] font-medium text-[#797979]">
                 task posting
               </p>
-              <p className=" text-base font-normal flex items-center gap-2">
+              <p className=" text-base font-normal flex items-center gap-2 mt-2">
                 {" "}
-                {taskDetails?.postingDateTime}
+                {taskDetails?.postingDateTime ? new Date(taskDetails?.postingDateTime).toLocaleDateString() : ''}
               </p>
             </div>
             <div>
               <p className=" text-[16px] font-medium text-[#797979]">
                 Deadline
               </p>
-              <p className=" text-base font-normal flex items-center gap-2">
-                {taskDetails?.taskDeadline}
+              <p className=" text-base font-normal flex items-center gap-2 mt-2">
+                {taskDetails?.taskDeadline ? new Date(taskDetails?.taskDeadline).toLocaleDateString() : ''}
               </p>
             </div>
           </div>
@@ -398,7 +398,7 @@ const AdminCompleteShowMore = () => {
                 </div>
               </div>
               <p className="text-[#3F3F3F] text-[14px] font-medium">
-                {taskDetails?.taskDeadline}
+                {taskDetails?.taskDeadline ? new Date(taskDetails?.taskDeadline).toLocaleDateString() : ''}
               </p>
             </div>
           </div>
