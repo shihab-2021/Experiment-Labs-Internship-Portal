@@ -70,7 +70,7 @@ const Internship = () => {
               </button>
             </div>
           </div>
-          <div className=" mt-7 ">
+          <div className=" my-7 ">
             <div className="flex gap-5 flex-wrap">
               {adminApprovedTasks?.map((task) => (
                 <InternshipTaskCard task={task} />
