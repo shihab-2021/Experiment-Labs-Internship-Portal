@@ -15,7 +15,7 @@ const Internship = () => {
       .get(
         `${
           import.meta.env.VITE_APP_SERVER_API
-        }/api/v1/tasks/taskStatus/AdminApproved`
+        }/api/v1/tasks/taskStatus/Processing`
       )
       .then((tasks) => {
         setAdminApprovedTasks(tasks?.data);
@@ -70,7 +70,7 @@ const Internship = () => {
               </button>
             </div>
           </div>
-          <div className=" mt-7 ">
+          <div className=" my-7 ">
             <div className="flex gap-5 flex-wrap">
               {adminApprovedTasks?.map((task) => (
                 <InternshipTaskCard task={task} />

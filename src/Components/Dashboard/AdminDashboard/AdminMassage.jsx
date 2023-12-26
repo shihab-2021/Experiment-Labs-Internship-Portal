@@ -37,7 +37,8 @@ const AdminMassage = () => {
           selectedChat={selectedChat}
           messages={messages}
           userNamesMap={userNamesMap}
-          setLastMessage={setLastMessage}
+          lastMessage={lastMessage}
+          read={read}
         />
         <MessageInput
           setLastMessage={setLastMessage}
@@ -46,6 +47,8 @@ const AdminMassage = () => {
           selectedChat={selectedChat}
           socketConnected={socketConnected}
           setSocketConnected={setSocketConnected}
+          read={read}
+          setRead={setRead}
         />
       </div>
     </div>

@@ -10,7 +10,7 @@ import io from "socket.io-client";
 const ENDPOINT = `${import.meta.env.VITE_APP_SERVER_API}`;
 let socket, selectedChatCompare;
 
-const MessageInput = ({ selectedChat, messages, setMessages, setLastMessage, socketConnected, setSocketConnected}) => {
+const MessageInput = ({ selectedChat, messages, setMessages, setLastMessage, socketConnected, setSocketConnected, read , setRead}) => {
   const [newContent, setNewContent] = useState('');
   const { userInfo } = useContext(AuthContext);
 
@@ -40,6 +40,7 @@ const MessageInput = ({ selectedChat, messages, setMessages, setLastMessage, soc
       contentType: "text",
       chatId: selectedChat?._id
     };
+    
     const res = await axios.post(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/messages`, newMessage);
 
     if (res?.data?.success) {
@@ -51,6 +52,7 @@ const MessageInput = ({ selectedChat, messages, setMessages, setLastMessage, soc
       setMessages([...messages, newMessage]);
       setLastMessage(newContent);
       setNewContent("");
+      setRead(true);
     }
 
   };
