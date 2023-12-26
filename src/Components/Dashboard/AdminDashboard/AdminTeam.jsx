@@ -221,7 +221,7 @@ const AdminTeam = () => {
         updateUserProfile({
           displayName: user?.firstName,
         });
-        // saveUser(email);
+        setAddMember(false);
         form.reset();
       })
       .catch((err) => console.error(err));
