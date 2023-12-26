@@ -348,7 +348,6 @@ const SubmissionTracker = () => {
             <h1 className="mt-[12px] text-[20px] font-[700] tracking-wider ">
               {task?.taskName}
             </h1>
-            <p>Task no. 4</p>
             <h2 className="relative w-fit font-raleway font-medium text-[#4555BA] text-[15.9px] tracking-[1.59px] my-4 leading-[normal] whitespace-nowrap">
               {task?.taskTime} hrs task
             </h2>
@@ -394,7 +393,11 @@ const SubmissionTracker = () => {
                 {task?.participantLimit} Students
               </h1>
               <h1 className=" font-raleway font-bold text-[#007d00] text-[15px] tracking-[1.50px] px-[7px] w-fit py-[4px] bg-[#d6ffd6] rounded-[10px]">
-                4 spot left
+                {task?.participants
+                  ? parseInt(task?.participantLimit) -
+                    task?.participants?.length
+                  : parseInt(task?.participantLimit)}{" "}
+                spot left
               </h1>
             </div>
           </div>
