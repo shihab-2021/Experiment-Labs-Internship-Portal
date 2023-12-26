@@ -5,6 +5,8 @@ import roundtask from "../../../assets/Shared/roundtask.svg";
 import { FaArrowRight } from "react-icons/fa";
 import axios from "axios";
 import { AuthContext } from "../../../Contexts/AuthProvider";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const AdminCreateTask = () => {
   const { user, userInfo } = useContext(AuthContext);
@@ -13,13 +15,12 @@ const AdminCreateTask = () => {
   const [page, setPage] = useState(1);
   const [organizationInfo, setOrganizationInfo] = useState({});
   const [orgLogo, setOrgLogo] = useState("");
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (userInfo?.organizations)
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${
-            userInfo?.organizations[0]?.organizationId
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${userInfo?.organizations[0]?.organizationId
           }`
         )
         .then((org) => {
@@ -115,8 +116,7 @@ const AdminCreateTask = () => {
       delete organizationInfo._id;
 
       const updateOrganization = await axios.put(
-        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${
-          userInfo?.organizations[0]?.organizationId
+        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${userInfo?.organizations[0]?.organizationId
         }`,
         organizationInfo
       );
@@ -155,7 +155,7 @@ const AdminCreateTask = () => {
         organizationId: organizationInfo?._id,
         role: userInfo?.organizations[0]?.role,
       },
-      taskStatus: "AdminApproved",
+      taskStatus: "Pending",
       postingDateTime: new Date(),
     };
     console.log(taskData);
@@ -164,6 +164,13 @@ const AdminCreateTask = () => {
       taskData
     );
     console.log(newTask);
+    if (newTask) {
+      Swal.fire({
+        title: "New task created successfully!",
+        icon: "success"
+      });
+      navigate("/dashboard");
+    }
     form.reset();
   };
 
