@@ -14,6 +14,7 @@ import MyApplication from "../Pages/UserDashboard/MyApplication";
 import WorkHours from "../Pages/UserDashboard/WorkHours";
 import InternshipSubmission from "../Pages/UserDashboard/InternshipSubmission";
 import EditProfile from "../Pages/Dashboard/EditProfile";
+import SuperAdminDashboardHome from "../Pages/SuperAdminDashboard/SuperAdminDashboardHome";
 
 export const router = createBrowserRouter([
   {
@@ -79,5 +80,9 @@ export const router = createBrowserRouter([
   {
     path: "/editProfile/:id",
     element: <EditProfile />,
+  },
+  {
+    path: "/superAdminDashboardHome",
+    element: <SuperAdminDashboardHome />,
   },
 ]);
