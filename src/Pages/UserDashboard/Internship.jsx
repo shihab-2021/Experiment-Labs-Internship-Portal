@@ -15,7 +15,7 @@ const Internship = () => {
       .get(
         `${
           import.meta.env.VITE_APP_SERVER_API
-        }/api/v1/tasks/taskStatus/AdminApproved`
+        }/api/v1/tasks/taskStatus/Processing`
       )
       .then((tasks) => {
         setAdminApprovedTasks(tasks?.data);
