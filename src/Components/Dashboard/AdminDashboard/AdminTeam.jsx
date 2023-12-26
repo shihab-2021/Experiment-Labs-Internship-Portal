@@ -113,10 +113,8 @@ const AdminTeam = () => {
     if (userInfo?.organizations)
       axios
         .get(
-          `${
-            import.meta.env.VITE_APP_SERVER_API
-          }/api/v1/users/usersByOrganization/${
-            userInfo?.organizations[0]?.organizationId
+          `${import.meta.env.VITE_APP_SERVER_API
+          }/api/v1/users/usersByOrganization/${userInfo?.organizations[0]?.organizationId
           }`
         )
         .then((org) => {
@@ -126,7 +124,29 @@ const AdminTeam = () => {
   }, [userInfo]);
   // let OrgId = ;
   console.log(teamMembers);
+  const getInitials = () => {
+    const firstNameInitial = userInfo?.firstName?.charAt(0)?.toUpperCase() || '';
+    const lastNameInitial = userInfo?.lastName?.charAt(0)?.toUpperCase() || '';
+    return `${firstNameInitial}${lastNameInitial}`;
+  };
+  const getRandomColor = () => {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+  const [backgroundColor, setBackgroundColor] = useState('');
 
+  useEffect(() => {
+    // Generate a random background color if it hasn't been generated yet
+    if (!backgroundColor) {
+      setBackgroundColor(getRandomColor());
+    }
+
+    // Your existing useEffect logic...
+  }, [userInfo, backgroundColor]);
   const register = async (event) => {
     event.preventDefault();
     const form = event?.target;
@@ -159,8 +179,7 @@ const AdminTeam = () => {
         console.log(user);
         axios
           .put(
-            `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users/userId/${
-              user._id
+            `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users/userId/${user._id
             }/organizationId/${user.organizations[0].organizationId}`
           )
           .then((response) => {
@@ -290,9 +309,8 @@ const AdminTeam = () => {
               </div>
 
               <div
-                className={`absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${
-                  isDropdownOpen ? "" : "hidden"
-                }`}
+                className={`absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${isDropdownOpen ? "" : "hidden"
+                  }`}
                 role="menu"
                 aria-orientation="vertical"
                 aria-labelledby="menu-button"
@@ -412,7 +430,7 @@ const AdminTeam = () => {
               <div>
                 <div className="flex gap-10">
                   <div>
-                    <h1 className="font-bold text-[30px]">Hello Aman</h1>
+                    <h1 className="font-bold text-[30px]">Hello {userInfo?.firstName}</h1>
                     <p className="text-[21px] font-medium tracking-wide">
                       {formatDate()}
                     </p>
@@ -448,8 +466,15 @@ const AdminTeam = () => {
                     aria-haspopup="true"
                   >
                     <div className="w-5/6 mx-auto flex items-center gap-2 pt-[7px]">
-                      <BsPersonCircle className="text-[#4555BA] w-[35px] h-[35px]" />
-                      <p className="text-[19px] font-medium">Aman Kumar</p>
+                      <div
+                        className="rounded-full w-[35px] h-[35px] flex items-center text-red-50 justify-center"
+                        style={{ backgroundColor }}
+                      >
+                        {getInitials()}
+                      </div>
+                      <p className="text-[19px] font-medium">
+                        {userInfo?.firstName} {userInfo?.lastName}
+                      </p>
                     </div>
                     <svg
                       className="-mr-1 h-5 w-5 text-gray-400"
@@ -467,9 +492,8 @@ const AdminTeam = () => {
                 </div>
 
                 <div
-                  className={`absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${
-                    isDropdownOpen ? "" : "hidden"
-                  }`}
+                  className={`absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${isDropdownOpen ? "" : "hidden"
+                    }`}
                   role="menu"
                   aria-orientation="vertical"
                   aria-labelledby="menu-button"
@@ -529,7 +553,7 @@ const AdminTeam = () => {
                         {member?.organizations?.map((org, j) => (
                           <div key={j}>
                             {userInfo?.organizations &&
-                            userInfo.organizations[0]?.organizationId ===
+                              userInfo.organizations[0]?.organizationId ===
                               org.organizationId
                               ? org.role
                               : ""}
@@ -569,12 +593,12 @@ const AdminTeam = () => {
               >
                 Task Created
               </button>
-              <button
+              {/* <button
                 onClick={() => handleToggle(event, "task")}
                 className="text-[20px] font-medium tracking-wider"
               >
                 Permissions
-              </button>
+              </button> */}
             </div>
             {toggle === "task" ? (
               <>
@@ -584,7 +608,7 @@ const AdminTeam = () => {
                       className="bg-[#4555BA] h-2 rounded-lg"
                       // className="bg-cyan-600 h-2 rounded-sm"
                       style={{ width: `50%` }}
-                      // style={{ width: "20%" }}
+                    // style={{ width: "20%" }}
                     ></div>
                   </div>
                 </div>
@@ -631,11 +655,10 @@ const AdminTeam = () => {
                             <div
                               className="bg-[#3E4DAC] h-2 rounded-lg"
                               style={{
-                                width: `${
-                                  (item?.progressBar?.current /
+                                width: `${(item?.progressBar?.current /
                                     item?.progressBar?.total) *
                                   100
-                                }%`,
+                                  }%`,
                               }}
                             ></div>
                           </div>
@@ -666,7 +689,7 @@ const AdminTeam = () => {
               </>
             ) : (
               <>
-                <div className="relative w-full">
+                {/* <div className="relative w-full">
                   <div className="w-[360px] bg-gray-200 rounded-lg h-2 flex">
                     <div
                       className="bg-gray-200 h-2 rounded-lg"
@@ -971,7 +994,7 @@ const AdminTeam = () => {
                       </label>
                     </div>
                   </div>
-                </form>
+                </form> */}
               </>
             )}
           </div>

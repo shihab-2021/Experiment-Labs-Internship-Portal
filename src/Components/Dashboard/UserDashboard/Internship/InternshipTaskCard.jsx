@@ -43,7 +43,8 @@ const InternshipTaskCard = ({ task }) => {
       })
       .catch((error) => console.error(error));
   }, [task]);
-
+  // participantLimit
+console.log(task);
   const formatTaskCreationDate = (date) => {
     const currentDate = new Date();
     const givenDate = new Date(date);

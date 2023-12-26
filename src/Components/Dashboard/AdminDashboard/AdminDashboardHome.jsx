@@ -105,13 +105,35 @@ const AdminDashboardHome = () => {
     // },
   ];
   const { userInfo } = useContext(AuthContext);
+  const getInitials = () => {
+    const firstNameInitial = userInfo?.firstName?.charAt(0)?.toUpperCase() || '';
+    const lastNameInitial = userInfo?.lastName?.charAt(0)?.toUpperCase() || '';
+    return `${firstNameInitial}${lastNameInitial}`;
+  };
+  const getRandomColor = () => {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+  const [backgroundColor, setBackgroundColor] = useState('');
 
+  useEffect(() => {
+    // Generate a random background color if it hasn't been generated yet
+    if (!backgroundColor) {
+      setBackgroundColor(getRandomColor());
+    }
+
+    // Your existing useEffect logic...
+  }, [userInfo, backgroundColor]);
   const [pendingTasks, setpendingTasks] = useState([]);
   const [processingTasks, setprocessingTasks] = useState([]);
   const [completedTasks, setcompletedTasks] = useState([]);
 
   useEffect(() => {
-    if (userInfo?.organizations){
+    if (userInfo?.organizations) {
       axios
         .get(
           `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${userInfo?.organizations[0]?.organizationId
@@ -121,7 +143,7 @@ const AdminDashboardHome = () => {
           setpendingTasks(tasks?.data);
         })
         .catch((error) => console.error(error));
-        axios
+      axios
         .get(
           `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${userInfo?.organizations[0]?.organizationId
           }/taskStatus/Processing`
@@ -130,7 +152,7 @@ const AdminDashboardHome = () => {
           setprocessingTasks(tasks?.data);
         })
         .catch((error) => console.error(error));
-        axios
+      axios
         .get(
           `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${userInfo?.organizations[0]?.organizationId
           }/taskStatus/Completed`
@@ -138,9 +160,68 @@ const AdminDashboardHome = () => {
         .then((tasks) => {
           setcompletedTasks(tasks?.data);
         })
-        .catch((error) => console.error(error));}
+        .catch((error) => console.error(error));
+    }
   }, [userInfo]);
+// console.log(pendingTasks)
+  const [participantInfo, setParticipantInfo] = useState([]);
+
+  // Function to fetch participant information by email
+  const fetchParticipantInformation = async (email) => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users`,
+        {
+          params: {
+            email,
+          },
+        }
+      );
+
+      // Assuming the response.data contains the user information
+      const user = response?.data;
+      setParticipantInfo((prevInfo) => {
+        // Check if the user is already in the array before adding
+        if (!prevInfo.some((existingUser) => existingUser.email === user.email)) {
+          return [...prevInfo, user];
+        }
+        return prevInfo;
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    // Fetch participant info when processingTasks change
+    const fetchParticipantInfo = async () => {
+      if (processingTasks.length > 0) {
+        // Clear participantInfo before fetching new information
+        setParticipantInfo([]);
+
+        const participantsEmails = processingTasks.flatMap((task) =>
+          task.participants.map((participant) => participant.participantEmail)
+        );
+
+        // Fetch participant information for each email
+        participantsEmails.forEach((email) => {
+          fetchParticipantInformation(email);
+        });
+      }
+    };
+
+    fetchParticipantInfo();
+  }, [processingTasks]);
+
+
+
+  const getParticipantInfo = (user) => {
+    const firstNameInitial = user?.firstName?.charAt(0)?.toUpperCase() || '';
+    const lastNameInitial = user?.lastName?.charAt(0)?.toUpperCase() || '';
+    return `${firstNameInitial}${lastNameInitial}`;
+  };
   console.log(processingTasks)
+
   const pieChartdata = [
     { name: "Reject", value: 0 },
     { name: "Select", value: 0 },
@@ -181,6 +262,7 @@ const AdminDashboardHome = () => {
     const year = currentDate.getFullYear();
     return `${day}/ ${month}/ ${year}`;
   };
+
 
   return (
     <div className="w-11/12 mx-auto mt-14">
@@ -233,7 +315,13 @@ const AdminDashboardHome = () => {
         </div>
         <div className="border border-[#F0F0F0] shadow-md w-[275px] h-[50px]">
           <div className="w-5/6 mx-auto flex items-center gap-2 pt-[7px]">
-            <BsPersonCircle className="text-[#4555BA] w-[35px] h-[35px]" />
+
+            <div
+              className="rounded-full w-[35px] h-[35px] flex items-center text-red-50 justify-center"
+              style={{ backgroundColor }}
+            >
+              {getInitials()}
+            </div>
             <p className="text-[19px] font-medium">
               {userInfo?.firstName} {userInfo?.lastName}
             </p>
@@ -260,59 +348,70 @@ const AdminDashboardHome = () => {
         </div>
         <div className="flex justify-between items-center">
           <div className="flex mt-[17px] gap-[11px]">
-            {processingTasks.length === 0 ? <p  className="font-semibold text-orange-500 text-[20px] text-center mt-5">No Processing task found</p> : 
-            <>{
-              processingTasks.map((item, index) => (
-                <div
-                  key={index}
-                  className="bg-[#FFF] border border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md"
-                >
-                  <div className="flex justify-between items-center">
-                    <h1 className="font-bold text-[17px]">{item?.taskName}</h1>
-                    <HiDotsVertical />
-                  </div>
-                  <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
-                    {item?.aboutTask}
-                  </p>
-                  {/* <AvatarGroup className="grid justify-end mt-[14px]" total={16}>
-                    {item?.studentsImg.map((each, index) => (
-                      <Avatar key={index} alt="Remy Sharp" src={each.img} />
-                    ))}
-                  </AvatarGroup> */}
-                  <div>
-                    <div className="mt-[14px] flex justify-between text-[14px] font-medium">
-                      <p>Progress</p>
-                      <p className="text-[#3F3F3F]">
-                        {item?.participants.length}/{item?.participantLimit}
+            {processingTasks.length === 0 ? <p className="font-semibold text-orange-500 text-[20px] text-center mt-5">No Processing task found</p> :
+              <>{
+                processingTasks.map((item, index) => (
+                  <div
+                    key={index}
+                    className="bg-[#FFF] border border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md"
+                  >
+                    <div className="flex justify-between items-center">
+                      <h1 className="font-bold text-[17px]">{item?.taskName}</h1>
+                      <HiDotsVertical />
+                    </div>
+                    <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
+                      {item?.aboutTask}
+                    </p>
+
+                    {participantInfo && (participantInfo.length > 0) ?
+                      <AvatarGroup className="grid justify-end mt-[14px]" max={16}>
+                        {participantInfo.map((user, index) => (
+                          <Avatar
+                            key={index}
+                            className="rounded-full w-[35px] h-[35px] flex items-center text-red-50 justify-center"
+                            style={{ backgroundColor }}
+                            alt="Participant"
+                          >
+                            {getParticipantInfo(user)}
+                          </Avatar>
+                        ))}
+                      </AvatarGroup> : ""
+                    }
+
+                    <div>
+                      <div className="mt-[14px] flex justify-between text-[14px] font-medium">
+                        <p>Progress</p>
+                        <p className="text-[#3F3F3F]">
+                          {item?.participants?.length || 0}/{item?.participantLimit}
+                        </p>
+                      </div>
+                      <div className="relative w-full">
+                        <div className="w-full bg-gray-200 rounded-lg h-2">
+                          <div
+                            className="bg-[#3E4DAC] h-2 rounded-lg"
+                            style={{
+                              width: `${(item?.participants?.length /
+                                item?.participantLimit) *
+                                100
+                                }%`,
+                            }}
+                          ></div>
+                        </div>
+                      </div>
+                      <p className="text-[#3F3F3F] text-[14px] font-medium">
+                        {item?.taskDeadline}
                       </p>
                     </div>
-                    <div className="relative w-full">
-                      <div className="w-full bg-gray-200 rounded-lg h-2">
-                        <div
-                          className="bg-[#3E4DAC] h-2 rounded-lg"
-                          style={{
-                            width: `${(item?.participants.length /
-                            item?.participantLimit) *
-                              100
-                              }%`,
-                          }}
-                        ></div>
-                      </div>
-                    </div>
-                    <p className="text-[#3F3F3F] text-[14px] font-medium">
-                      {item?.taskDeadline}
-                    </p>
                   </div>
-                </div>
-              ))
-            }</>}
+                ))
+              }</>}
             <Link to='/createTask'>
-            <div className="ml-14 p-2  shadow-sm shadow-slate-300 justify-center  items-center">
-              <FaPlus className="text-[#AEAEAE] w-[25px] h-[25px] mx-auto mb-2 "></FaPlus>
-              <span className="text-[#AEAEAE] font-bold text-[15px] self-center w-[90px] text-center">
-                Add New Task
-              </span>
-            </div>
+              <div className="ml-14 p-2  shadow-sm shadow-slate-300 justify-center  items-center">
+                <FaPlus className="text-[#AEAEAE] w-[25px] h-[25px] mx-auto mb-2 "></FaPlus>
+                <span className="text-[#AEAEAE] font-bold text-[15px] self-center w-[90px] text-center">
+                  Add New Task
+                </span>
+              </div>
             </Link>
           </div>
         </div>

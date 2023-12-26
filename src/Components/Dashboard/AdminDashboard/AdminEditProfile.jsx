@@ -256,7 +256,7 @@ const AdminEditProfile = () => {
                     <input
                         placeholder="write team member mobile number"
                         type="text"
-                        defaultValue={member?.phone}
+                        value={member?.phone}
                         name="memberNumber"
                         id="memberNumber"
                         className="bg-[#EEF0FF] px-[10px] py-1 rounded-md shadow"

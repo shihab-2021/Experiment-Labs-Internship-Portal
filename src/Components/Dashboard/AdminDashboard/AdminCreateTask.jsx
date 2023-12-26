@@ -155,7 +155,7 @@ const AdminCreateTask = () => {
         organizationId: organizationInfo?._id,
         role: userInfo?.organizations[0]?.role,
       },
-      taskStatus: "AdminApproved",
+      taskStatus: "Pending",
       postingDateTime: new Date(),
     };
     console.log(taskData);
