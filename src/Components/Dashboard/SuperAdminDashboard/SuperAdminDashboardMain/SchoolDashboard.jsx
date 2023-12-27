@@ -1,9 +1,10 @@
 import React from 'react';
+import SchoolDashboardTop from './SchoolDashboardTop';
 
 const SchoolDashboard = () => {
     return (
         <div>
-            SchoolDashboard
+            <SchoolDashboardTop/>
         </div>
     );
 };
