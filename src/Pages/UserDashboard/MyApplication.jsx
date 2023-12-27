@@ -44,7 +44,7 @@ const SingleApplicationRow = ({ submission }) => {
       </Helmet>
       <div className="text-center flex items-center justify-center text-[15px] text-[#3F3F3F] font-semibold">
         <img
-          className="max-w-[150px] max-h-[70px] "
+          className="max-w-[150px] max-h-[50px] "
           src={organizationInfo?.orgLogo}
           alt="orgLogo"
         />

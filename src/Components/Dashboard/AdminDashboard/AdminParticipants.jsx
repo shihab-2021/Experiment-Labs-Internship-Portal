@@ -51,7 +51,7 @@ const AdminParticipants = ({ item }) => {
         
   }, [item?.submissionId]);
 
-  console.log(submissionDetails)
+  //console.log(submissionDetails)
   
 
   // handle select or reject
@@ -235,8 +235,9 @@ const AdminParticipants = ({ item }) => {
           }}
         >
           <div className="p-5">
-            <h1 className="text-xl font-medium mb-[20px]">Animation project</h1>
-            <Link
+          <h1 className="text-xl font-medium mb-[20px]" dangerouslySetInnerHTML={{ __html: submissionDetails?.aboutSolution }} />
+           
+           {/*  <Link
               className="p-[10px] my-[15px]"
               style={{
                 borderRadius: "40px",
@@ -244,11 +245,11 @@ const AdminParticipants = ({ item }) => {
               }}
             >
               WWW.Animationproject.com
-            </Link>
+            </Link> */}
           </div>
           <div className="bg-[#E7EBFF] flex items-center gap-5 mt-5 px-[15px] py-[10px]">
             <img src={driveIcon} alt="Icon" />
-            <Link to="">Http: internship project google drive link</Link>
+            <Link to="">{submissionDetails?.fileLink ? submissionDetails?.fileLink : "No file" }</Link>
           </div>
         </div>
       )}

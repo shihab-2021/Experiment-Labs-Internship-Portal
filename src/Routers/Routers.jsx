@@ -16,6 +16,9 @@ import InternshipSubmission from "../Pages/UserDashboard/InternshipSubmission";
 import EditProfile from "../Pages/Dashboard/EditProfile";
 import SuperAdminDashboardHome from "../Pages/SuperAdminDashboard/SuperAdminDashboardHome";
 import SuperAdminDashboardMain from "../Pages/SuperAdminDashboard/SuperAdminDashboardMain";
+import SuperAdminDashboardSubmissionDetails from "../Pages/SuperAdminDashboard/SuperAdminDashboardSubmissionDetails";
+import SuperAdminDashboardCreateTask from "../Pages/SuperAdminDashboard/SuperAdminDashboardCreateTask";
+import SuperAdminDashboardTaskAccess from "../Pages/SuperAdminDashboard/SuperAdminDashboardTaskAccess";
 
 export const router = createBrowserRouter([
   {
@@ -89,5 +92,17 @@ export const router = createBrowserRouter([
   {
     path: "/superAdminDashboard/dashboard",
     element: <SuperAdminDashboardMain />,
+  },
+  {
+    path: "/SuperAdminSubmissionDetails",
+    element: <SuperAdminDashboardSubmissionDetails />,
+  },
+  {
+    path: "/superAdminDashboard/createTask",
+    element: <SuperAdminDashboardCreateTask />,
+  },
+  {
+    path: "/superAdminDashboard/taskAccess",
+    element: <SuperAdminDashboardTaskAccess />,
   },
 ]);
