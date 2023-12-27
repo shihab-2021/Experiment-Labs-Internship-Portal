@@ -16,6 +16,7 @@ import InternshipSubmission from "../Pages/UserDashboard/InternshipSubmission";
 import EditProfile from "../Pages/Dashboard/EditProfile";
 import SuperAdminDashboardHome from "../Pages/SuperAdminDashboard/SuperAdminDashboardHome";
 import SuperAdminDashboardMain from "../Pages/SuperAdminDashboard/SuperAdminDashboardMain";
+import SuperAdminDashboardSubmissionDetails from "../Pages/SuperAdminDashboard/SuperAdminDashboardSubmissionDetails";
 
 export const router = createBrowserRouter([
   {
@@ -89,5 +90,9 @@ export const router = createBrowserRouter([
   {
     path: "/superAdminDashboard/dashboard",
     element: <SuperAdminDashboardMain />,
+  },
+  {
+    path: "/SuperAdminSubmissionDetails",
+    element: <SuperAdminDashboardSubmissionDetails />,
   },
 ]);

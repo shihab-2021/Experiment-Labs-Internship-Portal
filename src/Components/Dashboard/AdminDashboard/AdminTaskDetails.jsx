@@ -133,7 +133,7 @@ const AdminTaskDetails = () => {
         <div>
           <div className="flex gap-10">
             <div>
-              <h1 className="font-bold text-[30px]">Hello Aman</h1>
+              <h1 className="font-bold text-[30px]">Hello {userInfo?.firstName}</h1>
               <p className="text-[21px] font-medium tracking-wide">
                 {formatDate()}
               </p>
@@ -170,7 +170,7 @@ const AdminTaskDetails = () => {
             >
               <div className="w-5/6 mx-auto flex items-center gap-2 pt-[7px]">
                 <BsPersonCircle className="text-[#4555BA] w-[35px] h-[35px]" />
-                <p className="text-[19px] font-medium">Aman Kumar</p>
+                <p className="text-[19px] font-medium">{userInfo?.firstName} {userInfo?.lastName}</p>
               </div>
               <svg
                 className="-mr-1 h-5 w-5 text-gray-400"
@@ -256,7 +256,8 @@ const AdminTaskDetails = () => {
                         </div>
                       </div>
                       <p className="text-[#3F3F3F] text-[14px] font-medium">
-                        {item?.date}
+                        
+                        {item?.taskDeadline ? new Date(item?.taskDeadline).toLocaleDateString() : ''}
                       </p>
                     </div >
                     <div className="mt-3">
@@ -314,7 +315,7 @@ const AdminTaskDetails = () => {
                     <div>
                       <div className="mt-[14px] flex justify-between text-[14px] font-medium">
                         <p>Progress</p>
-                        <p className="text-[#3F3F3F]">{(item?.totalCompleteTask) ? item?.totalCompleteTask : '0'}/{item?.participants.length}</p>
+                        <p className="text-[#3F3F3F]">{(item?.participants.length) ? item?.participants.length : '0'}/{item?.participantLimit}</p>
                       </div>
                       <div className="relative w-full">
                         <div className="w-full bg-gray-200 rounded-lg h-2">
@@ -322,13 +323,19 @@ const AdminTaskDetails = () => {
                             className="bg-[#3E4DAC] h-2 rounded-lg"
                             // className="bg-cyan-600 h-2 rounded-sm"
                          
-                            style={{ width: `${(item?.complete?.length ? item?.complete?.length : "0"/ item?.participants?.length) * 100 || 0}%` }}
+                           // style={{ width: `${(item?.complete?.length ? item?.participantLimit : "0"/ '0') * 100 || 0}%` }}
+                            style={{
+                              width: `${(item?.participants?.length /
+                                item?.participantLimit) *
+                                100
+                                }%`,
+                            }}
                          
                           ></div>
                         </div>
                       </div>
                       <p className="text-[#3F3F3F] text-[14px] font-medium">
-                        {item?.taskDeadline}
+                      {item?.taskDeadline ? new Date(item?.taskDeadline).toLocaleDateString() : ''}
                       </p>
                     </div >
                     <div className="mt-3">
