@@ -478,6 +478,7 @@ const SubmissionTracker = () => {
                     </div>
                   </div>
                   {/* Text editor */}
+                  
                   <div className="bg-white text-black w-full">
                     <TextEditor setValue={setAboutSolution} />
                   </div>

@@ -1,5 +1,5 @@
 //AdminCompleteShowMore
-import React, { useEffect, useState } from "react";
+import React, {useContext, useEffect, useState } from "react";
 import { BsPersonCircle } from "react-icons/bs";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import driveImage from "../../../assets/Dashboard/AdminDashboard/driveImage.svg";
@@ -16,9 +16,11 @@ import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import axios from "axios";
 import AdminParticipants from "./AdminParticipants";
+import { AuthContext } from "../../../Contexts/AuthProvider";
 
 const AdminCompleteShowMore = () => {
   const { id } = useParams()
+  const { userInfo } = useContext(AuthContext);
   console.log(id)
 
   // taskDetails data
@@ -41,7 +43,7 @@ const AdminCompleteShowMore = () => {
   // creatorDEtails data
 
   const [creatorDetails, setCreatorDetails] = useState();
-  console.log(taskDetails?.creator?.email)
+  //console.log(taskDetails?.creator?.email)
 
   useEffect(() => {
     if (taskDetails?.creator?.email)
@@ -55,7 +57,7 @@ const AdminCompleteShowMore = () => {
         .catch((error) => console.error(error));
   }, [taskDetails?.creator?.email]);
 
-  console.log(creatorDetails);
+ // console.log(creatorDetails);
 
   // organizationDetails data
   const [organizationDetails, setOrganizationDetails] = useState();
@@ -73,15 +75,15 @@ const AdminCompleteShowMore = () => {
         .catch((error) => console.error(error));
   }, [creatorDetails?.organizations[0]?.organizationId]);
 
-  console.log(organizationDetails);
+  //console.log(organizationDetails);
 
 
   const deadline = taskDetails?.taskDeadline;
-  const targetDate = new Date(`${deadline}T00:00:00`);
+  const targetDate = new Date(deadline);
 
   // Current date and time
   const currentDate = new Date();
-
+  
   // Calculate the difference in milliseconds
   const timeDifference = targetDate - currentDate;
 
@@ -91,7 +93,7 @@ const AdminCompleteShowMore = () => {
   const hours = Math.floor(timeDifference / (1000 * 60 * 60)) % 24;
   const daysRemaining = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
 
-  // console.log(`Remaining time: ${daysRemaining} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`);
+ // console.log(`Remaining time: ${daysRemaining} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`);
 
   const formatDate = () => {
     const monthNames = [
@@ -137,7 +139,7 @@ const AdminCompleteShowMore = () => {
         <div>
           <div className="flex gap-10">
             <div>
-              <h1 className="font-bold text-[30px]">Hello Aman</h1>
+              <h1 className="font-bold text-[30px]">Hello {userInfo?.firstName}</h1>
               <p className="text-[21px] font-medium tracking-wide">
                 {formatDate()}
               </p>
@@ -174,7 +176,7 @@ const AdminCompleteShowMore = () => {
             >
               <div className="w-5/6 mx-auto flex items-center gap-2 pt-[7px]">
                 <BsPersonCircle className="text-[#4555BA] w-[35px] h-[35px]" />
-                <p className="text-[19px] font-medium">Aman Kumar</p>
+                <p className="text-[19px] font-medium">{userInfo?.firstName} {userInfo?.lastName}</p>
               </div>
               <svg
                 className="-mr-1 h-5 w-5 text-gray-400"
@@ -387,13 +389,19 @@ const AdminCompleteShowMore = () => {
             <div className=" w-[50%]">
               <div className="mt-[14px] flex justify-between text-[14px] font-medium">
                 <p>Completed</p>
-                <p className="text-[#3F3F3F]">{taskDetails?.complete?.length ? taskDetails?.complete?.length : "0"}/{taskDetails?.participants.length}</p>
+                
+                <p className="text-[#3F3F3F]">{taskDetails?.participants?.length ? taskDetails?.participants?.length : "0"}/{taskDetails?.participantLimit}</p>
               </div>
               <div className="relative w-full">
                 <div className="w-full bg-gray-200 rounded-lg h-2">
                   <div
                     className="bg-[#3E4DAC] h-2  rounded-lg"
-                    style={{ width: `${completionPercentage}%` }}
+                    style={{
+                      width: `${(taskDetails?.participants?.length /
+                      taskDetails?.participantLimit) *
+                        100
+                        }%`,
+                    }}
                   ></div>
                 </div>
               </div>
@@ -406,6 +414,7 @@ const AdminCompleteShowMore = () => {
       </div>
 
       {/* Submission */}
+
 
       <div
         className=" flex items-center justify-between py-[14px] px-2 mt-8"
