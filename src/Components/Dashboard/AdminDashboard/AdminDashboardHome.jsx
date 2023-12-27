@@ -106,19 +106,20 @@ const AdminDashboardHome = () => {
   ];
   const { userInfo } = useContext(AuthContext);
   const getInitials = () => {
-    const firstNameInitial = userInfo?.firstName?.charAt(0)?.toUpperCase() || '';
-    const lastNameInitial = userInfo?.lastName?.charAt(0)?.toUpperCase() || '';
+    const firstNameInitial =
+      userInfo?.firstName?.charAt(0)?.toUpperCase() || "";
+    const lastNameInitial = userInfo?.lastName?.charAt(0)?.toUpperCase() || "";
     return `${firstNameInitial}${lastNameInitial}`;
   };
   const getRandomColor = () => {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
+    const letters = "0123456789ABCDEF";
+    let color = "#";
     for (let i = 0; i < 6; i++) {
       color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
   };
-  const [backgroundColor, setBackgroundColor] = useState('');
+  const [backgroundColor, setBackgroundColor] = useState("");
 
   useEffect(() => {
     // Generate a random background color if it hasn't been generated yet
@@ -136,7 +137,8 @@ const AdminDashboardHome = () => {
     if (userInfo?.organizations) {
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${userInfo?.organizations[0]?.organizationId
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${
+            userInfo?.organizations[0]?.organizationId
           }/taskStatus/Pending`
         )
         .then((tasks) => {
@@ -145,7 +147,8 @@ const AdminDashboardHome = () => {
         .catch((error) => console.error(error));
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${userInfo?.organizations[0]?.organizationId
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${
+            userInfo?.organizations[0]?.organizationId
           }/taskStatus/Processing`
         )
         .then((tasks) => {
@@ -154,7 +157,8 @@ const AdminDashboardHome = () => {
         .catch((error) => console.error(error));
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${userInfo?.organizations[0]?.organizationId
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${
+            userInfo?.organizations[0]?.organizationId
           }/taskStatus/Completed`
         )
         .then((tasks) => {
@@ -163,64 +167,64 @@ const AdminDashboardHome = () => {
         .catch((error) => console.error(error));
     }
   }, [userInfo]);
-// console.log(pendingTasks)
+  // console.log(pendingTasks)
   const [participantInfo, setParticipantInfo] = useState([]);
 
   // Function to fetch participant information by email
-  const fetchParticipantInformation = async (email) => {
-    try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users`,
-        {
-          params: {
-            email,
-          },
-        }
-      );
+  // const fetchParticipantInformation = async (email) => {
+  //   try {
+  //     const response = await axios.get(
+  //       `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users`,
+  //       {
+  //         params: {
+  //           email,
+  //         },
+  //       }
+  //     );
 
-      // Assuming the response.data contains the user information
-      const user = response?.data;
-      setParticipantInfo((prevInfo) => {
-        // Check if the user is already in the array before adding
-        if (!prevInfo.some((existingUser) => existingUser.email === user.email)) {
-          return [...prevInfo, user];
-        }
-        return prevInfo;
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  //     // Assuming the response.data contains the user information
+  //     const user = response?.data;
+  //     setParticipantInfo((prevInfo) => {
+  //       // Check if the user is already in the array before adding
+  //       if (
+  //         !prevInfo.some((existingUser) => existingUser.email === user.email)
+  //       ) {
+  //         return [...prevInfo, user];
+  //       }
+  //       return prevInfo;
+  //     });
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
-  useEffect(() => {
-    // Fetch participant info when processingTasks change
-    const fetchParticipantInfo = async () => {
-      if (processingTasks.length > 0) {
-        // Clear participantInfo before fetching new information
-        setParticipantInfo([]);
+  // useEffect(() => {
+  //   // Fetch participant info when processingTasks change
+  //   const fetchParticipantInfo = async () => {
+  //     if (processingTasks.length > 0) {
+  //       // Clear participantInfo before fetching new information
+  //       setParticipantInfo([]);
 
-        const participantsEmails = processingTasks.flatMap((task) =>
-          task.participants.map((participant) => participant.participantEmail)
-        );
+  //       const participantsEmails = processingTasks.flatMap((task) =>
+  //         task.participants.map((participant) => participant.participantEmail)
+  //       );
 
-        // Fetch participant information for each email
-        participantsEmails.forEach((email) => {
-          fetchParticipantInformation(email);
-        });
-      }
-    };
+  //       // Fetch participant information for each email
+  //       participantsEmails.forEach((email) => {
+  //         fetchParticipantInformation(email);
+  //       });
+  //     }
+  //   };
 
-    fetchParticipantInfo();
-  }, [processingTasks]);
+  //   fetchParticipantInfo();
+  // }, [processingTasks]);
 
-
-
-  const getParticipantInfo = (user) => {
-    const firstNameInitial = user?.firstName?.charAt(0)?.toUpperCase() || '';
-    const lastNameInitial = user?.lastName?.charAt(0)?.toUpperCase() || '';
-    return `${firstNameInitial}${lastNameInitial}`;
-  };
-  console.log(processingTasks)
+  // const getParticipantInfo = (user) => {
+  //   const firstNameInitial = user?.firstName?.charAt(0)?.toUpperCase() || "";
+  //   const lastNameInitial = user?.lastName?.charAt(0)?.toUpperCase() || "";
+  //   return `${firstNameInitial}${lastNameInitial}`;
+  // };
+  // console.log(processingTasks);
 
   const pieChartdata = [
     { name: "Reject", value: 0 },
@@ -262,7 +266,6 @@ const AdminDashboardHome = () => {
     const year = currentDate.getFullYear();
     return `${day}/ ${month}/ ${year}`;
   };
-
 
   return (
     <div className="w-11/12 mx-auto mt-14">
@@ -315,7 +318,6 @@ const AdminDashboardHome = () => {
         </div>
         <div className="border border-[#F0F0F0] shadow-md w-[275px] h-[50px]">
           <div className="w-5/6 mx-auto flex items-center gap-2 pt-[7px]">
-
             <div
               className="rounded-full w-[35px] h-[35px] flex items-center text-red-50 justify-center"
               style={{ backgroundColor }}
@@ -326,18 +328,6 @@ const AdminDashboardHome = () => {
               {userInfo?.firstName} {userInfo?.lastName}
             </p>
           </div>
-          {/* <div className="w-5/6 mx-auto border-b border-[#4555BA] pt-[17px] text-[16px] font-medium flex justify-between">
-            <p className="text-[#3F3F3F]">Animation</p>
-            <p className="text-[#6B6B6B]">task 1</p>
-          </div>
-          <div className="w-5/6 mx-auto border-b border-[#4555BA] pt-[17px] text-[16px] font-medium flex justify-between">
-            <p className="text-[#3F3F3F]">logo design</p>
-            <p className="text-[#6B6B6B]">task 2</p>
-          </div>
-          <div className="w-5/6 mx-auto border-b border-[#4555BA] pt-[17px] text-[16px] font-medium flex justify-between">
-            <p className="text-[#3F3F3F]">ui and ux </p>
-            <p className="text-[#6B6B6B]">task 3</p>
-          </div> */}
         </div>
       </div>
       {/* In process task*/}
@@ -348,41 +338,56 @@ const AdminDashboardHome = () => {
         </div>
         <div className="flex justify-between items-center">
           <div className="flex mt-[17px] gap-[11px]">
-            {processingTasks.length === 0 ? <p className="font-semibold text-orange-500 text-[20px] text-center mt-5">No Processing task found</p> :
-              <>{
-                processingTasks.map((item, index) => (
+            {processingTasks.length === 0 ? (
+              <p className="font-semibold text-orange-500 text-[20px] text-center mt-5">
+                No Processing task found
+              </p>
+            ) : (
+              <>
+                {processingTasks.map((item, index) => (
                   <div
                     key={index}
                     className="bg-[#FFF] border border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md"
                   >
                     <div className="flex justify-between items-center">
-                      <h1 className="font-bold text-[17px]">{item?.taskName}</h1>
+                      <h1 className="font-bold text-[17px]">
+                        {item?.taskName}
+                      </h1>
                       <HiDotsVertical />
                     </div>
                     <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
                       {item?.aboutTask}
                     </p>
 
-                    {participantInfo && (participantInfo.length > 0) ?
-                      <AvatarGroup className="grid justify-end mt-[14px]" max={16}>
-                        {participantInfo.map((user, index) => (
+                    {item?.participants && item?.participants.length > 0 ? (
+                      <AvatarGroup
+                        className="grid justify-end mt-[14px]"
+                        // max={16}
+                        total={
+                          item?.participants ? item?.participants?.length : 0
+                        }
+                      >
+                        {item?.participants?.slice(0, 3)?.map((user, index) => (
                           <Avatar
                             key={index}
                             className="rounded-full w-[35px] h-[35px] flex items-center text-red-50 justify-center"
-                            style={{ backgroundColor }}
+                            style={{ getRandomColor }}
                             alt="Participant"
                           >
-                            {getParticipantInfo(user)}
+                            {user?.participantEmail?.charAt(0)?.toUpperCase()}
                           </Avatar>
                         ))}
-                      </AvatarGroup> : ""
-                    }
+                      </AvatarGroup>
+                    ) : (
+                      ""
+                    )}
 
                     <div>
                       <div className="mt-[14px] flex justify-between text-[14px] font-medium">
                         <p>Progress</p>
                         <p className="text-[#3F3F3F]">
-                          {item?.participants?.length || 0}/{item?.participantLimit}
+                          {item?.participants?.length || 0}/
+                          {item?.participantLimit}
                         </p>
                       </div>
                       <div className="relative w-full">
@@ -390,22 +395,27 @@ const AdminDashboardHome = () => {
                           <div
                             className="bg-[#3E4DAC] h-2 rounded-lg"
                             style={{
-                              width: `${(item?.participants?.length /
-                                item?.participantLimit) *
-                                100
-                                }%`,
+                              width: `${
+                                item?.participants?.length
+                                  ? (item?.participants?.length /
+                                      item?.participantLimit) *
+                                    100
+                                  : 0
+                              }%`,
                             }}
                           ></div>
                         </div>
                       </div>
                       <p className="text-[#3F3F3F] text-[14px] font-medium">
-                        {item?.taskDeadline}
+                        {formatDate(item?.taskDeadline)}
+                        {/* {item?.taskDeadline} */}
                       </p>
                     </div>
                   </div>
-                ))
-              }</>}
-            <Link to='/createTask'>
+                ))}
+              </>
+            )}
+            <Link to="/createTask">
               <div className="ml-14 p-2  shadow-sm shadow-slate-300 justify-center  items-center">
                 <FaPlus className="text-[#AEAEAE] w-[25px] h-[25px] mx-auto mb-2 "></FaPlus>
                 <span className="text-[#AEAEAE] font-bold text-[15px] self-center w-[90px] text-center">

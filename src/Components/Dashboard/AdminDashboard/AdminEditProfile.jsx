@@ -33,7 +33,7 @@ const AdminEditProfile = () => {
     axios
       .get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/users/${id}`)
       .then((user) => {
-        setMember(user?.data);
+        setMember(user?.data?.user);
         // const current = user?.data
         // current.organizations.map((org, j) => {
         //     if (userInfo?.organizations && userInfo.organizations[0]?.organizationId === org.organizationId) {
@@ -181,7 +181,7 @@ const AdminEditProfile = () => {
             aria-labelledby="menu-button"
             tabIndex="-1"
           >
-            <div className="py-1" role="none">
+            {/* <div className="py-1" role="none">
               <div className="w-5/6 mx-auto border-b border-[#4555BA] pt-[17px] text-[16px] font-medium flex justify-between">
                 <p className="text-[#3F3F3F]">Animation</p>
                 <p className="text-[#6B6B6B]">task 1</p>
@@ -194,7 +194,7 @@ const AdminEditProfile = () => {
                 <p className="text-[#3F3F3F]">ui and ux </p>
                 <p className="text-[#6B6B6B]">task 3</p>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
