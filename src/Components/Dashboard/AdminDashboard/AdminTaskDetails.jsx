@@ -43,88 +43,75 @@ const AdminTaskDetails = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  const data = {
-    /*   newTask: [
-        {
-          title: "Graphic design",
-          subtitle: "Task no.1",
-          description: "Make poster for advertising our company product and gain sales..",
-          student: [
-            {
-              profileImage: ""
-            }
-          ],
-          totalCompleteTask: "4",
-          totalStudent: "12",
-          date: '29/jan/2023'
-  
-        },
-  
-      ], */
-    inProgressTask: [
-      {
-        title: "Animation task",
-        subtitle: "Task no.1",
-        description: "Make poster for advertising our company product and gain sales..",
-        student: [
-          {
-            profileImage: ""
-          }
-        ],
-        totalCompleteTask: "4",
-        totalStudent: "12",
-        date: '29/jan/2023'
 
-      },
-      {
-        title: "Logo design",
-        subtitle: "Task no.1",
-        description: "Make poster for advertising our company product and gain sales..",
-        student: [
-          {
-            profileImage: ""
-          }
-        ],
-        totalCompleteTask: "4",
-        totalStudent: "12",
-        date: '29/jan/2023'
-
-      },
-      {
-        title: "Animation task",
-        subtitle: "Task no.1",
-        description: "Make poster for advertising our company product and gain sales..",
-        student: [
-          {
-            profileImage: ""
-          }
-        ],
-        totalCompleteTask: "4",
-        totalStudent: "12",
-        date: '29/jan/2023'
-
-      },
-    ],
- 
-  }
   const { userInfo } = useContext(AuthContext);
 
   const [adminApprovedTasks, setAdminApprovedTasks] = useState([]);
+  const [newTasks, setNewTasks] = useState([]);
+  const [completedTasks, setCompletedTasks] = useState([]);
+  const getInitials = () => {
+    const firstNameInitial =
+      userInfo?.firstName?.charAt(0)?.toUpperCase() || "";
+    const lastNameInitial = userInfo?.lastName?.charAt(0)?.toUpperCase() || "";
+    return `${firstNameInitial}${lastNameInitial}`;
+  };
+  const getRandomColor = () => {
+    const letters = "0123456789ABCDEF";
+    let color = "#";
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+  const [backgroundColor, setBackgroundColor] = useState("");
 
   useEffect(() => {
-    if (userInfo?.organizations)
+    // Generate a random background color if it hasn't been generated yet
+    if (!backgroundColor) {
+      setBackgroundColor(getRandomColor());
+    }
+
+    // Your existing useEffect logic...
+  }, [userInfo, backgroundColor]);
+
+  useEffect(() => {
+    if (userInfo?.organizations && userInfo.organizations.length > 0) {
+      const organizationId = userInfo.organizations[0].organizationId;
+
+      // Fetching tasks with status 'Processing' and updating state
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${userInfo?.organizations[0]?.organizationId
-          }/taskStatus/Processing`
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${organizationId}/taskStatus/Processing`
         )
         .then((tasks) => {
           setAdminApprovedTasks(tasks?.data);
         })
         .catch((error) => console.error(error));
+
+      // Fetching tasks with status 'Pending' and updating state
+      axios
+        .get(
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${organizationId}/taskStatus/Pending`
+        )
+        .then((tasks) => {
+          setNewTasks(tasks?.data);
+        })
+        .catch((error) => console.error(error));
+
+      // Fetching tasks with status 'Completed' and updating state
+      axios
+        .get(
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${organizationId}/taskStatus/Completed`
+        )
+        .then((tasks) => {
+          setCompletedTasks(tasks?.data);
+        })
+        .catch((error) => console.error(error));
+    }
   }, [userInfo]);
 
-  console.log(adminApprovedTasks);
+
+  console.log(completedTasks);
 
   return (
     <div className="w-11/12 mx-auto mt-14">
@@ -169,7 +156,13 @@ const AdminTaskDetails = () => {
               aria-haspopup="true"
             >
               <div className="w-5/6 mx-auto flex items-center gap-2 pt-[7px]">
-                <BsPersonCircle className="text-[#4555BA] w-[35px] h-[35px]" />
+                {/* <BsPersonCircle className="text-[#4555BA] w-[35px] h-[35px]" /> */}
+                <div
+                  className="rounded-full w-[35px] h-[35px] flex items-center text-red-50 justify-center"
+                  style={{ backgroundColor }}
+                >
+                  {getInitials()}
+                </div>
                 <p className="text-[19px] font-medium">{userInfo?.firstName} {userInfo?.lastName}</p>
               </div>
               <svg
@@ -219,44 +212,64 @@ const AdminTaskDetails = () => {
         <h1 className="text-[20px] font-bold mt-8 text-[#8064F0]">New </h1>
 
         <div className="flex justify-between items-center">
-          <div className="flex mt-[17px] gap-[11px]">
+          <div className="flex mt-[17px] gap-[11px] w-full">
             {
-              (data.newTask) ? <>{
-                data.newTask?.map((item) => (
-                  <div className="bg-[#FFF] border border-[#E7E7E7] w-[315px] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md">
+              (newTasks?.length) ? <>{
+                newTasks?.map((item) => (
+                  <div className="bg-[#FFF] border border-[#E7E7E7] w-[50%] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md">
                     <div className="flex justify-between items-center">
-                      <h1 className="font-bold text-[17px]">{item?.title}</h1>
+                      <h1 className="font-bold text-[17px]">{item?.taskName}</h1>
                       <FaEdit style={{ color: '#3E4DAC' }} />
                     </div>
                     <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
-                      {item?.subtitle}
+                      {item?.aboutTask}
                     </p>
                     <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
                       {item?.description}
                     </p>
-                    <AvatarGroup className="grid justify-end mt-[14px]" total={16}>
-                      <Avatar alt="Remy Sharp" src={Person} />
-                      <Avatar alt="Travis Howard" src={Person} />
-                      <Avatar alt="Agnes Walker" src={Person} />
-                      <Avatar alt="Trevor Henderson" src={Person} />
-                    </AvatarGroup>
+                    {item?.participants && item?.participants.length > 0 ? (
+                      <AvatarGroup
+                        className="grid justify-end mt-[14px]"
+                        // max={16}
+                        total={
+                          item?.participants ? item?.participants?.length : 0
+                        }
+                      >
+                        {item?.participants?.slice(0, 3)?.map((user, index) => (
+                          <Avatar
+                            key={index}
+                            className="rounded-full w-[35px] h-[35px] flex items-center text-red-50 justify-center"
+                            style={{ getRandomColor }}
+                            alt="Participant"
+                          >
+                            {user?.participantEmail?.charAt(0)?.toUpperCase()}
+                          </Avatar>
+                        ))}
+                      </AvatarGroup>
+                    ) : (
+                      ""
+                    )}
+
                     <div>
                       <div className="mt-[14px] flex justify-between text-[14px] font-medium">
                         <p>Progress</p>
-                        <p className="text-[#3F3F3F]">{item?.totalCompleteTask}/{item?.totalStudent}</p>
+                        <p className="text-[#3F3F3F]">{(item?.participants.length) ? item?.participants.length : '0'}/{item?.participantLimit}</p>
                       </div>
                       <div className="relative w-full">
                         <div className="w-full bg-gray-200 rounded-lg h-2">
                           <div
                             className="bg-[#3E4DAC] h-2 rounded-lg"
-                            // className="bg-cyan-600 h-2 rounded-sm"
-                            style={{ width: `4%` }}
-                          // style={{ width: "20%" }}
+                            style={{
+                              width: `${(item?.participants?.length /
+                                item?.participantLimit) *
+                                100
+                                }%`,
+                            }}
                           ></div>
                         </div>
                       </div>
                       <p className="text-[#3F3F3F] text-[14px] font-medium">
-                        
+
                         {item?.taskDeadline ? new Date(item?.taskDeadline).toLocaleDateString() : ''}
                       </p>
                     </div >
@@ -293,7 +306,7 @@ const AdminTaskDetails = () => {
         <div className="flex justify-between items-center">
           <div className="flex w-full mt-[17px] gap-[11px]">
             {
-              (adminApprovedTasks) ? <>{
+              (adminApprovedTasks?.length) ? <>{
                 adminApprovedTasks?.map((item) => (
                   <div className="bg-[#FFF] border w-[50%] border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md">
                     <div className="flex justify-between items-center">
@@ -306,12 +319,28 @@ const AdminTaskDetails = () => {
                     <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
                       {item?.aboutTask}
                     </p>
-                    <AvatarGroup className="grid justify-end mt-[14px]" total={16}>
-                      <Avatar alt="Remy Sharp" src={Person} />
-                      <Avatar alt="Travis Howard" src={Person} />
-                      <Avatar alt="Agnes Walker" src={Person} />
-                      <Avatar alt="Trevor Henderson" src={Person} />
-                    </AvatarGroup>
+                    {item?.participants && item?.participants.length > 0 ? (
+                      <AvatarGroup
+                        className="grid justify-end mt-[14px]"
+                        // max={16}
+                        total={
+                          item?.participants ? item?.participants?.length : 0
+                        }
+                      >
+                        {item?.participants?.slice(0, 3)?.map((user, index) => (
+                          <Avatar
+                            key={index}
+                            className="rounded-full w-[35px] h-[35px] flex items-center text-red-50 justify-center"
+                            style={{ getRandomColor }}
+                            alt="Participant"
+                          >
+                            {user?.participantEmail?.charAt(0)?.toUpperCase()}
+                          </Avatar>
+                        ))}
+                      </AvatarGroup>
+                    ) : (
+                      ""
+                    )}
                     <div>
                       <div className="mt-[14px] flex justify-between text-[14px] font-medium">
                         <p>Progress</p>
@@ -321,38 +350,33 @@ const AdminTaskDetails = () => {
                         <div className="w-full bg-gray-200 rounded-lg h-2">
                           <div
                             className="bg-[#3E4DAC] h-2 rounded-lg"
-                            // className="bg-cyan-600 h-2 rounded-sm"
-                         
-                           // style={{ width: `${(item?.complete?.length ? item?.participantLimit : "0"/ '0') * 100 || 0}%` }}
+
+
+                            // style={{ width: `${(item?.complete?.length ? item?.participantLimit : "0"/ '0') * 100 || 0}%` }}
                             style={{
                               width: `${(item?.participants?.length /
                                 item?.participantLimit) *
                                 100
                                 }%`,
                             }}
-                         
+
                           ></div>
                         </div>
                       </div>
                       <p className="text-[#3F3F3F] text-[14px] font-medium">
-                      {item?.taskDeadline ? new Date(item?.taskDeadline).toLocaleDateString() : ''}
+                        {item?.taskDeadline ? new Date(item?.taskDeadline).toLocaleDateString() : ''}
                       </p>
                     </div >
                     <div className="mt-3">
                       <Link to={`/completeShowMore/${item?._id}`} className="text-[#0D47A1] text-[13px] font-medium " >Show details</Link>
-  
+
                     </div>
-  
-  
                   </div>
                 ))
 
               }</> : <p className="text-xl font-medium text-[red]">Progress task not found</p>
-             
+
             }
-
-
-
 
           </div>
         </div>
@@ -371,45 +395,66 @@ const AdminTaskDetails = () => {
         </div>
 
         <div className="flex justify-between items-center">
-          <div className="flex gap-6 mt-[17px] w-[100%]">
+          <div className="flex gap-6 mt-[17px] w-full">
 
             {
-              (data?.completedTask) ? <>{
-                data?.completedTask?.map((item) => (
+              (completedTasks?.length) ? <>{
+                completedTasks?.map((item) => (
                   <div className="bg-[#FFF] border w-[50%] border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md">
                     <div className="flex justify-between items-center">
-                      <h1 className="font-bold text-[17px]">{item?.title}</h1>
+                      <h1 className="font-bold text-[17px]">{item?.taskName}</h1>
 
                     </div>
                     <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
-                      {item?.subtitle}
+                      {item?.aboutTask}
                     </p>
                     <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
                       {item?.description}
                     </p>
-                    <AvatarGroup className="grid justify-end mt-[14px]" total={16}>
-                      <Avatar alt="Remy Sharp" src={Person} />
-                      <Avatar alt="Travis Howard" src={Person} />
-                      <Avatar alt="Agnes Walker" src={Person} />
-                      <Avatar alt="Trevor Henderson" src={Person} />
-                    </AvatarGroup>
+                    {item?.participants && item?.participants.length > 0 ? (
+                      <AvatarGroup
+                        className="grid justify-end mt-[14px]"
+                        // max={16}
+                        total={
+                          item?.participants ? item?.participants?.length : 0
+                        }
+                      >
+                        {item?.participants?.slice(0, 3)?.map((user, index) => (
+                          <Avatar
+                            key={index}
+                            className="rounded-full w-[35px] h-[35px] flex items-center text-red-50 justify-center"
+                            style={{ getRandomColor }}
+                            alt="Participant"
+                          >
+                            {user?.participantEmail?.charAt(0)?.toUpperCase()}
+                          </Avatar>
+                        ))}
+                      </AvatarGroup>
+                    ) : (
+                      ""
+                    )}
                     <div>
                       <div className="mt-[14px] flex justify-between text-[14px] font-medium">
                         <p>Progress</p>
-                        <p className="text-[#3F3F3F]">{item?.totalCompleteTask}/{item?.totalStudent}</p>
+                        <p className="text-[#3F3F3F]">{(item?.participants.length) ? item?.participants.length : '0'}/{item?.participantLimit}</p>
                       </div>
                       <div className="relative w-full">
                         <div className="w-full bg-gray-200 rounded-lg h-2">
                           <div
                             className="bg-[#3E4DAC] h-2 rounded-lg"
 
-                            style={{ width: `100%` }}
+                            style={{
+                              width: `${(item?.participants?.length /
+                                item?.participantLimit) *
+                                100
+                                }%`,
+                            }}
 
                           ></div>
                         </div>
                       </div>
                       <p className="text-[#3F3F3F] text-[14px] font-medium">
-                        {item?.date}
+                        {item?.taskDeadline ? new Date(item?.taskDeadline).toLocaleDateString() : ''}
                       </p>
                     </div >
                     <div className=" flex gap-4 items-center mt-6">
@@ -428,21 +473,11 @@ const AdminTaskDetails = () => {
 
                     </div>
 
-
                   </div>
                 ))
 
               }</> : <p className="text-xl font-medium text-[red]">Complete task not found</p>
-
-
             }
-
-
-
-
-
-
-
           </div>
         </div>
       </div>
