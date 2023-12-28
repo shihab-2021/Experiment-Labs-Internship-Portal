@@ -4,7 +4,7 @@ import profileImg from '../../../../assets/Dashboard/SuperAdminDashboard/Ellipse
 const TopSection = () => {
     return (
         <div className="w-11/12 mx-auto mt-14">
-            <div className='flex justify-between'>
+            <div className='flex justify-between gap-2'>
                 <div>
                 <div
                     style={{
@@ -17,9 +17,9 @@ const TopSection = () => {
                     <input className="w-full" placeholder="Search"></input>
                 </div>
                 <h1 className="text-[20px] font-semibold tracking-widest">Home</h1>
-                <div className='flex gap-5 mt-2'>
-                <div className="justify-center items-stretch shadow-sm bg-indigo-800 flex flex-col px-2 rounded-md py-4">
-                    <div className="justify-between items-stretch flex gap-5">
+                <div className='grid grid-cols-5 gap-2 mt-2'>
+                <div className="justify-center shadow-sm bg-indigo-800 flex flex-col px-2 rounded-md py-6">
+                    <div className="justify-between flex">
                         <div className="text-white text-sm font-medium tracking-widest">
                             Register Companies
                         </div>
@@ -33,8 +33,8 @@ const TopSection = () => {
                         31
                     </div>
                 </div>
-                <div className="justify-center items-stretch shadow-sm bg-[#8064F0] flex flex-col px-2 rounded-md py-4">
-                    <div className="justify-between items-stretch flex gap-5">
+                <div className="justify-center shadow-sm bg-[#8064F0] flex flex-col px-2 rounded-md py-6">
+                    <div className="justify-between flex">
                         <div className="text-white text-sm font-medium tracking-widest">
                             Total task post
                         </div>
@@ -48,8 +48,8 @@ const TopSection = () => {
                         73
                     </div>
                 </div>
-                <div className="justify-center items-stretch shadow-sm bg-[#F1511B] flex flex-col px-2 rounded-md py-4">
-                    <div className="justify-between items-stretch flex gap-5">
+                <div className="justify-center shadow-sm bg-[#F1511B] flex flex-col px-2 rounded-md py-6">
+                    <div className="justify-between flex">
                         <div className="text-white text-sm font-medium tracking-widest">
                             Decision pending
                         </div>
@@ -63,8 +63,8 @@ const TopSection = () => {
                         10
                     </div>
                 </div>
-                <div className="justify-center items-stretch shadow-sm bg-[#20B15A] flex flex-col px-2 rounded-md py-4">
-                    <div className="justify-between items-stretch flex gap-5">
+                <div className="justify-center shadow-sm bg-[#20B15A] flex flex-col px-2 rounded-md py-6">
+                    <div className="justify-between flex">
                         <div className="text-white text-sm font-medium tracking-widest">
                             Approved tasks
                         </div>
@@ -78,8 +78,8 @@ const TopSection = () => {
                         50
                     </div>
                 </div>
-                <div className="justify-center items-stretch shadow-sm bg-[#DD2025] flex flex-col px-2 rounded-md py-4">
-                    <div className="justify-between items-stretch flex gap-5">
+                <div className="justify-center shadow-sm bg-[#DD2025] flex flex-col px-2 rounded-md py-6">
+                    <div className="justify-between flex">
                         <div className="text-white text-sm font-medium tracking-widest">
                             Rejected tasks
                         </div>

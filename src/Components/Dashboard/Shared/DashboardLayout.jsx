@@ -21,6 +21,8 @@ import WorkHoursIconLight from "../../../assets/Dashboard/Shared/WorkHoursIconLi
 import WorkHoursIconDark from "../../../assets/Dashboard/Shared/WorkHoursIconDark.png";
 import LeaderBoardIconLight from "../../../assets/Dashboard/Shared/LeaderBoardIconLight.png";
 import LeaderBoardIconDark from "../../../assets/Dashboard/Shared/LeaderBoardIconDark.png";
+import TaskAccessIconLight from "../../../assets/Dashboard/Shared/TaskAccessIconLight.png";
+import TaskAccessIconDark from "../../../assets/Dashboard/Shared/TaskAccessIconDark.png";
 import { AuthContext } from "../../../Contexts/AuthProvider";
 import axios from "axios";
 const DashboardLayout = ({ children }) => {
@@ -560,6 +562,44 @@ const DashboardLayout = ({ children }) => {
                                   } ml-3 text-[16px] font-[600]`}
                                 >
                                   Dashboard
+                                </span>
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                style={
+                                  location.pathname ===
+                                  "/SuperAdminDashboard/taskAccess"
+                                    ? {
+                                        background:
+                                          "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
+                                      }
+                                    : {}
+                                }
+                                to="/SuperAdminDashboard/taskAccess"
+                                className={`text-white font-normal rounded-[15px] flex items-center px-[20px] py-[13px]  group`}
+                              >
+                                {location.pathname ===
+                                "/SuperAdminDashboard/taskAccess" ? (
+                                  <img
+                                    src={TaskAccessIconLight}
+                                    alt="TaskAccessIconLight"
+                                  />
+                                ) : (
+                                  <img
+                                    src={TaskAccessIconDark}
+                                    alt="TaskAccessIconDark"
+                                  />
+                                )}
+                                <span
+                                  className={`${
+                                    location.pathname ===
+                                    "/SuperAdminDashboard/taskAccess"
+                                      ? "text-white "
+                                      : "text-[#8F8F8F]"
+                                  } ml-3 text-[16px] font-[600]`}
+                                >
+                                  Task Access
                                 </span>
                               </Link>
                             </li>
