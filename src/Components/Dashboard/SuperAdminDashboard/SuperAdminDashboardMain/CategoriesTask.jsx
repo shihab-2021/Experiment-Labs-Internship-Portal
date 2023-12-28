@@ -26,11 +26,11 @@ const CategoriesTask = () => {
     ];
     const COLORS = ["#FF557F","#FFDB70","#9747FF","#9CAAFF","#38C0C9","#2196F3","#F08323","#20B15A"];
     return (
-        <div className='border shadow-lg bg-white flex justify-center py-5 min-w-[330px] w-full flex-col rounded-2xl border-solid border-stone-300'>
-            <div className="text-black text-xl font-medium tracking-[2px] mb-10 ml-5">
+        <div className='border shadow-lg bg-white flex py-8 min-w-[330px] w-full flex-col rounded-2xl border-solid border-stone-300'>
+            <div className="text-black text-xl font-bold tracking-[2px] mb-10 ml-24">
                 Categories of task
             </div>
-            <div className="flex flex-row gap-3 items-center">
+            <div className="flex justify-around gap-3 items-center">
                 <PieChart width={300} height={270}>
                     <Tooltip></Tooltip>
                     <Pie
