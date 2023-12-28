@@ -170,11 +170,11 @@ const Tasks = () => {
                     Decision Pending
                 </button>
             </div>
-            <div className="grid grid-cols-4 gap-5 my-[17px] justify-evenly">
+            <div className="grid grid-cols-3  gap-5 my-[17px]">
                 {filteredCardData?.map((item, index) => (
                     <div
                         key={index}
-                        className="bg-[#FFF] border border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[17px] w-[320px] py-[19px] rounded-md"
+                        className="bg-[#FFF] border border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[17px] w-[100%] py-[19px] rounded-md"
                     >
                         <div className='flex justify-between items-center'>
                             <div className='flex gap-2 items-center'>
