@@ -7,12 +7,14 @@ import { useParams } from "react-router-dom";
 const DynamicFavicon = () => {
   const [organizationInfo, setOrganizationInfo] = useState({});
   const orgId = localStorage.getItem("orgId");
+  const role = localStorage.getItem("role");
   const { id } = useParams();
   useEffect(() => {
-    if (id || orgId)
+    if ((id || orgId) && role === "Student")
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${orgId ? orgId : id
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${
+            orgId ? orgId : id
           }`
         )
         .then((org) => {

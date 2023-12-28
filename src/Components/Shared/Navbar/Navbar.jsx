@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import LoginAndRegisterForm from "../LoginAndRegisterForm";
 import { Helmet } from "react-helmet";
-import DynamicFavicon from "../../../DynamicFavicon";
+// import DynamicFavicon from "../../../DynamicFavicon";
 
 const Navbar = () => {
   const { id } = useParams();
@@ -47,7 +47,7 @@ const Navbar = () => {
           <title>{organizationInfo?.orgName}</title>
         </Helmet>
       )}
-      <DynamicFavicon />
+      {/* <DynamicFavicon /> */}
       <LoginAndRegisterForm
         setShowLoginForm={setShowLoginForm}
         showLoginForm={showLoginForm}
