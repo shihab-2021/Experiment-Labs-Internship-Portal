@@ -13,32 +13,27 @@ import {
     Bar,
 } from "recharts";
 
-const CategoriesTask = () => {
+const SSOverview = () => {
     const pieChartData = [
-        { statusInfo: `20 Marketing task`, value: 20 },
-        { statusInfo: `10 UI AND UX`, value: 10 },
-        { statusInfo: `5 Video editing`, value: 5 },
-        { statusInfo: `5 Content writer`, value: 5 },
-        { statusInfo: `4 Sales`, value: 4 },
-        { statusInfo: `4 Finance`, value: 4 },
-        { statusInfo: `4 Typing`, value: 4 },
-        { statusInfo: `28 other`, value: 28 }
+        { statusInfo: `20 Decision pending`, value: 20 },
+        { statusInfo: `70 Approved  task`, value: 70 },
+        { statusInfo: `10 Rejected task`, value: 10 },
     ];
-    const COLORS = ["#FF557F","#FFDB70","#9747FF","#9CAAFF","#38C0C9","#2196F3","#F08323","#20B15A"];
+    const COLORS = ["#F1511B", "#2196F3", "#DD2025"];
     return (
-        <div className='border shadow-lg bg-white flex py-8 min-w-[330px] w-full flex-col rounded-2xl border-solid border-stone-300'>
-            <div className="text-black text-xl font-bold tracking-[2px] mb-10 ml-24">
-                Categories of task
+        <div className='border shadow-lg bg-white flex justify-center py-5 min-w-[330px] max-w-[330px] flex-col rounded-2xl border-solid border-stone-300'>
+            <div className="text-black text-xl font-medium tracking-[2px] max-w-[101px] mb-10 ml-5">
+                Overview
             </div>
-            <div className="flex justify-around gap-3 items-center">
-                <PieChart width={300} height={270}>
+            <div className="flex flex-col gap-3 items-center">
+                <PieChart width={200} height={170}>
                     <Tooltip></Tooltip>
                     <Pie
                         data={pieChartData}
                         cx="50%"
                         cy="50%"
-                        innerRadius={100}
-                        outerRadius={120}
+                        innerRadius={60}
+                        outerRadius={80}
                         startAngle={-270}
                         endAngle={-630}
                         dataKey="value"
@@ -50,8 +45,8 @@ const CategoriesTask = () => {
                             />
                         ))}
                         <Label
-                            className="text-[18px] text-black font-bold w-[80px]"
-                            value={`${70} task Categories`}
+                            className="text-[18px] text-black font-medium"
+                            value={`${70 + 20 + 10} Tasks`}
                             position="center"
                         />
                     </Pie>
@@ -74,4 +69,4 @@ const CategoriesTask = () => {
     );
 };
 
-export default CategoriesTask;
+export default SSOverview;
