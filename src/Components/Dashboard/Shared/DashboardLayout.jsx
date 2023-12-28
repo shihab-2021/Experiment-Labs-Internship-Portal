@@ -21,6 +21,8 @@ import WorkHoursIconLight from "../../../assets/Dashboard/Shared/WorkHoursIconLi
 import WorkHoursIconDark from "../../../assets/Dashboard/Shared/WorkHoursIconDark.png";
 import LeaderBoardIconLight from "../../../assets/Dashboard/Shared/LeaderBoardIconLight.png";
 import LeaderBoardIconDark from "../../../assets/Dashboard/Shared/LeaderBoardIconDark.png";
+import TaskAccessIconLight from "../../../assets/Dashboard/Shared/TaskAccessIconLight.png";
+import TaskAccessIconDark from "../../../assets/Dashboard/Shared/TaskAccessIconDark.png";
 import { AuthContext } from "../../../Contexts/AuthProvider";
 import axios from "axios";
 const DashboardLayout = ({ children }) => {
@@ -31,18 +33,19 @@ const DashboardLayout = ({ children }) => {
   const role = localStorage.getItem("role");
   const orgId = localStorage.getItem("orgId");
   const [organizationInfo, setOrganizationInfo] = useState({});
-  const { id } = useParams()
+  const { id } = useParams();
 
   useEffect(() => {
-    axios
-      .get(
-        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${orgId}`
-      )
-      .then((org) => {
-        setOrganizationInfo(org?.data);
-      })
-      .catch((error) => console.error(error));
-  }, [orgId]);
+    if (orgId && role === "Student")
+      axios
+        .get(
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${orgId}`
+        )
+        .then((org) => {
+          setOrganizationInfo(org?.data);
+        })
+        .catch((error) => console.error(error));
+  }, [orgId, role]);
   return (
     <div>
       <>
@@ -64,7 +67,7 @@ const DashboardLayout = ({ children }) => {
                           className="hidden lg:block"
                           to={orgId ? `/organization/${orgId}` : "/"}
                         >
-                          {orgId ? (
+                          {organizationInfo?.orgLogo ? (
                             <img
                               // className="h-6 lg:h-8"
                               className="my-5 max-w-[150px]"
@@ -201,7 +204,9 @@ const DashboardLayout = ({ children }) => {
                             <li>
                               <Link
                                 style={
-                                  (location.pathname === "/taskDetails" || location.pathname === `/completeShowMore/${id}`)
+                                  location.pathname === "/taskDetails" ||
+                                  location.pathname ===
+                                    `/completeShowMore/${id}`
                                     ? {
                                         background:
                                           "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
@@ -211,7 +216,9 @@ const DashboardLayout = ({ children }) => {
                                 to="/taskDetails"
                                 className={`text-white font-normal rounded-[15px] flex items-center px-[20px] py-[13px]  group`}
                               >
-                                {(location.pathname === "/taskDetails" || location.pathname === `/completeShowMore/${id}`) ? (
+                                {location.pathname === "/taskDetails" ||
+                                location.pathname ===
+                                  `/completeShowMore/${id}` ? (
                                   <img
                                     src={TaskDetailsIconLight}
                                     alt="TaskDetailsIconLight"
@@ -224,7 +231,9 @@ const DashboardLayout = ({ children }) => {
                                 )}
                                 <span
                                   className={`${
-                                    (location.pathname === "/taskDetails" || location.pathname === `/completeShowMore/${id}`)
+                                    location.pathname === "/taskDetails" ||
+                                    location.pathname ===
+                                      `/completeShowMore/${id}`
                                       ? "text-white "
                                       : "text-[#8F8F8F]"
                                   } ml-3 text-[16px] font-[600]`}
@@ -438,6 +447,229 @@ const DashboardLayout = ({ children }) => {
                                   } ml-3 text-[16px] font-[600]`}
                                 >
                                   Leader Board
+                                </span>
+                              </Link>
+                            </li>
+                          </>
+                        )}
+                        {role === "SuperAdmin" && (
+                          <>
+                            <li>
+                              <Link
+                                style={
+                                  location.pathname ===
+                                  "/superAdminDashboardHome"
+                                    ? {
+                                        background:
+                                          "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
+                                      }
+                                    : {}
+                                }
+                                to="/superAdminDashboardHome"
+                                className={`text-white font-normal rounded-[15px] flex items-center px-[20px] py-[13px]  group`}
+                              >
+                                {location.pathname ===
+                                "/superAdminDashboardHome" ? (
+                                  <img
+                                    src={HomeIconLight}
+                                    alt="HomeIconLight"
+                                  />
+                                ) : (
+                                  <img src={HomeIconDark} alt="HomeIconDark" />
+                                )}
+                                <span
+                                  className={`${
+                                    location.pathname ===
+                                    "/superAdminDashboardHome"
+                                      ? "text-white "
+                                      : "text-[#8F8F8F]"
+                                  } ml-3 text-[16px] font-[600]`}
+                                >
+                                  Home
+                                </span>
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                style={
+                                  location.pathname ===
+                                  "/superAdminDashboard/createTask"
+                                    ? {
+                                        background:
+                                          "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
+                                      }
+                                    : {}
+                                }
+                                to="/superAdminDashboard/createTask"
+                                className={`text-white font-normal rounded-[15px] flex items-center px-[20px] py-[13px]  group`}
+                              >
+                                {location.pathname ===
+                                "/superAdminDashboard/createTask" ? (
+                                  <img
+                                    src={CreateTaskIconLight}
+                                    alt="CreateTaskIconLight"
+                                  />
+                                ) : (
+                                  <img
+                                    src={CreateTaskIconDark}
+                                    alt="CreateTaskIconDark"
+                                  />
+                                )}
+                                <span
+                                  className={`${
+                                    location.pathname ===
+                                    "/superAdminDashboard/createTask"
+                                      ? "text-white "
+                                      : "text-[#8F8F8F]"
+                                  } ml-3 text-[16px] font-[600]`}
+                                >
+                                  Create Task
+                                </span>
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                style={
+                                  location.pathname ===
+                                  "/superAdminDashboard/dashboard"
+                                    ? {
+                                        background:
+                                          "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
+                                      }
+                                    : {}
+                                }
+                                to="/superAdminDashboard/dashboard"
+                                className={`text-white font-normal rounded-[15px] flex items-center px-[20px] py-[13px]  group`}
+                              >
+                                {location.pathname ===
+                                "/superAdminDashboard/dashboard" ? (
+                                  <img
+                                    src={DashboardIconLight}
+                                    alt="DashboardIconLight"
+                                  />
+                                ) : (
+                                  <img
+                                    src={DashboardIconDark}
+                                    alt="DashboardIconDark"
+                                  />
+                                )}
+                                <span
+                                  className={`${
+                                    location.pathname ===
+                                    "/superAdminDashboard/dashboard"
+                                      ? "text-white "
+                                      : "text-[#8F8F8F]"
+                                  } ml-3 text-[16px] font-[600]`}
+                                >
+                                  Dashboard
+                                </span>
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                style={
+                                  location.pathname ===
+                                  "/SuperAdminDashboard/taskAccess"
+                                    ? {
+                                        background:
+                                          "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
+                                      }
+                                    : {}
+                                }
+                                to="/SuperAdminDashboard/taskAccess"
+                                className={`text-white font-normal rounded-[15px] flex items-center px-[20px] py-[13px]  group`}
+                              >
+                                {location.pathname ===
+                                "/SuperAdminDashboard/taskAccess" ? (
+                                  <img
+                                    src={TaskAccessIconLight}
+                                    alt="TaskAccessIconLight"
+                                  />
+                                ) : (
+                                  <img
+                                    src={TaskAccessIconDark}
+                                    alt="TaskAccessIconDark"
+                                  />
+                                )}
+                                <span
+                                  className={`${
+                                    location.pathname ===
+                                    "/SuperAdminDashboard/taskAccess"
+                                      ? "text-white "
+                                      : "text-[#8F8F8F]"
+                                  } ml-3 text-[16px] font-[600]`}
+                                >
+                                  Task Access
+                                </span>
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                style={
+                                  location.pathname ===
+                                  "/SuperAdminSubmissionDetails"
+                                    ? {
+                                        background:
+                                          "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
+                                      }
+                                    : {}
+                                }
+                                to="/SuperAdminSubmissionDetails"
+                                className={`text-white font-normal rounded-[15px] flex items-center px-[20px] py-[13px]  group`}
+                              >
+                                {location.pathname ===
+                                "/SuperAdminSubmissionDetails" ? (
+                                  <img
+                                    src={TaskDetailsIconLight}
+                                    alt="TaskDetailsIconLight"
+                                  />
+                                ) : (
+                                  <img
+                                    src={TaskDetailsIconDark}
+                                    alt="TaskDetailsIconDark"
+                                  />
+                                )}
+                                <span
+                                  className={`${
+                                    location.pathname ===
+                                    "/SuperAdminSubmissionDetails"
+                                      ? "text-white "
+                                      : "text-[#8F8F8F]"
+                                  } ml-3 text-[16px] font-[600]`}
+                                >
+                                  Submission Details
+                                </span>
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                style={
+                                  location.pathname === "/team"
+                                    ? {
+                                        background:
+                                          "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
+                                      }
+                                    : {}
+                                }
+                                to="/team"
+                                className={`text-white font-normal rounded-[15px] flex items-center px-[20px] py-[13px]  group`}
+                              >
+                                {location.pathname === "/team" ? (
+                                  <img
+                                    src={TeamIconLight}
+                                    alt="TeamIconLight"
+                                  />
+                                ) : (
+                                  <img src={TeamIconDark} alt="TeamIconDark" />
+                                )}
+                                <span
+                                  className={`${
+                                    location.pathname === "/team"
+                                      ? "text-white "
+                                      : "text-[#8F8F8F]"
+                                  } ml-3 text-[16px] font-[600]`}
+                                >
+                                  Team
                                 </span>
                               </Link>
                             </li>

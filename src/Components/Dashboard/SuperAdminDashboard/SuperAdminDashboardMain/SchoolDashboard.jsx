@@ -1,9 +1,14 @@
 import React from 'react';
+import SchoolDashboardTop from './SchoolDashboardTop';
+import SchoolDashboardMiddle from './SchoolDashboardMiddle';
+import SchoolDashboardBottom from './SchoolDashboardBottom';
 
 const SchoolDashboard = () => {
     return (
         <div>
-            SchoolDashboard
+            <SchoolDashboardTop/>
+            <SchoolDashboardMiddle/>
+            <SchoolDashboardBottom/>
         </div>
     );
 };

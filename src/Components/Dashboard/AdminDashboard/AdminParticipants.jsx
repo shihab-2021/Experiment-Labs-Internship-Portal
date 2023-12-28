@@ -51,7 +51,7 @@ const AdminParticipants = ({ item }) => {
         
   }, [item?.submissionId]);
 
-  console.log(submissionDetails)
+  //console.log(submissionDetails)
   
 
   // handle select or reject

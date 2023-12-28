@@ -72,9 +72,14 @@ const AuthProvider = ({ children }) => {
       )
       .then((user) => {
         setUserInfo(user?.data);
-        // if (user?.data?.organizations)
-        //   localStorage.setItem("role", user?.data?.organizations[0].role);
-        // else localStorage.setItem("role", "Intern");
+        if (user?.data?.organizations) {
+          if (user?.data?.organizations[0]?.role === "SuperAdmin")
+            localStorage.setItem("role", user?.data?.organizations[0].role);
+          else {
+            const role = localStorage.getItem("role");
+            if (role === "SuperAdmin") localStorage.setItem("role", "Student");
+          }
+        }
       })
       .catch((error) => console.error(error));
   }, [user?.email, userInfo?.email]);
