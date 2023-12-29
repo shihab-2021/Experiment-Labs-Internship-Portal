@@ -14,6 +14,7 @@ const CTList = () => {
         })
         .catch((error) => console.error(error));
       }, []);
+      
     return (
         <div className='flex gap-5'>
             <div className="justify-center items-stretch shadow-sm bg-indigo-800 flex flex-col px-2 rounded-md py-4">

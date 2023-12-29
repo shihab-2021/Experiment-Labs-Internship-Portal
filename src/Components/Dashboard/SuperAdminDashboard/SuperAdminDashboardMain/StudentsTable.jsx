@@ -55,7 +55,6 @@ const StudentsTable = () => {
     const updateSubmissionStatus = (status, submissionId) => {
 
         //  const submissionData = { ...submissionDetails };
-console.log(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/taskSubmissions/submissionId/${submissionId}/submissionStatus/${status}`);
         axios.put(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/taskSubmissions/submissionId/${submissionId}/submissionStatus/${status}`, {
             comment: "",
             suggestion: "Rejected by super-admin",
