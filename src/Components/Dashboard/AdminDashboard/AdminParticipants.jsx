@@ -5,7 +5,6 @@ import arrowDown from "../../../assets/Dashboard/AdminDashboard/arrowDown.svg";
 import driveIcon from "../../../assets/Dashboard/AdminDashboard/driveIcon.svg";
 import arrowUp from "../../../assets/Dashboard/AdminDashboard/arrowUp.svg";
 
-
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -35,7 +34,6 @@ const AdminParticipants = ({ item }) => {
 
   //submission details data
 
-  const [submissionDetails, setSubmissionDetails] = useState();
 
   useEffect(() => {
     if (item?.submissionId)

@@ -9,19 +9,60 @@ import arrowUp from "../../../../assets/Dashboard/AdminDashboard/arrowUp.svg";
 import taskIcon from "../../../../assets/Dashboard/AdminDashboard/taskIcon.svg";
 import detailsIcon from "../../../../assets/Dashboard/AdminDashboard/details.svg";
 import copyIcon from "../../../../assets/Dashboard/AdminDashboard/copyIcon.svg";
-
-
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import TextEditor from "../../../Shared/TextEditor/TextEditor";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 
 const StudentSubmissionDetails = ({ item }) => {
-    const [aboutSolution, setAboutSolution] = useState("");
+    const navigate = useNavigate();
+    const [comment, setComment] = useState("");
     const [copySuccess, setCopySuccess] = useState('');
+    const [rejectionSuggestion, setRejectionSuggestion] = useState('');
+    const [submissionDetails, setSubmissionDetails] = useState(item);
+    const [userDetails, setUserDetails] = useState();
+    const [taskDetails, setTaskDetails] = useState();
+    const [organizationDetails, setOrganizationDetails] = useState();
+    const [isDivVisible, setDivVisibility] = useState(false);
+    const [details, setDetails] = useState("");
+
+
+    const handleRejectionSuggestion = (value) => {
+        setRejectionSuggestion(value);
+    };
+
+    const rejectionSuggestionData = [
+        {
+            rejectionSuggestionName: "Inadequate Research or Citations"
+        },
+        {
+            rejectionSuggestionName: "Failure to Follow Instructions"
+        },
+        {
+            rejectionSuggestionName: "Insufficient Effort"
+        },
+        {
+            rejectionSuggestionName: "Grammar and Language Issues"
+        },
+        {
+            rejectionSuggestionName: "Poor Organization and Structure"
+        },
+        {
+            rejectionSuggestionName: "Lack of Originality"
+        },
+        {
+            rejectionSuggestionName: "Lack of Depth or Detail"
+        },
+        {
+            rejectionSuggestionName: "Incorrect Understanding of the Task"
+        },
+    ]
+
 
     const handleCopyClick = () => {
-        const linkToCopy = submissionDetails?.fileLink;
+        const linkToCopy = item?.fileLink;
 
         // Create a temporary input element to copy the link
         const tempInput = document.createElement('input');
@@ -38,107 +79,90 @@ const StudentSubmissionDetails = ({ item }) => {
         }, 5000);
     };
 
-    const userDetails = {
-        lastName: "ab",
-        firstName: "as",
-        organizationName: "Magic pin"
-
-    }
-
-    const submissionDetails = {
-        submissionStatus: "Rejected",
-        _id: "12121212",
-        fileLink: "www.google.com",
-        aboutSolution: "Hi! I am excited about this internship project. I've sent the Figma link, and I hope you like it. Please provide feedback for my improvement.",
-        taskName: "UI AND UX TASK"
-
-
-    }
-
-    // console.log(item)
-
     //user details data
-
-    //const [userDetails, setUserDetails] = useState();
-
-    /*   useEffect(() => {
+    useEffect(() => {
         if (item?.participantEmail)
-          axios
-            .get(
-              `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${item?.participantEmail}`
-            )
-            .then((user) => {
-              setUserDetails(user?.data);
-            })
-            .catch((error) => console.error(error));
-      }, [item?.participantEmail]); */
+            axios
+                .get(
+                    `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${item?.participantEmail}`
+                )
+                .then((user) => {
+                    setUserDetails(user?.data);
+                })
+                .catch((error) => console.error(error));
+    }, [item?.participantEmail]);
+
+    // task Details
+    useEffect(() => {
+        if (item?.taskId)
+            axios
+                .get(
+                    `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/${item?.taskId}`
+                )
+                .then((task) => {
+                    setTaskDetails(task?.data);
+                })
+                .catch((error) => console.error(error));
+    }, [item?.taskId]);
 
 
-    //console.log(userDetails)
+    //organization data
+    useEffect(() => {
+        if (item?.organizationId)
+            axios
+                .get(
+                    `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${item?.organizationId}`
+                )
+                .then((task) => {
+                    setOrganizationDetails(task?.data);
+                })
+                .catch((error) => console.error(error));
+    }, [item?.organizationId]);
 
-    //submission details data
-
-    //const [submissionDetails, setSubmissionDetails] = useState();
-
-    /*   useEffect(() => {
-        if (item?.submissionId)
-          axios
-            .get(
-              `${import.meta.env.VITE_APP_SERVER_API}/api/v1/taskSubmissions/${item?.submissionId}`
-            )
-            .then((user) => {
-              setSubmissionDetails(user?.data);
-            })
-            .catch((error) => console.error(error));
-    
-            
-      }, [item?.submissionId]); */
-
-    //console.log(submissionDetails)
-
+    //console.log(submissionDetails);
 
     // handle select or reject
+    const updateSubmissionStatus = (status, submissionId) => {
 
+        //  const submissionData = { ...submissionDetails };
 
-    /* const updateSubmissionStatus = (status,submissionId) => {
-      
-      const submissionData= {...submissionDetails};
-  
-      if (!submissionId) {
-        console.log('Submission ID is missing.');
-        return;
-      }
-  
-      axios.put(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/taskSubmissions/submissionId/${submissionId}/submissionStatus/${status}`)
-        .then(response => {
-        
-          const successMessage = `Submission status updated to ${status}`;
-  
-          Swal.fire({
-            icon: 'success',
-            title: 'Success!',
-            text: successMessage,
-            confirmButtonText: 'OK'
-          });
-          submissionData.submissionStatus = status;
-          setSubmissionDetails(submissionData)
-        
+        axios.put(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/taskSubmissions/submissionId/${submissionId}/submissionStatus/${status}`, {
+            comment: comment,
+            suggestion: rejectionSuggestion
         })
-        .catch(error => {
-          console.error(error);
-         
-        });
-  
-        
-    }; */
+            .then(response => {
 
-    const [isDivVisible, setDivVisibility] = useState(false);
-    const [details, setDetails] = useState("");
+                const successMessage = `Submission status updated to ${status}`;
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: successMessage,
+                    confirmButtonText: 'OK'
+                });
+
+               
+                navigate('/superAdminSubmissionDetails');
+
+
+            })
+            .catch(error => {
+                console.error(error);
+
+            });
+
+
+    };
 
     const toggleDivVisibility = (detailsName) => {
         setDivVisibility(!isDivVisible);
         setDetails(detailsName);
     };
+
+    const dateTime = new Date(item?.submissionDateTime);
+
+    // Format the date and time
+    const formattedDateTime = dateTime.toLocaleString();
     return (
         <>
             <div
@@ -150,45 +174,45 @@ const StudentSubmissionDetails = ({ item }) => {
                     boxShadow: "0px 4px 20px 0px #EFF1FF",
                 }}
             >
-                <div className="flex items-center gap-2 ">
+                <div className="flex items-center gap-2  w-[220px]">
                     <div>
                         <img src={profileImage} alt="ImageProfile" />
                     </div>
                     <div>
                         <h1 className="text-[17px] font-medium text-[#3F3F3F]">{userDetails?.firstName} {userDetails?.lastName}</h1>
                         <p className="text-[13px] font-normal text-[#5E5E5E]">
-                            {submissionDetails?.taskName}
+                            {taskDetails?.taskName}
                         </p>
                     </div>
                 </div>
-                <div className="text-center">
+                <div className="flex justify-center w-[150px]">
 
-                    <h1 className=" text-base font-medium text-[#737373]">{userDetails?.organizationName}</h1>
-
-                </div>
-                <div className="text-center">
-
-                    <h1 className=" text-base font-medium text-[#737373]">{item?.submissionDateTime}</h1>
+                    <h1 className=" text-base font-medium text-[#737373]">{organizationDetails?.orgName}</h1>
 
                 </div>
+                <div className="flex justify-center w-[220px]">
 
-                <div className="text-center">
+                    <h1 className=" text-base font-medium text-[#737373]">{formattedDateTime}</h1>
+
+                </div>
+
+                <div className="flex justify-center w-[100px]">
 
                     {
-                        (submissionDetails?.submissionStatus === "Processing") &&
+                        (item?.submissionStatus === "Processing") &&
 
                         <p className="text-[#F1511B] text-sm font-medium">Pending</p>
 
                     }
                     {
-                        (submissionDetails?.submissionStatus === "Rejected") &&
+                        (item?.submissionStatus === "Rejected") &&
 
                         <p className="text-[#DD2025] text-sm font-medium ">Rejected</p>
 
 
                     }
                     {
-                        (submissionDetails?.submissionStatus === "Selected") &&
+                        (item?.submissionStatus === "Selected") &&
                         <div
 
                         >
@@ -199,16 +223,20 @@ const StudentSubmissionDetails = ({ item }) => {
 
                 </div>
 
-                <div
-                    className=" flex items-center gap-1"
+                <div className=" flex justify-center  w-[150px]">
+                    <div className="flex items-center gap-1">
+                        {
+                            taskDetails?.taskStatus === "Completed" ? <img className="bg-[green]  rounded-full" src={taskIcon} alt="icon" /> : <img className="bg-[grey]  rounded-full" src={taskIcon} alt="icon" />
+                        }
 
-                >
-                    <img src={taskIcon} alt="icon" />
-                    <p className="text-[] text-sm font-medium  ">Task</p>
+                        <p className="text-[] text-sm font-medium  ">Task</p>
+
+                    </div>
+
                 </div>
 
 
-                <div className="text-center">
+                <div className="flex justify-center w-[200px]">
 
                     <div
                         style={{
@@ -249,7 +277,7 @@ const StudentSubmissionDetails = ({ item }) => {
                     }}
                 >
                     <div className="p-5">
-                        <h1 className="text-lg text-[#3E3E3E] font-medium mb-[5px]" dangerouslySetInnerHTML={{ __html: submissionDetails?.aboutSolution }} />
+                        <h1 className="text-lg text-[#3E3E3E] font-medium mb-[5px]" dangerouslySetInnerHTML={{ __html: item?.aboutSolution }} />
 
 
                     </div>
@@ -260,7 +288,7 @@ const StudentSubmissionDetails = ({ item }) => {
                                     borderRadius: "7px",
                                     border: "1px solid #D2D2D2"
                                 }}
-                                className="w-[685px] px-[7px] py-[10px]" to={submissionDetails?.fileLink}>{submissionDetails?.fileLink ? submissionDetails?.fileLink : "No file"}</Link>
+                                className="w-[685px] px-[7px] py-[10px]" to={item?.fileLink}>{item?.fileLink ? item?.fileLink : "No file"}</Link>
                             <img
                                 src={copyIcon}
                                 alt="Icon"
@@ -271,7 +299,7 @@ const StudentSubmissionDetails = ({ item }) => {
                         </div>
 
                         {
-                            (submissionDetails?.submissionStatus === "Selected") ?
+                            (item?.submissionStatus === "Selected") ?
                                 <p
                                     className="text-[19px] font-medium px-[29px] py-[8px] text-[#fff] "
                                     style={{
@@ -285,7 +313,7 @@ const StudentSubmissionDetails = ({ item }) => {
                                 :
                                 <>
                                     {
-                                        (submissionDetails?.submissionStatus === "Rejected") ? <p
+                                        (item?.submissionStatus === "Rejected") ? <p
                                             className="text-[19px] font-medium px-[29px] py-[8px] text-[#fff] "
                                             style={{
                                                 borderRadius: "26px",
@@ -297,6 +325,7 @@ const StudentSubmissionDetails = ({ item }) => {
                                             Rejected</p>
                                             :
                                             <button
+                                                onClick={() => updateSubmissionStatus('Selected', item?._id)}
                                                 className="text-[19px] font-medium px-[29px] py-[8px] text-[#fff]"
                                                 style={{
                                                     borderRadius: "26px",
@@ -313,83 +342,35 @@ const StudentSubmissionDetails = ({ item }) => {
 
                     </div>
                     {
-                        submissionDetails?.submissionStatus === "Processing" && (
+                        item?.submissionStatus === "Processing" && (
                             <>
                                 <h1 className="text-[#DD2025] p-3 text-lg font-medium">Rejection Suggestions</h1>
 
                                 <div className=" grid grid-cols-3 gap-3 p-1 mb-5">
-                                    <Button
-                                        className=" text-[#ECECEC] p-10"
-                                        style={{
-                                            borderRadius: "34px",
-                                            border: "1px solid #C6C6C6",
-                                            padding: "10px 10px",
-                                        }}
-                                    >Incorrect Understanding of the Task
-                                    </Button>
-                                    <Button
-                                        className=" text-[#ECECEC] p-10"
-                                        style={{
-                                            borderRadius: "34px",
-                                            border: "1px solid #C6C6C6",
-                                            padding: "10px 10px",
-                                        }}
-                                    >Lack of Depth or Detail
-                                    </Button>
-                                    <Button
-                                        className=" text-[#ECECEC] p-10"
-                                        style={{
-                                            borderRadius: "34px",
-                                            border: "1px solid #C6C6C6",
-                                            padding: "10px 10px",
-                                        }}
-                                    >Lack of Originality
-                                    </Button>
-                                    <Button
-                                        className=" text-[#ECECEC] p-10"
-                                        style={{
-                                            borderRadius: "34px",
-                                            border: "1px solid #C6C6C6",
-                                            padding: "10px 10px",
-                                        }}
-                                    >Poor Organization and Structure
-                                    </Button>
-                                    <Button
-                                        className=" text-[#ECECEC] p-10"
-                                        style={{
-                                            borderRadius: "34px",
-                                            border: "1px solid #C6C6C6",
-                                            padding: "10px 10px",
-                                        }}
-                                    >Grammar and Language Issues
-                                    </Button>
-                                    <Button
-                                        className=" text-[#ECECEC] p-10"
-                                        style={{
-                                            borderRadius: "34px",
-                                            border: "1px solid #C6C6C6",
-                                            padding: "10px 10px",
-                                        }}
-                                    >Insufficient Effort
-                                    </Button>
-                                    <Button
-                                        className=" text-[#ECECEC] p-10"
-                                        style={{
-                                            borderRadius: "34px",
-                                            border: "1px solid #C6C6C6",
-                                            padding: "10px 10px",
-                                        }}
-                                    >Failure to Follow Instructions
-                                    </Button>
-                                    <Button
-                                        className=" text-[#ECECEC] p-10"
-                                        style={{
-                                            borderRadius: "34px",
-                                            border: "1px solid #C6C6C6",
-                                            padding: "10px 10px",
-                                        }}
-                                    >Inadequate Research or Citations
-                                    </Button>
+                                    {
+                                        rejectionSuggestionData?.map((suggestion) => (
+                                            <Button
+                                                key={suggestion.id} // Don't forget to provide a unique key for each item when mapping
+                                                onClick={() => handleRejectionSuggestion(suggestion.rejectionSuggestionName)}
+                                                className={`text-[] p-10`}
+                                                style={{
+                                                    borderRadius: "34px",
+                                                    border: "1px solid #C6C6C6",
+                                                    padding: "10px 10px",
+                                                    backgroundColor: suggestion.rejectionSuggestionName === rejectionSuggestion ? '#3498db' : '',
+                                                    color: suggestion.rejectionSuggestionName === rejectionSuggestion ? 'white' : '',
+                                                    // Set the background color to blue if the suggestion is selected
+
+                                                }}
+                                            >
+                                                {suggestion.rejectionSuggestionName}
+                                            </Button>
+                                        ))
+                                    }
+
+
+
+
 
                                 </div>
 
@@ -406,7 +387,7 @@ const StudentSubmissionDetails = ({ item }) => {
                                         {/* Text editor */}
 
                                         <div className="bg-white text-black w-full">
-                                            <TextEditor setValue={setAboutSolution} />
+                                            <TextEditor setValue={setComment} />
                                         </div>
                                     </div>
                                     <div className="text-sky-600 text-base font-medium font-raleway tracking-wider">
@@ -416,7 +397,8 @@ const StudentSubmissionDetails = ({ item }) => {
 
                                 <div className=" flex justify-end pb-5 me-2">
                                     <button
-                                        className="text-[#4555BA] text-[19px] font-medium"
+                                        onClick={() => updateSubmissionStatus('Rejected', item?._id)}
+                                        className="text-[#4555BA] text-[19px] font-medium hover:bg-[blue] hover:text-[#fff]"
                                         style={{
                                             borderRadius: "23px",
                                             border: "1px solid #4555BA",

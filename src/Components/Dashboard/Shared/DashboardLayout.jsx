@@ -54,9 +54,8 @@ const DashboardLayout = ({ children }) => {
             <div className="flex overflow-hidden">
               <aside
                 id="sidebar"
-                className={`fixed ${
-                  toggleButton ? "hidden" : ""
-                } z-20 h-full top-0 bg-[#141414] shadow-lg left-0 flex lg:flex flex-shrink-0 flex-col w-[280px] transition duration-500 ease-in-out delay-150`}
+                className={`fixed ${toggleButton ? "hidden" : ""
+                  } z-20 h-full top-0 bg-[#141414] shadow-lg left-0 flex lg:flex flex-shrink-0 flex-col w-[280px] transition duration-500 ease-in-out delay-150`}
                 aria-label="Sidebar"
               >
                 <div className=" flex-1 flex flex-col min-h-0 pt-0">
@@ -91,7 +90,7 @@ const DashboardLayout = ({ children }) => {
                           ariaExpanded="true"
                           ariaControls="sidebar"
                           className="lg:hidden mr-2 text-gray-600 hover:text-gray-900 cursor-pointer p-2 hover:bg-gray-100 focus:bg-gray-100 focus:ring-2 focus:ring-gray-100 rounded"
-                          //   onClick={handleClick}
+                        //   onClick={handleClick}
                         >
                           <img src="" alt="ArrowLeftIcon" />
                         </button>
@@ -104,9 +103,9 @@ const DashboardLayout = ({ children }) => {
                                 style={
                                   location.pathname === "/dashboard"
                                     ? {
-                                        background:
-                                          "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
-                                      }
+                                      background:
+                                        "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
+                                    }
                                     : {}
                                 }
                                 to="/dashboard"
@@ -121,11 +120,10 @@ const DashboardLayout = ({ children }) => {
                                   <img src={HomeIconDark} alt="HomeIconDark" />
                                 )}
                                 <span
-                                  className={`${
-                                    location.pathname === "/dashboard"
+                                  className={`${location.pathname === "/dashboard"
                                       ? "text-white "
                                       : "text-[#8F8F8F]"
-                                  } ml-3 text-[16px] font-[600]`}
+                                    } ml-3 text-[16px] font-[600]`}
                                 >
                                   Home
                                 </span>
@@ -136,9 +134,9 @@ const DashboardLayout = ({ children }) => {
                                 style={
                                   location.pathname === "/createTask"
                                     ? {
-                                        background:
-                                          "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
-                                      }
+                                      background:
+                                        "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
+                                    }
                                     : {}
                                 }
                                 to="/createTask"
@@ -156,11 +154,10 @@ const DashboardLayout = ({ children }) => {
                                   />
                                 )}
                                 <span
-                                  className={`${
-                                    location.pathname === "/createTask"
+                                  className={`${location.pathname === "/createTask"
                                       ? "text-white "
                                       : "text-[#8F8F8F]"
-                                  } ml-3 text-[16px] font-[600]`}
+                                    } ml-3 text-[16px] font-[600]`}
                                 >
                                   Create Task
                                 </span>
@@ -171,9 +168,9 @@ const DashboardLayout = ({ children }) => {
                                 style={
                                   location.pathname === "/dashboardBar"
                                     ? {
-                                        background:
-                                          "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
-                                      }
+                                      background:
+                                        "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
+                                    }
                                     : {}
                                 }
                                 to="/dashboardBar"
@@ -191,11 +188,10 @@ const DashboardLayout = ({ children }) => {
                                   />
                                 )}
                                 <span
-                                  className={`${
-                                    location.pathname === "/dashboardBar"
+                                  className={`${location.pathname === "/dashboardBar"
                                       ? "text-white "
                                       : "text-[#8F8F8F]"
-                                  } ml-3 text-[16px] font-[600]`}
+                                    } ml-3 text-[16px] font-[600]`}
                                 >
                                   Dashboard
                                 </span>
@@ -204,21 +200,20 @@ const DashboardLayout = ({ children }) => {
                             <li>
                               <Link
                                 style={
-                                  location.pathname === "/taskDetails" ||
-                                  location.pathname ===
-                                    `/completeShowMore/${id}`
+                                  location.pathname === "/taskDetails" || location.pathname === `/completeShowMore/${id}` || location.pathname === `/editTaskDetails/${id}`
                                     ? {
-                                        background:
-                                          "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
-                                      }
+                                      background:
+                                        "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
+                                    }
                                     : {}
                                 }
                                 to="/taskDetails"
                                 className={`text-white font-normal rounded-[15px] flex items-center px-[20px] py-[13px]  group`}
                               >
                                 {location.pathname === "/taskDetails" ||
-                                location.pathname ===
-                                  `/completeShowMore/${id}` ? (
+                                  location.pathname ===
+                                  `/completeShowMore/${id}`
+                                  || location.pathname === `/editTaskDetails/${id}` ? (
                                   <img
                                     src={TaskDetailsIconLight}
                                     alt="TaskDetailsIconLight"
@@ -230,13 +225,13 @@ const DashboardLayout = ({ children }) => {
                                   />
                                 )}
                                 <span
-                                  className={`${
-                                    location.pathname === "/taskDetails" ||
-                                    location.pathname ===
+                                  className={`${location.pathname === "/taskDetails" ||
+                                      location.pathname ===
                                       `/completeShowMore/${id}`
+                                      || location.pathname === `/editTaskDetails/${id}`
                                       ? "text-white "
                                       : "text-[#8F8F8F]"
-                                  } ml-3 text-[16px] font-[600]`}
+                                    } ml-3 text-[16px] font-[600]`}
                                 >
                                   Task Details
                                 </span>
@@ -247,9 +242,9 @@ const DashboardLayout = ({ children }) => {
                                 style={
                                   location.pathname === "/team"
                                     ? {
-                                        background:
-                                          "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
-                                      }
+                                      background:
+                                        "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
+                                    }
                                     : {}
                                 }
                                 to="/team"
@@ -264,11 +259,10 @@ const DashboardLayout = ({ children }) => {
                                   <img src={TeamIconDark} alt="TeamIconDark" />
                                 )}
                                 <span
-                                  className={`${
-                                    location.pathname === "/team"
+                                  className={`${location.pathname === "/team"
                                       ? "text-white "
                                       : "text-[#8F8F8F]"
-                                  } ml-3 text-[16px] font-[600]`}
+                                    } ml-3 text-[16px] font-[600]`}
                                 >
                                   Team
                                 </span>
@@ -283,9 +277,9 @@ const DashboardLayout = ({ children }) => {
                                 style={
                                   location.pathname === "/userDashboard"
                                     ? {
-                                        background:
-                                          "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
-                                      }
+                                      background:
+                                        "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
+                                    }
                                     : {}
                                 }
                                 to="/userDashboard"
@@ -300,11 +294,10 @@ const DashboardLayout = ({ children }) => {
                                   <img src={HomeIconDark} alt="HomeIconDark" />
                                 )}
                                 <span
-                                  className={`${
-                                    location.pathname === "/userDashboard"
+                                  className={`${location.pathname === "/userDashboard"
                                       ? "text-white "
                                       : "text-[#8F8F8F]"
-                                  } ml-3 text-[16px] font-[600]`}
+                                    } ml-3 text-[16px] font-[600]`}
                                 >
                                   Home
                                 </span>
@@ -315,9 +308,9 @@ const DashboardLayout = ({ children }) => {
                                 style={
                                   location.pathname === "/internship"
                                     ? {
-                                        background:
-                                          "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
-                                      }
+                                      background:
+                                        "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
+                                    }
                                     : {}
                                 }
                                 to="/internship"
@@ -335,11 +328,10 @@ const DashboardLayout = ({ children }) => {
                                   />
                                 )}
                                 <span
-                                  className={`${
-                                    location.pathname === "/internship"
+                                  className={`${location.pathname === "/internship"
                                       ? "text-white "
                                       : "text-[#8F8F8F]"
-                                  } ml-3 text-[16px] font-[600]`}
+                                    } ml-3 text-[16px] font-[600]`}
                                 >
                                   Internship
                                 </span>
@@ -350,9 +342,9 @@ const DashboardLayout = ({ children }) => {
                                 style={
                                   location.pathname === "/myApplication"
                                     ? {
-                                        background:
-                                          "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
-                                      }
+                                      background:
+                                        "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
+                                    }
                                     : {}
                                 }
                                 to="/myApplication"
@@ -370,11 +362,10 @@ const DashboardLayout = ({ children }) => {
                                   />
                                 )}
                                 <span
-                                  className={`${
-                                    location.pathname === "/myApplication"
+                                  className={`${location.pathname === "/myApplication"
                                       ? "text-white "
                                       : "text-[#8F8F8F]"
-                                  } ml-3 text-[16px] font-[600]`}
+                                    } ml-3 text-[16px] font-[600]`}
                                 >
                                   My Application
                                 </span>
@@ -385,9 +376,9 @@ const DashboardLayout = ({ children }) => {
                                 style={
                                   location.pathname === "/workHours"
                                     ? {
-                                        background:
-                                          "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
-                                      }
+                                      background:
+                                        "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
+                                    }
                                     : {}
                                 }
                                 to="/workHours"
@@ -405,11 +396,10 @@ const DashboardLayout = ({ children }) => {
                                   />
                                 )}
                                 <span
-                                  className={`${
-                                    location.pathname === "/workHours"
+                                  className={`${location.pathname === "/workHours"
                                       ? "text-white "
                                       : "text-[#8F8F8F]"
-                                  } ml-3 text-[16px] font-[600]`}
+                                    } ml-3 text-[16px] font-[600]`}
                                 >
                                   Work Hours
                                 </span>
@@ -420,9 +410,9 @@ const DashboardLayout = ({ children }) => {
                                 style={
                                   location.pathname === "/leaderBoard"
                                     ? {
-                                        background:
-                                          "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
-                                      }
+                                      background:
+                                        "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
+                                    }
                                     : {}
                                 }
                                 to="/leaderBoard"
@@ -440,11 +430,10 @@ const DashboardLayout = ({ children }) => {
                                   />
                                 )}
                                 <span
-                                  className={`${
-                                    location.pathname === "/leaderBoard"
+                                  className={`${location.pathname === "/leaderBoard"
                                       ? "text-white "
                                       : "text-[#8F8F8F]"
-                                  } ml-3 text-[16px] font-[600]`}
+                                    } ml-3 text-[16px] font-[600]`}
                                 >
                                   Leader Board
                                 </span>
@@ -458,18 +447,18 @@ const DashboardLayout = ({ children }) => {
                               <Link
                                 style={
                                   location.pathname ===
-                                  "/superAdminDashboardHome"
+                                    "/superAdminDashboardHome"
                                     ? {
-                                        background:
-                                          "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
-                                      }
+                                      background:
+                                        "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
+                                    }
                                     : {}
                                 }
                                 to="/superAdminDashboardHome"
                                 className={`text-white font-normal rounded-[15px] flex items-center px-[20px] py-[13px]  group`}
                               >
                                 {location.pathname ===
-                                "/superAdminDashboardHome" ? (
+                                  "/superAdminDashboardHome" ? (
                                   <img
                                     src={HomeIconLight}
                                     alt="HomeIconLight"
@@ -478,12 +467,11 @@ const DashboardLayout = ({ children }) => {
                                   <img src={HomeIconDark} alt="HomeIconDark" />
                                 )}
                                 <span
-                                  className={`${
-                                    location.pathname ===
-                                    "/superAdminDashboardHome"
+                                  className={`${location.pathname ===
+                                      "/superAdminDashboardHome"
                                       ? "text-white "
                                       : "text-[#8F8F8F]"
-                                  } ml-3 text-[16px] font-[600]`}
+                                    } ml-3 text-[16px] font-[600]`}
                                 >
                                   Home
                                 </span>
@@ -493,18 +481,18 @@ const DashboardLayout = ({ children }) => {
                               <Link
                                 style={
                                   location.pathname ===
-                                  "/superAdminDashboard/createTask"
+                                    "/superAdminDashboard/createTask"
                                     ? {
-                                        background:
-                                          "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
-                                      }
+                                      background:
+                                        "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
+                                    }
                                     : {}
                                 }
                                 to="/superAdminDashboard/createTask"
                                 className={`text-white font-normal rounded-[15px] flex items-center px-[20px] py-[13px]  group`}
                               >
                                 {location.pathname ===
-                                "/superAdminDashboard/createTask" ? (
+                                  "/superAdminDashboard/createTask" ? (
                                   <img
                                     src={CreateTaskIconLight}
                                     alt="CreateTaskIconLight"
@@ -516,12 +504,11 @@ const DashboardLayout = ({ children }) => {
                                   />
                                 )}
                                 <span
-                                  className={`${
-                                    location.pathname ===
-                                    "/superAdminDashboard/createTask"
+                                  className={`${location.pathname ===
+                                      "/superAdminDashboard/createTask"
                                       ? "text-white "
                                       : "text-[#8F8F8F]"
-                                  } ml-3 text-[16px] font-[600]`}
+                                    } ml-3 text-[16px] font-[600]`}
                                 >
                                   Create Task
                                 </span>
@@ -531,18 +518,18 @@ const DashboardLayout = ({ children }) => {
                               <Link
                                 style={
                                   location.pathname ===
-                                  "/superAdminDashboard/dashboard"
+                                    "/superAdminDashboard/dashboard"
                                     ? {
-                                        background:
-                                          "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
-                                      }
+                                      background:
+                                        "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
+                                    }
                                     : {}
                                 }
                                 to="/superAdminDashboard/dashboard"
                                 className={`text-white font-normal rounded-[15px] flex items-center px-[20px] py-[13px]  group`}
                               >
                                 {location.pathname ===
-                                "/superAdminDashboard/dashboard" ? (
+                                  "/superAdminDashboard/dashboard" ? (
                                   <img
                                     src={DashboardIconLight}
                                     alt="DashboardIconLight"
@@ -554,12 +541,11 @@ const DashboardLayout = ({ children }) => {
                                   />
                                 )}
                                 <span
-                                  className={`${
-                                    location.pathname ===
-                                    "/superAdminDashboard/dashboard"
+                                  className={`${location.pathname ===
+                                      "/superAdminDashboard/dashboard"
                                       ? "text-white "
                                       : "text-[#8F8F8F]"
-                                  } ml-3 text-[16px] font-[600]`}
+                                    } ml-3 text-[16px] font-[600]`}
                                 >
                                   Dashboard
                                 </span>
@@ -569,18 +555,18 @@ const DashboardLayout = ({ children }) => {
                               <Link
                                 style={
                                   location.pathname ===
-                                  "/SuperAdminDashboard/taskAccess"
+                                    "/SuperAdminDashboard/taskAccess"
                                     ? {
-                                        background:
-                                          "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
-                                      }
+                                      background:
+                                        "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
+                                    }
                                     : {}
                                 }
                                 to="/SuperAdminDashboard/taskAccess"
                                 className={`text-white font-normal rounded-[15px] flex items-center px-[20px] py-[13px]  group`}
                               >
                                 {location.pathname ===
-                                "/SuperAdminDashboard/taskAccess" ? (
+                                  "/SuperAdminDashboard/taskAccess" ? (
                                   <img
                                     src={TaskAccessIconLight}
                                     alt="TaskAccessIconLight"
@@ -592,12 +578,11 @@ const DashboardLayout = ({ children }) => {
                                   />
                                 )}
                                 <span
-                                  className={`${
-                                    location.pathname ===
-                                    "/SuperAdminDashboard/taskAccess"
+                                  className={`${location.pathname ===
+                                      "/SuperAdminDashboard/taskAccess"
                                       ? "text-white "
                                       : "text-[#8F8F8F]"
-                                  } ml-3 text-[16px] font-[600]`}
+                                    } ml-3 text-[16px] font-[600]`}
                                 >
                                   Task Access
                                 </span>
@@ -607,18 +592,18 @@ const DashboardLayout = ({ children }) => {
                               <Link
                                 style={
                                   location.pathname ===
-                                  "/SuperAdminSubmissionDetails"
+                                    "/SuperAdminSubmissionDetails"
                                     ? {
-                                        background:
-                                          "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
-                                      }
+                                      background:
+                                        "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
+                                    }
                                     : {}
                                 }
                                 to="/SuperAdminSubmissionDetails"
                                 className={`text-white font-normal rounded-[15px] flex items-center px-[20px] py-[13px]  group`}
                               >
                                 {location.pathname ===
-                                "/SuperAdminSubmissionDetails" ? (
+                                  "/SuperAdminSubmissionDetails" ? (
                                   <img
                                     src={TaskDetailsIconLight}
                                     alt="TaskDetailsIconLight"
@@ -630,12 +615,11 @@ const DashboardLayout = ({ children }) => {
                                   />
                                 )}
                                 <span
-                                  className={`${
-                                    location.pathname ===
-                                    "/SuperAdminSubmissionDetails"
+                                  className={`${location.pathname ===
+                                      "/SuperAdminSubmissionDetails"
                                       ? "text-white "
                                       : "text-[#8F8F8F]"
-                                  } ml-3 text-[16px] font-[600]`}
+                                    } ml-3 text-[16px] font-[600]`}
                                 >
                                   Submission Details
                                 </span>
@@ -646,9 +630,9 @@ const DashboardLayout = ({ children }) => {
                                 style={
                                   location.pathname === "/team"
                                     ? {
-                                        background:
-                                          "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
-                                      }
+                                      background:
+                                        "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
+                                    }
                                     : {}
                                 }
                                 to="/team"
@@ -663,11 +647,10 @@ const DashboardLayout = ({ children }) => {
                                   <img src={TeamIconDark} alt="TeamIconDark" />
                                 )}
                                 <span
-                                  className={`${
-                                    location.pathname === "/team"
+                                  className={`${location.pathname === "/team"
                                       ? "text-white "
                                       : "text-[#8F8F8F]"
-                                  } ml-3 text-[16px] font-[600]`}
+                                    } ml-3 text-[16px] font-[600]`}
                                 >
                                   Team
                                 </span>
@@ -680,9 +663,9 @@ const DashboardLayout = ({ children }) => {
                             style={
                               location.pathname === "/message"
                                 ? {
-                                    background:
-                                      "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
-                                  }
+                                  background:
+                                    "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
+                                }
                                 : {}
                             }
                             to="/message"
@@ -700,11 +683,10 @@ const DashboardLayout = ({ children }) => {
                               />
                             )}
                             <span
-                              className={`${
-                                location.pathname === "/message"
+                              className={`${location.pathname === "/message"
                                   ? "text-white "
                                   : "text-[#8F8F8F]"
-                              } ml-3 text-[16px] font-[600]`}
+                                } ml-3 text-[16px] font-[600]`}
                             >
                               Message
                             </span>

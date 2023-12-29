@@ -75,7 +75,7 @@ const AdminTaskDetails = () => {
   }, [userInfo, backgroundColor]);
 
   useEffect(() => {
-    if (userInfo?.organizations && userInfo.organizations.length > 0) {
+    if (userInfo?.organizations && userInfo.organizations?.length > 0) {
       const organizationId = userInfo.organizations[0].organizationId;
 
       // Fetching tasks with status 'Processing' and updating state
@@ -219,7 +219,8 @@ const AdminTaskDetails = () => {
                   <div className="bg-[#FFF] border border-[#E7E7E7] w-[50%] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md">
                     <div className="flex justify-between items-center">
                       <h1 className="font-bold text-[17px]">{item?.taskName}</h1>
-                      <FaEdit style={{ color: '#3E4DAC' }} />
+                      <Link to={`/editTaskDetails/${item?._id}`} className="" ><FaEdit style={{ color: '#3E4DAC' }} /></Link>
+                      
                     </div>
                     <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
                       {item?.aboutTask}
@@ -227,7 +228,7 @@ const AdminTaskDetails = () => {
                     <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
                       {item?.description}
                     </p>
-                    {item?.participants && item?.participants.length > 0 ? (
+                    {item?.participants && item?.participants?.length > 0 ? (
                       <AvatarGroup
                         className="grid justify-end mt-[14px]"
                         // max={16}
@@ -253,7 +254,7 @@ const AdminTaskDetails = () => {
                     <div>
                       <div className="mt-[14px] flex justify-between text-[14px] font-medium">
                         <p>Progress</p>
-                        <p className="text-[#3F3F3F]">{(item?.participants.length) ? item?.participants.length : '0'}/{item?.participantLimit}</p>
+                        <p className="text-[#3F3F3F]">{(item?.participants?.length) ? item?.participants?.length : '0'}/{item?.participantLimit}</p>
                       </div>
                       <div className="relative w-full">
                         <div className="w-full bg-gray-200 rounded-lg h-2">
@@ -311,7 +312,7 @@ const AdminTaskDetails = () => {
                   <div className="bg-[#FFF] border w-[50%] border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md">
                     <div className="flex justify-between items-center">
                       <h1 className="font-bold text-[17px]">{item?.taskName}</h1>
-                      <FaEdit style={{ color: '#3E4DAC' }} />
+                      <Link to={`/editTaskDetails/${item?._id}`} className="" ><FaEdit style={{ color: '#3E4DAC' }} /></Link>
                     </div>
                     <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
                       {item?.subtitle}
@@ -319,7 +320,7 @@ const AdminTaskDetails = () => {
                     <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
                       {item?.aboutTask}
                     </p>
-                    {item?.participants && item?.participants.length > 0 ? (
+                    {item?.participants && item?.participants?.length > 0 ? (
                       <AvatarGroup
                         className="grid justify-end mt-[14px]"
                         // max={16}
@@ -344,7 +345,7 @@ const AdminTaskDetails = () => {
                     <div>
                       <div className="mt-[14px] flex justify-between text-[14px] font-medium">
                         <p>Progress</p>
-                        <p className="text-[#3F3F3F]">{(item?.participants.length) ? item?.participants.length : '0'}/{item?.participantLimit}</p>
+                        <p className="text-[#3F3F3F]">{(item?.participants?.length) ? item?.participants?.length : '0'}/{item?.participantLimit}</p>
                       </div>
                       <div className="relative w-full">
                         <div className="w-full bg-gray-200 rounded-lg h-2">
@@ -403,7 +404,7 @@ const AdminTaskDetails = () => {
                   <div className="bg-[#FFF] border w-[50%] border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md">
                     <div className="flex justify-between items-center">
                       <h1 className="font-bold text-[17px]">{item?.taskName}</h1>
-
+                      <Link to={`/editTaskDetails/${item?._id}`} className="" ><FaEdit style={{ color: '#3E4DAC' }} /></Link>
                     </div>
                     <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
                       {item?.aboutTask}
@@ -411,7 +412,7 @@ const AdminTaskDetails = () => {
                     <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
                       {item?.description}
                     </p>
-                    {item?.participants && item?.participants.length > 0 ? (
+                    {item?.participants && item?.participants?.length > 0 ? (
                       <AvatarGroup
                         className="grid justify-end mt-[14px]"
                         // max={16}
@@ -436,7 +437,7 @@ const AdminTaskDetails = () => {
                     <div>
                       <div className="mt-[14px] flex justify-between text-[14px] font-medium">
                         <p>Progress</p>
-                        <p className="text-[#3F3F3F]">{(item?.participants.length) ? item?.participants.length : '0'}/{item?.participantLimit}</p>
+                        <p className="text-[#3F3F3F]">{(item?.participants?.length) ? item?.participants?.length : '0'}/{item?.participantLimit}</p>
                       </div>
                       <div className="relative w-full">
                         <div className="w-full bg-gray-200 rounded-lg h-2">
