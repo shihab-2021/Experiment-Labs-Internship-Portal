@@ -19,6 +19,7 @@ import AdminParticipants from "./AdminParticipants";
 import { AuthContext } from "../../../Contexts/AuthProvider";
 
 const AdminCompleteShowMore = () => {
+  
   const { id } = useParams()
   const { userInfo } = useContext(AuthContext);
   console.log(id)
@@ -118,9 +119,7 @@ const AdminCompleteShowMore = () => {
     return `${day}/ ${month}/ ${year}`;
   };
 
-  const completionPercentage =
-    (taskDetails?.complete?.length ? taskDetails?.complete?.length : "0" / taskDetails?.participants?.length) * 100 || 0;
-
+ 
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -425,6 +424,7 @@ const AdminCompleteShowMore = () => {
           boxShadow: "0px 4px 20px 0px #EFF1FF",
         }}
       >
+
         <h1 className="text-xl font-medium">Submission</h1>
         <img src={filter} alt="icon" />
       </div>

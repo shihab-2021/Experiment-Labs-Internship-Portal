@@ -19,6 +19,8 @@ import SuperAdminDashboardMain from "../Pages/SuperAdminDashboard/SuperAdminDash
 import SuperAdminDashboardSubmissionDetails from "../Pages/SuperAdminDashboard/SuperAdminDashboardSubmissionDetails";
 import SuperAdminDashboardCreateTask from "../Pages/SuperAdminDashboard/SuperAdminDashboardCreateTask";
 import SuperAdminDashboardTaskAccess from "../Pages/SuperAdminDashboard/SuperAdminDashboardTaskAccess";
+import EditTaskDetails from "../Pages/Dashboard/EditTaskDetails";
+
 
 export const router = createBrowserRouter([
   {
@@ -94,7 +96,7 @@ export const router = createBrowserRouter([
     element: <SuperAdminDashboardMain />,
   },
   {
-    path: "/SuperAdminSubmissionDetails",
+    path: "/superAdminSubmissionDetails",
     element: <SuperAdminDashboardSubmissionDetails />,
   },
   {
@@ -104,5 +106,9 @@ export const router = createBrowserRouter([
   {
     path: "/superAdminDashboard/taskAccess",
     element: <SuperAdminDashboardTaskAccess />,
+  },
+  {
+    path: "/editTaskDetails/:id",
+    element: <EditTaskDetails />,
   },
 ]);

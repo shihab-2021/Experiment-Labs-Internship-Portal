@@ -1,15 +1,16 @@
 
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import StudentSubmissionDetails from './StudentSubmissionDetails';
+import axios from 'axios';
 
 const SubmissionDetails = () => {
     const [states, setStates] = useState([
         "All Students",
         "Pending Decision",
         "Approved",
-        "Pending",
+        "Rejected",
     ]);
     const [selectedSate, setSelectedSate] = useState(states[0]);
 
@@ -42,6 +43,24 @@ const SubmissionDetails = () => {
         ]
     }
 
+    // submissionsDetails data
+    const [submissionsDetails, setSubmissionsDetails] = useState();
+
+    useEffect(() => {
+
+        axios
+            .get(
+                `${import.meta.env.VITE_APP_SERVER_API}/api/v1/taskSubmissions`
+            )
+            .then((submission) => {
+                setSubmissionsDetails(submission?.data);
+            })
+            .catch((error) => console.error(error));
+    }, []);
+
+    console.log(submissionsDetails);
+
+
 
     return (
         <div className='mx-[14px]'>
@@ -71,7 +90,7 @@ const SubmissionDetails = () => {
                                 <p className={`${state === 'All Students' ? 'text-[#3E4DAC]' : ''}
                                 ${state === 'Pending Decision' ? 'text-[#F1511B]' : ''}
                                 ${state === 'Approved' ? 'text-[#20B15A]' : ''}
-                                ${state === 'Pending' ? 'text-[#DD2025]' : ''}
+                                ${state === 'Rejected' ? 'text-[#DD2025]' : ''}
                                 
                                 `}>{state}</p>
 
@@ -83,56 +102,121 @@ const SubmissionDetails = () => {
                     </div>
                 </div>
                 <div className=' mt-[31px]'>
+                    <div
+                        className=" flex  text-[#3F3F3F] items-center justify-between py-[14px] mb-2 "
+                        style={{
+                            borderRadius: "7px",
+                            border: "1px solid #EEE",
+                            background: "#F0F2FF",
+                            boxShadow: "0px 4px 20px 0px #EFF1FF",
+                        }}
+                    >
+                        <div className="text-center font-medium text-xl w-[220px]">
+                            <h1 className=''>Students name</h1>
+                        </div>
+                        <div className="text-center w-[150px]">
+                            <h1 className=" text-xl font-medium">Company</h1>
+
+                        </div>
+                        <div className="flex justify-center text-center w-[220px]">
+                            <h1 className=" text-xl font-medium ">Submission time</h1>
+
+                        </div>
+                        <div className="text-center flex justify-center w-[100px]">
+                            <p className=" text-xl font-medium ">Decision</p>
+                        </div>
+                        <div className="text-center flex justify-center w-[150px] ">
+                            <h1 className="text-xl font-medium ">Task details</h1>
+
+                        </div>
+                        <div className="text-center flex justify-center w-[200px] ">
+                            <h1 className="text-xl font-medium">Submission details</h1>
+
+                        </div>
+
+                    </div>
                     {selectedSate === "All Students" && (<>
-                        <div
-                            className=" flex  text-[#3F3F3F] items-center justify-between py-[14px] mb-2 "
-                            style={{
-                                borderRadius: "7px",
-                                border: "1px solid #EEE",
-                                background: "#F0F2FF",
-                                boxShadow: "0px 4px 20px 0px #EFF1FF",
-                            }}
-                        >
-                            <div className="text-center font-medium text-xl">
-                             <h1 className='ms-5'>Students name</h1>
-                            </div>
-                            <div className="text-center">
-                                <h1 className=" text-xl font-medium w-[50%] ms-[90px]">Company</h1>
-                                
-                            </div>
-                            <div className="flex justify-center text-center">
-                                <h1 className=" text-xl font-medium w-[50%] ms-[40px]">Submission time</h1>
-                                
-                            </div>
-                            <div className="text-center flex justify-center">
-                                <p className=" text-xl font-medium w-[100%] ms-[40px]">Decision</p>
-                            </div>
-                            <div className="text-center flex justify-center  ms-[50px]">
-                                <h1 className="text-xl font-medium w-[50%] ">Task details</h1>
-                            
-                            </div>
-                            <div className="text-center flex justify-center ">
-                                <h1 className="text-xl font-medium w-[50%]">Submission details</h1>
-                               
-                            </div>
 
-                        </div>
-                        <div>
+                        {
+                            (submissionsDetails?.length) ?
+                                <div>
 
-                            {
-                                taskDetails?.participants?.map((item) =>
-                                    <StudentSubmissionDetails item={item} />
-                                )
-                            }
-                        </div>
+                                    {
+                                        submissionsDetails?.map((item) =>
+                                            <StudentSubmissionDetails
+                                                item={item}
+                                            />
+                                        )
+                                    }
+                                </div>
+                                : <p className='text-xl font-semibold text-[red]'>Data not found</p>
+
+                        }
+
                     </>
 
 
                     )
                     }
-                    {selectedSate === "Pending Decision" && <p>Pending Decision</p>}
-                    {selectedSate === "Approved" && <p>Approved</p>}
-                    {selectedSate === "Pending" && <p>Pending</p>}
+                    {selectedSate === "Pending Decision" && (<>
+                        {
+                            (submissionsDetails?.length) ? (
+                                <div>
+                                    {
+                                        submissionsDetails?.filter(item => item?.submissionStatus === "Processing")
+                                            .map(item => (
+                                                <StudentSubmissionDetails
+                                                   // key={item.id}  // Assuming each item has a unique id
+                                                    item={item}
+                                                />
+                                            ))
+                                    }
+                                </div>
+                            ) : (
+                                <p className='text-xl font-semibold text-[red]'>Data not found</p>
+                            )
+                        }
+                    </>)}
+
+                    {selectedSate === "Approved" && <>
+                        {
+                            (submissionsDetails?.length) ? (
+                                <div>
+                                    {
+                                        submissionsDetails?.filter(item => item?.submissionStatus === "Selected")
+                                            .map(item => (
+                                                <StudentSubmissionDetails
+                                                   // key={item.id}  // Assuming each item has a unique id
+                                                    item={item}
+                                                />
+                                            ))
+                                    }
+                                </div>
+                            ) : (
+                                <p className='text-xl font-semibold text-[red]'>Data not found</p>
+                            )
+                        }
+
+                    </>}
+                    {selectedSate === "Rejected" && <>
+                    {
+                            (submissionsDetails?.length) ? (
+                                <div>
+                                    {
+                                        submissionsDetails?.filter(item => item?.submissionStatus === "Rejected")
+                                            .map(item => (
+                                                <StudentSubmissionDetails
+                                                   // key={item.id}  // Assuming each item has a unique id
+                                                    item={item}
+                                                />
+                                            ))
+                                    }
+                                </div>
+                            ) : (
+                                <p className='text-xl font-semibold text-[red]'>Data not found</p>
+                            )
+                        }
+                    </>}
                 </div>
             </div>
         </div>
