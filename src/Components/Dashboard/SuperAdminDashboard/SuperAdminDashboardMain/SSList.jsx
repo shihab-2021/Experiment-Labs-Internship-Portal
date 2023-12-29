@@ -14,6 +14,7 @@ const SSList = () => {
         })
         .catch((error) => console.error(error));
       }, []);
+      console.log(sslist);
     return (
         <div className='flex gap-5'>
             <div className="justify-center items-stretch shadow-sm bg-indigo-800 flex flex-col px-2 rounded-md py-4">
@@ -28,7 +29,7 @@ const SSList = () => {
                     />
                 </div>
                 <div className="text-white text-3xl font-bold tracking-[2.96px] whitespace-nowrap mt-3">
-                    {sslist?.totalSubmission}
+                    {sslist?.totalSubmission || 0}
                 </div>
             </div>
             <div className="justify-center items-stretch shadow-sm bg-[#F1511B] flex flex-col px-2 rounded-md py-4">
@@ -58,7 +59,7 @@ const SSList = () => {
                     />
                 </div>
                 <div className="text-white text-3xl font-bold tracking-[2.96px] whitespace-nowrap mt-3">
-                    {sslist?.AdminApproved || 0}
+                    {sslist?.Selected || 0}
                 </div>
             </div>
             <div className="justify-center items-stretch shadow-sm bg-[#DD2025] flex flex-col px-2 rounded-md py-4">
