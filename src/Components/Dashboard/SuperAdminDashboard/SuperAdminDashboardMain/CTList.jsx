@@ -1,6 +1,19 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 
 const CTList = () => {
+    const [companiesTask, setCompaniesTask] = useState({});
+    useEffect(() => {
+        axios
+        .get(
+            `${import.meta.env.VITE_APP_SERVER_API
+            }/api/v1/stats/companiesTask`
+        )
+        .then((data) => {
+            setCompaniesTask(data?.data);
+        })
+        .catch((error) => console.error(error));
+      }, []);
     return (
         <div className='flex gap-5'>
             <div className="justify-center items-stretch shadow-sm bg-indigo-800 flex flex-col px-2 rounded-md py-4">
@@ -15,7 +28,7 @@ const CTList = () => {
                     />
                 </div>
                 <div className="text-white text-3xl font-bold tracking-[2.96px] whitespace-nowrap mt-3">
-                    31
+                    {companiesTask?.totalCompanies}
                 </div>
             </div>
             <div className="justify-center items-stretch shadow-sm bg-[#8064F0] flex flex-col px-2 rounded-md py-4">
@@ -30,7 +43,7 @@ const CTList = () => {
                     />
                 </div>
                 <div className="text-white text-3xl font-bold tracking-[2.96px] whitespace-nowrap mt-3">
-                    73
+                {companiesTask?.totalTaskPosts}
                 </div>
             </div>
             <div className="justify-center items-stretch shadow-sm bg-[#F1511B] flex flex-col px-2 rounded-md py-4">
@@ -45,7 +58,7 @@ const CTList = () => {
                     />
                 </div>
                 <div className="text-white text-3xl font-bold tracking-[2.96px] whitespace-nowrap mt-3">
-                    10
+                {companiesTask?.Pending}
                 </div>
             </div>
             <div className="justify-center items-stretch shadow-sm bg-[#20B15A] flex flex-col px-2 rounded-md py-4">
@@ -60,7 +73,7 @@ const CTList = () => {
                     />
                 </div>
                 <div className="text-white text-3xl font-bold tracking-[2.96px] whitespace-nowrap mt-3">
-                    50
+                {companiesTask?.AdminApproved}
                 </div>
             </div>
             <div className="justify-center items-stretch shadow-sm bg-[#DD2025] flex flex-col px-2 rounded-md py-4">
@@ -75,7 +88,7 @@ const CTList = () => {
                     />
                 </div>
                 <div className="text-white text-3xl font-bold tracking-[2.96px] whitespace-nowrap mt-3">
-                    10
+                {companiesTask?.Rejected || 0}
                 </div>
             </div>
         </div>

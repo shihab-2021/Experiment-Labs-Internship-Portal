@@ -144,7 +144,7 @@ const TrendingTasks = () => {
                                 </div>
                             ))
                         }</>}
-                    <Link to='/createTask'>
+                    <Link to='/superAdminDashboard/createTask'>
                         <div className="ml-14 p-2  shadow-sm shadow-slate-300 justify-center  items-center">
                             <FaPlus className="text-[#AEAEAE] w-[25px] h-[25px] mx-auto mb-2 "></FaPlus>
                             <span className="text-[#AEAEAE] font-bold text-[15px] self-center w-[90px] text-center">
