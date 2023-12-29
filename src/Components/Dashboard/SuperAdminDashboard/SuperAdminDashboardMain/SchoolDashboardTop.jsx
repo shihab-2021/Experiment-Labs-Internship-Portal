@@ -18,8 +18,8 @@ const SchoolDashboardTop = () => {
         { label: "Active Students", value: 500,color: '#8064F0' },
     ];
     return (
-        <div className='flex justify-between items-center'>
-            <div className="overflow-x-auto w-3/5 h-[533px] border-[#E8E8E8] border-2 shadow-sm rounded-md my-8">
+        <div className='flex justify-between gap-5 items-center'>
+            <div className="overflow-x-auto xl:w-8/12 2xl:w-3/5 mx-auto h-[533px] border-[#E8E8E8] border-2 shadow-sm rounded-md my-8">
                 <table className="table w-full ">
                     {/* head */}
                     <thead className="bg-[#F6F7FF] text-[17px] font-medium rounded mt-4">
