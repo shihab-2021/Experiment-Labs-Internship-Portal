@@ -29,7 +29,7 @@ const SSOverview = () => {
     }, []);
     console.log(sslist);
     const pieChartData = [
-        { statusInfo: `${sslist?.Pending || 0} Pending Tasks`, value: sslist?.Pending || 0 },
+        { statusInfo: `${sslist?.Processing || 0} Pending Tasks`, value: sslist?.Processing || 0 },
         { statusInfo: `${sslist?.Selected || 0} Approved Tasks`, value: sslist?.Selected || 0 },
         { statusInfo: `${sslist?.Rejected || 0} Rejected Tasks`, value: sslist?.Rejected || 0 },
     ];

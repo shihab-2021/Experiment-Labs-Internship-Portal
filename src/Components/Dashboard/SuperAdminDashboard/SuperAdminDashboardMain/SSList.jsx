@@ -44,7 +44,7 @@ const SSList = () => {
                     />
                 </div>
                 <div className="text-white text-3xl font-bold tracking-[2.96px] whitespace-nowrap mt-3">
-                    {sslist?.Pending || 0}
+                    {sslist?.Processing || 0}
                 </div>
             </div>
             <div className="justify-center items-stretch shadow-sm bg-[#20B15A] flex flex-col px-2 rounded-md py-4">

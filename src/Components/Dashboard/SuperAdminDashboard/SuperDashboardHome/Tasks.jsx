@@ -288,7 +288,7 @@ const Tasks = ({ allTasks }) => {
       </div>
       <div className="grid grid-cols-3  gap-5 my-[17px]">
         {filteredTasks?.map((item, index) => (
-          <TaskCard item={item} index={index} />
+          <TaskCard item={item} key={index} />
           // <div key={index} className={`bg-[#FFF]  px-[7px] py-[12px] rounded-md ${item.status == 'In Progress' ? 'border border-b-4 border-[#1976D2]' : item.status == "Completed" ? 'border border-b-4 border-[#20B15A]' : item.status == "Selected" ? 'border border-b-4 border-[#E8B912]' : item.status == "Rejected" ? 'border border-b-4 border-[#DD2025]' : 'border border-b-4 border-[#FF6B00]'}`}>
           //     <div className="flex justify-between items-center">
           //         <h1 className="font-bold text-[17px]">{item?.title}</h1>

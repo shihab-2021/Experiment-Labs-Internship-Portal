@@ -27,8 +27,30 @@ const StudentSubmissionDetails = ({ item }) => {
     const [organizationDetails, setOrganizationDetails] = useState();
     const [isDivVisible, setDivVisibility] = useState(false);
     const [details, setDetails] = useState("");
+    const getInitials = () => {
+        // console.log(userDetails)
+        const firstNameInitial =
+            userDetails?.firstName?.charAt(0)?.toUpperCase() || "";
+        const lastNameInitial = userDetails?.lastName?.charAt(0)?.toUpperCase() || "";
+        return `${firstNameInitial}${lastNameInitial}`;
+    };
+    const getRandomColor = () => {
+        const letters = "0123456789ABCDEF";
+        let color = "#";
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    };
+    const [backgroundColor, setBackgroundColor] = useState("");
 
-
+    useEffect(() => {
+        // Generate a random background color if it hasn't been generated yet
+        if (!backgroundColor) {
+            setBackgroundColor(getRandomColor());
+        }
+        // Your existing useEffect logic...
+    }, [backgroundColor]);
     const handleRejectionSuggestion = (value) => {
         setRejectionSuggestion(value);
     };
@@ -176,7 +198,9 @@ const StudentSubmissionDetails = ({ item }) => {
             >
                 <div className="flex items-center gap-2  w-[220px]">
                     <div>
-                        <img src={profileImage} alt="ImageProfile" />
+                        <div className="text-white rounded-full px-3 py-2" style={{backgroundColor : backgroundColor}}>
+                            {getInitials()}
+                        </div>
                     </div>
                     <div>
                         <h1 className="text-[17px] font-medium text-[#3F3F3F]">{userDetails?.firstName} {userDetails?.lastName}</h1>

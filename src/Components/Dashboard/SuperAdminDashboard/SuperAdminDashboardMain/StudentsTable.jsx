@@ -73,6 +73,32 @@ const StudentsTable = () => {
                 console.error(error);
             });
     };
+    // const { userInfo } = useContext(AuthContext);
+    // console.log(userInfo)
+    const getInitials = (studentInfo) => {
+        console.log(studentInfo)
+        const firstNameInitial =
+            studentInfo?.firstName?.charAt(0)?.toUpperCase() || "";
+        const lastNameInitial = studentInfo?.lastName?.charAt(0)?.toUpperCase() || "";
+        return `${firstNameInitial}${lastNameInitial}`;
+    };
+    const getRandomColor = () => {
+        const letters = "0123456789ABCDEF";
+        let color = "#";
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    };
+    const [backgroundColor, setBackgroundColor] = useState("");
+
+    useEffect(() => {
+        // Generate a random background color if it hasn't been generated yet
+        if (!backgroundColor) {
+            setBackgroundColor(getRandomColor());
+        }
+        // Your existing useEffect logic...
+    }, [backgroundColor]);
     return (
         <>
             {
@@ -93,11 +119,14 @@ const StudentsTable = () => {
                                 approvedStudents?.map((student, index) => (
                                     <div key={index} className="justify-between items-start self-stretch border flex gap-5 rounded-sm border-solid border-neutral-200 max-md:flex-wrap px-1">
                                         <div className="w-[20%] items-center flex gap-2 px-1">
-                                            <img
-                                                loading="lazy"
-                                                srcSet={person}
-                                                className="aspect-square object-contain object-center w-[52px] overflow-hidden shrink-0 max-w-full rounded-[50%]"
-                                            />
+                                            <div
+                                                style={{ backgroundColor: backgroundColor }}
+                                                className="aspect-square object-contain object-center w-[52px] overflow-hidden shrink-0 max-w-full rounded-[50%] text-white"
+                                            >
+                                                <p className='grid object-center mt-[25%] justify-items-center'>
+                                                    {getInitials(student?.userData)}
+                                                </p>
+                                            </div>
                                             <div className=" self-center flex grow basis-[0%] flex-col my-auto">
                                                 <div className="text-neutral-700 text-lg font-medium whitespace-nowrap">
                                                     {student?.userData?.firstName} {student?.userData?.lastName}
@@ -138,11 +167,14 @@ const StudentsTable = () => {
                                 rejectedStudents?.map((student, index) => (
                                     <div key={index} className="justify-between items-start self-stretch border flex gap-5 rounded-sm border-solid border-neutral-200 max-md:flex-wrap px-1">
                                         <div className="w-[20%] items-center flex gap-2 px-1">
-                                            <img
-                                                loading="lazy"
-                                                srcSet={person}
-                                                className="aspect-square object-contain object-center w-[52px] overflow-hidden shrink-0 max-w-full rounded-[50%]"
-                                            />
+                                            <div
+                                                style={{ backgroundColor: backgroundColor }}
+                                                className="aspect-square object-contain object-center w-[52px] overflow-hidden shrink-0 max-w-full rounded-[50%] text-white"
+                                            >
+                                                <p className='grid object-center mt-[25%] justify-items-center'>
+                                                    {getInitials(student?.userData)}
+                                                </p>
+                                            </div>
                                             <div className=" self-center flex grow basis-[0%] flex-col my-auto">
                                                 <div className="text-neutral-700 text-lg font-medium whitespace-nowrap">
                                                     {student?.userData?.firstName} {student?.userData?.lastName}
@@ -183,11 +215,14 @@ const StudentsTable = () => {
                                 pendingStudents?.map((student, index) => (
                                     <div key={index} className="justify-between items-start self-stretch border flex gap-5 rounded-sm border-solid border-neutral-200 max-md:flex-wrap px-1">
                                         <div className="w-[20%] items-center flex gap-2 px-1">
-                                            <img
-                                                loading="lazy"
-                                                srcSet={person}
-                                                className="aspect-square object-contain object-center w-[52px] overflow-hidden shrink-0 max-w-full rounded-[50%]"
-                                            />
+                                            <div
+                                                style={{ backgroundColor: backgroundColor }}
+                                                className="aspect-square object-contain object-center w-[52px] overflow-hidden shrink-0 max-w-full rounded-[50%] text-white"
+                                            >
+                                                <p className='grid object-center mt-[25%] justify-items-center'>
+                                                    {getInitials(student?.userData)}
+                                                </p>
+                                            </div>
                                             <div className=" self-center flex grow basis-[0%] flex-col my-auto">
                                                 <div className="text-neutral-700 text-lg font-medium whitespace-nowrap">
                                                     {student?.userData?.firstName} {student?.userData?.lastName}
