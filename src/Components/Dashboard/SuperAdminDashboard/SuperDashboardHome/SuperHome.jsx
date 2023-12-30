@@ -17,7 +17,7 @@ const SuperHome = () => {
   return (
     <div>
       <TopSection />
-      <TrendingTasks />
+      {/* <TrendingTasks /> */}
       <Tasks allTasks={allTasks} />
     </div>
   );
