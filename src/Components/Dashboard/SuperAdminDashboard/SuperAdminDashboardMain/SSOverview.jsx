@@ -1,4 +1,5 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import {
     XAxis,
     YAxis,
@@ -14,10 +15,23 @@ import {
 } from "recharts";
 
 const SSOverview = () => {
+    const [sslist, setSSlist] = useState({});
+    useEffect(() => {
+        axios
+            .get(
+                `${import.meta.env.VITE_APP_SERVER_API
+                }/api/v1/stats/studentSubmission`
+            )
+            .then((data) => {
+                setSSlist(data?.data);
+            })
+            .catch((error) => console.error(error));
+    }, []);
+    console.log(sslist);
     const pieChartData = [
-        { statusInfo: `20 Decision pending`, value: 20 },
-        { statusInfo: `70 Approved  task`, value: 70 },
-        { statusInfo: `10 Rejected task`, value: 10 },
+        { statusInfo: `${sslist?.Pending || 0} Pending Tasks`, value: sslist?.Pending || 0 },
+        { statusInfo: `${sslist?.Selected || 0} Approved Tasks`, value: sslist?.Selected || 0 },
+        { statusInfo: `${sslist?.Rejected || 0} Rejected Tasks`, value: sslist?.Rejected || 0 },
     ];
     const COLORS = ["#F1511B", "#2196F3", "#DD2025"];
     return (

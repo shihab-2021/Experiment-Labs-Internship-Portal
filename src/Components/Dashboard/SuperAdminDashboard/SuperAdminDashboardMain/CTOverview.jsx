@@ -1,4 +1,5 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import {
     XAxis,
     YAxis,
@@ -14,10 +15,23 @@ import {
 } from "recharts";
 
 const CTOverview = () => {
+    const [companiesTask, setCompaniesTask] = useState({});
+    useEffect(() => {
+        axios
+        .get(
+            `${import.meta.env.VITE_APP_SERVER_API
+            }/api/v1/stats/companiesTask`
+        )
+        .then((data) => {
+            setCompaniesTask(data?.data);
+        })
+        .catch((error) => console.error(error));
+      }, []);
+      console.log(companiesTask)
     const pieChartData = [
-        { statusInfo: `20 Decision pending`, value: 20 },
-        { statusInfo: `70 Approved  task`, value: 70 },
-        { statusInfo: `10 Rejected task`, value: 10 },
+        { statusInfo: `${companiesTask?.Pending || 0} Decision pending`, value: companiesTask?.Pending || 0},
+        { statusInfo: `${companiesTask?.AdminApproved || 0} Approved  task`, value: companiesTask?.AdminApproved || 0},
+        { statusInfo: `${companiesTask?.Rejected || 0} Rejected task`, value: companiesTask?.Rejected || 0},
     ];
     const COLORS = ["#F1511B", "#2196F3", "#DD2025"];
     return (
@@ -46,7 +60,7 @@ const CTOverview = () => {
                         ))}
                         <Label
                             className="text-[18px] text-black font-medium"
-                            value={`${70 + 20 + 10} Tasks`}
+                            value={`${companiesTask?.totalTaskPosts} Tasks`}
                             position="center"
                         />
                     </Pie>
