@@ -1,14 +1,46 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../../Contexts/AuthProvider";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import LinkIcon from "../../../../assets/Dashboard/UserDashboard/LinkIcon.png";
 import User from "../../../../assets/Shared/user.svg";
 import SubmissionDetailsIcon from "../../../../assets/Dashboard/SuperAdminDashboard/SubmissionDetailsIcon.png";
+import Thumbs from "../../../../assets/Dashboard/UserDashboard/Thumbs.png";
+import { Button } from "@mui/material";
+import TextEditor from "../../../Shared/TextEditor/TextEditor";
+import Swal from "sweetalert2";
+import SubmissionDetails from "./SubmissionDetails";
 
 const TaskTracker = () => {
+  const rejectionSuggestionData = [
+    {
+      rejectionSuggestionName: "Inadequate Research or Citations",
+    },
+    {
+      rejectionSuggestionName: "Failure to Follow Instructions",
+    },
+    {
+      rejectionSuggestionName: "Insufficient Effort",
+    },
+    {
+      rejectionSuggestionName: "Grammar and Language Issues",
+    },
+    {
+      rejectionSuggestionName: "Poor Organization and Structure",
+    },
+    {
+      rejectionSuggestionName: "Lack of Originality",
+    },
+    {
+      rejectionSuggestionName: "Lack of Depth or Detail",
+    },
+    {
+      rejectionSuggestionName: "Incorrect Understanding of the Task",
+    },
+  ];
   const { userInfo, user } = useContext(AuthContext);
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const formatDate = () => {
     const monthNames = [
@@ -32,10 +64,16 @@ const TaskTracker = () => {
     const year = currentDate.getFullYear();
     return `${day}/ ${month}/ ${year}`;
   };
+  const handleRejectionSuggestion = (value) => {
+    setRejectionSuggestion(value);
+  };
 
   const [task, setTask] = useState({});
   const [organizationInfo, setOrganizationInfo] = useState({});
   const [taskCreatorInfo, setTaskCreatorInfo] = useState({});
+  const [rejectionSuggestion, setRejectionSuggestion] = useState("");
+  const [comment, setComment] = useState("");
+  const [showSubmissionDetails, setShowSubmissionDetails] = useState(false);
 
   useEffect(() => {
     axios
@@ -73,16 +111,82 @@ const TaskTracker = () => {
         .catch((error) => console.error(error));
     }
   }, [task]);
+
+  const updateSubmissionStatus = (status, taskId) => {
+    //  const submissionData = { ...submissionDetails };
+
+    let decisionInfo = {};
+    if (status === "Rejected") {
+      decisionInfo = {
+        comment: comment,
+        suggestion: rejectionSuggestion,
+        superAdminDecisionInfo: {
+          email: user?.email,
+          decisionDateTime: new Date(),
+        },
+      };
+    } else {
+      decisionInfo = {
+        superAdminDecisionInfo: {
+          email: user?.email,
+          decisionDateTime: new Date(),
+        },
+      };
+    }
+
+    const update = axios
+      .put(
+        `${
+          import.meta.env.VITE_APP_SERVER_API
+        }/api/v1/tasks/taskId/${taskId}/taskStatus/${status}`,
+        decisionInfo
+      )
+      .then((response) => {
+        const successMessage = `Submission status updated to ${status}`;
+
+        Swal.fire({
+          icon: "success",
+          title: "Success!",
+          text: successMessage,
+          confirmButtonText: "OK",
+        });
+
+        // navigate("/superAdminSubmissionDetails");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   return (
     <div className="p-4">
       <div className=" flex items-center justify-between ">
-        <h1 className="font-bold text-[20px] text-[#F1511B]">
-          Decision Pending
-        </h1>
-        <button className="flex items-center gap-1 py-2 px-3 text-[16px] font-medium rounded-full bg-[#828282] text-white">
-          <img src={SubmissionDetailsIcon} alt="SubmissionDetailsIcon" />{" "}
-          Submission Details
-        </button>
+        {task?.taskStatus !== "Pending" &&
+        task?.taskStatus !== "AdminApproved" &&
+        task?.taskStatus !== "Rejected" ? (
+          <h1 className="font-bold text-[20px] text-green-400">Approved</h1>
+        ) : task?.taskStatus === "Rejected" ? (
+          <h1 className="font-bold text-[20px] text-red-500">Rejected</h1>
+        ) : (
+          <h1 className="font-bold text-[20px] text-orange-600">
+            Decision pending
+          </h1>
+        )}
+        {task?.taskStatus !== "Pending" &&
+        task?.taskStatus !== "AdminApproved" &&
+        task?.taskStatus !== "Rejected" ? (
+          <button
+            onClick={() => setShowSubmissionDetails(true)}
+            className="flex items-center gap-1 py-2 px-3 text-[16px] font-medium rounded-full bg-[#4555BA] text-white"
+          >
+            <img src={SubmissionDetailsIcon} alt="SubmissionDetailsIcon" />{" "}
+            Submission Details
+          </button>
+        ) : (
+          <button className="flex items-center gap-1 py-2 px-3 text-[16px] font-medium rounded-full bg-[#828282] text-white">
+            <img src={SubmissionDetailsIcon} alt="SubmissionDetailsIcon" />{" "}
+            Submission Details
+          </button>
+        )}
       </div>
       <div className="py-4">
         <div className="border rounded-md">
@@ -102,7 +206,9 @@ const TaskTracker = () => {
               <div className=" grid grid-cols-3 w-3/4 mx-auto h-1 mb-[-20px]">
                 <div
                   className={`${
-                    task?.submissionDateTime ? "bg-[#4555BA]" : "bg-[#D9D9D9]"
+                    task?.superAdminDecisionInfo
+                      ? "bg-[#4555BA]"
+                      : "bg-[#D9D9D9]"
                   } `}
                 ></div>
                 <div
@@ -145,10 +251,45 @@ const TaskTracker = () => {
                 </div>
               </div>
               <div className="flex items-center flex-col">
-                <p className="bg-[#8F8F8F] rounded-full  px-[10px] py-[7px]  w-[40px] h-[40px] text-white text-[16px] font-medium text-center">
+                <p
+                  className={`${
+                    task?.taskStatus !== "Pending" &&
+                    task?.taskStatus !== "AdminApproved" &&
+                    task?.taskStatus !== "Rejected"
+                      ? "bg-[#4555BA]"
+                      : task?.taskStatus === "Rejected"
+                      ? "bg-[#DD2025]"
+                      : "bg-[#8F8F8F]"
+                  } rounded-full  px-[10px] py-[7px]  w-[40px] h-[40px] text-white text-[16px] font-medium text-center`}
+                >
                   2
                 </p>
-                <p>Decision pending</p>
+                {task?.taskStatus !== "Pending" &&
+                task?.taskStatus !== "AdminApproved" &&
+                task?.taskStatus !== "Rejected" ? (
+                  <p>Approved</p>
+                ) : task?.taskStatus === "Rejected" ? (
+                  <p>Rejected</p>
+                ) : (
+                  <p>Decision pending</p>
+                )}
+                {task?.superAdminDecisionInfo && (
+                  <>
+                    <p className=" text-[#737373] text-[13px] font-[500] font-sans ">
+                      {new Date(
+                        task?.superAdminDecisionInfo?.decisionDateTime
+                      )?.toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </p>
+                    <p className=" text-[13px] font-[400] font-sans">
+                      {new Date(
+                        task?.superAdminDecisionInfo?.decisionDateTime
+                      )?.toDateString()}
+                    </p>
+                  </>
+                )}
               </div>
               <div className="flex items-center flex-col">
                 <p className="bg-[#8F8F8F] rounded-full  px-[10px] py-[7px]  w-[40px] h-[40px] text-white text-[16px] font-medium text-center">
@@ -166,105 +307,207 @@ const TaskTracker = () => {
           </div>
         </div>
       </div>
-      <div className="py-4 grid grid-cols-12 items-center gap-3 ">
-        <div className=" border p-4 col-span-8 rounded-md ">
-          <h1 className=" font-[500] text-[18px] tracking-wider ">
-            Task Details
-          </h1>
-          <div>
-            <h1 className="mt-[12px] text-[20px] font-[700] tracking-wider ">
-              {task?.taskName}
-            </h1>
-            <h2 className="relative w-fit font-raleway font-medium text-[#4555BA] text-[15.9px] tracking-[1.59px] my-4 leading-[normal] whitespace-nowrap">
-              {task?.taskTime} hrs task
-            </h2>
-            <p className=" text-[#797979] text-[16px] tracking-wider ">
-              "{task?.aboutTask}"
-            </p>
-            <h1 className=" mt-4 text-[16px] font-[700] tracking-wider ">
-              Out come
-            </h1>
-            <p className=" text-[#797979] text-[16px] tracking-wider ">
-              {task?.aboutOutcome}
-            </p>
-          </div>
-          <div className="flex items-center gap-1 mt-5 ">
-            <img src={LinkIcon} alt="LinkIcon" />
-            <p className="text-[#4555BA] text-[16px] font-[400] ">
-              {task?.taskLink}
-            </p>
-          </div>
-          <div className="grid grid-cols-4 gap-8 mt-4">
-            <div className="max-w-[220px] font-raleway">
-              <h1 className="text-[#8F8F8F] text-[17px] font-[500] tracking-wide ">
-                Company
+      {showSubmissionDetails && (
+        <SubmissionDetails
+          task={task}
+          organizationDetails={organizationInfo}
+          creatorDetails={taskCreatorInfo}
+        />
+      )}
+      {!showSubmissionDetails && (
+        <>
+          <div className="py-4 grid grid-cols-12 items-center gap-3 ">
+            <div className=" border p-4 col-span-8 rounded-md ">
+              <h1 className=" font-[500] text-[18px] tracking-wider ">
+                Task Details
               </h1>
-              <h1 className="text-[16px]">{organizationInfo?.orgName}</h1>
-            </div>
-            <div className="max-w-[220px]">
-              <h1 className="text-[#8F8F8F] text-[17px] font-[500] tracking-wide ">
-                Task Posting
-              </h1>
-              <h1 className="text-[16px]">
-                {formatDate(task?.postingDateTime)}
-              </h1>
-            </div>
-            <div className="max-w-[220px]">
-              <h1 className="text-[#8F8F8F] text-[17px] font-[500] tracking-wide ">
-                Deadline
-              </h1>
-              <h1 className="text-[16px]">{formatDate(task?.taskDeadline)}</h1>
-            </div>
-            <div className="max-w-[220px] flex flex-col items-center">
-              <h1 className=" font-raleway text-[16px] font-[500] text-[#1e1e1e]">
-                {task?.participantLimit} Students
-              </h1>
-              <h1 className=" font-raleway font-bold text-[#007d00] text-[15px] tracking-[1.50px] px-[7px] w-fit py-[4px] bg-[#d6ffd6] rounded-[10px]">
-                {task?.participants
-                  ? parseInt(task?.participantLimit) -
-                    task?.participants?.length
-                  : parseInt(task?.participantLimit)}{" "}
-                spot left
-              </h1>
-            </div>
-          </div>
-          <div className=" mt-6 w-full flex items-center justify-between ">
-            <div className="w-full">
-              <h1 className="text-[16px] ">Task Created by</h1>
-              <div className="flex items-center justify-between w-full">
-                <div className="flex items-center gap-1">
-                  <img
-                    className="w-[47px] h-[47px] object-cover rounded-full border "
-                    src={taskCreatorInfo?.image ? taskCreatorInfo?.image : User}
-                    alt="taskCreatorInfoImage"
-                  />
-                  <div>
-                    <h1 className="text-[16px] font-[600] tracking-wide">
-                      {taskCreatorInfo?.firstName} {taskCreatorInfo?.lastName}
-                    </h1>
-                    <h1 className="text-[12px] text-[#797979] font-[400] ">
-                      {task?.creator?.role}
-                    </h1>
+              <div>
+                <h1 className="mt-[12px] text-[20px] font-[700] tracking-wider ">
+                  {task?.taskName}
+                </h1>
+                <h2 className="relative w-fit font-raleway font-medium text-[#4555BA] text-[15.9px] tracking-[1.59px] my-4 leading-[normal] whitespace-nowrap">
+                  {task?.taskTime} hrs task
+                </h2>
+                <p className=" text-[#797979] text-[16px] tracking-wider ">
+                  "{task?.aboutTask}"
+                </p>
+                <h1 className=" mt-4 text-[16px] font-[700] tracking-wider ">
+                  Out come
+                </h1>
+                <p className=" text-[#797979] text-[16px] tracking-wider ">
+                  {task?.aboutOutcome}
+                </p>
+              </div>
+              <div className="flex items-center gap-1 mt-5 ">
+                <img src={LinkIcon} alt="LinkIcon" />
+                <p className="text-[#4555BA] text-[16px] font-[400] ">
+                  {task?.taskLink}
+                </p>
+              </div>
+              <div className="grid grid-cols-4 gap-8 mt-4">
+                <div className="max-w-[220px] font-raleway">
+                  <h1 className="text-[#8F8F8F] text-[17px] font-[500] tracking-wide ">
+                    Company
+                  </h1>
+                  <h1 className="text-[16px]">{organizationInfo?.orgName}</h1>
+                </div>
+                <div className="max-w-[220px]">
+                  <h1 className="text-[#8F8F8F] text-[17px] font-[500] tracking-wide ">
+                    Task Posting
+                  </h1>
+                  <h1 className="text-[16px]">
+                    {formatDate(task?.postingDateTime)}
+                  </h1>
+                </div>
+                <div className="max-w-[220px]">
+                  <h1 className="text-[#8F8F8F] text-[17px] font-[500] tracking-wide ">
+                    Deadline
+                  </h1>
+                  <h1 className="text-[16px]">
+                    {formatDate(task?.taskDeadline)}
+                  </h1>
+                </div>
+                <div className="max-w-[220px] flex flex-col items-center">
+                  <h1 className=" font-raleway text-[16px] font-[500] text-[#1e1e1e]">
+                    {task?.participantLimit} Students
+                  </h1>
+                  <h1 className=" font-raleway font-bold text-[#007d00] text-[15px] tracking-[1.50px] px-[7px] w-fit py-[4px] bg-[#d6ffd6] rounded-[10px]">
+                    {task?.participants
+                      ? parseInt(task?.participantLimit) -
+                        task?.participants?.length
+                      : parseInt(task?.participantLimit)}{" "}
+                    spot left
+                  </h1>
+                </div>
+              </div>
+              <div className=" mt-6 w-full flex items-center justify-between ">
+                <div className="w-full">
+                  <h1 className="text-[16px] ">Task Created by</h1>
+                  <div className="flex items-center justify-between w-full">
+                    <div className="flex items-center gap-1">
+                      <img
+                        className="w-[47px] h-[47px] object-cover rounded-full border "
+                        src={
+                          taskCreatorInfo?.image ? taskCreatorInfo?.image : User
+                        }
+                        alt="taskCreatorInfoImage"
+                      />
+                      <div>
+                        <h1 className="text-[16px] font-[600] tracking-wide">
+                          {taskCreatorInfo?.firstName}{" "}
+                          {taskCreatorInfo?.lastName}
+                        </h1>
+                        <h1 className="text-[12px] text-[#797979] font-[400] ">
+                          {task?.creator?.role}
+                        </h1>
+                      </div>
+                    </div>
+                    <button className="w-[136px] h-9 px-[26px] py-2.5 bg-white rounded-[26px] border border-sky-500 justify-center items-center gap-2.5 inline-flex text-sky-500 text-xl font-normal font-raleway leading-[15.08px]">
+                      Message
+                    </button>
                   </div>
                 </div>
-                <button className="w-[136px] h-9 px-[26px] py-2.5 bg-white rounded-[26px] border border-sky-500 justify-center items-center gap-2.5 inline-flex text-sky-500 text-xl font-normal font-raleway leading-[15.08px]">
-                  Message
-                </button>
               </div>
             </div>
+            <div className=" h-[96%] border p-4 col-span-4 rounded-md flex flex-col gap-2 items-center justify-center ">
+              <img src={organizationInfo?.orgLogo} alt="orgLogo" />
+              <h1 className=" text-[15px] font-[700] tracking-wider ">
+                {organizationInfo?.orgName}
+              </h1>
+              <p className=" w-11/12 mx-auto text-[13px] text-center">
+                <span className=" font-[700] ">Headquarter: </span>Plot 379/380
+                Near IFFCO Chowk Metro Station, Sector 29, Gurugram, Haryana
+                122001
+              </p>
+            </div>
           </div>
-        </div>
-        <div className=" h-[96%] border p-4 col-span-4 rounded-md flex flex-col gap-2 items-center justify-center ">
-          <img src={organizationInfo?.orgLogo} alt="orgLogo" />
-          <h1 className=" text-[15px] font-[700] tracking-wider ">
-            {organizationInfo?.orgName}
-          </h1>
-          <p className=" w-11/12 mx-auto text-[13px] text-center">
-            <span className=" font-[700] ">Headquarter: </span>Plot 379/380 Near
-            IFFCO Chowk Metro Station, Sector 29, Gurugram, Haryana 122001
-          </p>
-        </div>
-      </div>
+          <div className=" py-2 justify-center items-center gap-[50px] inline-flex">
+            <div className="grow shrink basis-0  p-2.5 bg-violet-50 rounded-lg shadow border border-zinc-100 justify-center items-center gap-2.5 flex">
+              <img src={Thumbs} alt="Thumbs" />
+              <div className="min-w-[621px] text-neutral-700 text-[15px] font-bold font-raleway tracking-wider">
+                "If you are satisfied with the task, please click the 'Approve'
+                button."
+              </div>
+            </div>
+            <button
+              onClick={() => updateSubmissionStatus("Processing", task?._id)}
+              className="px-[52px] py-[11px] bg-green-500 rounded-[30px] shadow  text-white text-base font-medium font-raleway tracking-wider"
+            >
+              Approve
+            </button>
+          </div>
+          <div className="mt-5 px-[9px] py-[11px] bg-white rounded-md border border-zinc-300">
+            <h1 className="text-[#DD2025] p-3 text-lg font-medium">
+              Rejection Suggestions
+            </h1>
+
+            <div className=" grid grid-cols-3 gap-3 p-1 mb-5">
+              {rejectionSuggestionData?.map((suggestion) => (
+                <Button
+                  key={suggestion.id} // Don't forget to provide a unique key for each item when mapping
+                  onClick={() =>
+                    handleRejectionSuggestion(
+                      suggestion.rejectionSuggestionName
+                    )
+                  }
+                  className={`text-[] p-10`}
+                  style={{
+                    borderRadius: "34px",
+                    border: "1px solid #C6C6C6",
+                    padding: "10px 10px",
+                    backgroundColor:
+                      suggestion.rejectionSuggestionName === rejectionSuggestion
+                        ? "#3498db"
+                        : "",
+                    color:
+                      suggestion.rejectionSuggestionName === rejectionSuggestion
+                        ? "white"
+                        : "",
+                    // Set the background color to blue if the suggestion is selected
+                  }}
+                >
+                  {suggestion.rejectionSuggestionName}
+                </Button>
+              ))}
+            </div>
+
+            <div className="min-h-[155px] flex-col justify-center items-end gap-[7px] flex p-3">
+              <div className="self-stretch min-h-[129px] border flex-col justify-start items-start gap-px flex">
+                <div className="self-stretch px-2.5 bg-violet-50 border border-neutral-200 justify-start items-center gap-[90px] inline-flex">
+                  <div className="w-[802px] py-[7px] flex-col justify-center items-center gap-8 inline-flex">
+                    <div className="self-stretch text-black text-base font-medium font-raleway tracking-wider">
+                      {" "}
+                      Comment
+                    </div>
+                  </div>
+                </div>
+                {/* Text editor */}
+
+                <div className="bg-white text-black w-full">
+                  <TextEditor setValue={setComment} />
+                </div>
+              </div>
+              <div className="text-sky-600 text-base font-medium font-raleway tracking-wider">
+                Words limit/200
+              </div>
+            </div>
+
+            <div className=" flex justify-end pb-5 me-2">
+              <button
+                onClick={() => updateSubmissionStatus("Rejected", task?._id)}
+                className="text-[#4555BA] text-[19px] font-medium hover:bg-[blue] hover:text-[#fff]"
+                style={{
+                  borderRadius: "23px",
+                  border: "1px solid #4555BA",
+                  padding: "10px 15px",
+                }}
+              >
+                Submit the rejection
+              </button>
+            </div>
+          </div>
+        </>
+      )}
       {/* <div className="p-4">
         <div className=" flex-col justify-start items-start gap-[5px] inline-flex">
           <h1 className="w-[146px] text-red-600 text-[17px] font-medium font-raleway tracking-widest">
