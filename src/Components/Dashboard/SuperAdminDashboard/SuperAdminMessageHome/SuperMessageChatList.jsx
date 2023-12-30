@@ -1,15 +1,17 @@
-// components/ChatList.js
+//SuperMessageChatList
+
 import React, { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../../Contexts/AuthProvider';
+
 import axios from 'axios';
 import './style.css';
-import { getPerson } from './utils';
+import { getPerson } from './SuperUtils';
 import io from "socket.io-client";
+import { AuthContext } from '../../../../Contexts/AuthProvider';
 const ENDPOINT = `${import.meta.env.VITE_APP_SERVER_API}`;
 let socket, selectedChatCompare;
 
 
-const ChatList = ({ chats, setChats, read, setRead, setSelectedChat, selectedChat, setMessages, userNamesMap, setUserNamesMap, lastMessage, setLastMessage, messages, socketConnected, setSocketConnected }) => {
+const SuperMessageChatList = ({ chats, setChats, read, setRead, setSelectedChat, selectedChat, setMessages, userNamesMap, setUserNamesMap, lastMessage, setLastMessage, messages, socketConnected, setSocketConnected }) => {
     const { userInfo } = useContext(AuthContext);
 
     useEffect(() => {
@@ -21,8 +23,8 @@ const ChatList = ({ chats, setChats, read, setRead, setSelectedChat, selectedCha
     }, []);
 
     const fetchChat = async () => {
-        const chatList = await axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/chats/userId/${userInfo?._id}`);
-        setChats(chatList?.data?.userChats);
+        const SuperMessageChatList = await axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/chats`);
+        setChats(SuperMessageChatList?.data?.userChats);
     }
 
     useEffect(() => {
@@ -222,4 +224,4 @@ const ChatList = ({ chats, setChats, read, setRead, setSelectedChat, selectedCha
     );
 };
 
-export default ChatList;
+export default SuperMessageChatList;
