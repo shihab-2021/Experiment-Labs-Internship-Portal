@@ -17,6 +17,7 @@ import { AuthContext } from "../../../Contexts/AuthProvider";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import AdminSubUserAction from "./AdminSubUserAction";
 const AdminTeam = () => {
   const cardData = [
     {
@@ -245,7 +246,8 @@ const AdminTeam = () => {
       })
       .catch((err) => console.error(err));
   };
-
+  const subUser = teamMembers?.filter((member) => member?.organizations[0]?.role  !== "Admin");
+  console.log(subUser);
   return (
     <>
       {addMember === true ? (
@@ -612,80 +614,11 @@ const AdminTeam = () => {
                     ></div>
                   </div>
                 </div>
-                <h1 className="text-[#1976D2] text-xl font-bold tracking-widest mt-9">
-                  Task created by anjali mem
-                </h1>
-                <div className="flex gap-5">
-                  {cardData?.map((item, index) => (
-                    <div
-                      key={index}
-                      className="my-4 bg-[#FFF] border w-[315px] border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md"
-                    >
-                      <div className="flex justify-between items-center">
-                        <h1 className="font-bold text-[20px]">{item?.title}</h1>
-                        <RiEditBoxLine
-                          className="w-6 h-6"
-                          style={{ color: "#3E4DAC" }}
-                        />
-                      </div>
-                      <p className="text-[16px] mt-[12px] font-medium text-[#797979] tracking-wide">
-                        {item?.taskNo}
-                      </p>
-                      <p className="text-[14px] mt-[12px] font-medium text-[#797979] tracking-wide">
-                        {item?.taskDesc}
-                      </p>
-                      <AvatarGroup
-                        className="grid justify-end mt-[14px]"
-                        total={16}
-                      >
-                        {item?.studentsImg.map((each, index) => (
-                          <Avatar key={index} alt="Remy Sharp" src={each.img} />
-                        ))}
-                      </AvatarGroup>
-                      <div>
-                        <div className="mt-[14px] flex justify-between text-[14px] font-medium">
-                          <p>Progress</p>
-                          <p className="text-[#3F3F3F]">
-                            {item?.progressBar?.current}/
-                            {item?.progressBar?.total}
-                          </p>
-                        </div>
-                        <div className="relative w-full">
-                          <div className="w-full bg-gray-200 rounded-lg h-2">
-                            <div
-                              className="bg-[#3E4DAC] h-2 rounded-lg"
-                              style={{
-                                width: `${(item?.progressBar?.current /
-                                    item?.progressBar?.total) *
-                                  100
-                                  }%`,
-                              }}
-                            ></div>
-                          </div>
-                        </div>
-                        <p className="text-[#3F3F3F] text-[14px] font-medium">
-                          {item?.date}
-                        </p>
-                      </div>
-                      <div className="mt-3 flex justify-around items-center">
-                        {item?.access === "Public" ? (
-                          <button className="text-white py-[3px] px-4 bg-[#0A98EA] rounded-3xl text-[14px] font-medium flex items-center gap-1">
-                            <HiOutlineGlobeAsiaAustralia className="w-6 h-5" />{" "}
-                            Public <img src={cancelIcon} alt="" />{" "}
-                          </button>
-                        ) : (
-                          <button className="text-[#0D47A1] border border-[#1976D2] py-[3px] px-4 rounded-3xl text-[14px] font-medium flex items-center gap-1">
-                            <GoShieldLock className="w-6 h-5" /> Private{" "}
-                            <img src={cancelIcon} alt="" />{" "}
-                          </button>
-                        )}
-                        <p className="text-[#4555BA] text-[14px] font-medium tracking-widest">
-                          Created by <span>{item?.createdBy}</span>
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                {
+                  subUser?.map((subData, index) => (
+                    <AdminSubUserAction key={index} subData={subData}></AdminSubUserAction>
+                  ))
+                }
               </>
             ) : (
               <>
