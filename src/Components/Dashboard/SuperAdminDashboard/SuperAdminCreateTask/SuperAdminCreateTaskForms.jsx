@@ -156,19 +156,19 @@ const SuperAdminCreateTaskForms = () => {
       postingDateTime: new Date(),
     };
     console.log(taskData);
-    // const newTask = await axios.post(
-    //   `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks`,
-    //   taskData
-    // );
-    // console.log(newTask);
-    // if (newTask) {
-    //   Swal.fire({
-    //     title: "New task created successfully!",
-    //     icon: "success",
-    //   });
-    //   navigate("/dashboard");
-    // }
-    // form.reset();
+    const newTask = await axios.post(
+      `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks`,
+      taskData
+    );
+    console.log(newTask);
+    if (newTask) {
+      Swal.fire({
+        title: "New task created successfully!",
+        icon: "success",
+      });
+      navigate("/dashboard");
+    }
+    form.reset();
   };
 
   const formatDate = () => {

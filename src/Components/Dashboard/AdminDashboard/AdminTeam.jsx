@@ -19,56 +19,6 @@ import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import AdminSubUserAction from "./AdminSubUserAction";
 const AdminTeam = () => {
-  const cardData = [
-    {
-      title: "Animation Task",
-      taskNo: "Task no.1",
-      taskDesc:
-        "Make poster for advertising our company product and gain sales...",
-      studentsImg: [
-        {
-          img: Person,
-        },
-        {
-          img: Person,
-        },
-        {
-          img: Person,
-        },
-        {
-          img: Person,
-        },
-      ],
-      progressBar: { current: 4, total: 12 },
-      date: "29/Jan/2022",
-      access: "Public",
-      createdBy: "Anjali",
-    },
-    {
-      title: "Animation Task",
-      taskNo: "Task no.1",
-      taskDesc:
-        "Make poster for advertising our company product and gain sales...",
-      studentsImg: [
-        {
-          img: Person,
-        },
-        {
-          img: Person,
-        },
-        {
-          img: Person,
-        },
-        {
-          img: Person,
-        },
-      ],
-      progressBar: { current: 4, total: 12 },
-      date: "29/Jan/2022",
-      access: "Private",
-      createdBy: "Anjali",
-    },
-  ];
   const [toggle, setToggle] = useState("task");
   const navigate = useNavigate();
   const [addMember, setAddMember] = useState(false);
@@ -221,7 +171,6 @@ const AdminTeam = () => {
         },
       ],
     };
-    console.log(userData);
 
     createUser(userData.email, userData.password)
       .then(async (result) => {
