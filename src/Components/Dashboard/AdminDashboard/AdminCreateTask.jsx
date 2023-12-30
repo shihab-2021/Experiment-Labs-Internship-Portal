@@ -20,7 +20,8 @@ const AdminCreateTask = () => {
     if (userInfo?.organizations)
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${userInfo?.organizations[0]?.organizationId
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${
+            userInfo?.organizations[0]?.organizationId
           }`
         )
         .then((org) => {
@@ -116,7 +117,8 @@ const AdminCreateTask = () => {
       delete organizationInfo._id;
 
       const updateOrganization = await axios.put(
-        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${userInfo?.organizations[0]?.organizationId
+        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${
+          userInfo?.organizations[0]?.organizationId
         }`,
         organizationInfo
       );
@@ -155,7 +157,10 @@ const AdminCreateTask = () => {
         organizationId: organizationInfo?._id,
         role: userInfo?.organizations[0]?.role,
       },
-      taskStatus: "Pending",
+      taskStatus:
+        userInfo?.organizations[0]?.role === "Admin"
+          ? "AdminApproved"
+          : "Pending",
       postingDateTime: new Date(),
     };
     console.log(taskData);
@@ -167,7 +172,7 @@ const AdminCreateTask = () => {
     if (newTask) {
       Swal.fire({
         title: "New task created successfully!",
-        icon: "success"
+        icon: "success",
       });
       navigate("/dashboard");
     }

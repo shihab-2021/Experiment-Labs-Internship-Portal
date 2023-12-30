@@ -237,53 +237,6 @@ const SuperAdminCreateTaskForms = () => {
             </div>
           </div>
           <form className=" h-full " onSubmit={handleNext}>
-            {/* <h1 className="text-[18px] font-medium tracking-wide text-center mt-[45px]">
-              Upload Company image
-            </h1>
-            <label>
-              <div
-                className="grid justify-center w-fit mx-auto "
-                onDragOver={handleDragOver}
-                onDragEnter={handleDragEnter}
-                onDragLeave={handleDragLeave}
-                onDrop={handleDrop}
-              >
-                {fileLoading && (
-                  <div className="border border-[#4555BA] min-w-[242px] min-h-[114px]">
-                    <img
-                      src={inputImg}
-                      className="mx-auto mt-2 animate-ping"
-                      alt="inputImg"
-                    />
-                  </div>
-                )}
-                {!fileLoading && (
-                  <div className="border border-[#4555BA] min-w-[242px] min-h-[114px]">
-                    <img
-                      src={inputImg}
-                      className="mx-auto mt-2"
-                      alt="inputImg"
-                    />
-                    {selectedFile && (
-                      <p className="text-[18px] font-[700] m-[5px] ">
-                        File:{" "}
-                        <span className="font-[500]">{selectedFile?.name}</span>
-                      </p>
-                    )}
-                  </div>
-                )}
-              </div>
-              <input
-                className="hidden"
-                type="file"
-                name="file"
-                placeholder="upload"
-                onChange={handleFileChange}
-              />
-            </label>
-            {orgLogo && (
-              <img src={orgLogo} className="mx-auto my-4" alt="orgLogo" />
-            )} */}
             <div className="flex flex-col gap-2 mt-4 relative">
               <label htmlFor="companyName" className="text-[17px] font-medium">
                 Company
