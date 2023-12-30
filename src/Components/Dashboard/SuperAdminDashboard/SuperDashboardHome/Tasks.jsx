@@ -1,6 +1,6 @@
 import Avatar from "@mui/material/Avatar";
 import AvatarGroup from "@mui/material/AvatarGroup";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { IoTodayOutline } from "react-icons/io5";
 import { IoMdTime } from "react-icons/io";
 
@@ -11,6 +11,7 @@ import pending from "../../../../assets/Dashboard/SuperAdminDashboard/mdi_accoun
 import reject from "../../../../assets/Dashboard/SuperAdminDashboard/iconoir_cancel.svg";
 import approve from "../../../../assets/Dashboard/SuperAdminDashboard/ic_round-done-all.svg";
 import TaskCard from "./TaskCard";
+import { AuthContext } from "../../../../Contexts/AuthProvider";
 const Tasks = ({ allTasks }) => {
   const formatDate = () => {
     const monthNames = [
@@ -210,6 +211,7 @@ const Tasks = ({ allTasks }) => {
       orgImg: starbucks,
     },
   ];
+  const { userInfo } = useContext(AuthContext);
   const [currentTab, setTab] = useState("All Tasks");
   const [filteredTasks, setFilteredTasks] = useState(allTasks);
   const handleTab = (event, type) => {
@@ -226,6 +228,8 @@ const Tasks = ({ allTasks }) => {
     const filteredData =
       currentTab === "All Tasks"
         ? allTasks
+        : currentTab === "MyTask"
+        ? allTasks?.filter((item) => item?.creator?.email === userInfo?.email)
         : allTasks?.filter((item) => item?.taskStatus === currentTab);
     setFilteredTasks(filteredData);
   }, [currentTab, allTasks]);
@@ -246,9 +250,9 @@ const Tasks = ({ allTasks }) => {
           All Task
         </button>
         <button
-          onClick={(event) => handleTab(event, "mytask")}
+          onClick={(event) => handleTab(event, "MyTask")}
           className={`text-[18px] font-medium py-[6px] px-[25px] rounded-3xl ${
-            isActive("mytask")
+            isActive("MyTask")
               ? "text-white bg-[#1976D2]"
               : "text-[#3F3F3F] bg-transparent"
           }`}
@@ -276,9 +280,9 @@ const Tasks = ({ allTasks }) => {
           Rejected
         </button>
         <button
-          onClick={(event) => handleTab(event, "Pending")}
+          onClick={(event) => handleTab(event, "AdminApproved")}
           className={`text-[18px] font-medium py-[6px] px-[25px] rounded-3xl ${
-            isActive("Pending")
+            isActive("AdminApproved")
               ? "text-white bg-[#E8B912]"
               : "text-[#3F3F3F] bg-transparent"
           }`}
