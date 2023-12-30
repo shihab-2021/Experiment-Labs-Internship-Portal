@@ -1,5 +1,5 @@
 //AdminCompleteShowMore
-import React, {useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BsPersonCircle } from "react-icons/bs";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import driveImage from "../../../assets/Dashboard/AdminDashboard/driveImage.svg";
@@ -19,10 +19,9 @@ import AdminParticipants from "./AdminParticipants";
 import { AuthContext } from "../../../Contexts/AuthProvider";
 
 const AdminCompleteShowMore = () => {
-  
-  const { id } = useParams()
+  const { id } = useParams();
   const { userInfo } = useContext(AuthContext);
-  console.log(id)
+  console.log(id);
 
   // taskDetails data
   const [taskDetails, setTaskDetails] = useState();
@@ -30,9 +29,7 @@ const AdminCompleteShowMore = () => {
   useEffect(() => {
     if (id)
       axios
-        .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/${id}`
-        )
+        .get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/${id}`)
         .then((task) => {
           setTaskDetails(task?.data);
         })
@@ -50,7 +47,9 @@ const AdminCompleteShowMore = () => {
     if (taskDetails?.creator?.email)
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${taskDetails?.creator?.email}`
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${
+            taskDetails?.creator?.email
+          }`
         )
         .then((creator) => {
           setCreatorDetails(creator?.data);
@@ -58,17 +57,19 @@ const AdminCompleteShowMore = () => {
         .catch((error) => console.error(error));
   }, [taskDetails?.creator?.email]);
 
- // console.log(creatorDetails);
+  // console.log(creatorDetails);
 
   // organizationDetails data
   const [organizationDetails, setOrganizationDetails] = useState();
 
-  console.log(creatorDetails?.organizations[0]?.organizationId)
+  console.log(creatorDetails?.organizations[0]?.organizationId);
   useEffect(() => {
     if (creatorDetails?.organizations[0]?.organizationId)
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${creatorDetails?.organizations[0]?.organizationId}`
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${
+            creatorDetails?.organizations[0]?.organizationId
+          }`
         )
         .then((organization) => {
           setOrganizationDetails(organization?.data);
@@ -78,13 +79,12 @@ const AdminCompleteShowMore = () => {
 
   //console.log(organizationDetails);
 
-
   const deadline = taskDetails?.taskDeadline;
   const targetDate = new Date(deadline);
 
   // Current date and time
   const currentDate = new Date();
-  
+
   // Calculate the difference in milliseconds
   const timeDifference = targetDate - currentDate;
 
@@ -94,7 +94,7 @@ const AdminCompleteShowMore = () => {
   const hours = Math.floor(timeDifference / (1000 * 60 * 60)) % 24;
   const daysRemaining = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
 
- // console.log(`Remaining time: ${daysRemaining} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`);
+  // console.log(`Remaining time: ${daysRemaining} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`);
 
   const formatDate = () => {
     const monthNames = [
@@ -119,17 +119,11 @@ const AdminCompleteShowMore = () => {
     return `${day}/ ${month}/ ${year}`;
   };
 
- 
-
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
-
- 
-
- 
 
   return (
     <div className="w-11/12 mx-auto mt-14">
@@ -138,7 +132,9 @@ const AdminCompleteShowMore = () => {
         <div>
           <div className="flex gap-10">
             <div>
-              <h1 className="font-bold text-[30px]">Hello {userInfo?.firstName}</h1>
+              <h1 className="font-bold text-[30px]">
+                Hello {userInfo?.firstName}
+              </h1>
               <p className="text-[21px] font-medium tracking-wide">
                 {formatDate()}
               </p>
@@ -175,7 +171,9 @@ const AdminCompleteShowMore = () => {
             >
               <div className="w-5/6 mx-auto flex items-center gap-2 pt-[7px]">
                 <BsPersonCircle className="text-[#4555BA] w-[35px] h-[35px]" />
-                <p className="text-[19px] font-medium">{userInfo?.firstName} {userInfo?.lastName}</p>
+                <p className="text-[19px] font-medium">
+                  {userInfo?.firstName} {userInfo?.lastName}
+                </p>
               </div>
               <svg
                 className="-mr-1 h-5 w-5 text-gray-400"
@@ -193,8 +191,9 @@ const AdminCompleteShowMore = () => {
           </div>
 
           <div
-            className={`absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${isDropdownOpen ? "" : "hidden"
-              }`}
+            className={`absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${
+              isDropdownOpen ? "" : "hidden"
+            }`}
             role="menu"
             aria-orientation="vertical"
             aria-labelledby="menu-button"
@@ -249,7 +248,11 @@ const AdminCompleteShowMore = () => {
               <p className=" text-base font-normal flex items-center gap-5 mt-2">
                 {organizationDetails?.orgName}{" "}
                 <span>
-                  <img className="h-[30px]" src={organizationDetails?.orgLogo} alt="Icon" />
+                  <img
+                    className="h-[30px]"
+                    src={organizationDetails?.orgLogo}
+                    alt="Icon"
+                  />
                 </span>
               </p>
             </div>
@@ -259,7 +262,9 @@ const AdminCompleteShowMore = () => {
               </p>
               <p className=" text-base font-normal flex items-center gap-2 mt-2">
                 {" "}
-                {taskDetails?.postingDateTime ? new Date(taskDetails?.postingDateTime).toLocaleDateString() : ''}
+                {taskDetails?.postingDateTime
+                  ? new Date(taskDetails?.postingDateTime).toLocaleDateString()
+                  : ""}
               </p>
             </div>
             <div>
@@ -267,7 +272,9 @@ const AdminCompleteShowMore = () => {
                 Deadline
               </p>
               <p className=" text-base font-normal flex items-center gap-2 mt-2">
-                {taskDetails?.taskDeadline ? new Date(taskDetails?.taskDeadline).toLocaleDateString() : ''}
+                {taskDetails?.taskDeadline
+                  ? new Date(taskDetails?.taskDeadline).toLocaleDateString()
+                  : ""}
               </p>
             </div>
           </div>
@@ -277,7 +284,9 @@ const AdminCompleteShowMore = () => {
               <img src={profileImage} alt="ImageProfile" />
             </div>
             <div>
-              <h1 className="text-base font-semibold">{creatorDetails?.firstName} {creatorDetails?.lastName}</h1>
+              <h1 className="text-base font-semibold">
+                {creatorDetails?.firstName} {creatorDetails?.lastName}
+              </h1>
               <p className="text-[13px] font-normal text-[#797979]">
                 {taskDetails?.creator?.role}
               </p>
@@ -309,7 +318,9 @@ const AdminCompleteShowMore = () => {
               </p>
             </div>
             <div>
-              <p className="me-8 text-[#6278FF] text-base font-medium">{daysRemaining}d</p>
+              <p className="me-8 text-[#6278FF] text-base font-medium">
+                {daysRemaining}d
+              </p>
             </div>
           </div>
           <div
@@ -327,7 +338,9 @@ const AdminCompleteShowMore = () => {
               </p>
             </div>
             <div>
-              <p className="me-8 text-[#0A98EA] text-base font-medium">{taskDetails?.participants.length}</p>
+              <p className="me-8 text-[#0A98EA] text-base font-medium">
+                {taskDetails?.participants?.length}
+              </p>
             </div>
           </div>
           <div
@@ -345,7 +358,9 @@ const AdminCompleteShowMore = () => {
               </p>
             </div>
             <div>
-              <p className="me-8 text-[#0A98EA] text-base font-medium">{taskDetails?.participantLimit}</p>
+              <p className="me-8 text-[#0A98EA] text-base font-medium">
+                {taskDetails?.participantLimit}
+              </p>
             </div>
           </div>
           <div
@@ -388,24 +403,32 @@ const AdminCompleteShowMore = () => {
             <div className=" w-[50%]">
               <div className="mt-[14px] flex justify-between text-[14px] font-medium">
                 <p>Completed</p>
-                
-                <p className="text-[#3F3F3F]">{taskDetails?.participants?.length ? taskDetails?.participants?.length : "0"}/{taskDetails?.participantLimit}</p>
+
+                <p className="text-[#3F3F3F]">
+                  {taskDetails?.participants?.length
+                    ? taskDetails?.participants?.length
+                    : "0"}
+                  /{taskDetails?.participantLimit}
+                </p>
               </div>
               <div className="relative w-full">
                 <div className="w-full bg-gray-200 rounded-lg h-2">
                   <div
                     className="bg-[#3E4DAC] h-2  rounded-lg"
                     style={{
-                      width: `${(taskDetails?.participants?.length /
-                      taskDetails?.participantLimit) *
+                      width: `${
+                        (taskDetails?.participants?.length /
+                          taskDetails?.participantLimit) *
                         100
-                        }%`,
+                      }%`,
                     }}
                   ></div>
                 </div>
               </div>
               <p className="text-[#3F3F3F] text-[14px] font-medium">
-                {taskDetails?.taskDeadline ? new Date(taskDetails?.taskDeadline).toLocaleDateString() : ''}
+                {taskDetails?.taskDeadline
+                  ? new Date(taskDetails?.taskDeadline).toLocaleDateString()
+                  : ""}
               </p>
             </div>
           </div>
@@ -413,7 +436,6 @@ const AdminCompleteShowMore = () => {
       </div>
 
       {/* Submission */}
-
 
       <div
         className=" flex items-center justify-between py-[14px] px-2 mt-8"
@@ -424,15 +446,12 @@ const AdminCompleteShowMore = () => {
           boxShadow: "0px 4px 20px 0px #EFF1FF",
         }}
       >
-
         <h1 className="text-xl font-medium">Submission</h1>
         <img src={filter} alt="icon" />
       </div>
-      {
-        taskDetails?.participants?.map((item) => 
-        <AdminParticipants item={item}/>
-        )
-      }
+      {taskDetails?.participants?.map((item) => (
+        <AdminParticipants item={item} />
+      ))}
 
       <div className="py-10 flex items-center justify-between">
         <div className="w-full flex justify-center">

@@ -22,6 +22,7 @@ import SuperAdminDashboardTaskAccess from "../Pages/SuperAdminDashboard/SuperAdm
 import EditTaskDetails from "../Pages/Dashboard/EditTaskDetails";
 
 import SuperAdminDashboardTaskDetails from "../Pages/SuperAdminDashboard/SuperAdminDashboardTaskDetails";
+import SuperAdminMessage from "../Pages/SuperAdminDashboard/SuperAdminMessage";
 
 export const router = createBrowserRouter([
   {
@@ -115,5 +116,9 @@ export const router = createBrowserRouter([
   {
     path: "/superAdminDashboard/taskDetails/:id",
     element: <SuperAdminDashboardTaskDetails />,
+  },
+  {
+    path: "/superAdminDashboard/messages",
+    element: <SuperAdminMessage />,
   },
 ]);
