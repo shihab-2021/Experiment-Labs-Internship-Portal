@@ -114,8 +114,10 @@ const AdminTeam = () => {
     if (userInfo?.organizations)
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API
-          }/api/v1/users/usersByOrganization/${userInfo?.organizations[0]?.organizationId
+          `${
+            import.meta.env.VITE_APP_SERVER_API
+          }/api/v1/users/usersByOrganization/${
+            userInfo?.organizations[0]?.organizationId
           }`
         )
         .then((org) => {
@@ -126,19 +128,20 @@ const AdminTeam = () => {
   // let OrgId = ;
   console.log(teamMembers);
   const getInitials = () => {
-    const firstNameInitial = userInfo?.firstName?.charAt(0)?.toUpperCase() || '';
-    const lastNameInitial = userInfo?.lastName?.charAt(0)?.toUpperCase() || '';
+    const firstNameInitial =
+      userInfo?.firstName?.charAt(0)?.toUpperCase() || "";
+    const lastNameInitial = userInfo?.lastName?.charAt(0)?.toUpperCase() || "";
     return `${firstNameInitial}${lastNameInitial}`;
   };
   const getRandomColor = () => {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
+    const letters = "0123456789ABCDEF";
+    let color = "#";
     for (let i = 0; i < 6; i++) {
       color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
   };
-  const [backgroundColor, setBackgroundColor] = useState('');
+  const [backgroundColor, setBackgroundColor] = useState("");
 
   useEffect(() => {
     // Generate a random background color if it hasn't been generated yet
@@ -180,7 +183,8 @@ const AdminTeam = () => {
         console.log(user);
         axios
           .put(
-            `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users/userId/${user._id
+            `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users/userId/${
+              user._id
             }/organizationId/${user.organizations[0].organizationId}`
           )
           .then((response) => {
@@ -246,7 +250,9 @@ const AdminTeam = () => {
       })
       .catch((err) => console.error(err));
   };
-  const subUser = teamMembers?.filter((member) => member?.organizations[0]?.role  !== "Admin");
+  const subUser = teamMembers?.filter(
+    (member) => member?.organizations[0]?.role !== "Admin"
+  );
   console.log(subUser);
   return (
     <>
@@ -311,8 +317,9 @@ const AdminTeam = () => {
               </div>
 
               <div
-                className={`absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${isDropdownOpen ? "" : "hidden"
-                  }`}
+                className={`absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${
+                  isDropdownOpen ? "" : "hidden"
+                }`}
                 role="menu"
                 aria-orientation="vertical"
                 aria-labelledby="menu-button"
@@ -432,7 +439,9 @@ const AdminTeam = () => {
               <div>
                 <div className="flex gap-10">
                   <div>
-                    <h1 className="font-bold text-[30px]">Hello {userInfo?.firstName}</h1>
+                    <h1 className="font-bold text-[30px]">
+                      Hello {userInfo?.firstName}
+                    </h1>
                     <p className="text-[21px] font-medium tracking-wide">
                       {formatDate()}
                     </p>
@@ -494,8 +503,9 @@ const AdminTeam = () => {
                 </div>
 
                 <div
-                  className={`absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${isDropdownOpen ? "" : "hidden"
-                    }`}
+                  className={`absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${
+                    isDropdownOpen ? "" : "hidden"
+                  }`}
                   role="menu"
                   aria-orientation="vertical"
                   aria-labelledby="menu-button"
@@ -555,7 +565,7 @@ const AdminTeam = () => {
                         {member?.organizations?.map((org, j) => (
                           <div key={j}>
                             {userInfo?.organizations &&
-                              userInfo.organizations[0]?.organizationId ===
+                            userInfo.organizations[0]?.organizationId ===
                               org.organizationId
                               ? org.role
                               : ""}
@@ -610,325 +620,19 @@ const AdminTeam = () => {
                       className="bg-[#4555BA] h-2 rounded-lg"
                       // className="bg-cyan-600 h-2 rounded-sm"
                       style={{ width: `50%` }}
-                    // style={{ width: "20%" }}
+                      // style={{ width: "20%" }}
                     ></div>
                   </div>
                 </div>
-                {
-                  subUser?.map((subData, index) => (
-                    <AdminSubUserAction key={index} subData={subData}></AdminSubUserAction>
-                  ))
-                }
+                {subUser?.map((subData, index) => (
+                  <AdminSubUserAction
+                    key={index}
+                    subData={subData}
+                  ></AdminSubUserAction>
+                ))}
               </>
             ) : (
-              <>
-                {/* <div className="relative w-full">
-                  <div className="w-[360px] bg-gray-200 rounded-lg h-2 flex">
-                    <div
-                      className="bg-gray-200 h-2 rounded-lg"
-                      style={{ width: `50%` }}
-                    ></div>
-                    <div
-                      className="bg-[#4555BA] h-2 rounded-lg"
-                      style={{ width: `50%` }}
-                    ></div>
-                  </div>
-                </div>
-                <form className="mt-9">
-                  <legend className="text-[18px] text-[#0C0C20] font-medium tracking-wider">
-                    Log in with company admin Account.
-                  </legend>
-                  <div className="flex gap-7 items-center  py-2">
-                    <div>
-                      <input
-                        type="radio"
-                        id="Choice1"
-                        name="loginAccess"
-                        value="accepted"
-                      />
-                      <label
-                        className="text-[#3F3F3F] px-[5px] text-[17px] tracking-widest font-medium"
-                        for="Choice1"
-                      >
-                        Give Accesses
-                      </label>
-                    </div>
-                    <div>
-                      <input
-                        type="radio"
-                        id="Choice2"
-                        name="loginAccess"
-                        value="none"
-                      />
-                      <label
-                        className="text-[#3F3F3F] px-[5px] text-[17px] tracking-widest font-medium"
-                        for="Choice2"
-                      >
-                        No Accesses
-                      </label>
-                    </div>
-                    <div>
-                      <input
-                        type="radio"
-                        id="Choice3"
-                        name="loginAccess"
-                        value="block"
-                      />
-                      <label
-                        className="text-[#3F3F3F] px-[5px] text-[17px] tracking-widest font-medium"
-                        for="Choice3"
-                      >
-                        Block
-                      </label>
-                    </div>
-                  </div>
-                </form>
-                <form className="mt-6">
-                  <legend className="text-[18px] text-[#0C0C20] font-medium tracking-wider">
-                    Always takes permission to post tasks.
-                  </legend>
-                  <div className="flex gap-7 items-center  py-2">
-                    <div>
-                      <input
-                        type="radio"
-                        id="Choice1"
-                        name="postTaskAccess"
-                        value="accepted"
-                      />
-                      <label
-                        className="text-[#3F3F3F] px-[5px] text-[17px] tracking-widest font-medium"
-                        for="Choice1"
-                      >
-                        Give Accesses
-                      </label>
-                    </div>
-                    <div>
-                      <input
-                        type="radio"
-                        id="Choice2"
-                        name="postTaskAccess"
-                        value="none"
-                      />
-                      <label
-                        className="text-[#3F3F3F] px-[5px] text-[17px] tracking-widest font-medium"
-                        for="Choice2"
-                      >
-                        No Accesses
-                      </label>
-                    </div>
-                    <div>
-                      <input
-                        type="radio"
-                        id="Choice3"
-                        name="postTaskAccess"
-                        value="block"
-                      />
-                      <label
-                        className="text-[#3F3F3F] px-[5px] text-[17px] tracking-widest font-medium"
-                        for="Choice3"
-                      >
-                        Block
-                      </label>
-                    </div>
-                  </div>
-                </form>
-                <form className="mt-6">
-                  <legend className="text-[18px] text-[#0C0C20] font-medium tracking-wider">
-                    Create tasks.
-                  </legend>
-                  <div className="flex gap-7 items-center  py-2">
-                    <div>
-                      <input
-                        type="radio"
-                        id="Choice1"
-                        name="createTaskAccess"
-                        value="accepted"
-                      />
-                      <label
-                        className="text-[#3F3F3F] px-[5px] text-[17px] tracking-widest font-medium"
-                        for="Choice1"
-                      >
-                        Give Accesses
-                      </label>
-                    </div>
-                    <div>
-                      <input
-                        type="radio"
-                        id="Choice2"
-                        name="createTaskAccess"
-                        value="none"
-                      />
-                      <label
-                        className="text-[#3F3F3F] px-[5px] text-[17px] tracking-widest font-medium"
-                        for="Choice2"
-                      >
-                        No Accesses
-                      </label>
-                    </div>
-                    <div>
-                      <input
-                        type="radio"
-                        id="Choice3"
-                        name="createTaskAccess"
-                        value="block"
-                      />
-                      <label
-                        className="text-[#3F3F3F] px-[5px] text-[17px] tracking-widest font-medium"
-                        for="Choice3"
-                      >
-                        Block
-                      </label>
-                    </div>
-                  </div>
-                </form>
-                <form className="mt-6">
-                  <legend className="text-[18px] text-[#0C0C20] font-medium tracking-wider">
-                    Message.
-                  </legend>
-                  <div className="flex gap-7 items-center  py-2">
-                    <div>
-                      <input
-                        type="radio"
-                        id="Choice1"
-                        name="messageAccess"
-                        value="accepted"
-                      />
-                      <label
-                        className="text-[#3F3F3F] px-[5px] text-[17px] tracking-widest font-medium"
-                        for="Choice1"
-                      >
-                        Give Accesses
-                      </label>
-                    </div>
-                    <div>
-                      <input
-                        type="radio"
-                        id="Choice2"
-                        name="messageAccess"
-                        value="none"
-                      />
-                      <label
-                        className="text-[#3F3F3F] px-[5px] text-[17px] tracking-widest font-medium"
-                        for="Choice2"
-                      >
-                        No Accesses
-                      </label>
-                    </div>
-                    <div>
-                      <input
-                        type="radio"
-                        id="Choice3"
-                        name="messageAccess"
-                        value="block"
-                      />
-                      <label
-                        className="text-[#3F3F3F] px-[5px] text-[17px] tracking-widest font-medium"
-                        for="Choice3"
-                      >
-                        Block
-                      </label>
-                    </div>
-                  </div>
-                </form>
-                <form className="mt-6">
-                  <legend className="text-[18px] text-[#0C0C20] font-medium tracking-wider">
-                    See dashboard
-                  </legend>
-                  <div className="flex gap-7 items-center  py-2">
-                    <div>
-                      <input
-                        type="radio"
-                        id="Choice1"
-                        name="dashboardAccess"
-                        value="accepted"
-                      />
-                      <label
-                        className="text-[#3F3F3F] px-[5px] text-[17px] tracking-widest font-medium"
-                        for="Choice1"
-                      >
-                        Give Accesses
-                      </label>
-                    </div>
-                    <div>
-                      <input
-                        type="radio"
-                        id="Choice2"
-                        name="dashboardAccess"
-                        value="none"
-                      />
-                      <label
-                        className="text-[#3F3F3F] px-[5px] text-[17px] tracking-widest font-medium"
-                        for="Choice2"
-                      >
-                        No Accesses
-                      </label>
-                    </div>
-                    <div>
-                      <input
-                        type="radio"
-                        id="Choice3"
-                        name="dashboardAccess"
-                        value="block"
-                      />
-                      <label
-                        className="text-[#3F3F3F] px-[5px] text-[17px] tracking-widest font-medium"
-                        for="Choice3"
-                      >
-                        Block
-                      </label>
-                    </div>
-                  </div>
-                </form>
-                <form className="mt-6">
-                  <legend className="text-[18px] text-[#0C0C20] font-medium tracking-wider">
-                    Change tasks.
-                  </legend>
-                  <div className="flex gap-7 items-center  py-2">
-                    <div>
-                      <input
-                        type="radio"
-                        id="Choice1"
-                        name="changeAccess"
-                        value="accepted"
-                      />
-                      <label
-                        className="text-[#3F3F3F] px-[5px] text-[17px] tracking-widest font-medium"
-                        for="Choice1"
-                      >
-                        Give Accesses
-                      </label>
-                    </div>
-                    <div>
-                      <input
-                        type="radio"
-                        id="Choice2"
-                        name="changeAccess"
-                        value="none"
-                      />
-                      <label
-                        className="text-[#3F3F3F] px-[5px] text-[17px] tracking-widest font-medium"
-                        for="Choice2"
-                      >
-                        No Accesses
-                      </label>
-                    </div>
-                    <div>
-                      <input
-                        type="radio"
-                        id="Choice3"
-                        name="changeAccess"
-                        value="block"
-                      />
-                      <label
-                        className="text-[#3F3F3F] px-[5px] text-[17px] tracking-widest font-medium"
-                        for="Choice3"
-                      >
-                        Block
-                      </label>
-                    </div>
-                  </div>
-                </form> */}
-              </>
+              <></>
             )}
           </div>
         </>
