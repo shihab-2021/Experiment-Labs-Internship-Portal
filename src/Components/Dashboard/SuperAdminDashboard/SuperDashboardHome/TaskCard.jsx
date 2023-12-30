@@ -185,7 +185,10 @@ const TaskCard = ({ item, index }) => {
               }  h-2 rounded-lg`}
               style={{
                 width: `${
-                  (item?.participants?.length / item?.participantLimit) * 100
+                  item?.participants?.length
+                    ? (item?.participants?.length / item?.participantLimit) *
+                      100
+                    : 0
                 }%`,
               }}
             ></div>
