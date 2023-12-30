@@ -1,9 +1,11 @@
+//messageHome
 import React, { useState } from "react";
-import MessageList from "../../Message/MessageList";
-import MessageInput from "../../Message/MessageInput";
-import ChatList from "../../Message/ChatList";
+import SuperMessageChatList from "./SuperMessageChatList";
+import SuperMessageList from "./SuperMessageList";
+import SuperMessageInput from "./SuperMessageInput";
+
  
-const AdminMassage = () => {
+const SuperMessageHome = () => {
   const [read, setRead] = useState(true);
   const [chats, setChats] = useState([]);
   const [selectedChat, setSelectedChat] = useState({});
@@ -16,7 +18,7 @@ const AdminMassage = () => {
 
   return (
     <div className="flex justify-center items-start min-h-screen max-h-screen">
-      <ChatList
+      <SuperMessageChatList
         read={read}
         setRead={setRead}
         chats={chats}
@@ -33,14 +35,14 @@ const AdminMassage = () => {
         setSocketConnected={setSocketConnected}
       />
       <div className="w-3/4 bg-white flex flex-col justify-between rounded-[0px_12.59px_0px_0px] border-[0.74px] border-solid border-[#cfcfcf] max-h-[95vh] min-h-[95vh] my-auto mr-10">
-        <MessageList
+        <SuperMessageList
           selectedChat={selectedChat}
           messages={messages}
           userNamesMap={userNamesMap}
           lastMessage={lastMessage}
           read={read}
         />
-        <MessageInput
+        <SuperMessageInput
           setLastMessage={setLastMessage}
           messages={messages}
           setMessages={setMessages}
@@ -55,4 +57,4 @@ const AdminMassage = () => {
   );
 };
 
-export default AdminMassage;
+export default SuperMessageHome;

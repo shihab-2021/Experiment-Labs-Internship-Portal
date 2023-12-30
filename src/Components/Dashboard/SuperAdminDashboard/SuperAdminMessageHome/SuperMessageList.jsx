@@ -1,10 +1,11 @@
 // components/MessageList.js
 import React, { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import settingsMessage from '../../assets/Message/circum_menu-kebab.svg'
-import tickImg from '../../assets/Message/ic_baseline-done-all.svg'
-import { AuthContext } from '../../Contexts/AuthProvider';
+import settingsMessage from '../../../../assets/Message/circum_menu-kebab.svg'
+import tickImg from '../../../../assets/Message/ic_baseline-done-all.svg'
+import { AuthContext } from '../../../../Contexts/AuthProvider';
 
-const MessageList = ({ messages, selectedChat, userNamesMap, lastMessage, read }) => {
+
+const SuperMessageList = ({ messages, selectedChat, userNamesMap, lastMessage, read }) => {
   const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString());
   const { userInfo } = useContext(AuthContext);
   const [groupedMessages, setGroupedMessages] = useState({});
@@ -115,4 +116,4 @@ const MessageList = ({ messages, selectedChat, userNamesMap, lastMessage, read }
   );
 };
 
-export default MessageList;
+export default SuperMessageList;
