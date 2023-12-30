@@ -1,4 +1,3 @@
-
 import React from "react";
 import DashboardLayout from "../../Components/Dashboard/Shared/DashboardLayout";
 
@@ -8,8 +7,7 @@ const CompleteShowMore = () => {
   return (
     <div>
       <DashboardLayout>
-        <AdminCompleteShowMore/>
-     
+        <AdminCompleteShowMore />
       </DashboardLayout>
     </div>
   );
