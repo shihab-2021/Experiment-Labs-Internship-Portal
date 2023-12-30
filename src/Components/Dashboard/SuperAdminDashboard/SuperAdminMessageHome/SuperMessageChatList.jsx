@@ -22,6 +22,8 @@ const SuperMessageChatList = ({ chats, setChats, read, setRead, setSelectedChat,
         // eslint-disable-next-line
     }, []);
 
+    console.log(chats)
+
     const fetchChat = async () => {
         const SuperMessageChatList = await axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/chats`);
         setChats(SuperMessageChatList?.data?.userChats);
@@ -97,9 +99,9 @@ const SuperMessageChatList = ({ chats, setChats, read, setRead, setSelectedChat,
             <div className="flex items-start gap-[8.15px] px-[3.7px] py-[10.37px] self-stretch w-full border-[0.74px] border-solid border-[#dedede] relative flex-[0_0_auto]">
                 <div onClick={() => {
                     setRead(!read),
-                    setMessages([]),
-                    setSelectedChat({}),
-                    fetchChat()
+                        setMessages([]),
+                        setSelectedChat({}),
+                        fetchChat()
                 }} className={`cursor-pointer inline-flex items-center justify-center gap-[7.41px] px-[11.85px] py-[7.41px] 
                 ${read ? "bg-[#4555ba] text-white" : "border-[0.74px] border-solid border-neutral-500 text-[#3f3f3f]"} rounded-[25.19px] relative flex-[0_0_auto]`}>
                     <div className="relative w-fit mt-[-0.74px] [font-family:'Raleway-SemiBold',Helvetica] font-semibold text-[17.8px] text-center tracking-[1.78px] leading-[normal] whitespace-nowrap">
@@ -108,9 +110,9 @@ const SuperMessageChatList = ({ chats, setChats, read, setRead, setSelectedChat,
                 </div>
                 <div onClick={() => {
                     setRead(!read),
-                    setMessages([]),
-                    setSelectedChat({}),
-                    fetchChat()
+                        setMessages([]),
+                        setSelectedChat({}),
+                        fetchChat()
                 }} className={`cursor-pointer inline-flex items-center justify-center gap-[7.41px] px-[13.33px] py-[7.41px] rounded-[25.19px] border-[0.74px] border-solid ${!read ? "bg-[#4555ba] text-white" : "border-neutral-500 text-[#3f3f3f]"} relative flex-[0_0_auto]`}>
                     <div className="relative w-fit mt-[-0.74px] [font-family:'Raleway-SemiBold',Helvetica] font-semibold text-[17.8px] text-center tracking-[1.78px] leading-[normal] whitespace-nowrap">
                         Unread
@@ -134,7 +136,28 @@ const SuperMessageChatList = ({ chats, setChats, read, setRead, setSelectedChat,
                                         <div className="flex w-[266.67px] items-start gap-[58.52px] relative flex-[0_0_auto]">
                                             <p className="relative flex-1 mt-[-0.74px] [font-family:'Raleway-Medium',Helvetica] font-medium text-transparent text-[14.8px] tracking-[1.48px] leading-[normal]">
                                                 <span className="text-black">
-                                                    {chat?.isGroupChat ? chat?.chatName : userNamesMap[chat._id]}
+                                                    {
+                                                        chat?.users?.[0]?.organizationInfo?.orgName
+                                                    }
+                                                    {"("}
+                                                    {
+                                                        chat?.users?.[0]?.firstName
+                                                    }
+                                                    {" "}
+                                                    {
+                                                        chat?.users?.[0]?.lastName
+                                                    }
+                                                    {")"}
+                                                    {" <> "}
+                                                    {
+                                                        chat?.users?.[1]?.firstName
+                                                    }
+                                                    {" "}
+                                                    {
+                                                        chat?.users?.[1]?.lastName
+                                                    }
+
+                                                    {/* {chat?.isGroupChat ? chat?.chatName : userNamesMap[chat._id]} */}
                                                 </span>
                                                 {/* <span className="text-[#4555ba]">900</span>
                                         <span className="text-black">p</span> */}
