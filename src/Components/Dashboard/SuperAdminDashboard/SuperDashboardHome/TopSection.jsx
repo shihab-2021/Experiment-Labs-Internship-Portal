@@ -1,20 +1,47 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FaMagnifyingGlass } from 'react-icons/fa6';
 import profileImg from '../../../../assets/Dashboard/SuperAdminDashboard/Ellipse 24.svg';
 import axios from 'axios';
+import { AuthContext } from '../../../../Contexts/AuthProvider';
 const TopSection = () => {
     const [companiesTask, setCompaniesTask] = useState({});
     useEffect(() => {
         axios
-        .get(
-            `${import.meta.env.VITE_APP_SERVER_API
-            }/api/v1/stats/companiesTask`
-        )
-        .then((data) => {
-            setCompaniesTask(data?.data);
-        })
-        .catch((error) => console.error(error));
-      }, []);
+            .get(
+                `${import.meta.env.VITE_APP_SERVER_API
+                }/api/v1/stats/companiesTask`
+            )
+            .then((data) => {
+                setCompaniesTask(data?.data);
+            })
+            .catch((error) => console.error(error));
+    }, []);
+    const { userInfo } = useContext(AuthContext);
+    // console.log(userInfo)
+    const getInitials = () => {
+        const firstNameInitial =
+            userInfo?.firstName?.charAt(0)?.toUpperCase() || "";
+        const lastNameInitial = userInfo?.lastName?.charAt(0)?.toUpperCase() || "";
+        return `${firstNameInitial}${lastNameInitial}`;
+    };
+    const getRandomColor = () => {
+        const letters = "0123456789ABCDEF";
+        let color = "#";
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    };
+    const [backgroundColor, setBackgroundColor] = useState("");
+
+    useEffect(() => {
+        // Generate a random background color if it hasn't been generated yet
+        if (!backgroundColor) {
+            setBackgroundColor(getRandomColor());
+        }
+
+        // Your existing useEffect logic...
+    }, [userInfo, backgroundColor]);
     return (
         <div className="w-11/12 mx-auto mt-14">
             <div className='flex justify-between gap-2'>
@@ -58,7 +85,7 @@ const TopSection = () => {
                                 />
                             </div>
                             <div className="text-white text-3xl font-bold tracking-[2.96px] whitespace-nowrap mt-3">
-                            {companiesTask?.totalTaskPosts}
+                                {companiesTask?.totalTaskPosts}
                             </div>
                         </div>
                         <div className="justify-center shadow-sm bg-[#F1511B] flex flex-col px-2 rounded-md py-6">
@@ -73,7 +100,7 @@ const TopSection = () => {
                                 />
                             </div>
                             <div className="text-white text-3xl font-bold tracking-[2.96px] whitespace-nowrap mt-3">
-                            {companiesTask?.Pending}
+                                {companiesTask?.Pending}
                             </div>
                         </div>
                         <div className="justify-center shadow-sm bg-[#20B15A] flex flex-col px-2 rounded-md py-6">
@@ -88,7 +115,7 @@ const TopSection = () => {
                                 />
                             </div>
                             <div className="text-white text-3xl font-bold tracking-[2.96px] whitespace-nowrap mt-3">
-                            {companiesTask?.AdminApproved}
+                                {companiesTask?.AdminApproved}
                             </div>
                         </div>
                         <div className="justify-center shadow-sm bg-[#DD2025] flex flex-col px-2 rounded-md py-6">
@@ -103,22 +130,25 @@ const TopSection = () => {
                                 />
                             </div>
                             <div className="text-white text-3xl font-bold tracking-[2.96px] whitespace-nowrap mt-3">
-                            {companiesTask?.Rejected || 0}
+                                {companiesTask?.Rejected || 0}
                             </div>
                         </div>
                     </div>
                 </div>
                 <div className="justify-center items-center border flex flex-col w-[197px] h-[197px] px-7 rounded-xl border-solid border-neutral-200 py-2">
-                    <img
-                        loading="lazy"
-                        src={profileImg}
-                        className="aspect-[1.09] object-contain object-center w-full overflow-hidden rounded-[50%]"
-                    />
+                    <div className="aspect-[1.09] object-contain object-center w-full overflow-hidden rounded-[80%]">
+                        <div
+                            className="w-full h-full flex items-center text-red-50 justify-center text-5xl font-bold"
+                            style={{ backgroundColor }}
+                        >
+                            {getInitials()}
+                        </div>
+                    </div>
                     <div className="text-zinc-800 text-xl font-medium tracking-[2px] self-stretch whitespace-nowrap mt-1.5 text-center">
-                        harsh kumar
+                        {userInfo?.firstName} {userInfo?.lastName}
                     </div>
                     <div className="text-zinc-800 text-base font-medium tracking-widest self-stretch whitespace-nowrap mt-2 text-center">
-                        Panel admin
+                    Super Admin
                     </div>
                 </div>
             </div>

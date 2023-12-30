@@ -1,18 +1,51 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../../../Contexts/AuthProvider";
 
 const SuperAdminTaskAccessForm = () => {
+  const { userInfo } = useContext(AuthContext);
+  const getInitials = () => {
+    const firstNameInitial =
+      userInfo?.firstName?.charAt(0)?.toUpperCase() || "";
+    const lastNameInitial = userInfo?.lastName?.charAt(0)?.toUpperCase() || "";
+    return `${firstNameInitial}${lastNameInitial}`;
+  };
+  const getRandomColor = () => {
+    const letters = "0123456789ABCDEF";
+    let color = "#";
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+  const [backgroundColor, setBackgroundColor] = useState("");
+
+  useEffect(() => {
+    // Generate a random background color if it hasn't been generated yet
+    if (!backgroundColor) {
+      setBackgroundColor(getRandomColor());
+    }
+
+    // Your existing useEffect logic...
+  }, [userInfo, backgroundColor]);
+  console.log(userInfo)
   return (
     <div className="p-4 mb-10">
       <div className=" relative">
         <div className="min-h-12">
           <div className="min-w-[200px] px-7 py-[9px] left-[75%] top-0 absolute rounded-[11px] border border-neutral-200 flex-col justify-center items-center gap-1.5 inline-flex">
-            <img
-              className="w-[126px] h-[126px] rounded-full"
-              src="https://via.placeholder.com/126x126"
-            />
-            <div className="flex-col justify-center items-center gap-2 flex text-zinc-800 font-medium font-raleway">
-              <h1 className=" text-xl tracking-widest">harsh kumar</h1>
-              <h2 className=" text-base tracking-wider">Panel admin</h2>
+            <div className="aspect-[1.09] object-contain object-center w-full overflow-hidden rounded-[80%]">
+              <div
+                className="w-full h-full flex items-center text-red-50 justify-center text-5xl font-bold"
+                style={{ backgroundColor }}
+              >
+                {getInitials()}
+              </div>
+            </div>
+            <div className="text-zinc-800 text-xl font-medium tracking-[2px] self-stretch whitespace-nowrap mt-1.5 text-center">
+              {userInfo?.firstName} {userInfo?.lastName}
+            </div>
+            <div className="text-zinc-800 text-base font-medium tracking-widest self-stretch whitespace-nowrap mt-2 text-center">
+              Super Admin
             </div>
           </div>
           <div className="w-[70%] h-12 p-2.5 mt-[30px] border-b border-neutral-300 justify-center items-center gap-2.5 inline-flex">
@@ -40,8 +73,8 @@ const SuperAdminTaskAccessForm = () => {
                 type="radio"
                 name="status"
                 value="Give permission"
-                // checked={selectedItemEarningOption === "Automated"}
-                // onChange={handleItemEarningOptionChange}
+              // checked={selectedItemEarningOption === "Automated"}
+              // onChange={handleItemEarningOptionChange}
               />
               <label
                 for="draft"
@@ -58,8 +91,8 @@ const SuperAdminTaskAccessForm = () => {
                 type="radio"
                 name="status"
                 value="No permission"
-                // checked={selectedItemEarningOption === "Manual"}
-                // onChange={handleItemEarningOptionChange}
+              // checked={selectedItemEarningOption === "Manual"}
+              // onChange={handleItemEarningOptionChange}
               />
               <label
                 for="published"
@@ -90,8 +123,8 @@ const SuperAdminTaskAccessForm = () => {
                   type="radio"
                   name="status"
                   value="Give permission"
-                  // checked={selectedItemEarningOption === "Automated"}
-                  // onChange={handleItemEarningOptionChange}
+                // checked={selectedItemEarningOption === "Automated"}
+                // onChange={handleItemEarningOptionChange}
                 />
                 <label
                   for="draft"
@@ -108,8 +141,8 @@ const SuperAdminTaskAccessForm = () => {
                   type="radio"
                   name="status"
                   value="No permission"
-                  // checked={selectedItemEarningOption === "Manual"}
-                  // onChange={handleItemEarningOptionChange}
+                // checked={selectedItemEarningOption === "Manual"}
+                // onChange={handleItemEarningOptionChange}
                 />
                 <label
                   for="published"
@@ -197,8 +230,8 @@ const SuperAdminTaskAccessForm = () => {
                   type="radio"
                   name="status"
                   value="Give permission"
-                  // checked={selectedItemEarningOption === "Automated"}
-                  // onChange={handleItemEarningOptionChange}
+                // checked={selectedItemEarningOption === "Automated"}
+                // onChange={handleItemEarningOptionChange}
                 />
                 <label
                   for="draft"
@@ -215,8 +248,8 @@ const SuperAdminTaskAccessForm = () => {
                   type="radio"
                   name="status"
                   value="No permission"
-                  // checked={selectedItemEarningOption === "Manual"}
-                  // onChange={handleItemEarningOptionChange}
+                // checked={selectedItemEarningOption === "Manual"}
+                // onChange={handleItemEarningOptionChange}
                 />
                 <label
                   for="published"
@@ -304,8 +337,8 @@ const SuperAdminTaskAccessForm = () => {
                   type="radio"
                   name="status"
                   value="Give permission"
-                  // checked={selectedItemEarningOption === "Automated"}
-                  // onChange={handleItemEarningOptionChange}
+                // checked={selectedItemEarningOption === "Automated"}
+                // onChange={handleItemEarningOptionChange}
                 />
                 <label
                   for="draft"
@@ -322,8 +355,8 @@ const SuperAdminTaskAccessForm = () => {
                   type="radio"
                   name="status"
                   value="No permission"
-                  // checked={selectedItemEarningOption === "Manual"}
-                  // onChange={handleItemEarningOptionChange}
+                // checked={selectedItemEarningOption === "Manual"}
+                // onChange={handleItemEarningOptionChange}
                 />
                 <label
                   for="published"
