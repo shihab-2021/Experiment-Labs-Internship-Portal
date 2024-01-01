@@ -59,7 +59,7 @@ const Navbar = () => {
             : "w-8/12 mx-auto lg:w-full mt-2 lg:mt-0 flex gap-[13px] items-center"
         }
       >
-        {id ? (
+        {id && organizationInfo?.orgLogo ? (
           <img
             className="max-w-[150px]"
             src={organizationInfo?.orgLogo}
