@@ -33,20 +33,22 @@ const DialogLayout = ({
               >
                 <div>
                   {title}
-                  <IconButton
-                    aria-label="close"
-                    onClick={() => setOpen(false)}
-                    sx={{
-                      position: "absolute",
-                      right: 20,
-                      top: 20,
-                      color: (theme) => theme.palette.grey[500],
-                    }}
-                  >
-                    <div className="bg-white rounded-full w-[35px] h-[35px] flex items-center justify-center">
-                      <CloseIcon />
-                    </div>
-                  </IconButton>
+                  {close !== true && (
+                    <IconButton
+                      aria-label="close"
+                      onClick={() => setOpen(false)}
+                      sx={{
+                        position: "absolute",
+                        right: 20,
+                        top: 20,
+                        color: (theme) => theme.palette.grey[500],
+                      }}
+                    >
+                      <div className="bg-white rounded-full w-[35px] h-[35px] flex items-center justify-center">
+                        <CloseIcon />
+                      </div>
+                    </IconButton>
+                  )}
                 </div>
                 <div className="bg-white sm:flex sm:flex-row-reverse">
                   {children}

@@ -127,7 +127,7 @@ const TaskCard = ({ item, index }) => {
             <span>Reject Task</span>
             <img src={reject} alt="" />
           </button>
-        ) : item?.taskStatus == "Pending" ? (
+        ) : item?.taskStatus == "AdminApproved" ? (
           <button className="flex gap-2 text-[16px] font-bold mt-4  text-[#F1511B]">
             <span>Decision Pending</span>
             <img src={pending} alt="" />
@@ -138,9 +138,7 @@ const TaskCard = ({ item, index }) => {
             <img src={approve} alt="" />
           </button>
         ) : (
-          <button className="flex gap-2 text-[16px] font-bold mt-4  text-[#3E4DAC]">
-            <span>My task</span>
-          </button>
+          ""
         )}
       </>
       <div className="flex justify-between items-center">
@@ -165,9 +163,9 @@ const TaskCard = ({ item, index }) => {
       <div>
         <div className="mt-[14px] flex justify-between text-[14px] font-medium">
           <p>
-            {item?.taskStatus == "rejected"
-              ? "Reject"
-              : item?.taskStatus == "pending"
+            {item?.taskStatus == "Rejected"
+              ? "Rejected"
+              : item?.taskStatus == "AdminApproved"
               ? "Decision Pending"
               : "In Progress"}
           </p>
@@ -179,15 +177,18 @@ const TaskCard = ({ item, index }) => {
           <div className="w-full bg-gray-200 rounded-lg h-2">
             <div
               className={`${
-                item?.taskStatus == "rejected"
+                item?.taskStatus == "Rejected"
                   ? "bg-[#DD2025]"
-                  : item?.taskStatus == "pending"
+                  : item?.taskStatus == "Processing"
                   ? "bg-[#9F9F9F]"
                   : "bg-[#6278FF]"
               }  h-2 rounded-lg`}
               style={{
                 width: `${
-                  (item?.participants?.length / item?.participantLimit) * 100
+                  item?.participants?.length
+                    ? (item?.participants?.length / item?.participantLimit) *
+                      100
+                    : 0
                 }%`,
               }}
             ></div>

@@ -10,6 +10,7 @@ import { Button } from "@mui/material";
 import TextEditor from "../../../Shared/TextEditor/TextEditor";
 import Swal from "sweetalert2";
 import SubmissionDetails from "./SubmissionDetails";
+import DialogLayout from "../../../Shared/DialogLayout";
 
 const TaskTracker = () => {
   const rejectionSuggestionData = [
@@ -74,6 +75,11 @@ const TaskTracker = () => {
   const [rejectionSuggestion, setRejectionSuggestion] = useState("");
   const [comment, setComment] = useState("");
   const [showSubmissionDetails, setShowSubmissionDetails] = useState(false);
+  const [showCategoryInput, setShowCategoryInput] = useState(false);
+  const [categoryName, setCategoryName] = useState("");
+  const [categoryNameDropDown, setCAtegoryNameDropDown] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [category, setCategory] = useState({});
 
   useEffect(() => {
     axios
@@ -83,7 +89,6 @@ const TaskTracker = () => {
       })
       .catch((error) => console.error(error));
   }, [id]);
-  console.log(task);
 
   useEffect(() => {
     if (task?.creator?.email) {
@@ -112,6 +117,15 @@ const TaskTracker = () => {
     }
   }, [task]);
 
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/categories`)
+      .then((allCategory) => {
+        setCategories(allCategory?.data);
+      })
+      .catch((error) => console.error(error));
+  }, []);
+
   const updateSubmissionStatus = (status, taskId) => {
     //  const submissionData = { ...submissionDetails };
 
@@ -131,6 +145,7 @@ const TaskTracker = () => {
           email: user?.email,
           decisionDateTime: new Date(),
         },
+        taskCategory: categoryName,
       };
     }
 
@@ -159,6 +174,83 @@ const TaskTracker = () => {
   };
   return (
     <div className="p-4">
+      <DialogLayout
+        width={500}
+        setOpen={setShowCategoryInput}
+        open={showCategoryInput}
+      >
+        <div className="w-full p-4">
+          <h1 className="text-xl mt-10">Please add a category</h1>
+          <div className="flex flex-col gap-2 mt-4 relative">
+            <label htmlFor="companyName" className="text-[17px] font-medium">
+              Category Name
+            </label>
+            <div className="relative w-full">
+              <input
+                className="bg-[#EEF0FF] w-full focus:outline-none px-[10px] py-1 rounded-md shadow"
+                type="text"
+                value={categoryName}
+                onChange={(e) => setCategoryName(e.target.value)}
+                onFocus={() => setCAtegoryNameDropDown(true)}
+                onBlur={() => {
+                  setCategoryName(categoryName);
+                  setCAtegoryNameDropDown(false);
+                }}
+                placeholder="Type organization name..."
+              />
+              {categoryNameDropDown && (
+                <div className="absolute z-10 bg-white border border-gray-300 mt-1 w-full rounded-md shadow-lg max-h-[130px] overflow-y-auto">
+                  {categories
+                    ?.filter((cat) =>
+                      cat?.categoryName
+                        ?.toLowerCase()
+                        ?.includes(categoryName?.toLowerCase())
+                    )
+                    .map((cat, index) => (
+                      <div
+                        key={index}
+                        className={` px-4 py-2 cursor-pointer hover:bg-gray-100`}
+                        onMouseDown={() => {
+                          setCategoryName(cat?.categoryName);
+                          setCategory(cat);
+                          setCAtegoryNameDropDown(false);
+                        }}
+                      >
+                        {cat?.categoryName}
+                      </div>
+                    ))}
+                </div>
+              )}
+            </div>
+          </div>
+          <button
+            onClick={() => {
+              if (categoryName === category.categoryName) {
+                setShowCategoryInput(false);
+                updateSubmissionStatus("Processing", task?._id);
+              } else {
+                axios
+                  .post(
+                    `${import.meta.env.VITE_APP_SERVER_API}/api/v1/categories`,
+                    { categoryName: categoryName }
+                  )
+                  .then((response) => {
+                    if (response?.data?.acknowledged) {
+                      setShowCategoryInput(false);
+                      updateSubmissionStatus("Processing", task?._id);
+                    }
+                  })
+                  .catch((error) => {
+                    console.error(error);
+                  });
+              }
+            }}
+            className=" mt-14 mb-10 px-4 py-2 bg-blue-400 text-white font-bold rounded-full"
+          >
+            Select Category
+          </button>
+        </div>
+      </DialogLayout>
       <div className=" flex items-center justify-between ">
         {task?.taskStatus !== "Pending" &&
         task?.taskStatus !== "AdminApproved" &&
@@ -430,7 +522,7 @@ const TaskTracker = () => {
               </div>
             </div>
             <button
-              onClick={() => updateSubmissionStatus("Processing", task?._id)}
+              onClick={() => setShowCategoryInput(true)}
               className="px-[52px] py-[11px] bg-green-500 rounded-[30px] shadow  text-white text-base font-medium font-raleway tracking-wider"
             >
               Approve

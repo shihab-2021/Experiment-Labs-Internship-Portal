@@ -165,7 +165,7 @@ const StudentSubmissionDetails = ({ item }) => {
                     confirmButtonText: "OK",
                 });
 
-                navigate("/superAdminSubmissionDetails");
+                navigate('/superAdminDashboardHome');
             })
             .catch((error) => {
                 console.error(error);

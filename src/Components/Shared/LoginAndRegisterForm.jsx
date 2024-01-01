@@ -5,6 +5,7 @@ import GoogleIcon from "../../assets/Shared/icon_google.png";
 import { useNavigate } from "react-router-dom";
 import DialogLayout from "./DialogLayout";
 import { AuthContext } from "../../Contexts/AuthProvider";
+import axios from "axios";
 
 const LoginAndRegisterForm = ({ showLoginForm, setShowLoginForm }) => {
   const { user, userInfo, signIn, createUser, updateUserProfile } =
@@ -29,7 +30,20 @@ const LoginAndRegisterForm = ({ showLoginForm, setShowLoginForm }) => {
     try {
       await signIn(email, password).then(() => {
         console.log("user logged in");
-        navigate(role === "Student" ? "/userDashboard" : "/dashboard");
+        axios
+          .get(
+            `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${email}`
+          )
+          .then((user) => {
+            if (user?.data?.organizations) {
+              if (user?.data?.organizations[0]?.role === "SuperAdmin")
+                navigate("/superAdminDashboardHome");
+              else {
+                navigate(role === "Student" ? "/userDashboard" : "/dashboard");
+              }
+            }
+          })
+          .catch((error) => console.error(error));
       });
     } catch (error) {
       console.error(error);

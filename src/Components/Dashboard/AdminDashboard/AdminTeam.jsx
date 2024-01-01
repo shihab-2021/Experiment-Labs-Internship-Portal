@@ -17,57 +17,8 @@ import { AuthContext } from "../../../Contexts/AuthProvider";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import AdminSubUserAction from "./AdminSubUserAction";
 const AdminTeam = () => {
-  const cardData = [
-    {
-      title: "Animation Task",
-      taskNo: "Task no.1",
-      taskDesc:
-        "Make poster for advertising our company product and gain sales...",
-      studentsImg: [
-        {
-          img: Person,
-        },
-        {
-          img: Person,
-        },
-        {
-          img: Person,
-        },
-        {
-          img: Person,
-        },
-      ],
-      progressBar: { current: 4, total: 12 },
-      date: "29/Jan/2022",
-      access: "Public",
-      createdBy: "Anjali",
-    },
-    {
-      title: "Animation Task",
-      taskNo: "Task no.1",
-      taskDesc:
-        "Make poster for advertising our company product and gain sales...",
-      studentsImg: [
-        {
-          img: Person,
-        },
-        {
-          img: Person,
-        },
-        {
-          img: Person,
-        },
-        {
-          img: Person,
-        },
-      ],
-      progressBar: { current: 4, total: 12 },
-      date: "29/Jan/2022",
-      access: "Private",
-      createdBy: "Anjali",
-    },
-  ];
   const [toggle, setToggle] = useState("task");
   const navigate = useNavigate();
   const [addMember, setAddMember] = useState(false);
@@ -113,8 +64,10 @@ const AdminTeam = () => {
     if (userInfo?.organizations)
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API
-          }/api/v1/users/usersByOrganization/${userInfo?.organizations[0]?.organizationId
+          `${
+            import.meta.env.VITE_APP_SERVER_API
+          }/api/v1/users/usersByOrganization/${
+            userInfo?.organizations[0]?.organizationId
           }`
         )
         .then((org) => {
@@ -125,19 +78,20 @@ const AdminTeam = () => {
   // let OrgId = ;
   console.log(teamMembers);
   const getInitials = () => {
-    const firstNameInitial = userInfo?.firstName?.charAt(0)?.toUpperCase() || '';
-    const lastNameInitial = userInfo?.lastName?.charAt(0)?.toUpperCase() || '';
+    const firstNameInitial =
+      userInfo?.firstName?.charAt(0)?.toUpperCase() || "";
+    const lastNameInitial = userInfo?.lastName?.charAt(0)?.toUpperCase() || "";
     return `${firstNameInitial}${lastNameInitial}`;
   };
   const getRandomColor = () => {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
+    const letters = "0123456789ABCDEF";
+    let color = "#";
     for (let i = 0; i < 6; i++) {
       color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
   };
-  const [backgroundColor, setBackgroundColor] = useState('');
+  const [backgroundColor, setBackgroundColor] = useState("");
 
   useEffect(() => {
     // Generate a random background color if it hasn't been generated yet
@@ -179,7 +133,8 @@ const AdminTeam = () => {
         console.log(user);
         axios
           .put(
-            `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users/userId/${user._id
+            `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users/userId/${
+              user._id
             }/organizationId/${user.organizations[0].organizationId}`
           )
           .then((response) => {
@@ -216,7 +171,6 @@ const AdminTeam = () => {
         },
       ],
     };
-    console.log(userData);
 
     createUser(userData.email, userData.password)
       .then(async (result) => {
@@ -245,7 +199,10 @@ const AdminTeam = () => {
       })
       .catch((err) => console.error(err));
   };
-
+  const subUser = teamMembers?.filter(
+    (member) => member?.organizations[0]?.role !== "Admin"
+  );
+  console.log(subUser);
   return (
     <>
       {addMember === true ? (
@@ -309,8 +266,9 @@ const AdminTeam = () => {
               </div>
 
               <div
-                className={`absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${isDropdownOpen ? "" : "hidden"
-                  }`}
+                className={`absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${
+                  isDropdownOpen ? "" : "hidden"
+                }`}
                 role="menu"
                 aria-orientation="vertical"
                 aria-labelledby="menu-button"
@@ -430,7 +388,9 @@ const AdminTeam = () => {
               <div>
                 <div className="flex gap-10">
                   <div>
-                    <h1 className="font-bold text-[30px]">Hello {userInfo?.firstName}</h1>
+                    <h1 className="font-bold text-[30px]">
+                      Hello {userInfo?.firstName}
+                    </h1>
                     <p className="text-[21px] font-medium tracking-wide">
                       {formatDate()}
                     </p>
@@ -492,8 +452,9 @@ const AdminTeam = () => {
                 </div>
 
                 <div
-                  className={`absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${isDropdownOpen ? "" : "hidden"
-                    }`}
+                  className={`absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${
+                    isDropdownOpen ? "" : "hidden"
+                  }`}
                   role="menu"
                   aria-orientation="vertical"
                   aria-labelledby="menu-button"
@@ -553,7 +514,7 @@ const AdminTeam = () => {
                         {member?.organizations?.map((org, j) => (
                           <div key={j}>
                             {userInfo?.organizations &&
-                              userInfo.organizations[0]?.organizationId ===
+                            userInfo.organizations[0]?.organizationId ===
                               org.organizationId
                               ? org.role
                               : ""}
@@ -608,394 +569,19 @@ const AdminTeam = () => {
                       className="bg-[#4555BA] h-2 rounded-lg"
                       // className="bg-cyan-600 h-2 rounded-sm"
                       style={{ width: `50%` }}
-                    // style={{ width: "20%" }}
+                      // style={{ width: "20%" }}
                     ></div>
                   </div>
                 </div>
-                <h1 className="text-[#1976D2] text-xl font-bold tracking-widest mt-9">
-                  Task created by anjali mem
-                </h1>
-                <div className="flex gap-5">
-                  {cardData?.map((item, index) => (
-                    <div
-                      key={index}
-                      className="my-4 bg-[#FFF] border w-[315px] border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md"
-                    >
-                      <div className="flex justify-between items-center">
-                        <h1 className="font-bold text-[20px]">{item?.title}</h1>
-                        <RiEditBoxLine
-                          className="w-6 h-6"
-                          style={{ color: "#3E4DAC" }}
-                        />
-                      </div>
-                      <p className="text-[16px] mt-[12px] font-medium text-[#797979] tracking-wide">
-                        {item?.taskNo}
-                      </p>
-                      <p className="text-[14px] mt-[12px] font-medium text-[#797979] tracking-wide">
-                        {item?.taskDesc}
-                      </p>
-                      <AvatarGroup
-                        className="grid justify-end mt-[14px]"
-                        total={16}
-                      >
-                        {item?.studentsImg.map((each, index) => (
-                          <Avatar key={index} alt="Remy Sharp" src={each.img} />
-                        ))}
-                      </AvatarGroup>
-                      <div>
-                        <div className="mt-[14px] flex justify-between text-[14px] font-medium">
-                          <p>Progress</p>
-                          <p className="text-[#3F3F3F]">
-                            {item?.progressBar?.current}/
-                            {item?.progressBar?.total}
-                          </p>
-                        </div>
-                        <div className="relative w-full">
-                          <div className="w-full bg-gray-200 rounded-lg h-2">
-                            <div
-                              className="bg-[#3E4DAC] h-2 rounded-lg"
-                              style={{
-                                width: `${(item?.progressBar?.current /
-                                    item?.progressBar?.total) *
-                                  100
-                                  }%`,
-                              }}
-                            ></div>
-                          </div>
-                        </div>
-                        <p className="text-[#3F3F3F] text-[14px] font-medium">
-                          {item?.date}
-                        </p>
-                      </div>
-                      <div className="mt-3 flex justify-around items-center">
-                        {item?.access === "Public" ? (
-                          <button className="text-white py-[3px] px-4 bg-[#0A98EA] rounded-3xl text-[14px] font-medium flex items-center gap-1">
-                            <HiOutlineGlobeAsiaAustralia className="w-6 h-5" />{" "}
-                            Public <img src={cancelIcon} alt="" />{" "}
-                          </button>
-                        ) : (
-                          <button className="text-[#0D47A1] border border-[#1976D2] py-[3px] px-4 rounded-3xl text-[14px] font-medium flex items-center gap-1">
-                            <GoShieldLock className="w-6 h-5" /> Private{" "}
-                            <img src={cancelIcon} alt="" />{" "}
-                          </button>
-                        )}
-                        <p className="text-[#4555BA] text-[14px] font-medium tracking-widest">
-                          Created by <span>{item?.createdBy}</span>
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                {subUser?.map((subData, index) => (
+                  <AdminSubUserAction
+                    key={index}
+                    subData={subData}
+                  ></AdminSubUserAction>
+                ))}
               </>
             ) : (
-              <>
-                {/* <div className="relative w-full">
-                  <div className="w-[360px] bg-gray-200 rounded-lg h-2 flex">
-                    <div
-                      className="bg-gray-200 h-2 rounded-lg"
-                      style={{ width: `50%` }}
-                    ></div>
-                    <div
-                      className="bg-[#4555BA] h-2 rounded-lg"
-                      style={{ width: `50%` }}
-                    ></div>
-                  </div>
-                </div>
-                <form className="mt-9">
-                  <legend className="text-[18px] text-[#0C0C20] font-medium tracking-wider">
-                    Log in with company admin Account.
-                  </legend>
-                  <div className="flex gap-7 items-center  py-2">
-                    <div>
-                      <input
-                        type="radio"
-                        id="Choice1"
-                        name="loginAccess"
-                        value="accepted"
-                      />
-                      <label
-                        className="text-[#3F3F3F] px-[5px] text-[17px] tracking-widest font-medium"
-                        for="Choice1"
-                      >
-                        Give Accesses
-                      </label>
-                    </div>
-                    <div>
-                      <input
-                        type="radio"
-                        id="Choice2"
-                        name="loginAccess"
-                        value="none"
-                      />
-                      <label
-                        className="text-[#3F3F3F] px-[5px] text-[17px] tracking-widest font-medium"
-                        for="Choice2"
-                      >
-                        No Accesses
-                      </label>
-                    </div>
-                    <div>
-                      <input
-                        type="radio"
-                        id="Choice3"
-                        name="loginAccess"
-                        value="block"
-                      />
-                      <label
-                        className="text-[#3F3F3F] px-[5px] text-[17px] tracking-widest font-medium"
-                        for="Choice3"
-                      >
-                        Block
-                      </label>
-                    </div>
-                  </div>
-                </form>
-                <form className="mt-6">
-                  <legend className="text-[18px] text-[#0C0C20] font-medium tracking-wider">
-                    Always takes permission to post tasks.
-                  </legend>
-                  <div className="flex gap-7 items-center  py-2">
-                    <div>
-                      <input
-                        type="radio"
-                        id="Choice1"
-                        name="postTaskAccess"
-                        value="accepted"
-                      />
-                      <label
-                        className="text-[#3F3F3F] px-[5px] text-[17px] tracking-widest font-medium"
-                        for="Choice1"
-                      >
-                        Give Accesses
-                      </label>
-                    </div>
-                    <div>
-                      <input
-                        type="radio"
-                        id="Choice2"
-                        name="postTaskAccess"
-                        value="none"
-                      />
-                      <label
-                        className="text-[#3F3F3F] px-[5px] text-[17px] tracking-widest font-medium"
-                        for="Choice2"
-                      >
-                        No Accesses
-                      </label>
-                    </div>
-                    <div>
-                      <input
-                        type="radio"
-                        id="Choice3"
-                        name="postTaskAccess"
-                        value="block"
-                      />
-                      <label
-                        className="text-[#3F3F3F] px-[5px] text-[17px] tracking-widest font-medium"
-                        for="Choice3"
-                      >
-                        Block
-                      </label>
-                    </div>
-                  </div>
-                </form>
-                <form className="mt-6">
-                  <legend className="text-[18px] text-[#0C0C20] font-medium tracking-wider">
-                    Create tasks.
-                  </legend>
-                  <div className="flex gap-7 items-center  py-2">
-                    <div>
-                      <input
-                        type="radio"
-                        id="Choice1"
-                        name="createTaskAccess"
-                        value="accepted"
-                      />
-                      <label
-                        className="text-[#3F3F3F] px-[5px] text-[17px] tracking-widest font-medium"
-                        for="Choice1"
-                      >
-                        Give Accesses
-                      </label>
-                    </div>
-                    <div>
-                      <input
-                        type="radio"
-                        id="Choice2"
-                        name="createTaskAccess"
-                        value="none"
-                      />
-                      <label
-                        className="text-[#3F3F3F] px-[5px] text-[17px] tracking-widest font-medium"
-                        for="Choice2"
-                      >
-                        No Accesses
-                      </label>
-                    </div>
-                    <div>
-                      <input
-                        type="radio"
-                        id="Choice3"
-                        name="createTaskAccess"
-                        value="block"
-                      />
-                      <label
-                        className="text-[#3F3F3F] px-[5px] text-[17px] tracking-widest font-medium"
-                        for="Choice3"
-                      >
-                        Block
-                      </label>
-                    </div>
-                  </div>
-                </form>
-                <form className="mt-6">
-                  <legend className="text-[18px] text-[#0C0C20] font-medium tracking-wider">
-                    Message.
-                  </legend>
-                  <div className="flex gap-7 items-center  py-2">
-                    <div>
-                      <input
-                        type="radio"
-                        id="Choice1"
-                        name="messageAccess"
-                        value="accepted"
-                      />
-                      <label
-                        className="text-[#3F3F3F] px-[5px] text-[17px] tracking-widest font-medium"
-                        for="Choice1"
-                      >
-                        Give Accesses
-                      </label>
-                    </div>
-                    <div>
-                      <input
-                        type="radio"
-                        id="Choice2"
-                        name="messageAccess"
-                        value="none"
-                      />
-                      <label
-                        className="text-[#3F3F3F] px-[5px] text-[17px] tracking-widest font-medium"
-                        for="Choice2"
-                      >
-                        No Accesses
-                      </label>
-                    </div>
-                    <div>
-                      <input
-                        type="radio"
-                        id="Choice3"
-                        name="messageAccess"
-                        value="block"
-                      />
-                      <label
-                        className="text-[#3F3F3F] px-[5px] text-[17px] tracking-widest font-medium"
-                        for="Choice3"
-                      >
-                        Block
-                      </label>
-                    </div>
-                  </div>
-                </form>
-                <form className="mt-6">
-                  <legend className="text-[18px] text-[#0C0C20] font-medium tracking-wider">
-                    See dashboard
-                  </legend>
-                  <div className="flex gap-7 items-center  py-2">
-                    <div>
-                      <input
-                        type="radio"
-                        id="Choice1"
-                        name="dashboardAccess"
-                        value="accepted"
-                      />
-                      <label
-                        className="text-[#3F3F3F] px-[5px] text-[17px] tracking-widest font-medium"
-                        for="Choice1"
-                      >
-                        Give Accesses
-                      </label>
-                    </div>
-                    <div>
-                      <input
-                        type="radio"
-                        id="Choice2"
-                        name="dashboardAccess"
-                        value="none"
-                      />
-                      <label
-                        className="text-[#3F3F3F] px-[5px] text-[17px] tracking-widest font-medium"
-                        for="Choice2"
-                      >
-                        No Accesses
-                      </label>
-                    </div>
-                    <div>
-                      <input
-                        type="radio"
-                        id="Choice3"
-                        name="dashboardAccess"
-                        value="block"
-                      />
-                      <label
-                        className="text-[#3F3F3F] px-[5px] text-[17px] tracking-widest font-medium"
-                        for="Choice3"
-                      >
-                        Block
-                      </label>
-                    </div>
-                  </div>
-                </form>
-                <form className="mt-6">
-                  <legend className="text-[18px] text-[#0C0C20] font-medium tracking-wider">
-                    Change tasks.
-                  </legend>
-                  <div className="flex gap-7 items-center  py-2">
-                    <div>
-                      <input
-                        type="radio"
-                        id="Choice1"
-                        name="changeAccess"
-                        value="accepted"
-                      />
-                      <label
-                        className="text-[#3F3F3F] px-[5px] text-[17px] tracking-widest font-medium"
-                        for="Choice1"
-                      >
-                        Give Accesses
-                      </label>
-                    </div>
-                    <div>
-                      <input
-                        type="radio"
-                        id="Choice2"
-                        name="changeAccess"
-                        value="none"
-                      />
-                      <label
-                        className="text-[#3F3F3F] px-[5px] text-[17px] tracking-widest font-medium"
-                        for="Choice2"
-                      >
-                        No Accesses
-                      </label>
-                    </div>
-                    <div>
-                      <input
-                        type="radio"
-                        id="Choice3"
-                        name="changeAccess"
-                        value="block"
-                      />
-                      <label
-                        className="text-[#3F3F3F] px-[5px] text-[17px] tracking-widest font-medium"
-                        for="Choice3"
-                      >
-                        Block
-                      </label>
-                    </div>
-                  </div>
-                </form> */}
-              </>
+              <></>
             )}
           </div>
         </>
