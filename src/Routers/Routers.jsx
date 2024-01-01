@@ -23,6 +23,10 @@ import EditTaskDetails from "../Pages/Dashboard/EditTaskDetails";
 
 import SuperAdminDashboardTaskDetails from "../Pages/SuperAdminDashboard/SuperAdminDashboardTaskDetails";
 import SuperAdminMessage from "../Pages/SuperAdminDashboard/SuperAdminMessage";
+import CDHome from "../Pages/CourselorDashboard/CDHome";
+import CDMySchools from "../Pages/CourselorDashboard/CDMySchools";
+import CDDashboard from "../Pages/CourselorDashboard/CDDashboard";
+import CDMyStudents from "../Pages/CourselorDashboard/CDMyStudents";
 
 export const router = createBrowserRouter([
   {
@@ -121,4 +125,20 @@ export const router = createBrowserRouter([
     path: "/superAdminDashboard/messages",
     element: <SuperAdminMessage />,
   },
+  {
+    path: "/counselorDashboard/Home",
+    element: <CDHome />,
+  },
+  {
+    path: "/counselorDashboard/Dashboard",
+    element: <CDDashboard />,
+  },
+  {
+    path: "/counselorDashboard/MySchools",
+    element: <CDMySchools />,
+  },
+  {
+    path: "/counselorDashboard/MyStudents",
+    element: <CDMyStudents />,
+  }
 ]);
