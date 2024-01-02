@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import DialogLayout from "./DialogLayout";
 import { AuthContext } from "../../Contexts/AuthProvider";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const LoginAndRegisterForm = ({ showLoginForm, setShowLoginForm }) => {
   const { user, userInfo, signIn, createUser, updateUserProfile } =
@@ -25,7 +26,16 @@ const LoginAndRegisterForm = ({ showLoginForm, setShowLoginForm }) => {
     const form = e?.target;
     const email = form.email.value;
     const password = form.password.value;
-    console.log(email, password);
+   // console.log(email, password);
+    // Show a loading spinner while the login process is in progress
+    const loadingSwal = Swal.fire({
+      title: 'Loading...',
+      allowOutsideClick: false,
+      onBeforeOpen: () => {
+        Swal.showLoading();
+      },
+      showConfirmButton: false, // Remove the "OK" button
+    });
 
     try {
       await signIn(email, password).then(() => {
@@ -48,6 +58,15 @@ const LoginAndRegisterForm = ({ showLoginForm, setShowLoginForm }) => {
     } catch (error) {
       console.error(error);
       // toast.error("password or email error");
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Incorrect email or password. Please try again.',
+      });
+    }
+    finally {
+      // Close the loading spinner when the login process completes (whether successful or not)
+      loadingSwal.close();
     }
   };
   return (
@@ -57,21 +76,19 @@ const LoginAndRegisterForm = ({ showLoginForm, setShowLoginForm }) => {
           <div className="grid grid-cols-2 text-gray-400 items-center justify-center">
             <button
               onClick={() => handleSetRole("Student")}
-              className={`${
-                role === "Student"
-                  ? "border-blue-500 border-b-2 text-gray-600"
-                  : "mb-[2px]"
-              } p-2 font-semibold text-md`}
+              className={`${role === "Student"
+                ? "border-blue-500 border-b-2 text-gray-600"
+                : "mb-[2px]"
+                } p-2 font-semibold text-md`}
             >
               Student
             </button>
             <button
               onClick={() => handleSetRole("Employer")}
-              className={`${
-                role === "Employer"
-                  ? "border-blue-500 border-b-2 text-gray-600"
-                  : "mb-[2px]"
-              } p-2 font-semibold text-md`}
+              className={`${role === "Employer"
+                ? "border-blue-500 border-b-2 text-gray-600"
+                : "mb-[2px]"
+                } p-2 font-semibold text-md`}
             >
               Employer / T&P
             </button>

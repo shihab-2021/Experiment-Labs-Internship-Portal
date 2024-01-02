@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import StudentSubmissionDetails from "./StudentSubmissionDetails";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const SubmissionDetails = () => {
   const [states, setStates] = useState([
@@ -11,6 +12,7 @@ const SubmissionDetails = () => {
     "Rejected",
   ]);
   const [selectedSate, setSelectedSate] = useState(states[0]);
+  const [loading, setLoading] = useState(true);
 
   const taskDetails = {
     participants: [
@@ -41,12 +43,26 @@ const SubmissionDetails = () => {
   const [submissionsDetails, setSubmissionsDetails] = useState();
 
   useEffect(() => {
+    // Show a loading spinner while the login process is in progress
+    const loadingSwal = Swal.fire({
+      title: 'Loading...',
+      allowOutsideClick: false,
+      onBeforeOpen: () => {
+        Swal.showLoading();
+      },
+      showConfirmButton: false, // Remove the "OK" button
+    });
     axios
       .get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/taskSubmissions`)
       .then((submission) => {
         setSubmissionsDetails(submission?.data);
       })
-      .catch((error) => console.error(error));
+      .catch((error) => console.error(error))
+      .finally(() => {
+        // Close the loading spinner when the data fetching is complete
+        setLoading(false);
+        loadingSwal.close();
+      });
   }, []);
 
   console.log(submissionsDetails);
@@ -78,14 +94,12 @@ const SubmissionDetails = () => {
                 style={{ display: "inline-block" }}
               >
                 <p
-                  className={`${
-                    state === "All Students" ? "text-[#3E4DAC]" : ""
-                  }
-                                ${
-                                  state === "Pending Decision"
-                                    ? "text-[#F1511B]"
-                                    : ""
-                                }
+                  className={`${state === "All Students" ? "text-[#3E4DAC]" : ""
+                    }
+                                ${state === "Pending Decision"
+                      ? "text-[#F1511B]"
+                      : ""
+                    }
                                 ${state === "Approved" ? "text-[#20B15A]" : ""}
                                 ${state === "Rejected" ? "text-[#DD2025]" : ""}
                                 

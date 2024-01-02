@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import logo from "../../../assets/UpdatedHome/logo.png";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import LoginAndRegisterForm from "../LoginAndRegisterForm";
 import { Helmet } from "react-helmet";
+import { AuthContext } from "../../../Contexts/AuthProvider";
 // import DynamicFavicon from "../../../DynamicFavicon";
 
 const Navbar = () => {
+  const { userInfo } = useContext(AuthContext)
+  console.log(userInfo)
   const { id } = useParams();
   const [showLoginForm, setShowLoginForm] = useState(false);
   const [organizationInfo, setOrganizationInfo] = useState({});
@@ -91,16 +94,32 @@ const Navbar = () => {
         >
           For Business
         </button>
-        <button
-          onClick={() => setShowLoginForm(true)}
-          className="text-[12px] lg:text-base font-bold text-[#3F3F3F] px-3 py-2 lg:px-[18px] lg:py-[10px]"
-          style={{
-            borderRadius: "24px",
-            background: "#FB9700",
-          }}
-        >
-          Log in
-        </button>
+        {
+          (userInfo) ? 
+          <Link to='/superAdminDashboardHome'
+            
+            className="text-[12px] lg:text-base font-bold text-[#3F3F3F] px-3 py-2 lg:px-[18px] lg:py-[10px]"
+            style={{
+              borderRadius: "24px",
+              background: "#FB9700",
+            }}
+          >
+            Access Dashboard
+          </Link>
+            :
+            <button
+              onClick={() => setShowLoginForm(true)}
+              className="text-[12px] lg:text-base font-bold text-[#3F3F3F] px-3 py-2 lg:px-[18px] lg:py-[10px]"
+              style={{
+                borderRadius: "24px",
+                background: "#FB9700",
+              }}
+            >
+              Log in
+            </button>
+
+        }
+
       </div>
     </div>
   );
