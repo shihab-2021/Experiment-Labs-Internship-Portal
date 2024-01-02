@@ -14,6 +14,7 @@ const CompaniesTask = () => {
                 <CompaniesPostTask />
                 <CTOverview />
             </div>
+            
             <div className='flex justify-between items-start gap-16'> 
                 <CategoriesTask/>
                 <CTMessage/>

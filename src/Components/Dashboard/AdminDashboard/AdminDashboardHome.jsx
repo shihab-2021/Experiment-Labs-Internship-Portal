@@ -25,6 +25,18 @@ import std3 from "../../../assets/Dashboard/AdminDashboard/student3.svg";
 import std4 from "../../../assets/Dashboard/AdminDashboard/student4.svg";
 import Person from "../../../assets/Home/Person.png";
 import groupIcon from "../../../assets/Dashboard/AdminDashboard/Group_icon.svg";
+import img1 from "../../../assets/UpdatedHome/image 1.png";
+import img2 from "../../../assets/UpdatedHome/image 2.png";
+import img6 from "../../../assets/UpdatedHome/image 6.png";
+import img4 from "../../../assets/UpdatedHome/image 4.png";
+import img7 from "../../../assets/UpdatedHome/image 7.png";
+import img8 from "../../../assets/UpdatedHome/image 8.png";
+import img9 from "../../../assets/UpdatedHome/image 9.png";
+import img10 from "../../../assets/UpdatedHome/image 10.png";
+import img11 from "../../../assets/UpdatedHome/image 11.png";
+//import img12 from "../../../assets/UpdatedHome/image 12.png";
+
+
 import {
   LineChart,
   Line,
@@ -135,11 +147,10 @@ const AdminDashboardHome = () => {
 
   useEffect(() => {
     if (userInfo?.organizations) {
-      
+
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${
-            userInfo?.organizations[0]?.organizationId
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${userInfo?.organizations[0]?.organizationId
           }/taskStatus/Pending`
         )
         .then((tasks) => {
@@ -148,8 +159,7 @@ const AdminDashboardHome = () => {
         .catch((error) => console.error(error));
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${
-            userInfo?.organizations[0]?.organizationId
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${userInfo?.organizations[0]?.organizationId
           }/taskStatus/Processing`
         )
         .then((tasks) => {
@@ -158,8 +168,7 @@ const AdminDashboardHome = () => {
         .catch((error) => console.error(error));
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${
-            userInfo?.organizations[0]?.organizationId
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${userInfo?.organizations[0]?.organizationId
           }/taskStatus/Completed`
         )
         .then((tasks) => {
@@ -334,14 +343,14 @@ const AdminDashboardHome = () => {
       {/* In process task*/}
       <div className="mt-10">
         <div className="flex justify-between">
-          <button className="font-medium text-[20px]">In Process Tasks</button>
+          <button className="font-medium text-[20px]">In Progress Tasks</button>
           <button className="font-medium text-[16px]">View all</button>
         </div>
         <div className="flex justify-between items-center">
           <div className="flex mt-[17px] gap-[11px]">
             {processingTasks.length === 0 ? (
               <p className="font-semibold text-orange-500 text-[20px] text-center mt-5">
-                No Processing task found
+                No In Progress tasks found
               </p>
             ) : (
               <>
@@ -396,13 +405,12 @@ const AdminDashboardHome = () => {
                           <div
                             className="bg-[#3E4DAC] h-2 rounded-lg"
                             style={{
-                              width: `${
-                                item?.participants?.length
+                              width: `${item?.participants?.length
                                   ? (item?.participants?.length /
-                                      item?.participantLimit) *
-                                    100
+                                    item?.participantLimit) *
+                                  100
                                   : 0
-                              }%`,
+                                }%`,
                             }}
                           ></div>
                         </div>
@@ -435,7 +443,7 @@ const AdminDashboardHome = () => {
               <span>Weekly Task Report</span>
               <span>{formatDate()}</span>
             </p>
-            <p>Animation Task</p>
+            {/* <p>Animation Task</p> */}
           </div>
           <LineChart
             width={382}
@@ -498,17 +506,20 @@ const AdminDashboardHome = () => {
       {/*companies */}
       <div className="mt-[60px]">
         <h1 className="text-[19px] font-[600]  tracking-wider text-center ">
-          CAMPANIES THAT CREATE TASKS
+          COMPANIES THAT CREATE TASKS
         </h1>
-        <div className="flex justify-around mt-[30px]">
-          <img className="w-fit" src={Paytm} />
-          <img className="w-fit" src={Microsoft} />
-          <img className="w-fit" src={Netflix} />
-          <img className="w-fit" src={Apple} />
-          <img className="w-fit" src={Google} />
-          <img className="w-fit" src={Flipkart} />
+        <div className="grid grid-cols-3 gap-4 my-[30px] justify-items-center items-center">
+          <img className="w-fit" src={img1} />
+          <img className="w-fit" src={img2} />
+          <img className="w-fit" src={img4} />
+
+
         </div>
-        <div className="flex justify-around mt-[25px] mb-10">
+        <div className="flex justify-center gap-48 mb-5">
+          <img className="w-fit" src={img6} />
+          <img className="w-fit" src={img7} />
+        </div>
+        {/*  <div className="flex justify-around mt-[25px] mb-10">
           <div className="grid gap-2 justify-items-center">
             <img src={Magicpin} />
             <p className="text-sm font-medium">Magic pin</p>
@@ -533,7 +544,7 @@ const AdminDashboardHome = () => {
             <img src={Airtel} />
             <p className="text-sm font-medium">Airtel</p>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

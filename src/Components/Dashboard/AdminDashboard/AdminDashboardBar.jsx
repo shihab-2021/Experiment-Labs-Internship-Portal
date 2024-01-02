@@ -103,7 +103,7 @@ const AdminDashboardBar = () => {
       <div className="flex gap-[14px] mt-5">
         <div className="bg-[#8064F0] rounded-lg text-white w-[185px] py-[12px] px-[12px] h-[125px]">
           <div className="flex justify-between">
-            <h1 className="text-[20px] font-medium">New Task</h1>
+            <h1 className="text-[20px] font-medium">New Tasks</h1>
             <FaAngleRight className="w-[25px] h-[25px]"></FaAngleRight>
           </div>
           <p className="text-[45px] font-bold">{pendingTasks?.length}</p>
