@@ -140,7 +140,8 @@ const StudentSubmissionDetails = ({ item }) => {
                 .catch((error) => console.error(error));
     }, [item?.organizationId]);
 
-    //console.log(submissionDetails);
+
+ //   console.log(organizationDetails);
 
     // handle select or reject
     const updateSubmissionStatus = (status, submissionId) => {
