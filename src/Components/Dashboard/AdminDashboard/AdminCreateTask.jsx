@@ -7,6 +7,7 @@ import axios from "axios";
 import { AuthContext } from "../../../Contexts/AuthProvider";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import Loading from "../../Shared/Loading/Loading";
 
 const AdminCreateTask = () => {
   const { user, userInfo } = useContext(AuthContext);
@@ -17,7 +18,8 @@ const AdminCreateTask = () => {
   const [orgLogo, setOrgLogo] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
-    if (userInfo?.organizations)
+    if (userInfo?.organizations) {
+      Loading();
       axios
         .get(
           `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${
@@ -26,11 +28,14 @@ const AdminCreateTask = () => {
         )
         .then((org) => {
           setOrganizationInfo(org?.data);
-          if (org?.data?.orgName && org?.data?.orgName && org?.data?.orgLogo)
+          if (org?.data?.orgName && org?.data?.aboutOrg && org?.data?.orgLogo)
             setPage(2);
           if (org?.data?.orgLogo) setOrgLogo(org?.data?.orgLogo);
         })
         .catch((error) => console.error(error));
+
+      Loading().close();
+    }
   }, [userInfo]);
 
   const handleDragEnter = (e) => {
@@ -116,13 +121,27 @@ const AdminCreateTask = () => {
       organizationInfo.orgLogo = orgLogo;
       delete organizationInfo._id;
 
-      const updateOrganization = await axios.put(
-        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${
-          userInfo?.organizations[0]?.organizationId
-        }`,
-        organizationInfo
-      );
-      console.log(updateOrganization);
+      if (organizationInfo.orgName && organizationInfo.orgLogo) {
+        const updateOrganization = await axios.put(
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${
+            userInfo?.organizations[0]?.organizationId
+          }`,
+          organizationInfo
+        );
+        console.log(updateOrganization);
+        setPage(2);
+      } else {
+        Swal.fire({
+          title: `Please Enter ${
+            !organizationInfo.orgName && !organizationInfo.aboutOrg
+              ? "Company Name & Company Logo"
+              : !organizationInfo.orgName
+              ? "Company Name"
+              : "Company Logo"
+          }!`,
+          icon: "error",
+        });
+      }
     } else {
       const companyData = {
         orgName: form.companyName.value,
@@ -130,15 +149,27 @@ const AdminCreateTask = () => {
         officialEmail: user?.email,
         orgLogo: orgLogo,
       };
-      console.log(companyData);
-      const newOrganization = await axios.post(
-        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations`,
-        companyData
-      );
-      console.log(newOrganization);
+      if (companyData.orgName && companyData.orgLogo) {
+        const newOrganization = await axios.post(
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations`,
+          companyData
+        );
+        console.log(newOrganization);
+        setPage(2);
+      } else {
+        Swal.fire({
+          title: `Please Enter ${
+            !companyData.orgName && !companyData.aboutOrg
+              ? "Company Name & Company Logo"
+              : !companyData.orgName
+              ? "Company Name"
+              : "Company Logo"
+          }!`,
+          icon: "error",
+        });
+      }
     }
-    setPage(2);
-    form.reset();
+    // form.reset();
   };
 
   const handleCreateTask = async (event) => {
@@ -280,6 +311,8 @@ const AdminCreateTask = () => {
                 )}
               </div>
               <input
+                // required
+                // defaultValue={organizationInfo?.orgLogo}
                 className="hidden"
                 type="file"
                 name="file"
@@ -295,6 +328,7 @@ const AdminCreateTask = () => {
                 Company name
               </label>
               <input
+                required
                 defaultValue={organizationInfo?.orgName}
                 placeholder="write company name"
                 type="text"
