@@ -10,6 +10,7 @@ import {
 } from "firebase/auth";
 import app from "../firebase/firebase.config";
 import axios from "axios";
+import Loading from "../Components/Shared/Loading/Loading";
 
 export const AuthContext = createContext();
 const auth = getAuth(app);
@@ -64,6 +65,7 @@ const AuthProvider = ({ children }) => {
   }, [user?.email]);
 
   useEffect(() => {
+    Loading();
     axios
       .get(
         `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${
@@ -80,6 +82,7 @@ const AuthProvider = ({ children }) => {
             if (role === "SuperAdmin") localStorage.setItem("role", "Student");
           }
         }
+        Loading().close();
       })
       .catch((error) => console.error(error));
   }, [user?.email, userInfo?.email]);
