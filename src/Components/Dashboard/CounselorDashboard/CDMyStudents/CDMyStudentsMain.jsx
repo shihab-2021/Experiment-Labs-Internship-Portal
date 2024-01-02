@@ -1,9 +1,12 @@
 import React from 'react';
+import MyStudentsTop from './MyStudentsTop';
+import MyStudentsData from './MyStudentsData';
 
 const CDMyStudentsMain = () => {
     return (
         <div>
-            My Students
+            <MyStudentsTop></MyStudentsTop>
+            <MyStudentsData></MyStudentsData>
         </div>
     );
 };
