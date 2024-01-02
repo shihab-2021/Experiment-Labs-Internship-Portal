@@ -71,7 +71,7 @@ const SingleApplicationRow = ({ submission }) => {
               ? "text-[#4555BA] bg-[#F1F3FF]"
               : submission?.submissionStatus === "Selected"
               ? "text-[#D4A500] bg-[#FFF8E3]"
-              : submission?.submissionStatus === "Reject"
+              : submission?.submissionStatus === "Rejected"
               ? "text-[#DD2025] bg-[#FFF0F0]"
               : ""
           }`}
