@@ -244,7 +244,7 @@ const AdminCreateTask = () => {
           </div>
           <form onSubmit={handleNext}>
             <h1 className="text-[18px] font-medium tracking-wide text-center mt-[45px]">
-              Upload Company image
+              Upload Logo
             </h1>
             <label>
               <div
@@ -381,11 +381,11 @@ const AdminCreateTask = () => {
             </div>
             <div className="flex flex-col gap-2 mt-2">
               <label htmlFor="aboutTask" className="text-[17px] font-medium">
-                Write about task
+                Task Details
               </label>
               <textarea
                 maxLength={200}
-                placeholder="Write about task what is the task"
+                placeholder="Explain in detail about the task. Mention the necessary reference links and file/document link"
                 type="text"
                 name="aboutTask"
                 id="aboutTask"
@@ -397,11 +397,11 @@ const AdminCreateTask = () => {
             </p>
             <div className="flex flex-col gap-2 mt-2">
               <label htmlFor="aboutOutcome" className="text-[17px] font-medium">
-                Write about outcome
+                Outcomes/Deliverables
               </label>
               <textarea
                 maxLength={200}
-                placeholder="Write about what students receive upon completing the task."
+                placeholder="Clearly mention in a point-wise manner what is expected out of the intern. Also, mention how this task is going to contribute to the team/company's overall goal."
                 type="text"
                 name="aboutOutcome"
                 id="aboutOutcome"
@@ -413,10 +413,10 @@ const AdminCreateTask = () => {
             </p>
             <div className="flex flex-col gap-2 mb-4">
               <label htmlFor="taskLink" className="text-[17px] font-medium">
-                Task link
+                Task Explainer Video
               </label>
               <input
-                placeholder="url of your task"
+                placeholder="Upload a video/screen-recording explaining the methodology for the task "
                 type="url"
                 name="taskLink"
                 id="taskLink"
@@ -435,10 +435,10 @@ const AdminCreateTask = () => {
                   htmlFor="taskTime"
                   className="text-[16px] text-[#3F3F3F] font-medium"
                 >
-                  The duration for completing the task.
+                  Man hours to complete the task
                 </label>
                 <input
-                  placeholder="time to do the task"
+                  placeholder="In hours "
                   type="number"
                   name="taskTime"
                   id="taskTime"
@@ -450,7 +450,7 @@ const AdminCreateTask = () => {
                   htmlFor="taskDeadline"
                   className="text-[16px] text-[#3F3F3F] font-medium"
                 >
-                  Deadline
+                  Deadline To Complete The Task
                 </label>
                 <input
                   placeholder="month/date/year"
@@ -465,7 +465,7 @@ const AdminCreateTask = () => {
                   htmlFor="participantLimit"
                   className="text-[16px] text-[#3F3F3F] font-medium"
                 >
-                  Limit
+                 Maximum Number Of Applying Candidates
                 </label>
                 <input
                   placeholder="0"

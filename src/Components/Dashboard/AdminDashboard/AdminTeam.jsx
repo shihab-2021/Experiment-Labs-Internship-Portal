@@ -363,7 +363,7 @@ const AdminTeam = () => {
                 Team member mobile number
               </label>
               <input
-                placeholder="write team member mobile number"
+                placeholder="+91 xxxxxxxxxx"
                 type="text"
                 name="memberNumber"
                 id="memberNumber"
