@@ -18,8 +18,8 @@ const AdminCreateTask = () => {
   const [orgLogo, setOrgLogo] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
+    Loading();
     if (userInfo?.organizations) {
-      Loading();
       axios
         .get(
           `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${
@@ -33,9 +33,8 @@ const AdminCreateTask = () => {
           if (org?.data?.orgLogo) setOrgLogo(org?.data?.orgLogo);
         })
         .catch((error) => console.error(error));
-
-      Loading().close();
     }
+    Loading().close();
   }, [userInfo]);
 
   const handleDragEnter = (e) => {
