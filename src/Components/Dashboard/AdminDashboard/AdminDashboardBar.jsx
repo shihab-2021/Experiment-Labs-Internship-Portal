@@ -22,31 +22,48 @@ import axios from "axios";
 const AdminDashboardBar = () => {
 
 
-  const barChartData = [
-    { task: "", tasks_done: 0 },
-    { task: "", tasks_done: 0 },
-    { task: "", tasks_done: 0 },
-    { task: "logo design", tasks_done: 6 },
-    { task: "Animation task", tasks_done: 4 },
-  ];
+
 
   const yTicks = [2, 4, 6, 8, 10, 12, 14];
   const { userInfo } = useContext(AuthContext);
-  const [myTasks,setmyTasks] = useState([]);
-  useEffect(() =>{
+  const [category, setCategory] = useState([]);
+  useEffect(() => {
+    if (userInfo) {
+      axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/stats/taskCategory/organizationId/${userInfo?.organizations[0]?.organizationId}`)
+        .then((response) => {
+          const fetchedCategory = response?.data || [];
+          setCategory(fetchedCategory);
+        })
+        .catch((error) => console.error(error));
+    }
+  }, [userInfo]);
+  
+  const [barChartData, setBarChartData] = useState([]);
+
+  useEffect(() => {
+    // Convert the object into an array of objects
+    const categoryArray = Object.entries(category).map(([categoryName, taskCount]) => ({
+      task: categoryName,
+      tasks_done: taskCount,
+    }));
+
+    setBarChartData(categoryArray);
+  }, [category]);
+  const [myTasks, setmyTasks] = useState([]);
+  useEffect(() => {
     axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/creatorEmail/${userInfo?.email}`)
-    .then((tasks) => {
-      setmyTasks(tasks?.data);
-    })
-    .catch((error) => console.error(error));
-  },[])
-  console.log(myTasks);
+      .then((tasks) => {
+        setmyTasks(tasks?.data);
+      })
+      .catch((error) => console.error(error));
+  }, [])
+
   const [pendingTasks, setpendingTasks] = useState([]);
   const [processingTasks, setprocessingTasks] = useState([]);
   const [completedTasks, setcompletedTasks] = useState([]);
   const [rejectedTasks, setrejectedTasks] = useState([]);
   useEffect(() => {
-    if (userInfo?.organizations){
+    if (userInfo?.organizations) {
       axios
         .get(
           `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${userInfo?.organizations[0]?.organizationId
@@ -56,7 +73,7 @@ const AdminDashboardBar = () => {
           setpendingTasks(tasks?.data);
         })
         .catch((error) => console.error(error));
-        axios
+      axios
         .get(
           `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${userInfo?.organizations[0]?.organizationId
           }/taskStatus/Processing`
@@ -65,7 +82,7 @@ const AdminDashboardBar = () => {
           setprocessingTasks(tasks?.data);
         })
         .catch((error) => console.error(error));
-        axios
+      axios
         .get(
           `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${userInfo?.organizations[0]?.organizationId
           }/taskStatus/Completed`
@@ -74,7 +91,7 @@ const AdminDashboardBar = () => {
           setcompletedTasks(tasks?.data);
         })
         .catch((error) => console.error(error));
-        axios
+      axios
         .get(
           `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${userInfo?.organizations[0]?.organizationId
           }/taskStatus/Rejected`
@@ -83,14 +100,26 @@ const AdminDashboardBar = () => {
           setrejectedTasks(tasks?.data);
         })
         .catch((error) => console.error(error));
-      }
+    }
   }, [userInfo]);
   const pieChartdata = [
-    { statusInfo:  `${processingTasks?.length} Solution in progress`, value: processingTasks?.length },
+    { statusInfo: `${processingTasks?.length} Solution in progress`, value: processingTasks?.length },
     { statusInfo: `${completedTasks?.length}  Considering solutions`, value: completedTasks?.length },
     { statusInfo: `${rejectedTasks?.length} Solution rejected`, value: rejectedTasks?.length },
   ];
-  const COLORS = [ "#2196F3", "#20B15A", "#DD2025"];
+
+  const COLORS = ["#2196F3", "#20B15A", "#DD2025"];
+  
+  const [chats, setChats] = useState([])
+  const fetchChat = async () => {
+    const chatList = await axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/chats/userId/${userInfo?._id}`);
+    setChats(chatList?.data?.userChats);
+  }
+
+  useEffect(() => {
+    fetchChat();
+    console.log("fetch chat ", chats);
+  }, [userInfo]);
   return (
     <div className="w-11/12 mx-auto mt-14">
       <h1 className="text-[20px] font-medium tracking-widest">Dashboard</h1>
@@ -137,24 +166,24 @@ const AdminDashboardBar = () => {
         <div className="bg-[#FFF] border shadow-md p-4 rounded-md w-[471px] h-[290px]">
           <div className="flex justify-between pb-4">
             <p className="text-[17px] tracking-widest font-medium">
-              Incomplete task by section
+              Task by Category
             </p>
-            <p className="flex items-center text-[17px] tracking-widest font-medium">
+            {/* <p className="flex items-center text-[17px] tracking-widest font-medium">
               1{" "}
               <button>
                 <CiFilter></CiFilter>
               </button>
-            </p>
+            </p> */}
           </div>
           <BarChart
             width={382}
             height={200}
             data={barChartData}
             margin={{
-              top: -5,
+              top: 5,
               right: 30,
-              left: 20,
-              bottom: 0,
+              left: 0,
+              bottom: -2,
             }}
           >
             <CartesianGrid vertical={false} />
@@ -196,7 +225,7 @@ const AdminDashboardBar = () => {
                 ))}
                 <Label
                   className="text-[18px] text-black font-medium"
-                  value={`${processingTasks?.length+completedTasks?.length+rejectedTasks?.length} total`}
+                  value={`${processingTasks?.length + completedTasks?.length + rejectedTasks?.length} total`}
                   position="center"
                 />
               </Pie>
@@ -244,17 +273,20 @@ const AdminDashboardBar = () => {
           <p className="w-11/12 mx-auto text-[18px] font-bold tracking-wide mt-[16px] mb-4">
             Message
           </p>
-          <div className="w-11/12 mx-auto flex items-center justify-between border-b border-[#D9D9D9]">
-            <div className="flex items-center">
-              <img src={stdImg} alt="" />
-              <p>
-                Anjali <span>10th class student</span>
-              </p>
-            </div>
-            <Link to='/message' className="mb-1 py-[9px] px-[16px] text-[18px] text-white tracking-wider font-medium rounded-[26px] bg-[#17A1FA]">
-              Message
-            </Link>
+          {chats && chats?.map((chat, i) =>
+          (((chat.latestMessage.senderId !== userInfo._id) && (!chat?.latestMessage?.readBy?.includes(userInfo?._id)) && chat?.latestMessage?.senderId) && 
+          <div key={i} className="w-11/12 mx-auto flex items-center justify-between border-b border-[#D9D9D9]">
+          <div className="flex items-center">
+            <img src={stdImg} alt="" />
+            <p>
+              Anjali <span>10th class student</span>
+            </p>
           </div>
+          <Link to='/message' className="mb-1 py-[9px] px-[16px] text-[18px] text-white tracking-wider font-medium rounded-[26px] bg-[#17A1FA]">
+            Message
+          </Link>
+        </div>))}
+    
         </div>
       </div>
     </div>
