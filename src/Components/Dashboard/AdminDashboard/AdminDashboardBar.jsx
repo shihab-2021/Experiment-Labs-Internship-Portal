@@ -29,23 +29,18 @@ const AdminDashboardBar = () => {
     { task: "logo design", tasks_done: 6 },
     { task: "Animation task", tasks_done: 4 },
   ];
-  const myTasks = [
-    {
-      task: "Animation task",
-      status: "pending",
-    },
-    {
-      task: "Logo design",
-      status: "pending",
-    },
-    {
-      task: "UI & UX",
-      status: "done",
-    },
-  ];
+
   const yTicks = [2, 4, 6, 8, 10, 12, 14];
   const { userInfo } = useContext(AuthContext);
-
+  const [myTasks,setmyTasks] = useState([]);
+  useEffect(() =>{
+    axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/creatorEmail/${userInfo?.email}`)
+    .then((tasks) => {
+      setmyTasks(tasks?.data);
+    })
+    .catch((error) => console.error(error));
+  },[])
+  console.log(myTasks);
   const [pendingTasks, setpendingTasks] = useState([]);
   const [processingTasks, setprocessingTasks] = useState([]);
   const [completedTasks, setcompletedTasks] = useState([]);
@@ -235,7 +230,7 @@ const AdminDashboardBar = () => {
               className="w-5/6 mx-auto border-b border-[#C7C7C7] pt-[17px] text-[16px] font-medium flex justify-between"
             >
               <p className="text-black text-[18px] font-medium tracking-wide">
-                {index + 1}. {task?.task}{" "}
+                {index + 1}. {task?.taskName}{" "}
               </p>
               {task?.status === "pending" ? (
                 <FaRegCheckCircle className=" w-6 h-6 opacity-70" />

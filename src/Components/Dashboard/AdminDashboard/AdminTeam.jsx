@@ -64,10 +64,8 @@ const AdminTeam = () => {
     if (userInfo?.organizations)
       axios
         .get(
-          `${
-            import.meta.env.VITE_APP_SERVER_API
-          }/api/v1/users/usersByOrganization/${
-            userInfo?.organizations[0]?.organizationId
+          `${import.meta.env.VITE_APP_SERVER_API
+          }/api/v1/users/usersByOrganization/${userInfo?.organizations[0]?.organizationId
           }`
         )
         .then((org) => {
@@ -133,8 +131,7 @@ const AdminTeam = () => {
         console.log(user);
         axios
           .put(
-            `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users/userId/${
-              user._id
+            `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users/userId/${user._id
             }/organizationId/${user.organizations[0].organizationId}`
           )
           .then((response) => {
@@ -211,7 +208,7 @@ const AdminTeam = () => {
             <div>
               <div className="flex gap-10">
                 <div>
-                  <h1 className="font-bold text-[30px]">Hello Aman</h1>
+                  <h1 className="font-bold text-[30px]">Hello {userInfo?.firstName}</h1>
                   <p className="text-[21px] font-medium tracking-wide">
                     {formatDate()}
                   </p>
@@ -242,53 +239,60 @@ const AdminTeam = () => {
                 <button
                   type="button"
                   className="inline-flex items-center w-full justify-center  hover:bg-gray-50 "
-                  onClick={toggleDropdown}
-                  aria-expanded={isDropdownOpen}
-                  aria-haspopup="true"
+                // onClick={toggleDropdown}
+                // aria-expanded={isDropdownOpen}
+                // aria-haspopup="true"
                 >
-                  <div className="w-5/6 mx-auto flex items-center gap-2 pt-[7px]">
-                    <BsPersonCircle className="text-[#4555BA] w-[35px] h-[35px]" />
-                    <p className="text-[19px] font-medium">Aman Kumar</p>
+                  <div className="w-5/6 mx-auto flex items-center justify-center gap-2 pt-[7px]">
+                    <div
+                      className="rounded-full w-[35px] h-[35px] flex items-center text-red-50 justify-center"
+                      style={{ backgroundColor }}
+                    >
+                      {getInitials()}
+                    </div>
+                    <p className="text-[19px] font-medium">
+                      {userInfo?.firstName} {userInfo?.lastName}
+                    </p>
                   </div>
-                  <svg
-                    className="-mr-1 h-6 w-6 text-black"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
+                  {/* <svg
+                      className="-mr-1 h-5 w-5 text-gray-400"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                        clip-rule="evenodd"
+                      />
+                    </svg> */}
                 </button>
               </div>
 
-              <div
-                className={`absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${
-                  isDropdownOpen ? "" : "hidden"
-                }`}
-                role="menu"
-                aria-orientation="vertical"
-                aria-labelledby="menu-button"
-                tabIndex="-1"
-              >
-                <div className="py-1" role="none">
-                  <div className="w-5/6 mx-auto border-b border-[#4555BA] pt-[17px] text-[16px] font-medium flex justify-between">
-                    <p className="text-[#3F3F3F]">Animation</p>
-                    <p className="text-[#6B6B6B]">task 1</p>
+              {/* <div
+                  className={`absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${
+                    isDropdownOpen ? "" : "hidden"
+                  }`}
+                  role="menu"
+                  aria-orientation="vertical"
+                  aria-labelledby="menu-button"
+                  tabIndex="-1"
+                >
+                  <div className="py-1" role="none">
+                    <div className="w-5/6 mx-auto border-b border-[#4555BA] pt-[17px] text-[16px] font-medium flex justify-between">
+                      <p className="text-[#3F3F3F]">Animation</p>
+                      <p className="text-[#6B6B6B]">task 1</p>
+                    </div>
+                    <div className="w-5/6 mx-auto border-b border-[#4555BA] pt-[17px] text-[16px] font-medium flex justify-between">
+                      <p className="text-[#3F3F3F]">logo design</p>
+                      <p className="text-[#6B6B6B]">task 2</p>
+                    </div>
+                    <div className="w-5/6 mx-auto border-b border-[#4555BA] pt-[17px] text-[16px] font-medium flex justify-between mb-3">
+                      <p className="text-[#3F3F3F]">ui and ux </p>
+                      <p className="text-[#6B6B6B]">task 3</p>
+                    </div>
                   </div>
-                  <div className="w-5/6 mx-auto border-b border-[#4555BA] pt-[17px] text-[16px] font-medium flex justify-between">
-                    <p className="text-[#3F3F3F]">logo design</p>
-                    <p className="text-[#6B6B6B]">task 2</p>
-                  </div>
-                  <div className="w-5/6 mx-auto border-b border-[#4555BA] pt-[17px] text-[16px] font-medium flex justify-between mb-3">
-                    <p className="text-[#3F3F3F]">ui and ux </p>
-                    <p className="text-[#6B6B6B]">task 3</p>
-                  </div>
-                </div>
-              </div>
+                </div> */}
             </div>
           </div>
           <form onSubmit={handleAddMember} className="mt-3" autocomplete="on">
@@ -421,11 +425,11 @@ const AdminTeam = () => {
                   <button
                     type="button"
                     className="inline-flex items-center w-full justify-center  hover:bg-gray-50 "
-                    onClick={toggleDropdown}
-                    aria-expanded={isDropdownOpen}
-                    aria-haspopup="true"
+                  // onClick={toggleDropdown}
+                  // aria-expanded={isDropdownOpen}
+                  // aria-haspopup="true"
                   >
-                    <div className="w-5/6 mx-auto flex items-center gap-2 pt-[7px]">
+                    <div className="w-5/6 mx-auto flex justify-center items-center gap-2 pt-[7px]">
                       <div
                         className="rounded-full w-[35px] h-[35px] flex items-center text-red-50 justify-center"
                         style={{ backgroundColor }}
@@ -436,7 +440,7 @@ const AdminTeam = () => {
                         {userInfo?.firstName} {userInfo?.lastName}
                       </p>
                     </div>
-                    <svg
+                    {/* <svg
                       className="-mr-1 h-5 w-5 text-gray-400"
                       viewBox="0 0 20 20"
                       fill="currentColor"
@@ -447,11 +451,11 @@ const AdminTeam = () => {
                         d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
                         clip-rule="evenodd"
                       />
-                    </svg>
+                    </svg> */}
                   </button>
                 </div>
 
-                <div
+                {/* <div
                   className={`absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${
                     isDropdownOpen ? "" : "hidden"
                   }`}
@@ -474,7 +478,7 @@ const AdminTeam = () => {
                       <p className="text-[#6B6B6B]">task 3</p>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
             <div className=" mb-[22px] flex justify-between items-center border border-[#F0F0F0] rounded py-[13px] px-[7px]">
@@ -514,7 +518,7 @@ const AdminTeam = () => {
                         {member?.organizations?.map((org, j) => (
                           <div key={j}>
                             {userInfo?.organizations &&
-                            userInfo.organizations[0]?.organizationId ===
+                              userInfo.organizations[0]?.organizationId ===
                               org.organizationId
                               ? org.role
                               : ""}
@@ -569,7 +573,7 @@ const AdminTeam = () => {
                       className="bg-[#4555BA] h-2 rounded-lg"
                       // className="bg-cyan-600 h-2 rounded-sm"
                       style={{ width: `50%` }}
-                      // style={{ width: "20%" }}
+                    // style={{ width: "20%" }}
                     ></div>
                   </div>
                 </div>
