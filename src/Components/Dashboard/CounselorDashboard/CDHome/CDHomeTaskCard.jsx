@@ -1,3 +1,5 @@
+//CDHomeTaskCard
+
 import React, { useEffect, useState } from "react";
 import pending from "../../../../assets/Dashboard/SuperAdminDashboard/mdi_account-pending-outline.svg";
 import reject from "../../../../assets/Dashboard/SuperAdminDashboard/iconoir_cancel.svg";
@@ -6,7 +8,7 @@ import axios from "axios";
 import profileImg from "../../../../assets/Dashboard/SuperAdminDashboard/Ellipse 24.svg";
 import { Link } from "react-router-dom";
 
-const TaskCard = ({ item, index }) => {
+const CDHomeTaskCard = ({ item, index }) => {
   const formatDate = (date) => {
     const monthNames = [
       "Jan",
@@ -200,4 +202,4 @@ const TaskCard = ({ item, index }) => {
   );
 };
 
-export default TaskCard;
+export default CDHomeTaskCard;

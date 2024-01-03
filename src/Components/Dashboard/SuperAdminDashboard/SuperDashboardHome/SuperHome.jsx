@@ -4,6 +4,7 @@ import TrendingTasks from "./TrendingTasks";
 import Tasks from "./Tasks";
 import axios from "axios";
 
+
 const SuperHome = () => {
   const [allTasks, setAllTasks] = useState([]);
   useEffect(() => {
@@ -17,7 +18,7 @@ const SuperHome = () => {
   return (
     <div>
       <TopSection />
-      <TrendingTasks />
+      {/* <TrendingTasks /> */}
       <Tasks allTasks={allTasks} />
     </div>
   );

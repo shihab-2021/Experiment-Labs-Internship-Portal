@@ -58,7 +58,7 @@ const SuperMessageList = ({ messages, selectedChat, userNamesMap, lastMessage, r
 
   // console.log(userNamesMap);
   // console.log(read);
-  console.log(selectedChat);
+  //console.log(selectedChat);
 
   return (
     <div>

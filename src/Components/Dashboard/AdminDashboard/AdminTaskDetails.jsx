@@ -284,7 +284,7 @@ const AdminTaskDetails = () => {
                 ))
 
 
-              }</> : <p className="text-xl font-medium text-[red]">New task not found</p>
+              }</> : <p className="text-xl font-medium text-[red]"> No New tasks Created</p>
 
             }
 
@@ -375,7 +375,7 @@ const AdminTaskDetails = () => {
                   </div>
                 ))
 
-              }</> : <p className="text-xl font-medium text-[red]">Progress task not found</p>
+              }</> : <p className="text-xl font-medium text-[red]">No In Progress Tasks</p>
 
             }
 
@@ -477,7 +477,7 @@ const AdminTaskDetails = () => {
                   </div>
                 ))
 
-              }</> : <p className="text-xl font-medium text-[red]">Complete task not found</p>
+              }</> : <p className="text-xl font-medium text-[red]">No Complete tasks Yet</p>
             }
           </div>
         </div>

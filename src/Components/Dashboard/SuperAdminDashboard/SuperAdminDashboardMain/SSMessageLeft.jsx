@@ -35,7 +35,7 @@ const SSMessageLeft = () => {
         })
             .then((response) => {
                 if (response.data.success) {
-                    navigate('/message')
+                    navigate('/superAdminDashboard/messages')
                 }
                 // console.log(response);
             }, (error) => {

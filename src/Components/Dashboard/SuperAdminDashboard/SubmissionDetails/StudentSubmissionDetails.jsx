@@ -140,7 +140,8 @@ const StudentSubmissionDetails = ({ item }) => {
                 .catch((error) => console.error(error));
     }, [item?.organizationId]);
 
-    //console.log(submissionDetails);
+
+ //   console.log(organizationDetails);
 
     // handle select or reject
     const updateSubmissionStatus = (status, submissionId) => {
@@ -165,7 +166,7 @@ const StudentSubmissionDetails = ({ item }) => {
                     confirmButtonText: "OK",
                 });
 
-                navigate("/superAdminSubmissionDetails");
+                navigate('/superAdminDashboardHome');
             })
             .catch((error) => {
                 console.error(error);

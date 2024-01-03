@@ -7,6 +7,7 @@ import axios from "axios";
 import { AuthContext } from "../../../Contexts/AuthProvider";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import Loading from "../../Shared/Loading/Loading";
 
 const AdminCreateTask = () => {
   const { user, userInfo } = useContext(AuthContext);
@@ -17,19 +18,23 @@ const AdminCreateTask = () => {
   const [orgLogo, setOrgLogo] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
-    if (userInfo?.organizations)
+    Loading();
+    if (userInfo?.organizations) {
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${userInfo?.organizations[0]?.organizationId
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${
+            userInfo?.organizations[0]?.organizationId
           }`
         )
         .then((org) => {
           setOrganizationInfo(org?.data);
-          if (org?.data?.orgName && org?.data?.orgName && org?.data?.orgLogo)
+          if (org?.data?.orgName && org?.data?.aboutOrg && org?.data?.orgLogo)
             setPage(2);
           if (org?.data?.orgLogo) setOrgLogo(org?.data?.orgLogo);
         })
         .catch((error) => console.error(error));
+    }
+    Loading().close();
   }, [userInfo]);
 
   const handleDragEnter = (e) => {
@@ -115,12 +120,27 @@ const AdminCreateTask = () => {
       organizationInfo.orgLogo = orgLogo;
       delete organizationInfo._id;
 
-      const updateOrganization = await axios.put(
-        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${userInfo?.organizations[0]?.organizationId
-        }`,
-        organizationInfo
-      );
-      console.log(updateOrganization);
+      if (organizationInfo.orgName && organizationInfo.orgLogo) {
+        const updateOrganization = await axios.put(
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${
+            userInfo?.organizations[0]?.organizationId
+          }`,
+          organizationInfo
+        );
+        console.log(updateOrganization);
+        setPage(2);
+      } else {
+        Swal.fire({
+          title: `Please Enter ${
+            !organizationInfo.orgName && !organizationInfo.aboutOrg
+              ? "Company Name & Company Logo"
+              : !organizationInfo.orgName
+              ? "Company Name"
+              : "Company Logo"
+          }!`,
+          icon: "error",
+        });
+      }
     } else {
       const companyData = {
         orgName: form.companyName.value,
@@ -128,15 +148,27 @@ const AdminCreateTask = () => {
         officialEmail: user?.email,
         orgLogo: orgLogo,
       };
-      console.log(companyData);
-      const newOrganization = await axios.post(
-        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations`,
-        companyData
-      );
-      console.log(newOrganization);
+      if (companyData.orgName && companyData.orgLogo) {
+        const newOrganization = await axios.post(
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations`,
+          companyData
+        );
+        console.log(newOrganization);
+        setPage(2);
+      } else {
+        Swal.fire({
+          title: `Please Enter ${
+            !companyData.orgName && !companyData.aboutOrg
+              ? "Company Name & Company Logo"
+              : !companyData.orgName
+              ? "Company Name"
+              : "Company Logo"
+          }!`,
+          icon: "error",
+        });
+      }
     }
-    setPage(2);
-    form.reset();
+    // form.reset();
   };
 
   const handleCreateTask = async (event) => {
@@ -155,7 +187,10 @@ const AdminCreateTask = () => {
         organizationId: organizationInfo?._id,
         role: userInfo?.organizations[0]?.role,
       },
-      taskStatus: "Pending",
+      taskStatus:
+        userInfo?.organizations[0]?.role === "Admin"
+          ? "AdminApproved"
+          : "Pending",
       postingDateTime: new Date(),
     };
     console.log(taskData);
@@ -167,7 +202,7 @@ const AdminCreateTask = () => {
     if (newTask) {
       Swal.fire({
         title: "New task created successfully!",
-        icon: "success"
+        icon: "success",
       });
       navigate("/dashboard");
     }
@@ -239,7 +274,7 @@ const AdminCreateTask = () => {
           </div>
           <form onSubmit={handleNext}>
             <h1 className="text-[18px] font-medium tracking-wide text-center mt-[45px]">
-              Upload Company image
+              Upload Logo
             </h1>
             <label>
               <div
@@ -275,6 +310,8 @@ const AdminCreateTask = () => {
                 )}
               </div>
               <input
+                // required
+                // defaultValue={organizationInfo?.orgLogo}
                 className="hidden"
                 type="file"
                 name="file"
@@ -290,6 +327,7 @@ const AdminCreateTask = () => {
                 Company name
               </label>
               <input
+                required
                 defaultValue={organizationInfo?.orgName}
                 placeholder="write company name"
                 type="text"
@@ -376,11 +414,11 @@ const AdminCreateTask = () => {
             </div>
             <div className="flex flex-col gap-2 mt-2">
               <label htmlFor="aboutTask" className="text-[17px] font-medium">
-                Write about task
+                Task Details
               </label>
               <textarea
                 maxLength={200}
-                placeholder="Write about task what is the task"
+                placeholder="Explain in detail about the task. Mention the necessary reference links and file/document link"
                 type="text"
                 name="aboutTask"
                 id="aboutTask"
@@ -392,11 +430,11 @@ const AdminCreateTask = () => {
             </p>
             <div className="flex flex-col gap-2 mt-2">
               <label htmlFor="aboutOutcome" className="text-[17px] font-medium">
-                Write about outcome
+                Outcomes/Deliverables
               </label>
               <textarea
                 maxLength={200}
-                placeholder="Write about what students receive upon completing the task."
+                placeholder="Clearly mention in a point-wise manner what is expected out of the intern. Also, mention how this task is going to contribute to the team/company's overall goal."
                 type="text"
                 name="aboutOutcome"
                 id="aboutOutcome"
@@ -408,10 +446,10 @@ const AdminCreateTask = () => {
             </p>
             <div className="flex flex-col gap-2 mb-4">
               <label htmlFor="taskLink" className="text-[17px] font-medium">
-                Task link
+                Task Explainer Video
               </label>
               <input
-                placeholder="url of your task"
+                placeholder="Upload a video/screen-recording explaining the methodology for the task "
                 type="url"
                 name="taskLink"
                 id="taskLink"
@@ -430,10 +468,10 @@ const AdminCreateTask = () => {
                   htmlFor="taskTime"
                   className="text-[16px] text-[#3F3F3F] font-medium"
                 >
-                  The duration for completing the task.
+                  Man hours to complete the task
                 </label>
                 <input
-                  placeholder="time to do the task"
+                  placeholder="In hours "
                   type="number"
                   name="taskTime"
                   id="taskTime"
@@ -445,7 +483,7 @@ const AdminCreateTask = () => {
                   htmlFor="taskDeadline"
                   className="text-[16px] text-[#3F3F3F] font-medium"
                 >
-                  Deadline
+                  Deadline To Complete The Task
                 </label>
                 <input
                   placeholder="month/date/year"
@@ -460,7 +498,7 @@ const AdminCreateTask = () => {
                   htmlFor="participantLimit"
                   className="text-[16px] text-[#3F3F3F] font-medium"
                 >
-                  Limit
+                 Maximum Number Of Applying Candidates
                 </label>
                 <input
                   placeholder="0"
