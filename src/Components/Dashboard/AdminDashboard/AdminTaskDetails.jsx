@@ -299,9 +299,9 @@ const AdminTaskDetails = () => {
           <h1 className="text-[20px] font-bold mt-8 text-[#1976D2]">
             In Progress
           </h1>
-          <p>
+         {/*  <p>
             <FaEllipsisV style={{ color: "#3E4DAC" }} />{" "}
-          </p>
+          </p> */}
         </div>
 
         <div className="flex justify-between items-center">
@@ -390,9 +390,9 @@ const AdminTaskDetails = () => {
             {" "}
             Completed
           </h1>
-          <p>
+       {/*    <p>
             <FaEllipsisV style={{ color: "#3E4DAC" }} />{" "}
-          </p>
+          </p> */}
         </div>
 
         <div className="flex justify-between items-center">
