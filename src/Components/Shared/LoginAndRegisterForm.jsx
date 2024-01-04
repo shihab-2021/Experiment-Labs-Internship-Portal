@@ -29,11 +29,12 @@ const LoginAndRegisterForm = ({ showLoginForm, setShowLoginForm }) => {
     const password = form.password.value;
    // console.log(email, password);
     // Show a loading spinner while the login process is in progress
-    Loading();
+ 
 
     try {
       await signIn(email, password).then(() => {
         console.log("user logged in");
+        Loading()
         axios
           .get(
             `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${email}`
@@ -48,9 +49,13 @@ const LoginAndRegisterForm = ({ showLoginForm, setShowLoginForm }) => {
             }
           })
           .catch((error) => console.error(error));
+          Loading().close();
+
       });
+
     } catch (error) {
-      console.error(error);
+     // console.error(error);
+    //  Loading().close();
       // toast.error("password or email error");
       Swal.fire({
         icon: 'error',
@@ -60,7 +65,7 @@ const LoginAndRegisterForm = ({ showLoginForm, setShowLoginForm }) => {
     }
     finally {
       // Close the loading spinner when the login process completes (whether successful or not)
-      Loading().close();
+     // Loading().close();
     }
   };
   return (
