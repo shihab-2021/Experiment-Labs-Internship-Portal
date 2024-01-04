@@ -166,6 +166,18 @@ const SuperAdminCreateTaskForms = () => {
         title: "New task created successfully!",
         icon: "success",
       });
+
+      // const sendMail = await axios.post(
+      //   `${import.meta.env.VITE_APP_BACKEND_API}/api/v1/sendMail`,
+      //   {
+      //     from: `${userInfo?.email}`,
+      //     to: `naman.j@experimentlabs.in, gaurav@experimentlabs.in, shihab77023@gmail.com, rhrahi14@gmail.com`,
+      //     subject: `Submission of ${taskData?.taskName}`,
+      //     message: `${userInfo?.name} has Created a Task named ${taskData?.taskName}.Please review the Task.`,
+      //   }
+      // );
+
+      // if (sendMail)
       navigate("/dashboard");
     }
     form.reset();
