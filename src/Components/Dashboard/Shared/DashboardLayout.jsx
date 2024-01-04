@@ -23,6 +23,10 @@ import LeaderBoardIconLight from "../../../assets/Dashboard/Shared/LeaderBoardIc
 import LeaderBoardIconDark from "../../../assets/Dashboard/Shared/LeaderBoardIconDark.png";
 import TaskAccessIconLight from "../../../assets/Dashboard/Shared/TaskAccessIconLight.png";
 import TaskAccessIconDark from "../../../assets/Dashboard/Shared/TaskAccessIconDark.png";
+import StudentIconLight from "../../../assets/Dashboard/Shared/StudentIconLight.png";
+import StudentIconDark from "../../../assets/Dashboard/Shared/StudentIconDark.png";
+import SchoolIconLight from "../../../assets/Dashboard/Shared/SchoolIconLight.png";
+import SchoolIconDark from "../../../assets/Dashboard/Shared/SchoolIconDark.png";
 import { AuthContext } from "../../../Contexts/AuthProvider";
 import axios from "axios";
 const DashboardLayout = ({ children }) => {
@@ -782,6 +786,159 @@ const DashboardLayout = ({ children }) => {
                                   } ml-3 text-[16px] font-[600]`}
                                 >
                                   Messages
+                                </span>
+                              </Link>
+                            </li>
+                          </>
+                        )}
+                        {role === "Counsellor" && (
+                          <>
+                            <li>
+                              <Link
+                                style={
+                                  location.pathname ===
+                                  "/counselorDashboard/Home"
+                                    ? {
+                                        background:
+                                          "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
+                                      }
+                                    : {}
+                                }
+                                to="/counselorDashboard/Home"
+                                className={`text-white font-normal rounded-[15px] flex items-center px-[20px] py-[13px]  group`}
+                              >
+                                {location.pathname ===
+                                "/counselorDashboard/Home" ? (
+                                  <img
+                                    src={HomeIconLight}
+                                    alt="HomeIconLight"
+                                  />
+                                ) : (
+                                  <img src={HomeIconDark} alt="HomeIconDark" />
+                                )}
+                                <span
+                                  className={`${
+                                    location.pathname ===
+                                    "/counselorDashboard/Home"
+                                      ? "text-white "
+                                      : "text-[#8F8F8F]"
+                                  } ml-3 text-[16px] font-[600]`}
+                                >
+                                  Home
+                                </span>
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                style={
+                                  location.pathname ===
+                                  "/counselorDashboard/MyStudents"
+                                    ? {
+                                        background:
+                                          "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
+                                      }
+                                    : {}
+                                }
+                                to="/counselorDashboard/MyStudents"
+                                className={`text-white font-normal rounded-[15px] flex items-center px-[20px] py-[13px]  group`}
+                              >
+                                {location.pathname ===
+                                "/counselorDashboard/MyStudents" ? (
+                                  <img
+                                    src={StudentIconLight}
+                                    alt="StudentIconLight"
+                                  />
+                                ) : (
+                                  <img
+                                    src={StudentIconDark}
+                                    alt="StudentIconDark"
+                                  />
+                                )}
+                                <span
+                                  className={`${
+                                    location.pathname ===
+                                    "/counselorDashboard/MyStudents"
+                                      ? "text-white "
+                                      : "text-[#8F8F8F]"
+                                  } ml-3 text-[16px] font-[600]`}
+                                >
+                                  My Students
+                                </span>
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                style={
+                                  location.pathname ===
+                                  "/counselorDashboard/Dashboard"
+                                    ? {
+                                        background:
+                                          "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
+                                      }
+                                    : {}
+                                }
+                                to="/counselorDashboard/Dashboard"
+                                className={`text-white font-normal rounded-[15px] flex items-center px-[20px] py-[13px]  group`}
+                              >
+                                {location.pathname ===
+                                "/counselorDashboard/Dashboard" ? (
+                                  <img
+                                    src={DashboardIconLight}
+                                    alt="DashboardIconLight"
+                                  />
+                                ) : (
+                                  <img
+                                    src={DashboardIconDark}
+                                    alt="DashboardIconDark"
+                                  />
+                                )}
+                                <span
+                                  className={`${
+                                    location.pathname ===
+                                    "/counselorDashboard/Dashboard"
+                                      ? "text-white "
+                                      : "text-[#8F8F8F]"
+                                  } ml-3 text-[16px] font-[600]`}
+                                >
+                                  Dashboard
+                                </span>
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                style={
+                                  location.pathname ===
+                                  "/counselorDashboard/MySchools"
+                                    ? {
+                                        background:
+                                          "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
+                                      }
+                                    : {}
+                                }
+                                to="/counselorDashboard/MySchools"
+                                className={`text-white font-normal rounded-[15px] flex items-center px-[20px] py-[13px]  group`}
+                              >
+                                {location.pathname ===
+                                "/counselorDashboard/MySchools" ? (
+                                  <img
+                                    src={SchoolIconLight}
+                                    alt="SchoolIconLight"
+                                  />
+                                ) : (
+                                  <img
+                                    src={SchoolIconDark}
+                                    alt="SchoolIconDark"
+                                  />
+                                )}
+                                <span
+                                  className={`${
+                                    location.pathname ===
+                                    "/counselorDashboard/MySchools"
+                                      ? "text-white "
+                                      : "text-[#8F8F8F]"
+                                  } ml-3 text-[16px] font-[600]`}
+                                >
+                                  My Schools
                                 </span>
                               </Link>
                             </li>
