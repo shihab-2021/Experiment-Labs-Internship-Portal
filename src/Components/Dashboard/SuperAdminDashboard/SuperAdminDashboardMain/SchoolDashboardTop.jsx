@@ -19,7 +19,7 @@ const SchoolDashboardTop = () => {
     ];
     return (
         <div className='flex justify-between gap-5 items-center'>
-            <div className="overflow-x-auto xl:w-8/12 2xl:w-3/5 mx-auto h-[533px] border-[#E8E8E8] border-2 shadow-sm rounded-md my-8">
+            <div className=" w-[70%] h-[530px] border-[#E8E8E8] border-2 shadow-sm rounded-md my-8">
                 <table className="table w-full ">
                     {/* head */}
                     <thead className="bg-[#F6F7FF] text-[17px] font-medium rounded mt-4">
@@ -30,96 +30,7 @@ const SchoolDashboardTop = () => {
                         </tr>
                     </thead>
                     <tbody className="w-full">
-                        <tr className="border border-[#E2E2E2]">
-                            <td className="px-2 flex items-center gap-1 text-[15px] font-medium">
-                                <img src={schoolImg} alt="" />
-                                <div className='grid items-center'>
-                                    <p className='text-[18px] font-medium'>Delhi public school</p>
-                                    <AvatarGroup className="grid justify-end " max={5}>
-                                        <Avatar
-                                            className="rounded-full w-[29px] h-[29px] flex items-center text-red-50 justify-center"
-                                            alt="Participant"
-                                            src={Person}
-                                        >
-                                        </Avatar>
-                                        <Avatar
-                                            className="rounded-full w-[29px] h-[29px] flex items-center text-red-50 justify-center"
-                                            alt="Participant"
-                                            src={Person}
-                                        >
-                                        </Avatar>
-                                        <Avatar
-                                            className="rounded-full w-[29px] h-[29px] flex items-center text-red-50 justify-center"
-                                            alt="Participant"
-                                            src={Person}
-                                        >
-                                        </Avatar>
-                                        <Avatar
-                                            className="rounded-full w-[29px] h-[29px] flex items-center text-red-50 justify-center"
-                                            alt="Participant"
-                                            src={Person}
-                                        >
-                                        </Avatar>
-                                        <Avatar
-                                            className="rounded-full w-[29px] h-[29px] flex items-center text-red-50 justify-center"
-                                            alt="Participant"
-                                            src={Person}
-                                        >
-                                        </Avatar>
-                                        <Avatar
-                                            className="rounded-full w-[29px] h-[29px] flex items-center text-red-50 justify-center"
-                                            alt="Participant"
-                                            src={Person}
-                                        >
-                                        </Avatar>
-                                    </AvatarGroup>
-                                </div>
-                            </td>
-                            <td className="px-2 text-[18px] font-semibold tracking-wider">
-                                <p>10 tasks</p>
-                            </td>
-                            <td className="px-2">
-                                <AvatarGroup className="grid justify-end " max={5}>
-                                    <Avatar
-                                        className="rounded-full w-[29px] h-[29px] flex items-center text-red-50 justify-center"
-                                        alt="Participant"
-                                        src={Person}
-                                    >
-                                    </Avatar>
-                                    <Avatar
-                                        className="rounded-full w-[29px] h-[29px] flex items-center text-red-50 justify-center"
-                                        alt="Participant"
-                                        src={Person}
-                                    >
-                                    </Avatar>
-                                    <Avatar
-                                        className="rounded-full w-[29px] h-[29px] flex items-center text-red-50 justify-center"
-                                        alt="Participant"
-                                        src={Person}
-                                    >
-                                    </Avatar>
-                                    <Avatar
-                                        className="rounded-full w-[29px] h-[29px] flex items-center text-red-50 justify-center"
-                                        alt="Participant"
-                                        src={Person}
-                                    >
-                                    </Avatar>
-                                    <Avatar
-                                        className="rounded-full w-[29px] h-[29px] flex items-center text-red-50 justify-center"
-                                        alt="Participant"
-                                        src={Person}
-                                    >
-                                    </Avatar>
-                                    <Avatar
-                                        className="rounded-full w-[29px] h-[29px] flex items-center text-red-50 justify-center"
-                                        alt="Participant"
-                                        src={Person}
-                                    >
-                                    </Avatar>
-                                </AvatarGroup>
-
-                            </td>
-                        </tr>
+                       
                         <tr className="border border-[#E2E2E2]">
                             <td className="px-2 flex items-center gap-1 text-[15px] font-medium">
                                 <img src={schoolImg} alt="" />
@@ -487,37 +398,47 @@ const SchoolDashboardTop = () => {
                 </div>
                 {/* <Pagination className="grid justify-center mt-10" count={2} color="primary" /> */}
             </div>
-            <div className='border-[#EEE] border-2 shadow-sm h-[522px] rounded-md'>
-                <div className='grid items-center mt-24 align-middle justify-center justify-items-center'>
-                <PieChart
-                    series={[
-                        {
-                            innerRadius: 70,
-                            outerRadius: 80,
-                            data: data1,
-                        },
-                        {
-                            innerRadius: 100,
-                            outerRadius: 120,
-                            data: data2,
-                        },
-                    ]}
-                    width={522}
-                    height={300}
-                    slotProps={{
-                        legend: { hidden: true },
-                    }}
-                />
-                <div>
-                    <div className='flex gap-2'>
-                        <p className={`w-[31.5px] h-[21px] bg-[${data2[1].color}]`}></p>
-                        <p className='text-[16px] font-medium tracking-wide'>{data2[1]?.label} {data2[1]?.value}</p>
+            <div
+                style={{
+                    borderRadius: "6px",
+                    border: "1px solid #EEE",
+                    background: "#FFF",
+                    boxShadow: "0px 4px 10px 0px #F6F6F6"
+                }}
+                className=' w-[30%] h-[530px]'>
+                <div className=' w-full '>
+                    <div className='flex justify-items-center'>
+                        <PieChart
+                            series={[
+                                {
+                                    innerRadius: 60,
+                                    outerRadius: 80,
+                                    data: data1,
+                                },
+                                {
+                                    innerRadius: 100,
+                                    outerRadius: 120,
+                                    data: data2,
+                                },
+                            ]}
+                            width={10}
+                            height={300}
+                            slotProps={{
+                                legend: { hidden: true },
+                            }}
+                        />
                     </div>
-                    <div className='flex gap-2 mt-3'>
-                        <p className={`w-[31.5px] h-[21px] bg-[${data1[1].color}]`}></p>
-                        <p className='text-[16px] font-medium tracking-wide'>{data1[1]?.label} {data1[1]?.value}</p>
+
+                    <div className='flex flex-col items-center'>
+                        <div className='flex gap-2'>
+                            <p className={`w-[31.5px] h-[21px] bg-[${data2[1].color}]`}></p>
+                            <p className='text-[16px] font-medium tracking-wide'>{data2[1]?.label} {data2[1]?.value}</p>
+                        </div>
+                        <div className='flex gap-2 mt-3'>
+                            <p className={`w-[31.5px] h-[21px] bg-[${data1[1].color}]`}></p>
+                            <p className='text-[16px] font-medium tracking-wide'>{data1[1]?.label} {data1[1]?.value}</p>
+                        </div>
                     </div>
-                </div>
                 </div>
             </div>
         </div>

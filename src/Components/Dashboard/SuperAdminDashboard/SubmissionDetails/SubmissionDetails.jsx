@@ -3,6 +3,7 @@ import { FaMagnifyingGlass } from "react-icons/fa6";
 import StudentSubmissionDetails from "./StudentSubmissionDetails";
 import axios from "axios";
 import Swal from "sweetalert2";
+import Loading from "../../../Shared/Loading/Loading";
 
 const SubmissionDetails = () => {
   const [states, setStates] = useState([
@@ -44,14 +45,7 @@ const SubmissionDetails = () => {
 
   useEffect(() => {
     // Show a loading spinner while the login process is in progress
-    const loadingSwal = Swal.fire({
-      title: 'Loading...',
-      allowOutsideClick: false,
-      onBeforeOpen: () => {
-        Swal.showLoading();
-      },
-      showConfirmButton: false, // Remove the "OK" button
-    });
+    Loading();
     axios
       .get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/taskSubmissions`)
       .then((submission) => {
@@ -60,8 +54,8 @@ const SubmissionDetails = () => {
       .catch((error) => console.error(error))
       .finally(() => {
         // Close the loading spinner when the data fetching is complete
-        setLoading(false);
-        loadingSwal.close();
+        //setLoading(false);
+        Loading().close();
       });
   }, []);
 

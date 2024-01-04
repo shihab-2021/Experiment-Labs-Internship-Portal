@@ -25,6 +25,29 @@ const AdminCompleteShowMore = () => {
 
   // taskDetails data
   const [taskDetails, setTaskDetails] = useState();
+  const getInitials = () => {
+    const firstNameInitial =
+      userInfo?.firstName?.charAt(0)?.toUpperCase() || "";
+    const lastNameInitial = userInfo?.lastName?.charAt(0)?.toUpperCase() || "";
+    return `${firstNameInitial}${lastNameInitial}`;
+  };
+  const getRandomColor = () => {
+    const letters = "0123456789ABCDEF";
+    let color = "#";
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+  const [backgroundColor, setBackgroundColor] = useState("");
+  useEffect(() => {
+    // Generate a random background color if it hasn't been generated yet
+    if (!backgroundColor) {
+      setBackgroundColor(getRandomColor());
+    }
+
+    // Your existing useEffect logic...
+  }, [userInfo, backgroundColor]);
 
   useEffect(() => {
     if (id)
@@ -47,8 +70,7 @@ const AdminCompleteShowMore = () => {
     if (taskDetails?.creator?.email)
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${
-            taskDetails?.creator?.email
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${taskDetails?.creator?.email
           }`
         )
         .then((creator) => {
@@ -67,8 +89,7 @@ const AdminCompleteShowMore = () => {
     if (creatorDetails?.organizations[0]?.organizationId)
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${
-            creatorDetails?.organizations[0]?.organizationId
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${creatorDetails?.organizations[0]?.organizationId
           }`
         )
         .then((organization) => {
@@ -170,12 +191,18 @@ const AdminCompleteShowMore = () => {
               aria-haspopup="true"
             >
               <div className="w-5/6 mx-auto flex items-center gap-2 pt-[7px]">
-                <BsPersonCircle className="text-[#4555BA] w-[35px] h-[35px]" />
+                {/* <BsPersonCircle className="text-[#4555BA] w-[35px] h-[35px]" /> */}
+                <div
+                  className="rounded-full w-[35px] h-[35px] flex items-center text-red-50 justify-center"
+                  style={{ backgroundColor }}
+                >
+                  {getInitials()}
+                </div>
                 <p className="text-[19px] font-medium">
                   {userInfo?.firstName} {userInfo?.lastName}
                 </p>
               </div>
-             {/*  <svg
+              {/*  <svg
                 className="-mr-1 h-5 w-5 text-gray-400"
                 viewBox="0 0 20 20"
                 fill="currentColor"
@@ -190,7 +217,7 @@ const AdminCompleteShowMore = () => {
             </button>
           </div>
 
-         {/*  <div
+          {/*  <div
             className={`absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${
               isDropdownOpen ? "" : "hidden"
             }`}
@@ -416,11 +443,10 @@ const AdminCompleteShowMore = () => {
                   <div
                     className="bg-[#3E4DAC] h-2  rounded-lg"
                     style={{
-                      width: `${
-                        (taskDetails?.participants?.length /
+                      width: `${(taskDetails?.participants?.length /
                           taskDetails?.participantLimit) *
                         100
-                      }%`,
+                        }%`,
                     }}
                   ></div>
                 </div>
