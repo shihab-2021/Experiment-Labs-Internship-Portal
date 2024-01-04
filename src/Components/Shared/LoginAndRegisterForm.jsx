@@ -30,11 +30,10 @@ const LoginAndRegisterForm = ({ showLoginForm, setShowLoginForm }) => {
     // console.log(email, password);
     // Show a loading spinner while the login process is in progress
 
-
     try {
       await signIn(email, password).then(() => {
         console.log("user logged in");
-        Loading()
+        Loading();
         axios
           .get(
             `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${email}`
@@ -48,24 +47,23 @@ const LoginAndRegisterForm = ({ showLoginForm, setShowLoginForm }) => {
               else {
                 navigate(role === "Student" ? "/userDashboard" : "/dashboard");
               }
+            } else {
+              navigate(role === "Student" ? "/userDashboard" : "/dashboard");
             }
           })
           .catch((error) => console.error(error));
         Loading().close();
-
       });
-
     } catch (error) {
       // console.error(error);
       //  Loading().close();
       // toast.error("password or email error");
       Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Incorrect email or password. Please try again.',
+        icon: "error",
+        title: "Oops...",
+        text: "Incorrect email or password. Please try again.",
       });
-    }
-    finally {
+    } finally {
       // Close the loading spinner when the login process completes (whether successful or not)
       // Loading().close();
     }
@@ -77,19 +75,21 @@ const LoginAndRegisterForm = ({ showLoginForm, setShowLoginForm }) => {
           <div className="grid grid-cols-2 text-gray-400 items-center justify-center">
             <button
               onClick={() => handleSetRole("Student")}
-              className={`${role === "Student"
-                ? "border-blue-500 border-b-2 text-gray-600"
-                : "mb-[2px]"
-                } p-2 font-semibold text-md`}
+              className={`${
+                role === "Student"
+                  ? "border-blue-500 border-b-2 text-gray-600"
+                  : "mb-[2px]"
+              } p-2 font-semibold text-md`}
             >
               Student
             </button>
             <button
               onClick={() => handleSetRole("Employer")}
-              className={`${role === "Employer"
-                ? "border-blue-500 border-b-2 text-gray-600"
-                : "mb-[2px]"
-                } p-2 font-semibold text-md`}
+              className={`${
+                role === "Employer"
+                  ? "border-blue-500 border-b-2 text-gray-600"
+                  : "mb-[2px]"
+              } p-2 font-semibold text-md`}
             >
               Employer / T&P
             </button>
