@@ -521,7 +521,7 @@ const DashboardLayout = ({ children }) => {
                                       : "text-[#8F8F8F]"
                                   } ml-3 text-[16px] font-[600]`}
                                 >
-                                  Message
+                                  Messages
                                 </span>
                               </Link>
                             </li>
@@ -781,7 +781,7 @@ const DashboardLayout = ({ children }) => {
                                       : "text-[#8F8F8F]"
                                   } ml-3 text-[16px] font-[600]`}
                                 >
-                                  Message
+                                  Messages
                                 </span>
                               </Link>
                             </li>

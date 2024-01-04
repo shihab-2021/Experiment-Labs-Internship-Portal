@@ -7,6 +7,7 @@ import DialogLayout from "./DialogLayout";
 import { AuthContext } from "../../Contexts/AuthProvider";
 import axios from "axios";
 import Swal from "sweetalert2";
+import Loading from "./Loading/Loading";
 
 const LoginAndRegisterForm = ({ showLoginForm, setShowLoginForm }) => {
   const { user, userInfo, signIn, createUser, updateUserProfile } =
@@ -28,14 +29,7 @@ const LoginAndRegisterForm = ({ showLoginForm, setShowLoginForm }) => {
     const password = form.password.value;
    // console.log(email, password);
     // Show a loading spinner while the login process is in progress
-    const loadingSwal = Swal.fire({
-      title: 'Loading...',
-      allowOutsideClick: false,
-      onBeforeOpen: () => {
-        Swal.showLoading();
-      },
-      showConfirmButton: false, // Remove the "OK" button
-    });
+    Loading();
 
     try {
       await signIn(email, password).then(() => {
@@ -66,7 +60,7 @@ const LoginAndRegisterForm = ({ showLoginForm, setShowLoginForm }) => {
     }
     finally {
       // Close the loading spinner when the login process completes (whether successful or not)
-      loadingSwal.close();
+      Loading().close();
     }
   };
   return (
