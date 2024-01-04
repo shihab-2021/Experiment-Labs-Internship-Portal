@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaAngleRight, FaMagnifyingGlass, FaStar } from "react-icons/fa6";
 import userImg from "../../../../assets/Dashboard/UserDashboard/userImg.png";
 import UserDashboardInternshipTasks from "./UserDashboardInternshipTasks";
@@ -6,7 +6,30 @@ import UserDashboardInternshipTasks from "./UserDashboardInternshipTasks";
 import Person from "../../../../assets/Home/Person.png";
 import UserDashboardStatistics from "./UserDashboardStatistics";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../../../Contexts/AuthProvider";
+import axios from "axios";
 const UserDashboardHeroSection = () => {
+  const { userInfo,user } = useContext(AuthContext);
+  const [submissions, setSubmissions] = useState([]);
+  useEffect(() => {
+    axios
+      .get(
+        `${
+          import.meta.env.VITE_APP_SERVER_API
+        }/api/v1/taskSubmissions/submissions/${user?.email}`
+      )
+      .then((taskSubmissions) => {
+        setSubmissions(taskSubmissions?.data);
+      })
+      .catch((error) => console.error(error));
+  }, [user]);
+  console.log(submissions)
+  const progress = submissions?.filter((submission) => submission?.submissionStatus === "In Progress")
+  const selected = submissions?.filter((submission) => submission?.submissionStatus === "Selected")
+  const completed = submissions?.filter((submission) => submission?.submissionStatus === "Completed")
+  const rejected = submissions?.filter((submission) => submission?.submissionStatus === "Rejected")
+  const pending = submissions?.filter((submission) => submission?.submissionStatus === "Pending")
+  console.log(userInfo)
   const cardData = [
     // {
     //   title: "Animation Task",
@@ -170,6 +193,30 @@ const UserDashboardHeroSection = () => {
     //   status: "Pending"
     // },
   ];
+  
+  const getInitials = () => {
+    const firstNameInitial =
+      userInfo?.firstName?.charAt(0)?.toUpperCase() || "";
+    const lastNameInitial = userInfo?.lastName?.charAt(0)?.toUpperCase() || "";
+    return `${firstNameInitial}${lastNameInitial}`;
+  };
+  const getRandomColor = () => {
+    const letters = "0123456789ABCDEF";
+    let color = "#";
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+  const [backgroundColor, setBackgroundColor] = useState("");
+
+  useEffect(() => {
+    // Generate a random background color if it hasn't been generated yet
+    if (!backgroundColor) {
+      setBackgroundColor(getRandomColor());
+    }
+    // Your existing useEffect logic...
+  }, [userInfo, backgroundColor]);
   return (
     <div className="w-11/12 mx-auto mt-10">
       <div
@@ -209,28 +256,28 @@ const UserDashboardHeroSection = () => {
                 <h1 className="text-[16px] font-medium">Total Internship</h1>
                 <FaAngleRight className="w-[25px] h-[25px]"></FaAngleRight>
               </div>
-              <p className="text-[45px] font-bold">0</p>
+              <p className="text-[45px] font-bold">{submissions?.length || 0}</p>
             </div>
             <div className="bg-[#2196F3] rounded-lg grid justify-between text-white w-[140px] py-[12px] px-[12px]">
               <div className="flex justify-between">
                 <h1 className="text-[17px] font-medium">In Progress</h1>
                 <FaAngleRight className="w-[25px] h-[25px]"></FaAngleRight>
               </div>
-              <p className="text-[45px] font-bold">0</p>
+              <p className="text-[45px] font-bold">{progress?.length || 0}</p>
             </div>
             <div className="bg-[#20B15A] rounded-lg grid justify-between text-white w-[140px] py-[12px] px-[12px]">
               <div className="flex justify-between">
                 <h1 className="text-[17px] font-medium">Completed</h1>
                 <FaAngleRight className="w-[25px] h-[25px]"></FaAngleRight>
               </div>
-              <p className="text-[45px] font-bold">0</p>
+              <p className="text-[45px] font-bold">{selected?.length || 0}</p>
             </div>
             <div className="bg-[#F1511B] rounded-lg grid justify-between text-white w-[140px] py-[12px] px-[12px]">
               <div className="flex justify-between">
                 <h1 className="text-[17px] font-medium">Task Pending</h1>
                 <FaAngleRight className="w-[25px] h-[25px]"></FaAngleRight>
               </div>
-              <p className="text-[45px] font-bold">0</p>
+              <p className="text-[45px] font-bold">{pending?.length || 0}</p>
             </div>
           </div>
         </div>
@@ -243,9 +290,16 @@ const UserDashboardHeroSection = () => {
               </p>
             </div>
             <div className="grid justify-items-center">
-              <img src={userImg} alt="user" className="rounded-full" />
+              <div className="aspect-[1.20] object-contain object-center w-full overflow-hidden rounded-[80%]">
+                <div
+                  className="w-full h-full flex items-center text-red-50 justify-center text-8xl font-bold"
+                  style={{ backgroundColor }}
+                >
+                  {getInitials()}
+                </div>
+              </div>
               <p className="text-[#303031] font-bold text-[16px] tracking-wide mt-1">
-                Good Morning Anjali
+                Good Morning <span>{userInfo?.firstName}</span>
               </p>
               <p className="text-[#737373] font-normal text-[12px] mt-1 mb-2">
                 "Continue to take on tasks and enhance your skills,"
@@ -257,7 +311,7 @@ const UserDashboardHeroSection = () => {
       <UserDashboardInternshipTasks
         cardData={cardData}
       ></UserDashboardInternshipTasks>
-      <UserDashboardStatistics></UserDashboardStatistics>
+      {/* <UserDashboardStatistics></UserDashboardStatistics> */}
     </div>
   );
 };

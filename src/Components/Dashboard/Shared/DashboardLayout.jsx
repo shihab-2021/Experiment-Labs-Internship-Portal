@@ -459,7 +459,7 @@ const DashboardLayout = ({ children }) => {
                                 </span>
                               </Link>
                             </li>
-                            <li>
+                            {/* <li>
                               <Link
                                 style={
                                   location.pathname === "/leaderBoard"
@@ -493,7 +493,7 @@ const DashboardLayout = ({ children }) => {
                                   Leader Board
                                 </span>
                               </Link>
-                            </li>
+                            </li> */}
                             <li>
                               <Link
                                 style={
