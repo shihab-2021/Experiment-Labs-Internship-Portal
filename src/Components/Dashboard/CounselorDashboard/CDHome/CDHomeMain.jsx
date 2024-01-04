@@ -4,6 +4,7 @@ import CDHomeTopSection from './CDHomeTopSection';
 import CDHomeTasks from './CDHomeTasks';
 import Swal from 'sweetalert2';
 import CDHomeBottomSection from './CDHomeBottomSection';
+import Loading from '../../../Shared/Loading/Loading';
 
 
 const CDHomeMain = () => {
@@ -11,14 +12,7 @@ const CDHomeMain = () => {
     const [loading, setLoading] = useState(true);
     useEffect(() => {
             // Show a loading spinner while the login process is in progress
-    const loadingSwal = Swal.fire({
-        title: 'Loading...',
-        allowOutsideClick: false,
-        onBeforeOpen: () => {
-          Swal.showLoading();
-        },
-        showConfirmButton: false, // Remove the "OK" button
-      });
+            Loading();
         axios
             .get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks`)
             .then((tasks) => {
@@ -27,8 +21,8 @@ const CDHomeMain = () => {
             .catch((error) => console.error(error))
             .finally(() => {
                 // Close the loading spinner when the data fetching is complete
-                setLoading(false);
-                loadingSwal.close();
+             //   setLoading(false);
+                Loading().close();
               });
     }, []);
     return (

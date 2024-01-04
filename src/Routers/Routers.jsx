@@ -28,6 +28,7 @@ import CDMySchools from "../Pages/CourselorDashboard/CDMySchools";
 import CDDashboard from "../Pages/CourselorDashboard/CDDashboard";
 import CDMyStudents from "../Pages/CourselorDashboard/CDMyStudents";
 import CDAddStudent from "../Pages/CourselorDashboard/CDAddStudent";
+import SDDashboard from "../Pages/SchoolDashboard/SDDashboard";
 
 export const router = createBrowserRouter([
   {
@@ -145,5 +146,9 @@ export const router = createBrowserRouter([
   {
     path: "/counselorDashboard/AddStudent",
     element: <CDAddStudent />,
+  },
+  {
+    path: "/schoolDashboard/dashboard",
+    element: <SDDashboard />,
   },
 ]);
