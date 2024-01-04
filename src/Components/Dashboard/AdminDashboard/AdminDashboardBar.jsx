@@ -37,7 +37,7 @@ const AdminDashboardBar = () => {
         .catch((error) => console.error(error));
     }
   }, [userInfo]);
-  
+
   const [barChartData, setBarChartData] = useState([]);
 
   useEffect(() => {
@@ -109,7 +109,7 @@ const AdminDashboardBar = () => {
   ];
 
   const COLORS = ["#2196F3", "#20B15A", "#DD2025"];
-  
+
   const [chats, setChats] = useState([])
   const fetchChat = async () => {
     const chatList = await axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/chats/userId/${userInfo?._id}`);
@@ -120,6 +120,7 @@ const AdminDashboardBar = () => {
     fetchChat();
     console.log("fetch chat ", chats);
   }, [userInfo]);
+
   return (
     <div className="w-11/12 mx-auto mt-14">
       <h1 className="text-[20px] font-medium tracking-widest">Dashboard</h1>
@@ -274,19 +275,19 @@ const AdminDashboardBar = () => {
             Message
           </p>
           {chats && chats?.map((chat, i) =>
-          (((chat.latestMessage.senderId !== userInfo._id) && (!chat?.latestMessage?.readBy?.includes(userInfo?._id)) && chat?.latestMessage?.senderId) && 
-          <div key={i} className="w-11/12 mx-auto flex items-center justify-between border-b border-[#D9D9D9]">
-          <div className="flex items-center">
-            <img src={stdImg} alt="" />
-            <p>
-              Anjali <span>10th class student</span>
-            </p>
-          </div>
-          <Link to='/message' className="mb-1 py-[9px] px-[16px] text-[18px] text-white tracking-wider font-medium rounded-[26px] bg-[#17A1FA]">
-            Message
-          </Link>
-        </div>))}
-    
+          (((chat.latestMessage.senderId !== userInfo._id) && (!chat?.latestMessage?.readBy?.includes(userInfo?._id)) && chat?.latestMessage?.senderId) &&
+            <div key={i} className="w-11/12 mx-auto flex items-center justify-between border-b border-[#D9D9D9]">
+              <div className="flex items-center">
+                <img src={stdImg} alt="" />
+                <p className="ml-2">
+                  {chat?.latestMessage?.senderInfo?.firstName} {chat?.latestMessage?.senderInfo?.lastName}
+                </p>
+              </div>
+              <Link to='/message' className="mb-1 py-[9px] px-[16px] text-[18px] text-white tracking-wider font-medium rounded-[26px] bg-[#17A1FA]">
+                Message
+              </Link>
+            </div>))}
+
         </div>
       </div>
     </div>

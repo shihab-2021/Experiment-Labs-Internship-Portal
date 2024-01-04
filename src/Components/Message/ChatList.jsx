@@ -95,9 +95,9 @@ const ChatList = ({ chats, setChats, read, setRead, setSelectedChat, selectedCha
             <div className="flex items-start gap-[8.15px] px-[3.7px] py-[10.37px] self-stretch w-full border-[0.74px] border-solid border-[#dedede] relative flex-[0_0_auto]">
                 <div onClick={() => {
                     setRead(!read),
-                    setMessages([]),
-                    setSelectedChat({}),
-                    fetchChat()
+                        setMessages([]),
+                        setSelectedChat({}),
+                        fetchChat()
                 }} className={`cursor-pointer inline-flex items-center justify-center gap-[7.41px] px-[11.85px] py-[7.41px] 
                 ${read ? "bg-[#4555ba] text-white" : "border-[0.74px] border-solid border-neutral-500 text-[#3f3f3f]"} rounded-[25.19px] relative flex-[0_0_auto]`}>
                     <div className="relative w-fit mt-[-0.74px] [font-family:'Raleway-SemiBold',Helvetica] font-semibold text-[17.8px] text-center tracking-[1.78px] leading-[normal] whitespace-nowrap">
@@ -106,9 +106,9 @@ const ChatList = ({ chats, setChats, read, setRead, setSelectedChat, selectedCha
                 </div>
                 <div onClick={() => {
                     setRead(!read),
-                    setMessages([]),
-                    setSelectedChat({}),
-                    fetchChat()
+                        setMessages([]),
+                        setSelectedChat({}),
+                        fetchChat()
                 }} className={`cursor-pointer inline-flex items-center justify-center gap-[7.41px] px-[13.33px] py-[7.41px] rounded-[25.19px] border-[0.74px] border-solid ${!read ? "bg-[#4555ba] text-white" : "border-neutral-500 text-[#3f3f3f]"} relative flex-[0_0_auto]`}>
                     <div className="relative w-fit mt-[-0.74px] [font-family:'Raleway-SemiBold',Helvetica] font-semibold text-[17.8px] text-center tracking-[1.78px] leading-[normal] whitespace-nowrap">
                         Unread
@@ -169,7 +169,7 @@ const ChatList = ({ chats, setChats, read, setRead, setSelectedChat, selectedCha
                     {
                         !read && userNamesMap && chats && chats?.map(
                             (chat, i) =>
-                            (((chat.latestMessage.senderId !== userInfo._id) && (!chat?.latestMessage?.readBy?.includes(userInfo?._id)) && chat?.latestMessage?.senderId ) && <div
+                            (((chat.latestMessage.senderId !== userInfo._id) && (!chat?.latestMessage?.readBy?.includes(userInfo?._id)) && chat?.latestMessage?.senderId) && <div
                                 onClick={() => {
                                     setSelectedChat(chat),
                                         socket.emit('join chat', chat?._id),
