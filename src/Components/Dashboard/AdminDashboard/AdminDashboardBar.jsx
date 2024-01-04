@@ -34,7 +34,7 @@ const AdminDashboardBar = () => {
           }`
         )
         .then((response) => {
-          const fetchedCategory = response?.data || [];
+          const fetchedCategory = response?.data ?? [];
           setCategory(fetchedCategory);
         })
         .catch((error) => console.error(error));
@@ -147,7 +147,29 @@ const AdminDashboardBar = () => {
     fetchChat();
     console.log("fetch chat ", chats);
   }, [userInfo]);
+  const getInitials = (info) => {
+    const firstNameInitial =
+      info?.firstName?.charAt(0)?.toUpperCase() || "";
+    const lastNameInitial = info?.lastName?.charAt(0)?.toUpperCase() || "";
+    return `${firstNameInitial}${lastNameInitial}`;
+  };
+  const getRandomColor = () => {
+    const letters = "0123456789ABCDEF";
+    let color = "#";
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+  const [backgroundColor, setBackgroundColor] = useState("");
 
+  useEffect(() => {
+    // Generate a random background color if it hasn't been generated yet
+    if (!backgroundColor) {
+      setBackgroundColor(getRandomColor());
+    }
+    // Your existing useEffect logic...
+  }, [userInfo, backgroundColor]);
   return (
     <div className="w-11/12 mx-auto mt-14">
       <h1 className="text-[20px] font-medium tracking-widest">Dashboard</h1>
@@ -305,32 +327,25 @@ const AdminDashboardBar = () => {
           <p className="w-11/12 mx-auto text-[18px] font-bold tracking-wide mt-[16px] mb-4">
             Message
           </p>
-          {chats &&
-            chats?.map(
-              (chat, i) =>
-                chat.latestMessage.senderId !== userInfo._id &&
-                !chat?.latestMessage?.readBy?.includes(userInfo?._id) &&
-                chat?.latestMessage?.senderId && (
-                  <div
-                    key={i}
-                    className="w-11/12 mx-auto flex items-center justify-between border-b border-[#D9D9D9]"
-                  >
-                    <div className="flex items-center">
-                      <img src={stdImg} alt="" />
-                      <p className="ml-2">
-                        {chat?.latestMessage?.senderInfo?.firstName}{" "}
-                        {chat?.latestMessage?.senderInfo?.lastName}
-                      </p>
-                    </div>
-                    <Link
-                      to="/message"
-                      className="mb-1 py-[9px] px-[16px] text-[18px] text-white tracking-wider font-medium rounded-[26px] bg-[#17A1FA]"
-                    >
-                      Message
-                    </Link>
-                  </div>
-                )
-            )}
+          {chats && chats?.map((chat, i) =>
+          (((chat.latestMessage.senderId !== userInfo._id) && (!chat?.latestMessage?.readBy?.includes(userInfo?._id)) && chat?.latestMessage?.senderId) &&
+            <div key={i} className="w-11/12 mx-auto flex items-center justify-between border-b border-[#D9D9D9]">
+              <div className="flex items-center">
+                <div
+                  className="w-[45px] h-[45px] rounded-full flex items-center text-red-50 justify-center text-lg font-bold"
+                  style={{ backgroundColor }}
+                >
+                  {getInitials(chat?.latestMessage?.senderInfo)}
+                </div>
+                <p className="ml-2">
+                  {chat?.latestMessage?.senderInfo?.firstName} {chat?.latestMessage?.senderInfo?.lastName}
+                </p>
+              </div>
+              <Link to='/message' className="mb-1 py-[9px] px-[16px] text-[18px] text-white tracking-wider font-medium rounded-[26px] bg-[#17A1FA]">
+                Message
+              </Link>
+            </div>))}
+
         </div>
       </div>
     </div>
