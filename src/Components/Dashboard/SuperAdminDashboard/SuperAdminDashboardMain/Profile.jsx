@@ -26,7 +26,6 @@ const Profile = () => {
         if (!backgroundColor) {
             setBackgroundColor(getRandomColor());
         }
-
         // Your existing useEffect logic...
     }, [userInfo, backgroundColor]);
     return (

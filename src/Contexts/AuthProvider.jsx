@@ -77,6 +77,8 @@ const AuthProvider = ({ children }) => {
         if (user?.data?.organizations) {
           if (user?.data?.organizations[0]?.role === "SuperAdmin")
             localStorage.setItem("role", user?.data?.organizations[0].role);
+          else if (user?.data?.organizations[0]?.role === "Counsellor")
+            localStorage.setItem("role", user?.data?.organizations[0].role);
           else {
             const role = localStorage.getItem("role");
             if (role === "SuperAdmin") localStorage.setItem("role", "Student");
