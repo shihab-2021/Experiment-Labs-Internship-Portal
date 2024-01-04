@@ -42,7 +42,7 @@ const Profile = () => {
                 {userInfo?.firstName} {userInfo?.lastName}
             </div>
             <div className="text-zinc-800 text-base font-medium tracking-widest self-stretch whitespace-nowrap mt-2 text-center">
-                Super Admin
+                Career Counsellor
             </div>
         </div>
     );

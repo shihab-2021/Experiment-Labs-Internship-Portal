@@ -27,9 +27,9 @@ const LoginAndRegisterForm = ({ showLoginForm, setShowLoginForm }) => {
     const form = e?.target;
     const email = form.email.value;
     const password = form.password.value;
-   // console.log(email, password);
+    // console.log(email, password);
     // Show a loading spinner while the login process is in progress
- 
+
 
     try {
       await signIn(email, password).then(() => {
@@ -43,19 +43,21 @@ const LoginAndRegisterForm = ({ showLoginForm, setShowLoginForm }) => {
             if (user?.data?.organizations) {
               if (user?.data?.organizations[0]?.role === "SuperAdmin")
                 navigate("/superAdminDashboardHome");
+              else if (user?.data?.organizations[0]?.role === "Counsellor")
+                navigate("/counselorDashboard/Home");
               else {
                 navigate(role === "Student" ? "/userDashboard" : "/dashboard");
               }
             }
           })
           .catch((error) => console.error(error));
-          Loading().close();
+        Loading().close();
 
       });
 
     } catch (error) {
-     // console.error(error);
-    //  Loading().close();
+      // console.error(error);
+      //  Loading().close();
       // toast.error("password or email error");
       Swal.fire({
         icon: 'error',
@@ -65,7 +67,7 @@ const LoginAndRegisterForm = ({ showLoginForm, setShowLoginForm }) => {
     }
     finally {
       // Close the loading spinner when the login process completes (whether successful or not)
-     // Loading().close();
+      // Loading().close();
     }
   };
   return (
