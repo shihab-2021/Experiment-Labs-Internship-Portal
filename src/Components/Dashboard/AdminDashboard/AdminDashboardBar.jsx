@@ -24,8 +24,15 @@ const AdminDashboardBar = () => {
   const { userInfo } = useContext(AuthContext);
   const [category, setCategory] = useState([]);
   useEffect(() => {
-    if (userInfo) {
-      axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/stats/taskCategory/organizationId/${userInfo?.organizations[0]?.organizationId}`)
+    if (userInfo && userInfo?.organizations) {
+      axios
+        .get(
+          `${
+            import.meta.env.VITE_APP_SERVER_API
+          }/api/v1/stats/taskCategory/organizationId/${
+            userInfo?.organizations[0]?.organizationId
+          }`
+        )
         .then((response) => {
           const fetchedCategory = response?.data ?? [];
           setCategory(fetchedCategory);
@@ -38,21 +45,28 @@ const AdminDashboardBar = () => {
 
   useEffect(() => {
     // Convert the object into an array of objects
-    const categoryArray = Object.entries(category).map(([categoryName, taskCount]) => ({
-      task: categoryName,
-      tasks_done: taskCount,
-    }));
+    const categoryArray = Object.entries(category).map(
+      ([categoryName, taskCount]) => ({
+        task: categoryName,
+        tasks_done: taskCount,
+      })
+    );
 
     setBarChartData(categoryArray);
   }, [category]);
   const [myTasks, setmyTasks] = useState([]);
   useEffect(() => {
-    axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/creatorEmail/${userInfo?.email}`)
+    axios
+      .get(
+        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/creatorEmail/${
+          userInfo?.email
+        }`
+      )
       .then((tasks) => {
         setmyTasks(tasks?.data);
       })
       .catch((error) => console.error(error));
-  }, [])
+  }, []);
 
   const [pendingTasks, setpendingTasks] = useState([]);
   const [processingTasks, setprocessingTasks] = useState([]);
@@ -62,7 +76,8 @@ const AdminDashboardBar = () => {
     if (userInfo?.organizations) {
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${userInfo?.organizations[0]?.organizationId
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${
+            userInfo?.organizations[0]?.organizationId
           }/taskStatus/Pending`
         )
         .then((tasks) => {
@@ -71,7 +86,8 @@ const AdminDashboardBar = () => {
         .catch((error) => console.error(error));
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${userInfo?.organizations[0]?.organizationId
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${
+            userInfo?.organizations[0]?.organizationId
           }/taskStatus/Processing`
         )
         .then((tasks) => {
@@ -80,7 +96,8 @@ const AdminDashboardBar = () => {
         .catch((error) => console.error(error));
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${userInfo?.organizations[0]?.organizationId
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${
+            userInfo?.organizations[0]?.organizationId
           }/taskStatus/Completed`
         )
         .then((tasks) => {
@@ -89,7 +106,8 @@ const AdminDashboardBar = () => {
         .catch((error) => console.error(error));
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${userInfo?.organizations[0]?.organizationId
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${
+            userInfo?.organizations[0]?.organizationId
           }/taskStatus/Rejected`
         )
         .then((tasks) => {
@@ -99,18 +117,31 @@ const AdminDashboardBar = () => {
     }
   }, [userInfo]);
   const pieChartdata = [
-    { statusInfo: `${processingTasks?.length} Solution in progress`, value: processingTasks?.length },
-    { statusInfo: `${completedTasks?.length}  Considering solutions`, value: completedTasks?.length },
-    { statusInfo: `${rejectedTasks?.length} Solution rejected`, value: rejectedTasks?.length },
+    {
+      statusInfo: `${processingTasks?.length} Solution in progress`,
+      value: processingTasks?.length,
+    },
+    {
+      statusInfo: `${completedTasks?.length}  Considering solutions`,
+      value: completedTasks?.length,
+    },
+    {
+      statusInfo: `${rejectedTasks?.length} Solution rejected`,
+      value: rejectedTasks?.length,
+    },
   ];
 
   const COLORS = ["#2196F3", "#20B15A", "#DD2025"];
 
-  const [chats, setChats] = useState([])
+  const [chats, setChats] = useState([]);
   const fetchChat = async () => {
-    const chatList = await axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/chats/userId/${userInfo?._id}`);
+    const chatList = await axios.get(
+      `${import.meta.env.VITE_APP_SERVER_API}/api/v1/chats/userId/${
+        userInfo?._id
+      }`
+    );
     setChats(chatList?.data?.userChats);
-  }
+  };
 
   useEffect(() => {
     fetchChat();
@@ -244,7 +275,11 @@ const AdminDashboardBar = () => {
                 ))}
                 <Label
                   className="text-[18px] text-black font-medium"
-                  value={`${processingTasks?.length + completedTasks?.length + rejectedTasks?.length} total`}
+                  value={`${
+                    processingTasks?.length +
+                    completedTasks?.length +
+                    rejectedTasks?.length
+                  } total`}
                   position="center"
                 />
               </Pie>
