@@ -207,7 +207,7 @@ const AdminCreateTask = () => {
           from: `${userInfo?.email}`,
           to: `naman.j@experimentlabs.in, gaurav@experimentlabs.in, shihab77023@gmail.com, rhrahi14@gmail.com`,
           subject: `Submission of ${taskData?.taskName}`,
-          message: `${userInfo?.name} has Created a Task named ${taskData?.taskName}.Please review the Task.`,
+          message: `${userInfo?.firstName} ${userInfo?.lastName} has Created a Task named ${taskData?.taskName}.Please review the Task.`,
         }
       );
 
