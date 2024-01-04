@@ -22,8 +22,7 @@ const AdminCreateTask = () => {
     if (userInfo?.organizations) {
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${
-            userInfo?.organizations[0]?.organizationId
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${userInfo?.organizations[0]?.organizationId
           }`
         )
         .then((org) => {
@@ -122,8 +121,7 @@ const AdminCreateTask = () => {
 
       if (organizationInfo.orgName && organizationInfo.orgLogo) {
         const updateOrganization = await axios.put(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${
-            userInfo?.organizations[0]?.organizationId
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${userInfo?.organizations[0]?.organizationId
           }`,
           organizationInfo
         );
@@ -131,13 +129,12 @@ const AdminCreateTask = () => {
         setPage(2);
       } else {
         Swal.fire({
-          title: `Please Enter ${
-            !organizationInfo.orgName && !organizationInfo.aboutOrg
-              ? "Company Name & Company Logo"
-              : !organizationInfo.orgName
+          title: `Please Enter ${!organizationInfo.orgName && !organizationInfo.aboutOrg
+            ? "Company Name & Company Logo"
+            : !organizationInfo.orgName
               ? "Company Name"
               : "Company Logo"
-          }!`,
+            }!`,
           icon: "error",
         });
       }
@@ -157,13 +154,12 @@ const AdminCreateTask = () => {
         setPage(2);
       } else {
         Swal.fire({
-          title: `Please Enter ${
-            !companyData.orgName && !companyData.aboutOrg
-              ? "Company Name & Company Logo"
-              : !companyData.orgName
+          title: `Please Enter ${!companyData.orgName && !companyData.aboutOrg
+            ? "Company Name & Company Logo"
+            : !companyData.orgName
               ? "Company Name"
               : "Company Logo"
-          }!`,
+            }!`,
           icon: "error",
         });
       }
@@ -204,7 +200,19 @@ const AdminCreateTask = () => {
         title: "New task created successfully!",
         icon: "success",
       });
-      navigate("/dashboard");
+
+      const sendMail = await axios.post(
+        `${import.meta.env.VITE_APP_BACKEND_API}/api/v1/sendMail`,
+        {
+          from: `${userInfo?.email}`,
+          to: `naman.j@experimentlabs.in, gaurav@experimentlabs.in, shihab77023@gmail.com, rhrahi14@gmail.com`,
+          subject: `Submission of ${taskData?.taskName}`,
+          message: `${userInfo?.firstName} ${userInfo?.lastName} has Created a Task named ${taskData?.taskName}.Please review the Task.`,
+        }
+      );
+
+      if (sendMail)
+        navigate("/dashboard");
     }
     form.reset();
   };
@@ -498,7 +506,7 @@ const AdminCreateTask = () => {
                   htmlFor="participantLimit"
                   className="text-[16px] text-[#3F3F3F] font-medium"
                 >
-                 Maximum Number Of Applying Candidates
+                  Maximum Number Of Applying Candidates
                 </label>
                 <input
                   placeholder="0"
