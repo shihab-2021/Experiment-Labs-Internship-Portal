@@ -404,17 +404,35 @@ const InternshipTaskCard = ({ task }) => {
               {task?.participants
                 ? parseInt(task?.participantLimit) - task?.participants?.length
                 : parseInt(task?.participantLimit)}{" "}
-              spot left
+              spots left
             </h1>
           </div>
         </div>
         <div className="w-full">
-          <button
+          {task?.participants &&
+          task?.participants.find(
+            (participant) => participant?.participantEmail === user?.email
+          ) ? (
+            <button
+              // onClick={() => setShowTaskDetails(true)}
+              className=" font-raleway font-bold text-white text-[15px] tracking-[1.50px] leading-[normal] whitespace-nowrap px-[29px] py-[7px] self-stretch w-full bg-green-500 rounded-[17px]"
+            >
+              Applied
+            </button>
+          ) : (
+            <button
+              onClick={() => setShowTaskDetails(true)}
+              className=" font-raleway font-bold text-white text-[15px] tracking-[1.50px] leading-[normal] whitespace-nowrap px-[29px] py-[7px] self-stretch w-full bg-[#3e4dac] rounded-[17px]"
+            >
+              Apply
+            </button>
+          )}
+          {/* <button
             onClick={() => setShowTaskDetails(true)}
             className=" font-raleway font-bold text-white text-[15px] tracking-[1.50px] leading-[normal] whitespace-nowrap px-[29px] py-[7px] self-stretch w-full bg-[#3e4dac] rounded-[17px]"
           >
             Apply
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

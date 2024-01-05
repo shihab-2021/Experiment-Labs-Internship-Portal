@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import DashboardLayout from "../../Components/Dashboard/Shared/DashboardLayout";
 import { FaAngleRight, FaMagnifyingGlass } from "react-icons/fa6";
 import { BsPersonCircle } from "react-icons/bs";
 import MyWorkHours from "../../Components/Dashboard/UserDashboard/WorkHours/MyWorkHours";
 import { Helmet } from "react-helmet";
+import { AuthContext } from "../../Contexts/AuthProvider";
 
 const WorkHours = () => {
+  const { userInfo } = useContext(AuthContext);
   // Function to format the date as day/month/year
   const formatDate = () => {
     const monthNames = [
@@ -49,7 +51,9 @@ const WorkHours = () => {
             <div>
               <div className="flex gap-10">
                 <div>
-                  <h1 className="font-bold text-[30px]">Hello Aman</h1>
+                  <h1 className="font-bold text-[30px]">
+                    Hello {userInfo?.firstName}
+                  </h1>
                   <p className="text-[21px] font-medium tracking-wide">
                     {formatDate()}
                   </p>
@@ -84,7 +88,7 @@ const WorkHours = () => {
             >
               My work hours
             </button>
-            <button
+            {/* <button
               className={`text-base font-semibold px-[47px] py-[23px] ${
                 selectedButton === "helpSupport"
                   ? "bg-[#3E4DAC] text-[#fff]"
@@ -97,7 +101,7 @@ const WorkHours = () => {
               onClick={() => handleButtonClick("helpSupport")}
             >
               Help & support
-            </button>
+            </button> */}
           </div>
 
           <div className="mx-[18px] mt-[26px]">

@@ -72,7 +72,7 @@ const MyStudentsTop = () => {
                                 />
                             </div>
                             <div className="text-white text-3xl font-bold tracking-[2.96px] whitespace-nowrap mt-3">
-                                {companiesTask?.totalCompanies}
+                                {companiesTask?.totalCompanies || 0}
                             </div>
                         </div>
                         <div className="justify-center shadow-sm bg-[#0A98EA] flex flex-col px-2 rounded-md py-6">
@@ -87,7 +87,7 @@ const MyStudentsTop = () => {
                                 />
                             </div>
                             <div className="text-white text-3xl font-bold tracking-[2.96px] whitespace-nowrap mt-3">
-                                {companiesTask?.totalTaskPosts}
+                                {companiesTask?.totalTaskPosts || 0}
                             </div>
                         </div>
                         <div className="justify-center shadow-sm bg-[#20B15A] flex flex-col px-2 rounded-md py-6">
@@ -102,7 +102,7 @@ const MyStudentsTop = () => {
                                 />
                             </div>
                             <div className="text-white text-3xl font-bold tracking-[2.96px] whitespace-nowrap mt-3">
-                                {companiesTask?.AdminApproved}
+                                {companiesTask?.AdminApproved || 0}
                             </div>
                         </div>
                         <div className="justify-center shadow-sm bg-[#F1511B] flex flex-col px-2 rounded-md py-6">
@@ -117,7 +117,7 @@ const MyStudentsTop = () => {
                                 />
                             </div>
                             <div className="text-white text-3xl font-bold tracking-[2.96px] whitespace-nowrap mt-3">
-                                {companiesTask?.Pending}
+                                {companiesTask?.Pending || 0}
                             </div>
                         </div>
                         <div className="justify-center shadow-sm bg-[#E8B912] flex flex-col px-2 rounded-md py-6">
@@ -150,7 +150,7 @@ const MyStudentsTop = () => {
                         {userInfo?.firstName} {userInfo?.lastName}
                     </div>
                     <div className="text-zinc-800 text-base font-medium tracking-widest self-stretch whitespace-nowrap mt-2 text-center">
-                        Super Admin
+                        Career Counsellor
                     </div>
                 </div>
             </div>

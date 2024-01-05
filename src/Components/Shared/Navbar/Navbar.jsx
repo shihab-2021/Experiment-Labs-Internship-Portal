@@ -8,11 +8,12 @@ import { AuthContext } from "../../../Contexts/AuthProvider";
 // import DynamicFavicon from "../../../DynamicFavicon";
 
 const Navbar = () => {
-  const { userInfo } = useContext(AuthContext)
-  console.log(userInfo)
+  const { userInfo } = useContext(AuthContext);
+  console.log(userInfo);
   const { id } = useParams();
   const [showLoginForm, setShowLoginForm] = useState(false);
   const [organizationInfo, setOrganizationInfo] = useState({});
+  const role = localStorage.getItem("role");
 
   if (!id) localStorage.setItem("orgId", "");
 
@@ -94,10 +95,18 @@ const Navbar = () => {
         >
           For Business
         </button>
-        {
-          (userInfo) ? 
-          <Link to='/superAdminDashboardHome'
-            
+        {userInfo ? (
+          <Link
+            // to="/superAdminDashboardHome"
+            to={
+              role === "SuperAdmin"
+                ? "/superAdminDashboardHome"
+                : role === "Counsellor"
+                ? "/counselorDashboard/Home"
+                : role === "Student"
+                ? "/userDashboard"
+                : "/dashboard"
+            }
             className="text-[12px] lg:text-base font-bold text-[#3F3F3F] px-3 py-2 lg:px-[18px] lg:py-[10px]"
             style={{
               borderRadius: "24px",
@@ -106,20 +115,18 @@ const Navbar = () => {
           >
             Access Dashboard
           </Link>
-            :
-            <button
-              onClick={() => setShowLoginForm(true)}
-              className="text-[12px] lg:text-base font-bold text-[#3F3F3F] px-3 py-2 lg:px-[18px] lg:py-[10px]"
-              style={{
-                borderRadius: "24px",
-                background: "#FB9700",
-              }}
-            >
-              Log in
-            </button>
-
-        }
-
+        ) : (
+          <button
+            onClick={() => setShowLoginForm(true)}
+            className="text-[12px] lg:text-base font-bold text-[#3F3F3F] px-3 py-2 lg:px-[18px] lg:py-[10px]"
+            style={{
+              borderRadius: "24px",
+              background: "#FB9700",
+            }}
+          >
+            Log in
+          </button>
+        )}
       </div>
     </div>
   );
