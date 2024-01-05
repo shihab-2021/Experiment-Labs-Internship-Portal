@@ -48,7 +48,8 @@ const LoginAndRegisterForm = ({ showLoginForm, setShowLoginForm }) => {
                 navigate(role === "Student" ? "/userDashboard" : "/dashboard");
               }
             } else {
-              navigate(role === "Student" ? "/userDashboard" : "/dashboard");
+              localStorage.setItem("role", "Student");
+              navigate("/userDashboard");
             }
           })
           .catch((error) => console.error(error));

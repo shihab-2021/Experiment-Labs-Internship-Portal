@@ -39,6 +39,7 @@ const DashboardLayout = ({ children }) => {
   const [organizationInfo, setOrganizationInfo] = useState({});
   const [isOpenStickyBar, setIsOpenStickyBar] = useState(true);
   const { id } = useParams();
+  const orgLogo = localStorage.getItem("orgLogo");
 
   useEffect(() => {
     if (orgId && role === "Student")
@@ -48,6 +49,9 @@ const DashboardLayout = ({ children }) => {
         )
         .then((org) => {
           setOrganizationInfo(org?.data);
+          if (org?.data?.orgLogo)
+            localStorage.setItem("orgLogo", org?.data?.orgLogo);
+          else localStorage.setItem("orgLogo", ExperimentLabsLogo);
         })
         .catch((error) => console.error(error));
   }, [orgId, role]);
@@ -72,7 +76,7 @@ const DashboardLayout = ({ children }) => {
                           className="hidden lg:block"
                           to={orgId ? `/organization/${orgId}` : "/"}
                         >
-                          {organizationInfo?.orgLogo ? (
+                          {/* {organizationInfo?.orgLogo ? (
                             <img
                               // className="h-6 lg:h-8"
                               className="my-5 max-w-[150px]"
@@ -86,7 +90,13 @@ const DashboardLayout = ({ children }) => {
                               src={ExperimentLabsLogo}
                               alt="icon"
                             />
-                          )}
+                          )} */}
+                          <img
+                            // className="h-6 lg:h-8"
+                            className="my-5 max-w-[150px]"
+                            src={orgLogo}
+                            alt="icon"
+                          />
                         </Link>
                         <p className="text-[#676767] ml-[27px] lg:hidden">
                           Menu
@@ -386,7 +396,7 @@ const DashboardLayout = ({ children }) => {
                                       : "text-[#8F8F8F]"
                                   } ml-3 text-[16px] font-[600]`}
                                 >
-                                  Internship
+                                  Internships
                                 </span>
                               </Link>
                             </li>
@@ -421,7 +431,7 @@ const DashboardLayout = ({ children }) => {
                                       : "text-[#8F8F8F]"
                                   } ml-3 text-[16px] font-[600]`}
                                 >
-                                  My Application
+                                  My Applications
                                 </span>
                               </Link>
                             </li>

@@ -30,14 +30,14 @@ const Internship = () => {
       </Helmet>
       <DashboardLayout>
         <div className="px-4 pt-10">
-          <div className="relative">
+          {/* <div className="relative">
             <CiSearch className="w-[24px] h-[24px] absolute z-10 text-[#5E5E5E] top-2 left-2 " />
             <input
               className="relative py-2 pl-[38px] pr-2 border rounded-[6px] border-[#E3E3E3] w-full font-raleway "
               type="text"
               placeholder="Search Internship"
             />
-          </div>
+          </div> */}
           <div className="inline-flex w-full mt-[18px] flex-col items-center gap-[27px] relative">
             <h1 className="relative w-fit font-raleway font-bold text-black text-[16px] tracking-[1.60px] leading-[normal] whitespace-nowrap">
               Explore Internships

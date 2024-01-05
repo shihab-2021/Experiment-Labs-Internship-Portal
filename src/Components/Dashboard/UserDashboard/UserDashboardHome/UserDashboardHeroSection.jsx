@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../../../Contexts/AuthProvider";
 import axios from "axios";
 const UserDashboardHeroSection = () => {
-  const { userInfo,user } = useContext(AuthContext);
+  const { userInfo, user } = useContext(AuthContext);
   const [submissions, setSubmissions] = useState([]);
   useEffect(() => {
     axios
@@ -23,13 +23,23 @@ const UserDashboardHeroSection = () => {
       })
       .catch((error) => console.error(error));
   }, [user]);
-  console.log(submissions)
-  const progress = submissions?.filter((submission) => submission?.submissionStatus === "In Progress")
-  const selected = submissions?.filter((submission) => submission?.submissionStatus === "Selected")
-  const completed = submissions?.filter((submission) => submission?.submissionStatus === "Completed")
-  const rejected = submissions?.filter((submission) => submission?.submissionStatus === "Rejected")
-  const pending = submissions?.filter((submission) => submission?.submissionStatus === "Pending")
-  console.log(userInfo)
+  console.log(submissions);
+  const progress = submissions?.filter(
+    (submission) => submission?.submissionStatus === "In Progress"
+  );
+  const selected = submissions?.filter(
+    (submission) => submission?.submissionStatus === "Selected"
+  );
+  const completed = submissions?.filter(
+    (submission) => submission?.submissionStatus === "Completed"
+  );
+  const rejected = submissions?.filter(
+    (submission) => submission?.submissionStatus === "Rejected"
+  );
+  const pending = submissions?.filter(
+    (submission) => submission?.submissionStatus === "Pending"
+  );
+  console.log(userInfo);
   const cardData = [
     // {
     //   title: "Animation Task",
@@ -193,7 +203,7 @@ const UserDashboardHeroSection = () => {
     //   status: "Pending"
     // },
   ];
-  
+
   const getInitials = () => {
     const firstNameInitial =
       userInfo?.firstName?.charAt(0)?.toUpperCase() || "";
@@ -219,7 +229,7 @@ const UserDashboardHeroSection = () => {
   }, [userInfo, backgroundColor]);
   return (
     <div className="w-11/12 mx-auto mt-10">
-      <div
+      {/* <div
         style={{
           borderRadius: "14px",
           border: "1px solid #DDD",
@@ -228,7 +238,7 @@ const UserDashboardHeroSection = () => {
       >
         <FaMagnifyingGlass />
         <input className="w-full" placeholder="Search"></input>
-      </div>
+      </div> */}
       <div className="flex justify-between">
         <div className="mt-6">
           <h1>
@@ -237,7 +247,7 @@ const UserDashboardHeroSection = () => {
             </span>
             <span className="pl-3 font-semibold text-[24px] tracking-wider text-[#303031]">
               {" "}
-              that enhances your skills
+              that enhance your skills
             </span>
           </h1>
           <br />
@@ -253,10 +263,12 @@ const UserDashboardHeroSection = () => {
           <div className="flex gap-[5px] mt-8">
             <div className="bg-[#8064F0] rounded-lg grid justify-between text-white w-[140px] py-[12px] px-[12px]">
               <div className="flex justify-between">
-                <h1 className="text-[16px] font-medium">Total Internship</h1>
+                <h1 className="text-[16px] font-medium">Total Internships</h1>
                 <FaAngleRight className="w-[25px] h-[25px]"></FaAngleRight>
               </div>
-              <p className="text-[45px] font-bold">{submissions?.length || 0}</p>
+              <p className="text-[45px] font-bold">
+                {submissions?.length || 0}
+              </p>
             </div>
             <div className="bg-[#2196F3] rounded-lg grid justify-between text-white w-[140px] py-[12px] px-[12px]">
               <div className="flex justify-between">
@@ -274,7 +286,7 @@ const UserDashboardHeroSection = () => {
             </div>
             <div className="bg-[#F1511B] rounded-lg grid justify-between text-white w-[140px] py-[12px] px-[12px]">
               <div className="flex justify-between">
-                <h1 className="text-[17px] font-medium">Task Pending</h1>
+                <h1 className="text-[17px] font-medium">Tasks Pending</h1>
                 <FaAngleRight className="w-[25px] h-[25px]"></FaAngleRight>
               </div>
               <p className="text-[45px] font-bold">{pending?.length || 0}</p>
@@ -290,16 +302,16 @@ const UserDashboardHeroSection = () => {
               </p>
             </div>
             <div className="grid justify-items-center">
-              <div className="aspect-[1.20] object-contain object-center w-full overflow-hidden rounded-[80%]">
+              <div className=" p-4 ">
                 <div
-                  className="w-full h-full flex items-center text-red-50 justify-center text-8xl font-bold"
+                  className=" w-[200px] h-[200px] p-4 rounded-full flex items-center text-red-50 justify-center text-8xl font-bold"
                   style={{ backgroundColor }}
                 >
                   {getInitials()}
                 </div>
               </div>
-              <p className="text-[#303031] font-bold text-[16px] tracking-wide mt-1">
-                Good Morning <span>{userInfo?.firstName}</span>
+              <p className="text-[#303031] text-center font-bold text-[16px] tracking-wide mt-1">
+                Good Morning <br /> <span>{userInfo?.firstName}</span>
               </p>
               <p className="text-[#737373] font-normal text-[12px] mt-1 mb-2">
                 "Continue to take on tasks and enhance your skills,"
