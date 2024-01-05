@@ -11,206 +11,9 @@ import CDHomeTaskCard from "./CDHomeTaskCard";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 const CDHomeTasks = ({ allTasks }) => {
-    const formatDate = () => {
-        const monthNames = [
-            "Jan",
-            "Feb",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "Sept",
-            "Oct",
-            "Nov",
-            "Dec",
-        ];
-
-        const currentDate = new Date();
-        const day = currentDate.getDate();
-        const month = monthNames[currentDate.getMonth()]; // Get month name
-        const year = currentDate.getFullYear();
-        return `${day}/ ${month}/ ${year}`;
-    };
-    const cardData = [
-        {
-            taskName: "Animation Task",
-            taskDesc: "Make an animation introduce our company vision.....",
-            taskStatus: "pending",
-            postingDateTime: "2022-11-10T05:13:57.865Z",
-            taskTime: "4",
-            participantLimit: "8",
-            participants: [
-                {
-                    participantEmail: "user@gmail.com",
-                    applyDateTime: "2023-12-19T03:24:01.412Z",
-                    submissionId: "65810cd13fe1b13a11e1c318",
-                    submissionDateTime: "2023-12-19T09:35:47.866Z",
-                },
-                {
-                    participantEmail: "user3@gmail.com",
-                    applyDateTime: "2023-12-26T02:18:43.984Z",
-                    submissionId: "658a38046b24c37a5a1aeb6b",
-                    submissionDateTime: "2023-12-26T02:19:04.081Z",
-                },
-            ],
-            creator: {
-                email: "test5@gmail.com",
-                organizationId: "65791b33ce593847b03704e8",
-                role: "Admin",
-            },
-            taskDeadline: "2024-01-14",
-            orgImg: magicpin,
-        },
-        {
-            taskName: "Animation Task",
-            taskDesc: "Make an animation introduce our company vision.....",
-            taskStatus: "approved",
-            postingDateTime: "2022-11-10T05:13:57.865Z",
-            taskTime: "4",
-            participantLimit: "8",
-            participants: [
-                {
-                    participantEmail: "user@gmail.com",
-                    applyDateTime: "2023-12-19T03:24:01.412Z",
-                    submissionId: "65810cd13fe1b13a11e1c318",
-                    submissionDateTime: "2023-12-19T09:35:47.866Z",
-                },
-                {
-                    participantEmail: "user3@gmail.com",
-                    applyDateTime: "2023-12-26T02:18:43.984Z",
-                    submissionId: "658a38046b24c37a5a1aeb6b",
-                    submissionDateTime: "2023-12-26T02:19:04.081Z",
-                },
-            ],
-            creator: {
-                email: "test5@gmail.com",
-                organizationId: "65791b33ce593847b03704e8",
-                role: "Admin",
-            },
-            taskDeadline: "2024-01-14",
-            orgImg: starbucks,
-        },
-        {
-            taskName: "Animation Task",
-            taskDesc: "Make an animation introduce our company vision.....",
-            taskStatus: "rejected",
-            postingDateTime: "2022-11-10T05:13:57.865Z",
-            taskTime: "4",
-            participantLimit: "8",
-            participants: [
-                {
-                    participantEmail: "user@gmail.com",
-                    applyDateTime: "2023-12-19T03:24:01.412Z",
-                    submissionId: "65810cd13fe1b13a11e1c318",
-                    submissionDateTime: "2023-12-19T09:35:47.866Z",
-                },
-                {
-                    participantEmail: "user3@gmail.com",
-                    applyDateTime: "2023-12-26T02:18:43.984Z",
-                    submissionId: "658a38046b24c37a5a1aeb6b",
-                    submissionDateTime: "2023-12-26T02:19:04.081Z",
-                },
-            ],
-            creator: {
-                email: "test5@gmail.com",
-                organizationId: "65791b33ce593847b03704e8",
-                role: "Admin",
-            },
-            taskDeadline: "2024-01-14",
-            orgImg: starbucks,
-        },
-        {
-            taskName: "Animation Task",
-            taskDesc: "Make an animation introduce our company vision.....",
-            taskStatus: "mytask",
-            postingDateTime: "2022-11-10T05:13:57.865Z",
-            taskTime: "4",
-            participantLimit: "8",
-            participants: [
-                {
-                    participantEmail: "user@gmail.com",
-                    applyDateTime: "2023-12-19T03:24:01.412Z",
-                    submissionId: "65810cd13fe1b13a11e1c318",
-                    submissionDateTime: "2023-12-19T09:35:47.866Z",
-                },
-                {
-                    participantEmail: "user3@gmail.com",
-                    applyDateTime: "2023-12-26T02:18:43.984Z",
-                    submissionId: "658a38046b24c37a5a1aeb6b",
-                    submissionDateTime: "2023-12-26T02:19:04.081Z",
-                },
-            ],
-            creator: {
-                email: "test5@gmail.com",
-                organizationId: "65791b33ce593847b03704e8",
-                role: "Admin",
-            },
-            taskDeadline: "2024-01-14",
-            orgImg: starbucks,
-        },
-        {
-            taskName: "Animation Task",
-            taskDesc: "Make an animation introduce our company vision.....",
-            taskStatus: "mytask",
-            postingDateTime: "2022-11-10T05:13:57.865Z",
-            taskTime: "4",
-            participantLimit: "8",
-            participants: [
-                {
-                    participantEmail: "user@gmail.com",
-                    applyDateTime: "2023-12-19T03:24:01.412Z",
-                    submissionId: "65810cd13fe1b13a11e1c318",
-                    submissionDateTime: "2023-12-19T09:35:47.866Z",
-                },
-                {
-                    participantEmail: "user3@gmail.com",
-                    applyDateTime: "2023-12-26T02:18:43.984Z",
-                    submissionId: "658a38046b24c37a5a1aeb6b",
-                    submissionDateTime: "2023-12-26T02:19:04.081Z",
-                },
-            ],
-            creator: {
-                email: "test5@gmail.com",
-                organizationId: "65791b33ce593847b03704e8",
-                role: "Admin",
-            },
-            taskDeadline: "2024-01-14",
-            orgImg: starbucks,
-        },
-        {
-            taskName: "Animation Task",
-            taskDesc: "Make an animation introduce our company vision.....",
-            taskStatus: "rejected",
-            postingDateTime: "2022-11-10T05:13:57.865Z",
-            taskTime: "4",
-            participantLimit: "8",
-            participants: [
-                {
-                    participantEmail: "user@gmail.com",
-                    applyDateTime: "2023-12-19T03:24:01.412Z",
-                    submissionId: "65810cd13fe1b13a11e1c318",
-                    submissionDateTime: "2023-12-19T09:35:47.866Z",
-                },
-                {
-                    participantEmail: "user3@gmail.com",
-                    applyDateTime: "2023-12-26T02:18:43.984Z",
-                    submissionId: "658a38046b24c37a5a1aeb6b",
-                    submissionDateTime: "2023-12-26T02:19:04.081Z",
-                },
-            ],
-            creator: {
-                email: "test5@gmail.com",
-                organizationId: "65791b33ce593847b03704e8",
-                role: "Admin",
-            },
-            taskDeadline: "2024-01-14",
-            orgImg: starbucks,
-        },
-    ];
+  
     const { userInfo } = useContext(AuthContext);
-    const [currentTab, setTab] = useState("All Tasks");
+    const [currentTab, setTab] = useState("In Progress");
     const [filteredTasks, setFilteredTasks] = useState(allTasks);
     const handleTab = (event, type) => {
         event.preventDefault();
@@ -218,15 +21,15 @@ const CDHomeTasks = ({ allTasks }) => {
     };
     const isActive = (type) => type === currentTab;
     //   const filteredCardData =
-    //     currentTab === "All Tasks"
+    //     currentTab === "In Progress"
     //       ? cardData
     //       : cardData?.filter((item) => item?.taskStatus === currentTab);
-
+    console.log(allTasks)
     useEffect(() => {
         const filteredData =
-            currentTab === "All Tasks"
+            currentTab === "In Progress"
                 ? allTasks
-                : currentTab === "MyTask"
+                : currentTab === "Completed tasks"
                     ? allTasks?.filter((item) => item?.creator?.email === userInfo?.email)
                     : allTasks?.filter((item) => item?.taskStatus === currentTab);
         setFilteredTasks(filteredData);
@@ -243,8 +46,8 @@ const CDHomeTasks = ({ allTasks }) => {
             </h1>
             <div className="flex gap-2 mt-2">
                 <button
-                    onClick={(event) => handleTab(event, "All Tasks")}
-                    className={`text-[18px] font-medium py-[6px] px-[25px] rounded-3xl ${isActive("All Tasks")
+                    onClick={(event) => handleTab(event, "In Progress")}
+                    className={`text-[18px] font-medium py-[6px] px-[25px] rounded-3xl ${isActive("In Progress")
                         ? "text-white bg-[#0A98EA]"
                         : "text-[#3F3F3F] bg-transparent"
                         }`}
@@ -252,8 +55,8 @@ const CDHomeTasks = ({ allTasks }) => {
                     In Progress
                 </button>
                 <button
-                    onClick={(event) => handleTab(event, "MyTask")}
-                    className={`text-[18px] font-medium py-[6px] px-[25px] rounded-3xl ${isActive("MyTask")
+                    onClick={(event) => handleTab(event, "Completed tasks")}
+                    className={`text-[18px] font-medium py-[6px] px-[25px] rounded-3xl ${isActive("Completed tasks")
                         ? "text-white bg-[#20B15A]"
                         : "text-[#3F3F3F] bg-transparent"
                         }`}
@@ -261,8 +64,8 @@ const CDHomeTasks = ({ allTasks }) => {
                     Completed tasks
                 </button>
                 <button
-                    onClick={(event) => handleTab(event, "Processing")}
-                    className={`text-[18px] font-medium py-[6px] px-[25px] rounded-3xl ${isActive("Processing")
+                    onClick={(event) => handleTab(event, "Pending Submission")}
+                    className={`text-[18px] font-medium py-[6px] px-[25px] rounded-3xl ${isActive("Pending Submission")
                         ? "text-white bg-[#F1511B]"
                         : "text-[#3F3F3F] bg-transparent"
                         }`}
@@ -270,8 +73,8 @@ const CDHomeTasks = ({ allTasks }) => {
                     Pending Submission
                 </button>
                 <button
-                    onClick={(event) => handleTab(event, "Rejected")}
-                    className={`text-[18px] font-medium py-[6px] px-[25px] rounded-3xl ${isActive("Rejected")
+                    onClick={(event) => handleTab(event, "Selected Students")}
+                    className={`text-[18px] font-medium py-[6px] px-[25px] rounded-3xl ${isActive("Selected Students")
                         ? "text-white bg-[#E8B912]"
                         : "text-[#3F3F3F] bg-transparent"
                         }`}
@@ -279,8 +82,8 @@ const CDHomeTasks = ({ allTasks }) => {
                     Selected Students
                 </button>
                 <button
-                    onClick={(event) => handleTab(event, "AdminApproved")}
-                    className={`text-[18px] font-medium py-[6px] px-[25px] rounded-3xl ${isActive("AdminApproved")
+                    onClick={(event) => handleTab(event, "Rejected in tasks")}
+                    className={`text-[18px] font-medium py-[6px] px-[25px] rounded-3xl ${isActive("Rejected in tasks")
                         ? "text-white bg-[#DD2025]"
                         : "text-[#3F3F3F] bg-transparent"
                         }`}
