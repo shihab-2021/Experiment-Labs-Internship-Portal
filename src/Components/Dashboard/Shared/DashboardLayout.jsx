@@ -992,7 +992,7 @@ const DashboardLayout = ({ children }) => {
                         <p>
                           Welcome to the internships portal. There are 2 demo
                           tasks created. Please complete those in order to
-                          jnderstand the product.
+                          understand the product.
                         </p>
                         <p>
                           Companies start posting by the 10th of January. We

@@ -132,15 +132,16 @@ const AdminParticipants = ({ item }) => {
               : ""}
           </h1>
         </div>
-        <div
-          className="mt-6"
+        <Link
+          to="/message"
+          className=""
           style={{
             borderRadius: "18px",
             background: "#439DF7",
           }}
         >
           <p className="text-[#fff] text-sm font-bold px-3 py-2 ">Message</p>
-        </div>
+        </Link>
         <div className="text-center">
           <h1 className="text-base font-bold">Status</h1>
           {submissionDetails?.submissionStatus === "Processing" && (
