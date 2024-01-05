@@ -404,7 +404,7 @@ const InternshipTaskCard = ({ task }) => {
               {task?.participants
                 ? parseInt(task?.participantLimit) - task?.participants?.length
                 : parseInt(task?.participantLimit)}{" "}
-              spot left
+              spots left
             </h1>
           </div>
         </div>
