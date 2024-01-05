@@ -37,6 +37,7 @@ const DashboardLayout = ({ children }) => {
   const role = localStorage.getItem("role");
   const orgId = localStorage.getItem("orgId");
   const [organizationInfo, setOrganizationInfo] = useState({});
+  const [isOpenStickyBar, setIsOpenStickyBar] = useState(true);
   const { id } = useParams();
 
   useEffect(() => {
@@ -975,6 +976,29 @@ const DashboardLayout = ({ children }) => {
                 className="h-full w-full relative lg:ml-[280px]"
               >
                 <main className="min-h-[100vh]">
+                  {isOpenStickyBar && (
+                    <div className=" mb-2 bg-blue-500 w-full px-4 py-2 text-white font-semibold font-raleway flex items-center justify-evenly gap-3 ">
+                      <div className="">
+                        <p>
+                          Welcome to the internships portal. There are 2 demo
+                          tasks created. Please complete those in order to
+                          jnderstand the product.
+                        </p>
+                        <p>
+                          Companies start posting by the 10th of January. We
+                          will update you via email as soon as your favourite
+                          companies are live.
+                        </p>
+                        <p>Happy interning!🎉</p>
+                      </div>
+                      <button
+                        onClick={() => setIsOpenStickyBar(false)}
+                        className="px-3 py-1 border-2 font-sans rounded-full "
+                      >
+                        Ok
+                      </button>
+                    </div>
+                  )}
                   <div className="">{children}</div>
                 </main>
               </div>
