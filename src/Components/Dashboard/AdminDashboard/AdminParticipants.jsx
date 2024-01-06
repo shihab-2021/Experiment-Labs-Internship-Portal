@@ -17,6 +17,30 @@ const AdminParticipants = ({ item }) => {
   const [userDetails, setUserDetails] = useState();
   const [submissionDetails, setSubmissionDetails] = useState({});
 
+  const getInitials = (data) => {
+    const firstNameInitial = data?.firstName?.charAt(0)?.toUpperCase() || "";
+    const lastNameInitial = data?.lastName?.charAt(0)?.toUpperCase() || "";
+    return `${firstNameInitial}${lastNameInitial}`;
+  };
+
+  const getRandomColor = () => {
+    const letters = "0123456789ABCDEF";
+    let color = "#";
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+  const [backgroundColor, setBackgroundColor] = useState("");
+  useEffect(() => {
+    // Generate a random background color if it hasn't been generated yet
+    if (!backgroundColor) {
+      setBackgroundColor(getRandomColor());
+    }
+
+    // Your existing useEffect logic...
+  }, [userDetails, backgroundColor]);
+
   useEffect(() => {
     if (item?.participantEmail)
       axios
@@ -105,7 +129,12 @@ const AdminParticipants = ({ item }) => {
       >
         <div className="flex items-center gap-2">
           <div>
-            <img src={profileImage} alt="ImageProfile" />
+            <div
+              className="rounded-full w-[45px] h-[45px] flex items-center text-red-50 justify-center"
+              style={{ backgroundColor }}
+            >
+              {getInitials(userDetails)}
+            </div>
           </div>
           <div>
             <h1 className="text-base font-semibold">
@@ -147,7 +176,7 @@ const AdminParticipants = ({ item }) => {
           {submissionDetails?.submissionStatus === "Processing" && (
             <button
               onClick={() =>
-                updateSubmissionStatus("Selected", submissionDetails?._id)
+                updateSubmissionStatus("AdminApproved", submissionDetails?._id)
               }
               style={{
                 borderRadius: "18px",
@@ -177,10 +206,22 @@ const AdminParticipants = ({ item }) => {
               </p>
             </div>
           )}
+          {submissionDetails?.submissionStatus === "Pending" && (
+            <div>
+              <p className=" rounded-2xl text-[#d47f00] bg-[#fff2e3] text-sm font-bold px-5 py-2">
+                Submission Pending
+              </p>
+            </div>
+          )}
+          {submissionDetails?.submissionStatus === "AdminApproved" && (
+            <div>
+              <p className=" rounded-2xl text-[#66d400] bg-[#f0ffe3] text-sm font-bold px-5 py-2">
+                Approval Pending
+              </p>
+            </div>
+          )}
         </div>
-        {((submissionDetails?.submissionStatus != "Selected" &&
-          submissionDetails?.submissionStatus != "Rejected") ||
-          submissionDetails?.submissionStatus === "Processing") && (
+        {submissionDetails?.submissionStatus === "Processing" && (
           <button
             className="mt-6"
             onClick={() =>

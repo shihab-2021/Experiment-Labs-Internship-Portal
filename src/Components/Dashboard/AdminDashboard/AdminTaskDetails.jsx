@@ -43,7 +43,6 @@ const AdminTaskDetails = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-
   const { userInfo } = useContext(AuthContext);
 
   const [adminApprovedTasks, setAdminApprovedTasks] = useState([]);
@@ -81,7 +80,9 @@ const AdminTaskDetails = () => {
       // Fetching tasks with status 'Processing' and updating state
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${organizationId}/taskStatus/Processing`
+          `${
+            import.meta.env.VITE_APP_SERVER_API
+          }/api/v1/tasks/organizationId/${organizationId}/taskStatus/Processing`
         )
         .then((tasks) => {
           setAdminApprovedTasks(tasks?.data);
@@ -91,7 +92,9 @@ const AdminTaskDetails = () => {
       // Fetching tasks with status 'Pending' and updating state
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${organizationId}/taskStatus/Pending`
+          `${
+            import.meta.env.VITE_APP_SERVER_API
+          }/api/v1/tasks/organizationId/${organizationId}/taskStatus/AdminApproved`
         )
         .then((tasks) => {
           setNewTasks(tasks?.data);
@@ -101,7 +104,9 @@ const AdminTaskDetails = () => {
       // Fetching tasks with status 'Completed' and updating state
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${organizationId}/taskStatus/Completed`
+          `${
+            import.meta.env.VITE_APP_SERVER_API
+          }/api/v1/tasks/organizationId/${organizationId}/taskStatus/Completed`
         )
         .then((tasks) => {
           setCompletedTasks(tasks?.data);
@@ -109,7 +114,6 @@ const AdminTaskDetails = () => {
         .catch((error) => console.error(error));
     }
   }, [userInfo]);
-
 
   console.log(completedTasks);
 
@@ -120,7 +124,9 @@ const AdminTaskDetails = () => {
         <div>
           <div className="flex gap-10">
             <div>
-              <h1 className="font-bold text-[30px]">Hello {userInfo?.firstName}</h1>
+              <h1 className="font-bold text-[30px]">
+                Hello {userInfo?.firstName}
+              </h1>
               <p className="text-[21px] font-medium tracking-wide">
                 {formatDate()}
               </p>
@@ -156,53 +162,18 @@ const AdminTaskDetails = () => {
               aria-haspopup="true"
             >
               <div className="w-5/6 mx-auto flex items-center gap-2 pt-[7px]">
-                {/* <BsPersonCircle className="text-[#4555BA] w-[35px] h-[35px]" /> */}
                 <div
                   className="rounded-full w-[35px] h-[35px] flex items-center text-red-50 justify-center"
                   style={{ backgroundColor }}
                 >
                   {getInitials()}
                 </div>
-                <p className="text-[19px] font-medium">{userInfo?.firstName} {userInfo?.lastName}</p>
+                <p className="text-[19px] font-medium">
+                  {userInfo?.firstName} {userInfo?.lastName}
+                </p>
               </div>
-            {/*   <svg
-                className="-mr-1 h-5 w-5 text-gray-400"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                  clip-rule="evenodd"
-                />
-              </svg> */}
             </button>
           </div>
-
-         {/*  <div
-            className={`absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${isDropdownOpen ? "" : "hidden"
-              }`}
-            role="menu"
-            aria-orientation="vertical"
-            aria-labelledby="menu-button"
-            tabIndex="-1"
-          >
-            <div className="py-1" role="none">
-              <div className="w-5/6 mx-auto border-b border-[#4555BA] pt-[17px] text-[16px] font-medium flex justify-between">
-                <p className="text-[#3F3F3F]">Animation</p>
-                <p className="text-[#6B6B6B]">task 1</p>
-              </div>
-              <div className="w-5/6 mx-auto border-b border-[#4555BA] pt-[17px] text-[16px] font-medium flex justify-between">
-                <p className="text-[#3F3F3F]">logo design</p>
-                <p className="text-[#6B6B6B]">task 2</p>
-              </div>
-              <div className="w-5/6 mx-auto border-b border-[#4555BA] pt-[17px] text-[16px] font-medium flex justify-between mb-3">
-                <p className="text-[#3F3F3F]">ui and ux </p>
-                <p className="text-[#6B6B6B]">task 3</p>
-              </div>
-            </div>
-          </div> */}
         </div>
       </div>
 
@@ -213,14 +184,17 @@ const AdminTaskDetails = () => {
 
         <div className="flex justify-between items-center">
           <div className="flex mt-[17px] gap-[11px] w-full">
-            {
-              (newTasks?.length) ? <>{
-                newTasks?.map((item) => (
+            {newTasks?.length ? (
+              <>
+                {newTasks?.map((item) => (
                   <div className="bg-[#FFF] border border-[#E7E7E7] w-[50%] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md">
                     <div className="flex justify-between items-center">
-                      <h1 className="font-bold text-[17px]">{item?.taskName}</h1>
-                      <Link to={`/editTaskDetails/${item?._id}`} className="" ><FaEdit style={{ color: '#3E4DAC' }} /></Link>
-                      
+                      <h1 className="font-bold text-[17px]">
+                        {item?.taskName}
+                      </h1>
+                      <Link to={`/editTaskDetails/${item?._id}`} className="">
+                        <FaEdit style={{ color: "#3E4DAC" }} />
+                      </Link>
                     </div>
                     <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
                       {item?.aboutTask}
@@ -254,41 +228,50 @@ const AdminTaskDetails = () => {
                     <div>
                       <div className="mt-[14px] flex justify-between text-[14px] font-medium">
                         <p>Progress</p>
-                        <p className="text-[#3F3F3F]">{(item?.participants?.length) ? item?.participants?.length : '0'}/{item?.participantLimit}</p>
+                        <p className="text-[#3F3F3F]">
+                          {item?.participants?.length
+                            ? item?.participants?.length
+                            : "0"}
+                          /{item?.participantLimit}
+                        </p>
                       </div>
                       <div className="relative w-full">
                         <div className="w-full bg-gray-200 rounded-lg h-2">
                           <div
                             className="bg-[#3E4DAC] h-2 rounded-lg"
                             style={{
-                              width: `${(item?.participants?.length /
-                                item?.participantLimit) *
+                              width: `${
+                                (item?.participants?.length /
+                                  item?.participantLimit) *
                                 100
-                                }%`,
+                              }%`,
                             }}
                           ></div>
                         </div>
                       </div>
                       <p className="text-[#3F3F3F] text-[14px] font-medium">
-
-                        {item?.taskDeadline ? new Date(item?.taskDeadline).toLocaleDateString() : ''}
+                        {item?.taskDeadline
+                          ? new Date(item?.taskDeadline).toLocaleDateString()
+                          : ""}
                       </p>
-                    </div >
-                    <div className="mt-3">
-                      <Link to={`/completeShowMore/${item?._id}`} className="text-[#0D47A1] text-[13px] font-medium " >Show details</Link>
-
                     </div>
-
-
+                    <div className="mt-3">
+                      <Link
+                        to={`/completeShowMore/${item?._id}`}
+                        className="text-[#0D47A1] text-[13px] font-medium "
+                      >
+                        Show details
+                      </Link>
+                    </div>
                   </div>
-                ))
-
-
-              }</> : <p className="text-xl font-medium text-[red]"> No New tasks Created</p>
-
-            }
-
-
+                ))}
+              </>
+            ) : (
+              <p className="text-xl font-medium text-[red]">
+                {" "}
+                No New tasks Created
+              </p>
+            )}
           </div>
         </div>
       </div>
@@ -299,20 +282,24 @@ const AdminTaskDetails = () => {
           <h1 className="text-[20px] font-bold mt-8 text-[#1976D2]">
             In Progress
           </h1>
-         {/*  <p>
+          {/*  <p>
             <FaEllipsisV style={{ color: "#3E4DAC" }} />{" "}
           </p> */}
         </div>
 
         <div className="flex justify-between items-center">
           <div className="flex w-full mt-[17px] gap-[11px]">
-            {
-              (adminApprovedTasks?.length) ? <>{
-                adminApprovedTasks?.map((item) => (
+            {adminApprovedTasks?.length ? (
+              <>
+                {adminApprovedTasks?.map((item) => (
                   <div className="bg-[#FFF] border w-[50%] border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md">
                     <div className="flex justify-between items-center">
-                      <h1 className="font-bold text-[17px]">{item?.taskName}</h1>
-                      <Link to={`/editTaskDetails/${item?._id}`} className="" ><FaEdit style={{ color: '#3E4DAC' }} /></Link>
+                      <h1 className="font-bold text-[17px]">
+                        {item?.taskName}
+                      </h1>
+                      <Link to={`/editTaskDetails/${item?._id}`} className="">
+                        <FaEdit style={{ color: "#3E4DAC" }} />
+                      </Link>
                     </div>
                     <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
                       {item?.subtitle}
@@ -345,40 +332,50 @@ const AdminTaskDetails = () => {
                     <div>
                       <div className="mt-[14px] flex justify-between text-[14px] font-medium">
                         <p>Progress</p>
-                        <p className="text-[#3F3F3F]">{(item?.participants?.length) ? item?.participants?.length : '0'}/{item?.participantLimit}</p>
+                        <p className="text-[#3F3F3F]">
+                          {item?.participants?.length
+                            ? item?.participants?.length
+                            : "0"}
+                          /{item?.participantLimit}
+                        </p>
                       </div>
                       <div className="relative w-full">
                         <div className="w-full bg-gray-200 rounded-lg h-2">
                           <div
                             className="bg-[#3E4DAC] h-2 rounded-lg"
-
-
                             // style={{ width: `${(item?.complete?.length ? item?.participantLimit : "0"/ '0') * 100 || 0}%` }}
                             style={{
-                              width: `${(item?.participants?.length /
-                                item?.participantLimit) *
+                              width: `${
+                                (item?.participants?.length /
+                                  item?.participantLimit) *
                                 100
-                                }%`,
+                              }%`,
                             }}
-
                           ></div>
                         </div>
                       </div>
                       <p className="text-[#3F3F3F] text-[14px] font-medium">
-                        {item?.taskDeadline ? new Date(item?.taskDeadline).toLocaleDateString() : ''}
+                        {item?.taskDeadline
+                          ? new Date(item?.taskDeadline).toLocaleDateString()
+                          : ""}
                       </p>
-                    </div >
+                    </div>
                     <div className="mt-3">
-                      <Link to={`/completeShowMore/${item?._id}`} className="text-[#0D47A1] text-[13px] font-medium " >Show details</Link>
-
+                      <Link
+                        to={`/completeShowMore/${item?._id}`}
+                        className="text-[#0D47A1] text-[13px] font-medium "
+                      >
+                        Show details
+                      </Link>
                     </div>
                   </div>
-                ))
-
-              }</> : <p className="text-xl font-medium text-[red]">No In Progress Tasks</p>
-
-            }
-
+                ))}
+              </>
+            ) : (
+              <p className="text-xl font-medium text-[red]">
+                No In Progress Tasks
+              </p>
+            )}
           </div>
         </div>
       </div>
@@ -390,21 +387,24 @@ const AdminTaskDetails = () => {
             {" "}
             Completed
           </h1>
-       {/*    <p>
+          {/*    <p>
             <FaEllipsisV style={{ color: "#3E4DAC" }} />{" "}
           </p> */}
         </div>
 
         <div className="flex justify-between items-center">
           <div className="flex gap-6 mt-[17px] w-full">
-
-            {
-              (completedTasks?.length) ? <>{
-                completedTasks?.map((item) => (
+            {completedTasks?.length ? (
+              <>
+                {completedTasks?.map((item) => (
                   <div className="bg-[#FFF] border w-[50%] border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[7px] py-[12px] rounded-md">
                     <div className="flex justify-between items-center">
-                      <h1 className="font-bold text-[17px]">{item?.taskName}</h1>
-                      <Link to={`/editTaskDetails/${item?._id}`} className="" ><FaEdit style={{ color: '#3E4DAC' }} /></Link>
+                      <h1 className="font-bold text-[17px]">
+                        {item?.taskName}
+                      </h1>
+                      <Link to={`/editTaskDetails/${item?._id}`} className="">
+                        <FaEdit style={{ color: "#3E4DAC" }} />
+                      </Link>
                     </div>
                     <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
                       {item?.aboutTask}
@@ -437,27 +437,33 @@ const AdminTaskDetails = () => {
                     <div>
                       <div className="mt-[14px] flex justify-between text-[14px] font-medium">
                         <p>Progress</p>
-                        <p className="text-[#3F3F3F]">{(item?.participants?.length) ? item?.participants?.length : '0'}/{item?.participantLimit}</p>
+                        <p className="text-[#3F3F3F]">
+                          {item?.participants?.length
+                            ? item?.participants?.length
+                            : "0"}
+                          /{item?.participantLimit}
+                        </p>
                       </div>
                       <div className="relative w-full">
                         <div className="w-full bg-gray-200 rounded-lg h-2">
                           <div
                             className="bg-[#3E4DAC] h-2 rounded-lg"
-
                             style={{
-                              width: `${(item?.participants?.length /
-                                item?.participantLimit) *
+                              width: `${
+                                (item?.participants?.length /
+                                  item?.participantLimit) *
                                 100
-                                }%`,
+                              }%`,
                             }}
-
                           ></div>
                         </div>
                       </div>
                       <p className="text-[#3F3F3F] text-[14px] font-medium">
-                        {item?.taskDeadline ? new Date(item?.taskDeadline).toLocaleDateString() : ''}
+                        {item?.taskDeadline
+                          ? new Date(item?.taskDeadline).toLocaleDateString()
+                          : ""}
                       </p>
-                    </div >
+                    </div>
                     <div className=" flex gap-4 items-center mt-6">
                       <div className="flex gap-2 items-center">
                         <img src={deadLineImage} alt="Icon" />
@@ -467,18 +473,23 @@ const AdminTaskDetails = () => {
                         <img src={clock} alt="Icon" />
                         <p>Task time duration {item?.duration}</p>
                       </div>
-
                     </div>
                     <div className="mt-3 text-center">
-                      <Link to={`/completeShowMore/${item?._id}`} className="text-[#0D47A1] text-[13px] font-bold " >Show more deatails</Link>
-
+                      <Link
+                        to={`/completeShowMore/${item?._id}`}
+                        className="text-[#0D47A1] text-[13px] font-bold "
+                      >
+                        Show more deatails
+                      </Link>
                     </div>
-
                   </div>
-                ))
-
-              }</> : <p className="text-xl font-medium text-[red]">No Complete tasks Yet</p>
-            }
+                ))}
+              </>
+            ) : (
+              <p className="text-xl font-medium text-[red]">
+                No Complete tasks Yet
+              </p>
+            )}
           </div>
         </div>
       </div>
