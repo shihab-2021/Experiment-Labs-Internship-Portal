@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import schoolImg from "../../../../assets/Dashboard/CounselorsDashboard/Ellipse 262.svg"
 import menu from "../../../../assets/Dashboard/CounselorsDashboard/choose students menu bar.svg"
 import clock from "../../../../assets/Dashboard/CounselorsDashboard/iconamoon_clock-thin.svg"
@@ -7,7 +7,10 @@ import reject from "../../../../assets/Dashboard/CounselorsDashboard/icon-park-o
 import pending from "../../../../assets/Dashboard/CounselorsDashboard/mdi_account-pending-outline.svg"
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
-const MyStudentsData = () => {
+import { AuthContext } from '../../../../Contexts/AuthProvider';
+const MyStudentsData = ({ students }) => {
+    
+    console.log(students)
     const cardData = [
         {
             studentfirstName: "Harshita",
@@ -182,13 +185,13 @@ const MyStudentsData = () => {
         },
 
     ];
-    const getInitials = (userInfo) => {
+    const getInitials = (user) => {
         const firstNameInitial =
-            userInfo?.studentfirstName?.charAt(0)?.toUpperCase() || "";
-        const lastNameInitial = userInfo?.studentlastName?.charAt(0)?.toUpperCase() || "";
+            user?.firstName?.charAt(0)?.toUpperCase() || "";
+        const lastNameInitial = user?.lastName?.charAt(0)?.toUpperCase() || "";
         return `${firstNameInitial}${lastNameInitial}`;
     };
-    const getRandomColor = () => {
+    const getRandomColor = (index) => {
         const letters = "0123456789ABCDEF";
         let color = "#";
         for (let i = 0; i < 6; i++) {
@@ -200,9 +203,49 @@ const MyStudentsData = () => {
 
     useEffect(() => {
         // Generate random background colors for each student
-        const colors = cardData.map(() => getRandomColor());
+        const colors = students?.map(() => getRandomColor());
         setBackgroundColors(colors);
     }, []);
+
+    const calculateTaskStatus = (taskSubmissions) => {
+        const statusCount = {
+            rejected: 0,
+            selected: 0,
+            pending: 0,
+        };
+
+        taskSubmissions.forEach((submission) => {
+            switch (submission.submissionStatus) {
+                case 'Rejected':
+                    statusCount.rejected += 1;
+                    break;
+                case 'Selected':
+                    statusCount.selected += 1;
+                    break;
+                case 'Processing':
+                    statusCount.pending += 1;
+                    break;
+                // Add more cases as needed
+                default:
+                    break;
+            }
+        });
+        return statusCount;
+    };
+    const studentsPerPage = 12;
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [displayedStudents, setDisplayedStudents] = useState([]);
+
+    useEffect(() => {
+        const startIndex = (currentPage - 1) * studentsPerPage;
+        const endIndex = startIndex + studentsPerPage;
+        setDisplayedStudents(students.slice(startIndex, endIndex));
+    }, [currentPage, students]);
+
+    const handlePageChange = (event, newPage) => {
+        setCurrentPage(newPage);
+    };
     return (
         <div className='w-11/12 mx-auto mt-7'>
             <div className="flex justify-between border-b border-[#ECECEC] pb-2">
@@ -211,60 +254,87 @@ const MyStudentsData = () => {
             </div>
             <div className='grid grid-cols-3 justify-between gap-3 my-3'>
                 {
-                    cardData?.map((student, index) => (
+                    displayedStudents && displayedStudents?.map((student, index) => (
                         <div key={index} className='border-[#D9D9D9] border-2 rounded-md py-[11px] px-2'>
                             <div className='grid grid-flow-col justify-center gap-4'>
-                                <div className="grid items-center w-[102.55px] h-[102.55px] rounded-full text-red-50 justify-center text-3xl font-semibold" style={{ backgroundColor: backgroundColors[index] }}>
-                                    {getInitials(student)}
+                                <div className="grid items-center w-[102.55px] h-[102.55px] rounded-full text-red-50 justify-center text-3xl font-semibold" style={{ backgroundColor: getRandomColor(index) }}>
+                                    {getInitials(student?.user)}
                                 </div>
                                 <div className='font-medium '>
-                                    <p className='text-[16.36px] font-medium tracking-wide'>{student?.studentfirstName} {student?.studentlastName}</p>
-                                    <p className='text-[#797979] text-[15.4px] font-medium tracking-wide'>{student?.studentClass}</p>
-                                    <p className='flex gap-2 items-center text-[#797979] text-[14.398px] tracking-wide'>
+                                    <p className='text-[16.36px] font-medium tracking-wide'>{student?.user?.studentfirstName} {student?.studentlastName}</p>
+                                    <p className='text-[#797979] text-[15.4px] font-medium tracking-wide'>{student?.user?.class}th Class</p>
+                                    {/* <p className='flex gap-2 items-center text-[#797979] text-[14.398px] tracking-wide'>
                                         <img src={clock} alt="" />
-                                        <span>{student?.studentTaskTime}</span>
-                                    </p>
-                                    <p className='text-[15.4px] tracking-wide'>Stream : <span className='text-[16.4px] text-[#797979]'>{student?.studentStream}</span></p>
-                                    <p className='text-[15.4px] tracking-wide'>Age : <span className='text-[16.4px] text-[#797979]'>{student?.studentAge}</span></p>
+                                        <span>{student?.user?.studentTaskTime}</span>
+                                    </p> */}
+                                    <p className='text-[15.4px] tracking-wide'>Section : <span className='text-[16.4px] text-[#797979]'>{student?.user?.section || "Not Available"}</span></p>
+                                    <p className='text-[15.4px] tracking-wide'>Phone : <span className='text-[16.4px] text-[#797979]' style={{ fontFamily: 'Monospace-Font' }}>{student?.user?.phone}</span></p>
+
                                 </div>
                             </div>
                             <p style={{ borderRadius: '3.84px', background: 'linear-gradient(90deg, #F4F6FF 4.11%, rgba(249, 250, 255, 0.00) 99.85%)' }} className='text-[#3E4DAC] text-[15.358px] font-bold tracking-wider text-center mt-3 py-[5.759px] px-[4.799px]'>
-                                {student?.studentTasks} tasks
+                                {student?.taskSubmissions?.length} tasks
                             </p>
+
                             <div className='flex justify-between my-2'>
-                                <div className='grid items-center justify-items-center'>
+                                {Object.entries(calculateTaskStatus(student?.taskSubmissions)).map(([status, count]) => (
+                                    <div key={status} className='grid items-center justify-items-center'>
+                                        <div className={`flex gap-[6px] items-center text-[${status === 'rejected' ? '#DD2025' : status === 'selected' ? '#E8B912' : '#F1511B'}] items-center text-[19.198px] font-bold tracking-wide`}>
+                                            <img src={status === 'rejected' ? reject : status === 'selected' ? select : pending} alt="" />
+                                            <p>{count}</p>
+                                        </div>
+                                        <p className='text-[#797979] font-medium text-[14.398px]'>
+                                            {status.charAt(0).toUpperCase() + status.slice(1)} in tasks
+                                        </p>
+                                    </div>
+                                ))}
+                                {/* <div className='grid items-center justify-items-center'>
                                     <div className='flex text-[#DD2025] items-center text-[19.198px] font-bold tracking-wide'>
                                         <img src={reject} alt="" />
-                                        <p>{student?.studentTaskStatus?.rejected}</p>
+                                        <p>{taskStatus.rejected}</p>
                                     </div>
                                     <p className='text-[#797979] font-medium text-[14.398px]'>Rejected in tasks</p>
                                 </div>
                                 <div className='grid items-center justify-items-center'>
                                     <div className='flex text-[#E8B912] items-center text-[19.198px] font-bold tracking-wide'>
                                         <img src={select} alt="" />
-                                        <p>{student?.studentTaskStatus?.selected}</p>
+                                        <p>{taskStatus.selected}</p>
                                     </div>
                                     <p className='text-[#797979] font-medium text-[14.398px]'>Selected in tasks</p>
                                 </div>
                                 <div className='grid items-center justify-items-center'>
                                     <div className='flex text-[#F1511B] items-center text-[19.198px] font-bold tracking-wide'>
                                         <img src={pending} alt="" />
-                                        <p>{student?.studentTaskStatus?.pending}</p>
+                                        <p>{taskStatus.pending}</p>
                                     </div>
                                     <p className='text-[#797979] font-medium text-[14.398px]'>Pending solution</p>
                                 </div>
+                                <div className='grid items-center justify-items-center'>
+                                    <div className='flex text-[#007BFF] items-center text-[19.198px] font-bold tracking-wide'>
+                                        <p>{taskStatus.processing}</p>
+                                    </div>
+                                    <p className='text-[#797979] font-medium text-[14.398px]'>Processing</p>
+                                </div> */}
                             </div>
                             <div className='grid justify-center  '>
-                                <div className='bg-[#F0F7FF] flex gap-3 rounded-[3.24px] items-center w-[221.999px] py-[4.68px] px-[11.2px]'>
-                                    <img src={student?.studentSchoolInfo?.schoolImg} alt="" />
-                                    <p>{student?.studentSchoolInfo?.schoolName}</p>
+                                <div className='bg-[#cedff4] flex gap-3 rounded-[3.24px] justify-center items-center  py-[4.68px] px-[11.2px]'>
+                                    <img src={student?.schoolData?.schoolImg} alt="" />
+                                    <p>{student?.schoolData?.schoolName}</p>
                                 </div>
                             </div>
                         </div>
                     ))}
             </div>
             <div className='grid justify-center my-5'>
-            <Pagination count={10} size="large" color="primary" />
+                <Stack spacing={2}>
+                    <Pagination
+                        count={Math.ceil(students.length / studentsPerPage)}
+                        page={currentPage}
+                        onChange={handlePageChange}
+                        size="large"
+                        color="primary"
+                    />
+                </Stack>
             </div>
         </div>
     );
