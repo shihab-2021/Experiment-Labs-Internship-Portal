@@ -1,10 +1,45 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CDMySchoolsDashboardTop from "./CDMYSchoolsTop";
 import CDMySchoolsDashboardMiddle from "./CDMySchoolsMiddle";
 import CDMySchoolsDashboardBottom from "./CDMySchoolsBottom";
 import Profile from "../../SuperAdminDashboard/SuperAdminDashboardMain/Profile";
+import axios from "axios";
+import Loading from "../../../Shared/Loading/Loading";
+import { AuthContext } from "../../../../Contexts/AuthProvider";
+import CDMySchoolsSchoolDetails from "./CDMySchoolsSchoolDetails";
+  
+
 
 const CDMySchoolsMain = () => {
+  const {userInfo} = useContext(AuthContext)
+  const [mySchools, setMySchools] = useState();
+ 
+
+  useEffect(() => {
+    Loading();
+    const counsellorId = userInfo?.organizations?.[0]?.counsellorId;
+  
+    if (counsellorId) {
+      axios
+        .get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/taskSubmissions/getCounsellorStats/counsellorId/${counsellorId}`)
+        .then((data) => {
+          setMySchools(data?.data);
+        })
+        .catch((error) => console.error(error))
+        .finally(() => {
+          // Close the loading spinner when the data fetching is complete
+          // setLoading(false);
+          Loading().close();
+        });
+    } else {
+      // Handle the case when userInfo or its properties are undefined
+      console.error("userInfo or its properties are undefined");
+      Loading().close();
+    }
+  }, [userInfo?.organizations?.[0]?.counsellorId]);
+  
+  console.log(mySchools);
+  
   return (
     <div>
       <div className="py-10 flex justify-between pr-5">
@@ -26,7 +61,7 @@ const CDMySchoolsMain = () => {
                   />
                 </div>
                 <div className="text-white text-3xl font-bold tracking-[2.96px] whitespace-nowrap mt-3">
-                  10
+                  {mySchools && mySchools?.totalSchools || 0}
                 </div>
               </div>
               <div className="justify-center items-stretch shadow-sm bg-[#8064F0] flex flex-col px-2 rounded-md py-4">
@@ -41,7 +76,7 @@ const CDMySchoolsMain = () => {
                   />
                 </div>
                 <div className="text-white text-3xl font-bold tracking-[2.96px] whitespace-nowrap mt-3">
-                  500
+                  {mySchools && mySchools?.totalStudents || 0}
                 </div>
               </div>
               <div className="justify-center items-stretch shadow-sm bg-[#0A98EA] flex flex-col px-2 rounded-md py-4">
@@ -56,7 +91,7 @@ const CDMySchoolsMain = () => {
                   />
                 </div>
                 <div className="text-white text-3xl font-bold tracking-[2.96px] whitespace-nowrap mt-3">
-                  30
+                  {mySchools && mySchools?.totalCompanies || 0}
                 </div>
               </div>
               <div className="justify-center items-stretch shadow-sm bg-[#6278FF] flex flex-col px-2 rounded-md py-4">
@@ -71,7 +106,7 @@ const CDMySchoolsMain = () => {
                   />
                 </div>
                 <div className="text-white text-3xl font-bold tracking-[2.96px] whitespace-nowrap mt-3">
-                  100
+                  {mySchools && mySchools?.totalTasks || 0}
                 </div>
               </div>
             </div>
@@ -79,9 +114,10 @@ const CDMySchoolsMain = () => {
         </div>
         <Profile />
       </div>
-      <CDMySchoolsDashboardTop />
-      <CDMySchoolsDashboardMiddle />
-      <CDMySchoolsDashboardBottom />
+    <CDMySchoolsSchoolDetails/>
+      <CDMySchoolsDashboardTop mySchools={mySchools}/>
+      {/* <CDMySchoolsDashboardMiddle /> */}
+      {/* <CDMySchoolsDashboardBottom /> */}
     </div>
   );
 };

@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { BarChart } from "@mui/x-charts/BarChart";
 
 import Person from "../../../../assets/Home/Person.png";
 
 const CDMySchoolsDashboardMiddle = () => {
+  // Step 2: Create state variable for selected option
+  const [selectedOptionSchoolPerformance, setSelectedOptionSchoolPerformance] = useState('schools');
+
+  // Step 3: Event handler to update the state
+  const handleSelectChange = (event) => {
+    setSelectedOptionSchoolPerformance(event.target.value);
+  };
+  
   const participant_in_tasks = [0];
   const select_in_tasks = [0];
   const reject_in_tasks = [0];
@@ -13,14 +21,19 @@ const CDMySchoolsDashboardMiddle = () => {
         <div className="w-11/12 mx-auto my-2 font-medium tracking-wide flex justify-between mt-6">
           <p className="">Students performance by tasks</p>
           <select
-            className=" border-[#E3E3E3] font-medium w-[180px] border-2 rounded-md py-[8px]"
-            name="schools"
-            id="schools"
-          >
-            <option className="" value="schools">
-              Schools
-            </option>
-          </select>
+      className="border-[#E3E3E3] font-medium w-[180px] border-2 rounded-md py-[8px]"
+      name="schools"
+      id="schools"
+      // Step 4: Use state variable as the value prop
+      value={selectedOptionSchoolPerformance}
+      // Step 3: Attach onChange event handler
+      onChange={handleSelectChange}
+    >
+      <option className="" value="schools">
+        Schools
+      </option>
+      {/* Add more options as needed */}
+    </select>
         </div>
         <div className="mt-10" style={{ width: "100%", height: "400px" }}>
           <BarChart
