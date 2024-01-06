@@ -175,6 +175,8 @@ const SubmissionTracker = () => {
       taskId: task?._id,
       organizationId: organizationInfo?._id,
       submissionDateTime: new Date(),
+      counsellorId: userInfo?.counsellorId,
+      schoolId: userInfo?.schoolId,
     };
     setParticipationInfo({
       ...participationInfo,
