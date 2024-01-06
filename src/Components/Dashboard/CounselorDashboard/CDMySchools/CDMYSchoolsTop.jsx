@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Loading from "../../../Shared/Loading/Loading";
 import { AuthContext } from "../../../../Contexts/AuthProvider";
-const CDMySchoolsDashboardTop = () => {
+const CDMySchoolsDashboardTop = ({mySchools}) => {
   const {userInfo} = useContext(AuthContext)
   const [schoolDetails, setSchoolDetails] = useState([]);
   useEffect(() => {
@@ -37,7 +37,7 @@ const CDMySchoolsDashboardTop = () => {
   }, [userInfo?.organizations?.[0]?.counsellorId]);
   
   
-  console.log(schoolDetails);
+  //console.log(schoolDetails);
   
   const getInitials = () => {
     const firstNameInitial =
@@ -74,15 +74,15 @@ const CDMySchoolsDashboardTop = () => {
 
   const data1 = [
     { label: "Inactive Companies", value: 3, color: "#DCEFFF" },
-    { label: "Active Companies", value: 30, color: "#0A98EA" },
+    { label: "Active Companies", value: mySchools && mySchools?.totalCompanies , color: "#0A98EA" },
   ];
 
   const data2 = [
     { label: "Inactive Students", value: 50, color: "#DCEFFF" },
-    { label: "Active Students", value: 500, color: "#8064F0" },
+    { label: "Active Students", value: mySchools?.totalStudents , color: "#8064F0" },
   ];
   return (
-    <div className="flex justify-between gap-5 items-center">
+    <div className="mx-5 flex justify-between gap-5 items-center">
       <div className="overflow-x-auto xl:w-8/12 2xl:w-3/5 mx-auto h-[533px] border-[#E8E8E8] border-2 shadow-sm rounded-md my-8">
         <table className="table w-full ">
           {/* head */}
