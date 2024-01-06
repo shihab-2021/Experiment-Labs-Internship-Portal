@@ -6,6 +6,9 @@ import Profile from "../../SuperAdminDashboard/SuperAdminDashboardMain/Profile";
 import axios from "axios";
 import Loading from "../../../Shared/Loading/Loading";
 import { AuthContext } from "../../../../Contexts/AuthProvider";
+import CDMySchoolsSchoolDetails from "./CDMySchoolsSchoolDetails";
+  
+
 
 const CDMySchoolsMain = () => {
   const {userInfo} = useContext(AuthContext)
@@ -111,9 +114,10 @@ const CDMySchoolsMain = () => {
         </div>
         <Profile />
       </div>
-      <CDMySchoolsDashboardTop />
+    <CDMySchoolsSchoolDetails/>
+      <CDMySchoolsDashboardTop mySchools={mySchools}/>
       {/* <CDMySchoolsDashboardMiddle /> */}
-      <CDMySchoolsDashboardBottom />
+      {/* <CDMySchoolsDashboardBottom /> */}
     </div>
   );
 };
