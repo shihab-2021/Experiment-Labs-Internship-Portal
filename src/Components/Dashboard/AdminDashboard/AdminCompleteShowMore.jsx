@@ -25,10 +25,9 @@ const AdminCompleteShowMore = () => {
 
   // taskDetails data
   const [taskDetails, setTaskDetails] = useState();
-  const getInitials = () => {
-    const firstNameInitial =
-      userInfo?.firstName?.charAt(0)?.toUpperCase() || "";
-    const lastNameInitial = userInfo?.lastName?.charAt(0)?.toUpperCase() || "";
+  const getInitials = (data) => {
+    const firstNameInitial = data?.firstName?.charAt(0)?.toUpperCase() || "";
+    const lastNameInitial = data?.lastName?.charAt(0)?.toUpperCase() || "";
     return `${firstNameInitial}${lastNameInitial}`;
   };
   const getRandomColor = () => {
@@ -70,7 +69,8 @@ const AdminCompleteShowMore = () => {
     if (taskDetails?.creator?.email)
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${taskDetails?.creator?.email
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${
+            taskDetails?.creator?.email
           }`
         )
         .then((creator) => {
@@ -89,7 +89,8 @@ const AdminCompleteShowMore = () => {
     if (creatorDetails?.organizations[0]?.organizationId)
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${creatorDetails?.organizations[0]?.organizationId
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${
+            creatorDetails?.organizations[0]?.organizationId
           }`
         )
         .then((organization) => {
@@ -196,7 +197,7 @@ const AdminCompleteShowMore = () => {
                   className="rounded-full w-[35px] h-[35px] flex items-center text-red-50 justify-center"
                   style={{ backgroundColor }}
                 >
-                  {getInitials()}
+                  {getInitials(userInfo)}
                 </div>
                 <p className="text-[19px] font-medium">
                   {userInfo?.firstName} {userInfo?.lastName}
@@ -308,7 +309,12 @@ const AdminCompleteShowMore = () => {
           <p className="text-base font-normal mt-9">Task Created by</p>
           <div className="flex items-center gap-2 mt-2">
             <div>
-              <img src={profileImage} alt="ImageProfile" />
+              <div
+                className="rounded-full w-[45px] h-[45px] flex items-center text-red-50 justify-center"
+                style={{ backgroundColor }}
+              >
+                {getInitials(creatorDetails)}
+              </div>
             </div>
             <div>
               <h1 className="text-base font-semibold">
@@ -443,10 +449,11 @@ const AdminCompleteShowMore = () => {
                   <div
                     className="bg-[#3E4DAC] h-2  rounded-lg"
                     style={{
-                      width: `${(taskDetails?.participants?.length /
+                      width: `${
+                        (taskDetails?.participants?.length /
                           taskDetails?.participantLimit) *
                         100
-                        }%`,
+                      }%`,
                     }}
                   ></div>
                 </div>
