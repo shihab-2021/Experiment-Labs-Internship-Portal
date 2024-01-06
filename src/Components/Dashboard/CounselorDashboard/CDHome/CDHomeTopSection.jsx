@@ -6,19 +6,8 @@ import { FaMagnifyingGlass } from 'react-icons/fa6';
 import axios from 'axios';
 import { AuthContext } from '../../../../Contexts/AuthProvider';
 
-const CDHomeTopSection = () => {
-    const [companiesTask, setCompaniesTask] = useState({});
-    useEffect(() => {
-        axios
-            .get(
-                `${import.meta.env.VITE_APP_SERVER_API
-                }/api/v1/stats/companiesTask`
-            )
-            .then((data) => {
-                setCompaniesTask(data?.data);
-            })
-            .catch((error) => console.error(error));
-    }, []);
+const CDHomeTopSection = ({allTasks,pending,selected,rejected,progress}) => {
+   
     const { userInfo } = useContext(AuthContext);
     // console.log(userInfo)
     const getInitials = () => {
@@ -74,7 +63,7 @@ const CDHomeTopSection = () => {
                                 />
                             </div>
                             <div className="text-white text-3xl font-bold tracking-[2.96px] whitespace-nowrap mt-3">
-                                {companiesTask?.totalCompanies || 0}
+                                {allTasks?.totalStudents || 0}
                             </div>
                         </div>
                         <div className="justify-center shadow-sm bg-[#0A98EA] flex flex-col px-2 rounded-md py-6">
@@ -89,7 +78,7 @@ const CDHomeTopSection = () => {
                                 />
                             </div>
                             <div className="text-white text-3xl font-bold tracking-[2.96px] whitespace-nowrap mt-3">
-                                {companiesTask?.totalTaskPosts || 0}
+                                {progress?.length || 0}
                             </div>
                         </div>
                         <div className="justify-center shadow-sm bg-[#20B15A] flex flex-col px-2 rounded-md py-6">
@@ -104,7 +93,7 @@ const CDHomeTopSection = () => {
                                 />
                             </div>
                             <div className="text-white text-3xl font-bold tracking-[2.96px] whitespace-nowrap mt-3">
-                                {companiesTask?.Pending || 0}
+                                {selected?.length || 0}
                             </div>
                         </div>
                         <div className="justify-center shadow-sm bg-[#F1511B] flex flex-col px-2 rounded-md py-6">
@@ -119,10 +108,10 @@ const CDHomeTopSection = () => {
                                 />
                             </div>
                             <div className="text-white text-3xl font-bold tracking-[2.96px] whitespace-nowrap mt-3">
-                                {companiesTask?.AdminApproved || 0}
+                                {pending?.length || 0}
                             </div>
                         </div>
-                        <div className="justify-center shadow-sm bg-[#E8B912] flex flex-col px-2 rounded-md py-6">
+                        {/* <div className="justify-center shadow-sm bg-[#E8B912] flex flex-col px-2 rounded-md py-6">
                             <div className="justify-between flex">
                                 <div className="text-white text-sm font-medium tracking-widest">
                                 Selected Students
@@ -136,7 +125,7 @@ const CDHomeTopSection = () => {
                             <div className="text-white text-3xl font-bold tracking-[2.96px] whitespace-nowrap mt-3">
                                 {companiesTask?.Rejected || 0}
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
                 <div className="justify-center items-center border flex flex-col w-[197px] h-[197px] px-7 rounded-xl border-solid border-neutral-200 py-2">

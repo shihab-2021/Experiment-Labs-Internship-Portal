@@ -30,6 +30,7 @@ const MyStudentAddDetails = () => {
                 .catch((error) => console.error(error));
         }
     }, []);
+    console.log(organizations)
     const handleDragEnter = (e) => {
         e.preventDefault();
         e.stopPropagation();
