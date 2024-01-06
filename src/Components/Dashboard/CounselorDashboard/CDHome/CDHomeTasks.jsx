@@ -72,7 +72,7 @@ const CDHomeTasks = ({ allTasks }) => {
                 >
                     Pending Submission
                 </button>
-                <button
+              {/*   <button
                     onClick={(event) => handleTab(event, "Selected Students")}
                     className={`text-[18px] font-medium py-[6px] px-[25px] rounded-3xl ${isActive("Selected Students")
                         ? "text-white bg-[#E8B912]"
@@ -80,7 +80,7 @@ const CDHomeTasks = ({ allTasks }) => {
                         }`}
                 >
                     Selected Students
-                </button>
+                </button> */}
                 <button
                     onClick={(event) => handleTab(event, "Rejected in tasks")}
                     className={`text-[18px] font-medium py-[6px] px-[25px] rounded-3xl ${isActive("Rejected in tasks")
