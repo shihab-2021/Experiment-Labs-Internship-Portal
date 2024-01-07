@@ -62,8 +62,9 @@ const UserDashboardInternshipTaskCard = ({ submission, key }) => {
           />
         </div>
       </div>
-      <h2 className=" font-raleway font-medium text-neutral-500 text-[15.9px] tracking-[1.59px]">
-        {task?.aboutTask}
+      <h2 className=" font-raleway font-medium text-neutral-500 text-[15.9px] tracking-[1.59px] ">
+        {task?.aboutTask?.slice(0, 65)}
+        {task?.aboutTask?.length > 65 && "..."}
       </h2>
       <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
         {submission?.taskDesc}
