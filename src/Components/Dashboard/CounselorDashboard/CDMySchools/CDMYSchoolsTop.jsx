@@ -10,13 +10,13 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Loading from "../../../Shared/Loading/Loading";
 import { AuthContext } from "../../../../Contexts/AuthProvider";
-const CDMySchoolsDashboardTop = ({mySchools}) => {
-  const {userInfo} = useContext(AuthContext)
+const CDMySchoolsDashboardTop = ({ mySchools }) => {
+  const { userInfo } = useContext(AuthContext)
   const [schoolDetails, setSchoolDetails] = useState([]);
   useEffect(() => {
     Loading();
     const counsellorId = userInfo?.organizations?.[0]?.counsellorId;
-  
+
     if (counsellorId) {
       axios
         .get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/taskSubmissions/getSchoolsWithTasksAndOrganizations/counsellorId/${counsellorId}`)
@@ -35,10 +35,10 @@ const CDMySchoolsDashboardTop = ({mySchools}) => {
       Loading().close();
     }
   }, [userInfo?.organizations?.[0]?.counsellorId]);
-  
-  
+
+
   //console.log(schoolDetails);
-  
+
   const getInitials = () => {
     const firstNameInitial =
       userInfo?.firstName?.charAt(0)?.toUpperCase() || "";
@@ -63,6 +63,7 @@ const CDMySchoolsDashboardTop = ({mySchools}) => {
   };
   const [backgroundColor, setBackgroundColor] = useState("");
 
+
   useEffect(() => {
     // Generate a random background color if it hasn't been generated yet
     if (!backgroundColor) {
@@ -74,12 +75,12 @@ const CDMySchoolsDashboardTop = ({mySchools}) => {
 
   const data1 = [
     { label: "Inactive Companies", value: 3, color: "#DCEFFF" },
-    { label: "Active Companies", value: mySchools && mySchools?.totalCompanies , color: "#0A98EA" },
+    { label: "Active Companies", value: mySchools && mySchools?.totalCompanies, color: "#0A98EA" },
   ];
 
   const data2 = [
     { label: "Inactive Students", value: 50, color: "#DCEFFF" },
-    { label: "Active Students", value: mySchools?.totalStudents , color: "#8064F0" },
+    { label: "Active Students", value: mySchools?.totalStudents, color: "#8064F0" },
   ];
   return (
     <div className="mx-5 flex justify-between gap-5 items-center">
@@ -97,63 +98,82 @@ const CDMySchoolsDashboardTop = ({mySchools}) => {
             {
               schoolDetails && schoolDetails?.map((school) => (
                 <tr className="border border-[#E2E2E2] ">
-                  <td className="px-2 flex items-center gap-2 text-[15px] font-medium py-2 ">
-                    <img className="w-[56px] h-[56px] rounded-full" src={school?.school?.schoolLogo} alt="SchoolLogo" />
+                  <td className="px-2 flex items-center gap-5 text-[15px] font-medium py-2 ">
+                    <div className="">
+                      {
+                        school?.school?.schoolLogo ?
+                          <img className="w-[56px] h-[56px] rounded-full" src={school?.school?.schoolLogo} alt="img" />
+                          :
+                          <div
+                            className="w-[56px] h-[56px] rounded-full flex items-center text-red-50 justify-center text-5xl font-bold"
+                            style={{ backgroundColor }}
+                          >
+                            {school?.school?.schoolName?.charAt(0)?.toUpperCase() || ""}
+                          </div>
+
+                      }
+
+                    </div>
+
+
+                    {/* <img className="w-[56px] h-[56px] rounded-full" src={school?.school?.schoolLogo} alt="SchoolLogo" /> */}
                     <div className="grid items-center">
                       <p className="text-[18px] font-medium">{school?.school?.schoolName}</p>
                       {school?.students && school?.students?.length > 0 ? (
-                      <AvatarGroup
-                        className="grid justify-end mt-[14px]"
-                        // max={16}
-                        total={
-                          school?.students ? school?.students?.length : 0
-                        }
-                      >
-                        {school?.students?.slice(0, 3)?.map((user, index) => (
-                          <Avatar
-                            key={index}
-                            className="rounded-full w-[35px] h-[35px] flex items-center text-red-50 justify-center"
-                            style={{ backgroundColor: getRandomColorStudents(index) }}
-                            alt="Participant"
-                          >
-                            {user?.firstName?.charAt(0)?.toUpperCase()}
-                          </Avatar>
-                        ))}
-                      </AvatarGroup>
-                    ) : (
-                      ""
-                    )}
-                    
+                        <AvatarGroup
+                          className="grid justify-end mt-[5px]"
+                          // max={16}
+                          total={
+                            school?.students ? school?.students?.length : 0
+                          }
+                        >
+                          {school?.students?.slice(0, 3)?.map((user, index) => (
+                            <Avatar
+                              key={index}
+                              className="rounded-full w-[35px] h-[35px] flex items-center text-red-50 justify-center"
+                              style={{ backgroundColor: getRandomColorStudents(index) }}
+                              alt="Participant"
+                            >
+                              {user?.firstName?.charAt(0)?.toUpperCase()}
+                            </Avatar>
+                          ))}
+                        </AvatarGroup>
+                      ) : (
+                        ""
+                      )}
+
                     </div>
                   </td>
-                  <td className="px-2 text-[18px] font-semibold tracking-wider">
+                  <td className="px-2 text-[18px] text-center font-semibold tracking-wider">
                     <p>{school?.tasks?.length || 0}</p>
                   </td>
                   <td className="px-2">
-                  {school?.organizations && school?.organizations?.length > 0 ? (
+                    {school?.organizations && school?.organizations?.length > 0 ? (
                       <AvatarGroup
-                        className="grid justify-end mt-[14px]"
-                       
+                        className="grid items-center justify-end mt-[14px]"
+
                         total={
                           school?.organizations ? school?.organizations?.length : 0
                         }
                       >
                         {school?.organizations?.slice(0, 3)?.map((user, index) => (
-                          
-                          <Avatar
+                           <div  className="rounded-full border-2 w-[40px] h-[40px] flex items-center text-red-50 justify-center" >
+                             <img className="w-[60px]  rounded-full " src={user?.orgLogo} alt="icon" />
+                           </div>
+                        /*   <Avatar
                             key={index}
                             className="rounded-full w-[35px] h-[35px] flex items-center text-red-50 justify-center"
                             style={{ backgroundColor: getRandomColorStudents(index) }}
-                            alt="Participant"
+                            alt="icon"
                           >
-                           <img className="w-[56px]  rounded-full " src={user?.orgLogo} alt="icon"/>
-                          </Avatar>
+                            <img className="w-[56px]  rounded-full " src={user?.orgLogo} alt="icon" />
+                          </Avatar> */
                         ))}
                       </AvatarGroup>
                     ) : (
                       ""
                     )}
-                 
+
                   </td>
                 </tr>
               ))
@@ -162,7 +182,7 @@ const CDMySchoolsDashboardTop = ({mySchools}) => {
 
           </tbody>
         </table>
-       {/*  <div className="text-center my-4 text-[18px] text-[#797979] font-semibold tracking-wide">
+        {/*  <div className="text-center my-4 text-[18px] text-[#797979] font-semibold tracking-wide">
           <button>See all</button>
         </div> */}
         {/* <Pagination className="grid justify-center mt-10" count={2} color="primary" /> */}
