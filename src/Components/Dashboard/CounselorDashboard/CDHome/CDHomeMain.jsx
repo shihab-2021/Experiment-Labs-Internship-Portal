@@ -68,7 +68,13 @@ const CDHomeMain = () => {
         selected={inCompleted}
         rejected={inRejected}
       />
-      <CDHomeBottomSection />
+      <CDHomeBottomSection
+       allTasks={allTasks}
+       progress={inProgress}
+       pending={inPending}
+       selected={inCompleted}
+       rejected={inRejected}
+      />
     </div>
   );
 };

@@ -15,17 +15,25 @@ import {
     Bar,
 } from "recharts";
 
-const CDHomeMyStudentStatus = () => {
+const CDHomeMyStudentStatus = (
+    {
+        allTasks,
+        pending,
+        selected,
+        rejected,
+        progress,
+      }
+) => {
     const pieChartData = [
-        { statusInfo: `50 My Students`, value: 20 },
-        { statusInfo: `10 Selected Students in task`, value: 10 },
-        { statusInfo: `40 In progress tasks`, value: 5 },
-        { statusInfo: `15 Completed tasks`, value: 5 },
-        { statusInfo: `5 pending submission`, value: 4 },
-        { statusInfo: `5 Rejected in  tasks`, value: 4 },
+        { statusInfo: `${allTasks?.totalStudents || 0} My Students`, value: allTasks?.totalStudents || 0},
+     //   { statusInfo: `10 Selected Students in task`, value: 10 },
+        { statusInfo: `${progress?.length || 0} In progress tasks`, value: progress?.length || 0},
+        { statusInfo: `${selected?.length || 0} Completed tasks`, value: selected?.length || 0 },
+        { statusInfo: `${pending?.length || 0} pending submission`, value: pending?.length || 0 },
+        { statusInfo: `${rejected?.length || 0} Rejected in  tasks`, value: rejected?.length || 0 },
        
     ];
-    const COLORS = ["#3E4DAC","#E8B912","#0A98EA","#20B15A","#F1511B","#DD2025"];
+    const COLORS = ["#3E4DAC","#0A98EA","#20B15A","#F1511B","#DD2025"];
     return (
         <div className='border shadow-lg bg-white flex py-8 w-[60%] pe-4 flex-col rounded-2xl border-solid border-stone-300'>
             <div className="text-black text-base font-medium tracking-[2px] mb-10 ml-24">
@@ -52,7 +60,7 @@ const CDHomeMyStudentStatus = () => {
                         ))}
                         <Label
                             className="text-[18px] text-black font-bold w-[80px]"
-                            value={`${70} My Students `}
+                            value={`${allTasks?.totalStudents || 0} My Students `}
                             position="center"
                         />
                     </Pie>

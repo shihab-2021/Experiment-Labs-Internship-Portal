@@ -6,6 +6,7 @@ import { FaMagnifyingGlass } from "react-icons/fa6";
 import axios from "axios";
 import { AuthContext } from "../../../../Contexts/AuthProvider";
 
+
 const CDHomeTopSection = ({
   allTasks,
   pending,
