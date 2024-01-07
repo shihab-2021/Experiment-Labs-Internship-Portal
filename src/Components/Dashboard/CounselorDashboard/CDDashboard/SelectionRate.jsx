@@ -13,11 +13,19 @@ import {
     Bar,
 } from "recharts";
 
-const SelectionRate = () => {
+const SelectionRate = (
+    {
+        allTasks,
+        pending,
+        selected,
+        rejected,
+        progress,
+    }
+) => {
     const pieChartData = [
-        { statusInfo: `17 tasks`, value: 17 },
-        { statusInfo: `15 Students in completed tasks`, value: 15 },
-        { statusInfo: `10 students selected in task`, value: 10 }
+        { statusInfo: `${allTasks.totalStudents || 0} Student`, value: allTasks.totalStudents || 0 },
+        { statusInfo: `${progress.length + pending.length + selected.length || 0} Tasks Submission`, value: progress.length + pending.length + selected.length || 0 },
+        { statusInfo: `${selected.length || 0} Completed Tasks`, value: selected.length || 0 },
     ];
     const COLORS = ["#8064F0", "#20B15A", "#E8B912"];
     return (
@@ -29,8 +37,8 @@ const SelectionRate = () => {
                         data={pieChartData}
                         cx="50%"
                         cy="50%"
-                        innerRadius={80}
-                        outerRadius={100}
+                        innerRadius={60}
+                        outerRadius={80}
                         startAngle={-270}
                         endAngle={-630}
                         dataKey="value"
@@ -58,7 +66,7 @@ const SelectionRate = () => {
                 </div>
             </div>
             <div className="text-black text-center font-medium tracking-[2px] mb-10 ml-5 mt-5">
-                Students selection rate is 20%
+                Students selection rate is {((selected.length*100)/(progress.length + pending.length + selected.length)).toFixed(2)}%
             </div>
         </div>
     );

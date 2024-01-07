@@ -13,22 +13,26 @@ import {
     Bar,
 } from "recharts";
 
-const StudentOverview = () => {
+const StudentOverview = ({
+    allTasks,
+    pending,
+    selected,
+    rejected,
+    progress,
+}) => {
     const pieChartData = [
-        { statusInfo: `40 In progress tasks`, value: 40 },
-        { statusInfo: `15 Selected students`, value: 15 },
-        { statusInfo: `15 Rejected students`, value: 15 },
-        { statusInfo: `5 Pending submission`, value: 5 },
-        { statusInfo: `15 Completed Tasks`, value: 15 },
+        { statusInfo: `${progress.length || 0} In progress tasks`, value: progress.length || 0 },
+        { statusInfo: `${pending.length || 0} Pending submission`, value: pending.length || 0 },
+        { statusInfo: `${selected.length || 0} Completed Tasks`, value: selected.length || 0 },
     ];
-    const COLORS = ["#0A98EA", "#E8B912", "#DD2025", "#F1511B", "#20B15A"];
+    const COLORS = ["#0A98EA", "#F1511B", "#20B15A"];
     return (
         <div className='border shadow-lg bg-white flex justify-center py-5 min-w-[330px] w-full flex-col rounded-2xl border-solid border-stone-300'>
-            <div className="text-black text-xl font-medium tracking-[2px] mb-10 ml-5">
+            <div className="text-black text-xl font-medium tracking-[2px] mb-5 ml-5">
                 Students overview
             </div>
             <div className="flex gap-3 items-center">
-                <PieChart width={300} height={300}>
+                <PieChart width={270} height={230}>
                     <Tooltip></Tooltip>
                     <Pie
                         data={pieChartData}
