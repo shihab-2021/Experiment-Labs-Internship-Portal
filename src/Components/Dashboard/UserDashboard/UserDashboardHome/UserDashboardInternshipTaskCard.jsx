@@ -5,10 +5,49 @@ import { IoMdTime } from "react-icons/io";
 import Avatar from "@mui/material/Avatar";
 import AvatarGroup from "@mui/material/AvatarGroup";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const UserDashboardInternshipTaskCard = ({ submission, key }) => {
   const [task, setTask] = useState({});
   const [organizationInfo, setOrganizationInfo] = useState({});
+
+  const formatDate = (date) => {
+    const monthNames = [
+      "Jan",
+      "Feb",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "Sept",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+
+    const currentDate = new Date(date);
+    const day = currentDate.getDate();
+    const month = monthNames[currentDate.getMonth()]; // Get month name
+    const year = currentDate.getFullYear();
+    return `${day}/ ${month}/ ${year}`;
+  };
+
+  const getInitials = (data) => {
+    const firstNameInitial = data?.firstName?.charAt(0)?.toUpperCase() || "";
+    const lastNameInitial = data?.lastName?.charAt(0)?.toUpperCase() || "";
+    return `${firstNameInitial}${lastNameInitial}`;
+  };
+
+  const getRandomColor = () => {
+    const letters = "0123456789ABCDEF";
+    let color = "#";
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
 
   useEffect(() => {
     axios
@@ -48,7 +87,7 @@ const UserDashboardInternshipTaskCard = ({ submission, key }) => {
       }`}
     >
       <div className="inline-flex items-center justify-between w-full gap-[20px] relative">
-        <div className="flex max-w-[165px] flex-col items-start gap-[6.56px] relative flex-[0_0_auto]">
+        <div className="flex max-w-[200px] flex-col items-start gap-[6.56px] relative flex-[0_0_auto]">
           <h1 className="relative font-raleway font-bold text-[#3d3d3d] text-[18px]  leading-[normal]">
             {task?.taskName?.slice(0, 32)}
             {task?.taskName?.length > 32 && "..."}
@@ -62,26 +101,23 @@ const UserDashboardInternshipTaskCard = ({ submission, key }) => {
           />
         </div>
       </div>
-      <h2 className=" font-raleway font-medium text-neutral-500 text-[15.9px] tracking-[1.59px] ">
-        {task?.aboutTask?.slice(0, 65)}
-        {task?.aboutTask?.length > 65 && "..."}
+      <h2 className=" my-2 font-raleway font-medium text-neutral-500 text-[13.9px] tracking-[1.3px] break-all ">
+        {task?.aboutTask?.slice(0, 82)}
+        {task?.aboutTask?.length > 82 && "..."}
       </h2>
-      <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
-        {submission?.taskDesc}
-      </p>
       <div className="flex justify-between">
         <div className=" text-black">
           <p>Deadline</p>
-          <p className="flex submissions-center gap-1 text-[12px] px-1 bg-[#C1E0FF] rounded-2xl">
+          <p className="flex items-center gap-1 text-[12px] px-2 py-1 font-sans bg-[#C1E0FF] rounded-2xl">
             <IoTodayOutline />
-            {submission?.deadline}
+            {formatDate(task?.taskDeadline)}
           </p>
         </div>
         <div className=" text-black">
           <p>Duration</p>
-          <p className="flex submissions-center gap-1 text-[12px] px-1 bg-[#C1E0FF] rounded-2xl">
+          <p className="flex items-center gap-1 text-[12px] px-2 py-1 font-sans bg-[#C1E0FF] rounded-2xl">
             <IoMdTime />
-            {submission?.duration}
+            {task?.taskTime} hrs task
           </p>
         </div>
       </div>
@@ -89,7 +125,7 @@ const UserDashboardInternshipTaskCard = ({ submission, key }) => {
         <div className="mt-[14px] flex justify-between text-[14px] font-medium">
           <p>Progress</p>
           <p className="text-[#3F3F3F]">
-            {submission?.progressBar?.current}/{submission?.progressBar?.total}
+            {task?.participants?.length || 0}/{task?.participantLimit}
           </p>
         </div>
         <div className="relative w-full">
@@ -98,9 +134,10 @@ const UserDashboardInternshipTaskCard = ({ submission, key }) => {
               className="bg-[#3E4DAC] h-2 rounded-lg"
               style={{
                 width: `${
-                  (submission?.progressBar?.current /
-                    submission?.progressBar?.total) *
-                  100
+                  task?.participants?.length
+                    ? (task?.participants?.length / task?.participantLimit) *
+                      100
+                    : 0
                 }%`,
               }}
             ></div>
@@ -110,15 +147,38 @@ const UserDashboardInternshipTaskCard = ({ submission, key }) => {
           {submission?.date}
         </p>
       </div>
-      <div className="flex justify-between  mt-[14px]">
-        <AvatarGroup className="grid justify-end" total={16}>
-          {submission?.studentsImg?.map((each, index) => (
-            <Avatar key={index} alt="Remy Sharp" src={each.img} />
-          ))}
-        </AvatarGroup>
-        <button className="text-[15px] text-white font-medium bg-[#4555BA] py-[3px] px-[7px] rounded-3xl">
+      <div className=" w-full flex items-center justify-between  mt-[14px]">
+        {task?.participants && task?.participants.length > 0 ? (
+          <AvatarGroup
+            className="grid justify-end"
+            // max={16}
+            total={task?.participants ? task?.participants?.length : 0}
+          >
+            {task?.participants?.slice(0, 3)?.map((user, index) => (
+              <Avatar
+                key={index}
+                className="rounded-full w-[35px] h-[35px] flex items-center text-red-50 justify-center"
+                style={() => getRandomColor()}
+                alt="Participant"
+              >
+                <div
+                  className="rounded-full w-[45px] h-[45px] flex items-center text-red-50 justify-center"
+                  style={{ backgroundColor: getRandomColor() }}
+                >
+                  {user?.participantEmail?.charAt(0)?.toUpperCase()}
+                </div>
+              </Avatar>
+            ))}
+          </AvatarGroup>
+        ) : (
+          ""
+        )}
+        <Link
+          to={`/internshipSubmission/${task?._id}`}
+          className="text-[15px] text-white font-medium bg-[#4555BA] py-[5px] px-[10px] rounded-3xl"
+        >
           Show details
-        </button>
+        </Link>
       </div>
     </div>
   );

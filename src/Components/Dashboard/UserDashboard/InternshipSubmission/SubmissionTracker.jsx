@@ -177,6 +177,7 @@ const SubmissionTracker = () => {
       submissionDateTime: new Date(),
       counsellorId: userInfo?.counsellorId,
       schoolId: userInfo?.schoolId,
+      submissionStatus: "Processing",
     };
     setParticipationInfo({
       ...participationInfo,
