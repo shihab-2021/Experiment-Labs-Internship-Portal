@@ -40,7 +40,7 @@ const SingleApplicationRow = ({ submission }) => {
     <div className="grid grid-cols-6 gap-[2px] w-full border mt-1 h-[75px]">
       <Helmet>
         <meta charSet="utf-8" />
-        <title>My Application</title>
+        <title>My Applications</title>
       </Helmet>
       <div className="text-center flex items-center justify-center text-[15px] text-[#3F3F3F] font-semibold">
         <img

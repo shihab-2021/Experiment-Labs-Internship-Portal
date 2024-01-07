@@ -36,7 +36,6 @@ import img10 from "../../../assets/UpdatedHome/image 10.png";
 import img11 from "../../../assets/UpdatedHome/image 11.png";
 //import img12 from "../../../assets/UpdatedHome/image 12.png";
 
-
 import {
   LineChart,
   Line,
@@ -147,11 +146,11 @@ const AdminDashboardHome = () => {
 
   useEffect(() => {
     if (userInfo?.organizations) {
-
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${userInfo?.organizations[0]?.organizationId
-          }/taskStatus/Pending`
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${
+            userInfo?.organizations[0]?.organizationId
+          }/taskStatus/AdminApproved`
         )
         .then((tasks) => {
           setpendingTasks(tasks?.data);
@@ -159,7 +158,8 @@ const AdminDashboardHome = () => {
         .catch((error) => console.error(error));
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${userInfo?.organizations[0]?.organizationId
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${
+            userInfo?.organizations[0]?.organizationId
           }/taskStatus/Processing`
         )
         .then((tasks) => {
@@ -168,7 +168,8 @@ const AdminDashboardHome = () => {
         .catch((error) => console.error(error));
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${userInfo?.organizations[0]?.organizationId
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/organizationId/${
+            userInfo?.organizations[0]?.organizationId
           }/taskStatus/Completed`
         )
         .then((tasks) => {
@@ -405,12 +406,13 @@ const AdminDashboardHome = () => {
                           <div
                             className="bg-[#3E4DAC] h-2 rounded-lg"
                             style={{
-                              width: `${item?.participants?.length
+                              width: `${
+                                item?.participants?.length
                                   ? (item?.participants?.length /
-                                    item?.participantLimit) *
-                                  100
+                                      item?.participantLimit) *
+                                    100
                                   : 0
-                                }%`,
+                              }%`,
                             }}
                           ></div>
                         </div>
@@ -512,8 +514,6 @@ const AdminDashboardHome = () => {
           <img className="w-fit" src={img1} />
           <img className="w-fit" src={img2} />
           <img className="w-fit" src={img4} />
-
-
         </div>
         <div className="flex justify-center gap-48 mb-5">
           <img className="w-fit" src={img6} />

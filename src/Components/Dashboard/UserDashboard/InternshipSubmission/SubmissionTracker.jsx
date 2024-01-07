@@ -175,6 +175,8 @@ const SubmissionTracker = () => {
       taskId: task?._id,
       organizationId: organizationInfo?._id,
       submissionDateTime: new Date(),
+      counsellorId: userInfo?.counsellorId,
+      schoolId: userInfo?.schoolId,
     };
     setParticipationInfo({
       ...participationInfo,
@@ -397,7 +399,7 @@ const SubmissionTracker = () => {
                   ? parseInt(task?.participantLimit) -
                     task?.participants?.length
                   : parseInt(task?.participantLimit)}{" "}
-                spot left
+                spots left
               </h1>
             </div>
           </div>
@@ -478,7 +480,7 @@ const SubmissionTracker = () => {
                     </div>
                   </div>
                   {/* Text editor */}
-                  
+
                   <div className="bg-white text-black w-full">
                     <TextEditor setValue={setAboutSolution} />
                   </div>

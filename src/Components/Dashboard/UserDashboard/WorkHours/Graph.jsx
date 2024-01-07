@@ -225,7 +225,7 @@ const Graph = () => {
 
             </div>
           ))
-          : <p>No data found</p>
+          : <p className='text-xl text-[red] my-10 font-semibold'>No data found</p>
 
 
       }

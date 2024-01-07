@@ -9,6 +9,43 @@ import profileImg from "../../../../assets/Dashboard/SuperAdminDashboard/Ellipse
 import { Link } from "react-router-dom";
 
 const CDHomeTaskCard = ({ item, index }) => {
+  const [stdName, setStdName] = useState("");
+  const [taskName, setTaskName] = useState("");
+  const [orgLogo, setOrgLogo] = useState("");
+
+  useEffect(() => {
+    axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${item?.participantEmail}`).then((res) => {
+      setStdName(res?.data?.firstName)
+    }),
+      axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/${item?.taskId}`).then((res) => {
+        setTaskName(res?.data?.taskName)
+      }),
+      axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${item?.organizationId}`).then((res) => {
+        setOrgLogo(res?.data?.orgLogo)
+      })
+  }, [item])
+  const getInitials = () => {
+    const firstNameInitial =
+      stdName?.charAt(0)?.toUpperCase() || "";
+    return `${firstNameInitial}`;
+  };
+  const getRandomColor = (index) => {
+    const letters = "0123456789ABCDEF";
+    let color = "#";
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+  const [backgroundColors, setBackgroundColors] = useState([]);
+
+  useEffect(() => {
+    // Generate random background colors for each student
+    const colors = getRandomColor();
+    setBackgroundColors(colors);
+  }, [index]);
+
+  const [backgroundColor, setBackgroundColor] = useState("");
   const formatDate = (date) => {
     const monthNames = [
       "Jan",
@@ -67,8 +104,7 @@ const CDHomeTaskCard = ({ item, index }) => {
   useEffect(() => {
     axios
       .get(
-        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${
-          item?.creator?.email
+        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${item?.creator?.email
         }`
       )
       .then((user) => {
@@ -78,8 +114,7 @@ const CDHomeTaskCard = ({ item, index }) => {
 
     axios
       .get(
-        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${
-          item?.creator?.organizationId
+        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${item?.creator?.organizationId
         }`
       )
       .then((org) => {
@@ -87,117 +122,38 @@ const CDHomeTaskCard = ({ item, index }) => {
       })
       .catch((error) => console.error(error));
   }, [item]);
-
+  const getSubmissionStatusClasses = () => {
+    switch (item?.submissionStatus) {
+      case "Processing":
+        return "text-[#0A98EA]"; // Adjust classes for Processing status
+      case "Pending":
+        return "text-[#F1511B]"; // Adjust classes for Pending status
+      case "Selected":
+        return "text-[#20B15A]"; // Adjust classes for Selected status
+      case "Rejected":
+        return "text-[#DD2025]"; // Adjust classes for Rejected status
+      default:
+        return "text-gray-500"; // Default or other cases
+    }
+  };
   return (
     <Link
       to={`/superAdminDashboard/taskDetails/${item?._id}`}
       key={index}
-      className="bg-[#FFF] border border-[#E7E7E7] shadow-md shadow-[#E7EAFF] px-[17px] w-[100%] py-[19px] rounded-md"
+      className="border flex justify-between items-center gap-3 py-1 px-3 rounded-lg border-solid border-gray-300 my-2"
     >
-      <div className="flex justify-between items-center">
-        <div className="flex gap-2 items-center">
-          <img
-            className="w-[28px] h-[28px]"
-            src={taskCreatorInfo?.image ? taskCreatorInfo?.image : profileImg}
-            alt="profileImg"
-          />
-          <p>
-            {taskCreatorInfo?.firstName} {taskCreatorInfo?.lastName}
-          </p>
-        </div>
-        <p>{formatTaskCreationDate(item?.postingDateTime)}</p>
+      <div
+        style={{ backgroundColor: getRandomColor(index) }}
+        className="aspect-square object-contain object-center w-[52px] overflow-hidden shrink-0 max-w-full rounded-[50%]"
+      >
+        <p className='grid object-center mt-[25%] justify-items-center text-red-100'>
+          {getInitials()}
+        </p>
       </div>
-      <div className="flex justify-between items-center mt-4">
-        <div>
-          <h1 className="font-bold tracking-wider text-[18px]">
-            {item?.taskName?.slice(0, 32)}
-            {item?.taskName?.length > 32 && "..."}
-          </h1>
-          <p className="text-[#737373] text-[15px]">
-            {item?.taskTime} hrs task
-          </p>
-        </div>
-        <img
-          className="relative max-w-[65px] "
-          alt="Org Logo"
-          src={organizationInfo?.orgLogo}
-        />
-      </div>
-      <>
-        {item?.taskStatus == "Rejected" ? (
-          <button className="flex gap-2 text-[16px] font-bold mt-4 text-[#DD2025] ">
-            <span>Reject Task</span>
-            <img src={reject} alt="" />
-          </button>
-        ) : item?.taskStatus == "AdminApproved" ? (
-          <button className="flex gap-2 text-[16px] font-bold mt-4  text-[#F1511B]">
-            <span>Decision Pending</span>
-            <img src={pending} alt="" />
-          </button>
-        ) : item?.taskStatus == "Processing" ? (
-          <button className="flex gap-2 text-[16px] font-bold mt-4  text-[#20B15A]">
-            <span>Approved</span>
-            <img src={approve} alt="" />
-          </button>
-        ) : (
-          ""
-        )}
-      </>
-      <div className="flex justify-between items-center">
-        <div className="grid items-center mt-2">
-          <p>Deadline</p>
-          <p className="bg-[#E9ECFF] rounded-3xl mt-2 py-[6.563px] px-[17.814px] text-[14px] font-medium">
-            {formatDate(item?.taskDeadline)}
-          </p>
-        </div>
-        <div className="grid items-center mt-2">
-          <p className="font-medium text-[16px] text-[#1E1E1E]">
-            {item?.participants?.length || 0} students
-          </p>
-          <p className="text-[#007D00] text-[15px] font-bold bg-[#E9ECFF]  mt-2 py-[7px] px-[4px] rounded-[10px]">
-            {item?.participants
-              ? parseInt(item?.participantLimit) - item?.participants?.length
-              : parseInt(item?.participantLimit)}{" "}
-            spot left
-          </p>
-        </div>
-      </div>
-      <div>
-        <div className="mt-[14px] flex justify-between text-[14px] font-medium">
-          <p>
-            {item?.taskStatus == "Rejected"
-              ? "Rejected"
-              : item?.taskStatus == "AdminApproved"
-              ? "Decision Pending"
-              : "In Progress"}
-          </p>
-          <p className="text-[#3F3F3F]">
-            {item?.participants?.length || 0}/{item?.participantLimit}
-          </p>
-        </div>
-        <div className="relative w-full">
-          <div className="w-full bg-gray-200 rounded-lg h-2">
-            <div
-              className={`${
-                item?.taskStatus == "Rejected"
-                  ? "bg-[#DD2025]"
-                  : item?.taskStatus == "Processing"
-                  ? "bg-[#9F9F9F]"
-                  : "bg-[#6278FF]"
-              }  h-2 rounded-lg`}
-              style={{
-                width: `${
-                  item?.participants?.length
-                    ? (item?.participants?.length / item?.participantLimit) *
-                      100
-                    : 0
-                }%`,
-              }}
-            ></div>
-          </div>
-        </div>
-        {/* <p className="text-[#3F3F3F] text-[14px] font-medium">{formatDate()}</p> */}
-      </div>
+      <p className="w-[20%]">{stdName}</p>
+      <p className="w-[30%]">{taskName}</p>
+      <img className="w-[15%]" src={orgLogo} alt="" />
+      <p className={`${getSubmissionStatusClasses()}`}>{item?.submissionStatus}</p>
     </Link>
   );
 };
