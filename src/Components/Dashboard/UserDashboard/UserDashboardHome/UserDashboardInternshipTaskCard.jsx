@@ -101,9 +101,9 @@ const UserDashboardInternshipTaskCard = ({ submission, key }) => {
           />
         </div>
       </div>
-      <h2 className=" my-2 font-raleway font-medium text-neutral-500 text-[13.9px] tracking-[1.3px] break-all ">
-        {task?.aboutTask?.slice(0, 82)}
-        {task?.aboutTask?.length > 82 && "..."}
+      <h2 className=" my-2 font-raleway font-medium text-neutral-500 text-[13.9px] tracking-[1px] break-all ">
+        {task?.aboutTask?.slice(0, 88)}
+        {task?.aboutTask?.length > 88 && "..."}
       </h2>
       <div className="flex justify-between">
         <div className=" text-black">
