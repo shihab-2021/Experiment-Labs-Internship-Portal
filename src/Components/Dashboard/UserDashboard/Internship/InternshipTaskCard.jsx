@@ -12,7 +12,7 @@ import Swal from "sweetalert2";
 
 const InternshipTaskCard = ({ task }) => {
   const navigate = useNavigate();
-  const { user } = useContext(AuthContext);
+  const { user, userInfo } = useContext(AuthContext);
   const [taskCreatorInfo, setTaskCreatorInfo] = useState({});
   const [organizationInfo, setOrganizationInfo] = useState({});
   const [showTaskDetails, setShowTaskDetails] = useState(false);
@@ -101,6 +101,12 @@ const InternshipTaskCard = ({ task }) => {
       participantEmail: user?.email,
       applyDateTime: new Date(),
       organizationId: organizationInfo?._id,
+      counsellorId: userInfo?.counsellorId,
+      schoolId: userInfo?.schoolId,
+      aboutSolution: "",
+      fileLink: "",
+      submissionDateTime: "",
+      submissionStatus: "Pending",
     };
 
     try {
