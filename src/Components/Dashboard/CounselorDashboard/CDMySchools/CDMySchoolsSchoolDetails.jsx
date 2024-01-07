@@ -26,6 +26,23 @@ const CDMySchoolsSchoolDetails = () => {
         setStartIndex((prevIndex) => (prevIndex < images.length - 3 ? prevIndex + 1 : 0));
     };
 
+    const getRandomColor = () => {
+        const letters = "0123456789ABCDEF";
+        let color = "#";
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    };
+    const [backgroundColor, setBackgroundColor] = useState("");
+    useEffect(() => {
+        // Generate a random background color if it hasn't been generated yet
+        if (!backgroundColor) {
+            setBackgroundColor(getRandomColor());
+        }
+        // Your existing useEffect logic...
+    }, [userInfo, backgroundColor]);
+
 
     const images = [
         { img: image1 },
@@ -67,12 +84,13 @@ const CDMySchoolsSchoolDetails = () => {
     console.log(schoolDetails)
 
     return (
+
         <div>
             <div className="App   flex items-center justify-center">
 
                 <div className="swiper-container flex  justify-between gap-2">
                     <button className="btn" onClick={handlePrev}>
-                        <img src={arrowLeft} alt=""/>
+                        <img src={arrowLeft} alt="" />
                     </button>
                     {schoolDetails && schoolDetails?.slice(startIndex, startIndex + 3).map((school, index) => (
                         <div
@@ -84,7 +102,19 @@ const CDMySchoolsSchoolDetails = () => {
                             }}
                         >
                             <div>
-                                <img className="w-[84px] h-[84px] rounded-full" src={school?.school?.schoolLogo} alt="img" />
+                                {
+                                    school?.school?.schoolLogo ?
+                                     <img className="w-[84px] h-[84px] rounded-full" src={school?.school?.schoolLogo} alt="img" />
+                                        :
+                                        <div
+                                            className="w-[84px] h-[84px] rounded-full flex items-center text-red-50 justify-center text-5xl font-bold"
+                                            style={{ backgroundColor }}
+                                        >
+                                            {school?.school?.schoolName?.charAt(0)?.toUpperCase() || ""}
+                                        </div>
+
+                                }
+
                             </div>
                             <div className="flex flex-col justify-between gap-5 w-[50%]">
                                 <h1 className="text-[17px] font-bold">{school?.school?.schoolName}</h1>
@@ -103,7 +133,7 @@ const CDMySchoolsSchoolDetails = () => {
                         // <img key={index} src={url} alt={`Slide ${startIndex + index + 1}`} className="max-w-full rounded-md mx-4" />
                     ))}
                     <button className="btn" onClick={handleNext}>
-                        <img src={arrorRight}/>
+                        <img src={arrorRight} />
                     </button>
                 </div>
             </div>
