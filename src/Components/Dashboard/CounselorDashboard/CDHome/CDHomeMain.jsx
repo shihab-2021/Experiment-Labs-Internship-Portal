@@ -51,7 +51,7 @@ const CDHomeMain = () => {
   );
   const inRejected = rejected?.submissions || [];
   console.log(allTasks);
-  
+
   return (
     <div>
       <CDHomeTopSection
@@ -70,11 +70,11 @@ const CDHomeMain = () => {
         rejected={inRejected}
       />
       <CDHomeBottomSection
-       allTasks={allTasks}
-       progress={inProgress}
-       pending={inPending}
-       selected={inCompleted}
-       rejected={inRejected}
+        allTasks={allTasks}
+        progress={inProgress}
+        pending={inPending}
+        selected={inCompleted}
+        rejected={inRejected}
       />
     </div>
   );
