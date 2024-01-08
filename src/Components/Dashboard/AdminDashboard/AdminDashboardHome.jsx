@@ -366,9 +366,9 @@ const AdminDashboardHome = () => {
                       </h1>
                       <HiDotsVertical />
                     </div>
-                    <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
+                    {/* <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
                       {item?.aboutTask}
-                    </p>
+                    </p> */}
 
                     {item?.participants && item?.participants.length > 0 ? (
                       <AvatarGroup
@@ -422,6 +422,12 @@ const AdminDashboardHome = () => {
                         {/* {item?.taskDeadline} */}
                       </p>
                     </div>
+                    <Link
+                      to={`/completeShowMore/${item?._id}`}
+                      className="text-[#0D47A1] text-[13px] font-medium "
+                    >
+                      Show details
+                    </Link>
                   </div>
                 ))}
               </>

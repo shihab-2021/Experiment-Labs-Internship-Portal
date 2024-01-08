@@ -86,7 +86,7 @@ const UserDashboardInternshipTaskCard = ({ submission, key }) => {
           : "border border-b-4 border-[#FF6B00]"
       }`}
     >
-      <div className="inline-flex items-center justify-between w-full gap-[20px] relative">
+      <div className="inline-flex items-center justify-between w-full gap-[20px] relative mb-3">
         <div className="flex max-w-[200px] flex-col items-start gap-[6.56px] relative flex-[0_0_auto]">
           <h1 className="relative font-raleway font-bold text-[#3d3d3d] text-[18px]  leading-[normal]">
             {task?.taskName?.slice(0, 32)}
@@ -101,10 +101,10 @@ const UserDashboardInternshipTaskCard = ({ submission, key }) => {
           />
         </div>
       </div>
-      <h2 className=" my-2 font-raleway font-medium text-neutral-500 text-[13.9px] tracking-[1px] break-all ">
+      {/* <h2 className=" my-2 font-raleway font-medium text-neutral-500 text-[13.9px] tracking-[1px] break-all ">
         {task?.aboutTask?.slice(0, 88)}
         {task?.aboutTask?.length > 88 && "..."}
-      </h2>
+      </h2> */}
       <div className="flex justify-between">
         <div className=" text-black">
           <p>Deadline</p>

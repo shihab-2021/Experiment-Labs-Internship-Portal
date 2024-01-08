@@ -17,6 +17,7 @@ import Stack from "@mui/material/Stack";
 import axios from "axios";
 import AdminParticipants from "./AdminParticipants";
 import { AuthContext } from "../../../Contexts/AuthProvider";
+import LinkIcon from "../../../assets/Dashboard/UserDashboard/LinkIcon.png";
 
 const AdminCompleteShowMore = () => {
   const { id } = useParams();
@@ -258,19 +259,67 @@ const AdminCompleteShowMore = () => {
         >
           <p className="text-lg font-medium">Task Details</p>
           <h1 className="text-xl font-bold mt-3">{taskDetails?.taskName}</h1>
-          {/* <p className=" text-[16px] font-medium text-[#797979]">Task no.4</p> */}
-          <p className=" text-[16px] font-medium text-[#797979] mt-4">
-            {taskDetails?.aboutTask}
-          </p>
+          {/* <h1
+            className="mt-4 mb-[20px]"
+            dangerouslySetInnerHTML={{
+              __html: taskDetails?.aboutTask,
+            }}
+          />
           <p className="text-base font-bold mt-4">Out come</p>
-          <p className=" text-[16px] font-medium text-[#797979] mt-4">
-            {taskDetails?.aboutOutcome}
-          </p>
+          <h1
+            className="mt-2 mb-[20px]"
+            dangerouslySetInnerHTML={{
+              __html: taskDetails?.aboutOutcome,
+            }}
+          />
           <p className="flex gap-2 items-center text-base font-normal text-[#4555BA] my-5">
             <img src={driveImage} alt="image" />
             <Link to={taskDetails?.taskLink}>{taskDetails?.taskLink}</Link>
+          </p> */}
+          <h2 className="relative w-fit font-sans font-bold text-[#5cba45] text-[15.9px] tracking-[1.59px] my-4  whitespace-nowrap">
+            <span className=" text-[#4555BA]">
+              Average time to complete the task:
+            </span>{" "}
+            {taskDetails?.taskTime}Hour
+          </h2>
+          <h1 className=" text-[#4555BA] mt-4 text-[16px] font-[700] tracking-wider ">
+            Task Details
+          </h1>
+          <p className=" text-[#797979] text-[16px] tracking-wider ">
+            {/* "{task?.aboutTask}" */}
+            <h1
+              className=""
+              dangerouslySetInnerHTML={{
+                __html: taskDetails?.aboutTask,
+              }}
+            />
           </p>
-          <div className="flex justify-between gap-5">
+          <h1 className=" text-[#4555BA] mt-4 text-[16px] font-[700] tracking-wider ">
+            Expected Outcome
+          </h1>
+          <p className=" text-[#797979] text-[16px] tracking-wider ">
+            {/* {task?.aboutOutcome} */}
+            <h1
+              className=""
+              dangerouslySetInnerHTML={{
+                __html: taskDetails?.aboutOutcome,
+              }}
+            />
+          </p>
+          <h1 className=" text-[#4555BA] text-[16px] font-[700] tracking-wider mt-5 ">
+            Explainer Video
+          </h1>
+          <div className="flex items-center gap-1 ">
+            <img src={LinkIcon} alt="LinkIcon" />
+            <Link
+              target="_blank"
+              to={taskDetails?.taskLink}
+              className="text-[#4555BA] text-[16px] font-[400] "
+            >
+              {taskDetails?.taskLink}
+            </Link>
+          </div>
+          <div className="flex justify-between mt-4 gap-5">
             <div className="w-[60%]">
               <p className=" text-[16px] font-medium text-[#797979]">Company</p>
               <p className=" text-base font-normal flex items-center gap-5 mt-2">

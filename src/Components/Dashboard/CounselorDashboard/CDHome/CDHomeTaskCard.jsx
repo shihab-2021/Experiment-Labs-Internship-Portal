@@ -14,19 +14,34 @@ const CDHomeTaskCard = ({ item, index }) => {
   const [orgLogo, setOrgLogo] = useState("");
 
   useEffect(() => {
-    axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${item?.participantEmail}`).then((res) => {
-      setStdName(res?.data?.firstName)
-    }),
-      axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/${item?.taskId}`).then((res) => {
-        setTaskName(res?.data?.taskName)
+    axios
+      .get(
+        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${
+          item?.participantEmail
+        }`
+      )
+      .then((res) => {
+        setStdName(res?.data?.firstName);
       }),
-      axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${item?.organizationId}`).then((res) => {
-        setOrgLogo(res?.data?.orgLogo)
-      })
-  }, [item])
+      axios
+        .get(
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/${item?.taskId}`
+        )
+        .then((res) => {
+          setTaskName(res?.data?.taskName);
+        }),
+      axios
+        .get(
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${
+            item?.organizationId
+          }`
+        )
+        .then((res) => {
+          setOrgLogo(res?.data?.orgLogo);
+        });
+  }, [item]);
   const getInitials = () => {
-    const firstNameInitial =
-      stdName?.charAt(0)?.toUpperCase() || "";
+    const firstNameInitial = stdName?.charAt(0)?.toUpperCase() || "";
     return `${firstNameInitial}`;
   };
   const getRandomColor = (index) => {
@@ -104,7 +119,8 @@ const CDHomeTaskCard = ({ item, index }) => {
   useEffect(() => {
     axios
       .get(
-        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${item?.creator?.email
+        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${
+          item?.creator?.email
         }`
       )
       .then((user) => {
@@ -114,7 +130,8 @@ const CDHomeTaskCard = ({ item, index }) => {
 
     axios
       .get(
-        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${item?.creator?.organizationId
+        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${
+          item?.creator?.organizationId
         }`
       )
       .then((org) => {
@@ -138,7 +155,7 @@ const CDHomeTaskCard = ({ item, index }) => {
   };
   return (
     <Link
-      to={`/superAdminDashboard/taskDetails/${item?._id}`}
+      // to={`/superAdminDashboard/taskDetails/${item?._id}`}
       key={index}
       className="border flex justify-between items-center gap-3 py-1 px-3 rounded-lg border-solid border-gray-300 my-2"
     >
@@ -146,14 +163,16 @@ const CDHomeTaskCard = ({ item, index }) => {
         style={{ backgroundColor: getRandomColor(index) }}
         className="aspect-square object-contain object-center w-[52px] overflow-hidden shrink-0 max-w-full rounded-[50%]"
       >
-        <p className='grid object-center mt-[25%] justify-items-center text-red-100'>
+        <p className="grid object-center mt-[25%] justify-items-center text-red-100">
           {getInitials()}
         </p>
       </div>
       <p className="w-[20%]">{stdName}</p>
       <p className="w-[30%]">{taskName}</p>
       <img className="w-[15%]" src={orgLogo} alt="" />
-      <p className={`${getSubmissionStatusClasses()}`}>{item?.submissionStatus}</p>
+      <p className={`${getSubmissionStatusClasses()}`}>
+        {item?.submissionStatus}
+      </p>
     </Link>
   );
 };

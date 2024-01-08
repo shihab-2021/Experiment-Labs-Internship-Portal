@@ -6,23 +6,32 @@ import { FaArrowRight } from "react-icons/fa";
 import axios from "axios";
 import { AuthContext } from "../../../Contexts/AuthProvider";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Loading from "../../Shared/Loading/Loading";
+import UploadIcon from "../../../assets/Dashboard/UserDashboard/UploadIcon.png";
+import TextEditor from "../../Shared/TextEditor/TextEditor";
 
 const AdminCreateTask = () => {
   const { user, userInfo } = useContext(AuthContext);
   const [fileLoading, setFileLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState();
+  const [videoFileLoading, setVideoFileLoading] = useState(false);
+  const [selectedVideoFile, setSelectedVideoFile] = useState("");
+  const [video, setVideo] = useState("");
   const [page, setPage] = useState(1);
   const [organizationInfo, setOrganizationInfo] = useState({});
+  const [aboutTask, setAboutTask] = useState("");
+  const [aboutOutcome, setAboutOutcome] = useState("");
   const [orgLogo, setOrgLogo] = useState("");
   const navigate = useNavigate();
+
   useEffect(() => {
     Loading();
     if (userInfo?.organizations) {
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${userInfo?.organizations[0]?.organizationId
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${
+            userInfo?.organizations[0]?.organizationId
           }`
         )
         .then((org) => {
@@ -109,6 +118,81 @@ const AdminCreateTask = () => {
     setFileLoading(false);
   };
 
+  const handleVideoDragEnter = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(true);
+  };
+
+  const handleVideoDragLeave = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    //setDragActive(false);
+  };
+
+  const handleVideoDragOver = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleVideoDrop = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    setVideoFileLoading(false);
+
+    const file = e.dataTransfer.files[0];
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      console.log(formData);
+
+      const response = await axios.post(
+        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/uploadFile/upload`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      setVideo(response.data.fileUrl);
+    } catch (error) {
+      console.error("Error uploading file:", error);
+    }
+    setSelectedVideoFile(file);
+    setVideoFileLoading(true);
+  };
+
+  const handleVideoFileChange = async (e) => {
+    setVideoFileLoading(true);
+    const file = e.target.files[0];
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      console.log(formData);
+
+      const response = await axios.post(
+        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/uploadFile/upload`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      setVideo(response.data.fileUrl);
+    } catch (error) {
+      console.error("Error uploading file:", error);
+    }
+    setSelectedVideoFile(file);
+    setVideoFileLoading(false);
+  };
+
+  console.log(video);
+
   const handleNext = async (event) => {
     event.preventDefault();
     const form = event?.target;
@@ -121,7 +205,8 @@ const AdminCreateTask = () => {
 
       if (organizationInfo.orgName && organizationInfo.orgLogo) {
         const updateOrganization = await axios.put(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${userInfo?.organizations[0]?.organizationId
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${
+            userInfo?.organizations[0]?.organizationId
           }`,
           organizationInfo
         );
@@ -129,12 +214,13 @@ const AdminCreateTask = () => {
         setPage(2);
       } else {
         Swal.fire({
-          title: `Please Enter ${!organizationInfo.orgName && !organizationInfo.aboutOrg
-            ? "Company Name & Company Logo"
-            : !organizationInfo.orgName
+          title: `Please Enter ${
+            !organizationInfo.orgName && !organizationInfo.aboutOrg
+              ? "Company Name & Company Logo"
+              : !organizationInfo.orgName
               ? "Company Name"
               : "Company Logo"
-            }!`,
+          }!`,
           icon: "error",
         });
       }
@@ -154,12 +240,13 @@ const AdminCreateTask = () => {
         setPage(2);
       } else {
         Swal.fire({
-          title: `Please Enter ${!companyData.orgName && !companyData.aboutOrg
-            ? "Company Name & Company Logo"
-            : !companyData.orgName
+          title: `Please Enter ${
+            !companyData.orgName && !companyData.aboutOrg
+              ? "Company Name & Company Logo"
+              : !companyData.orgName
               ? "Company Name"
               : "Company Logo"
-            }!`,
+          }!`,
           icon: "error",
         });
       }
@@ -172,8 +259,8 @@ const AdminCreateTask = () => {
     const form = event?.target;
     const taskData = {
       taskName: form.taskName.value,
-      aboutTask: form.aboutTask.value,
-      aboutOutcome: form.aboutOutcome.value,
+      aboutTask: aboutTask,
+      aboutOutcome: aboutOutcome,
       taskLink: form.taskLink.value,
       taskTime: form.taskTime.value,
       taskDeadline: form.taskDeadline.value,
@@ -211,8 +298,7 @@ const AdminCreateTask = () => {
         }
       );
 
-      if (sendMail)
-        navigate("/dashboard");
+      if (sendMail) navigate("/dashboard");
     }
     form.reset();
   };
@@ -409,7 +495,7 @@ const AdminCreateTask = () => {
           </div>
           <form onSubmit={handleCreateTask} className="mt-3" autocomplete="on">
             <div className="flex flex-col gap-2">
-              <label htmlFor="taskName" className="text-[17px] font-medium">
+              <label htmlFor="taskName" className="text-[17px] font-bold">
                 Task name
               </label>
               <input
@@ -420,53 +506,79 @@ const AdminCreateTask = () => {
                 className="bg-[#EEF0FF] px-[10px] py-1 rounded-md shadow"
               />
             </div>
-            <div className="flex flex-col gap-2 mt-2">
-              <label htmlFor="aboutTask" className="text-[17px] font-medium">
+            <div className="flex flex-col gap-2 my-4">
+              <label htmlFor="aboutTask" className="text-[17px] font-bold">
                 Task Details
               </label>
-              <textarea
-                maxLength={200}
-                placeholder="Explain in detail about the task. Mention the necessary reference links and file/document link"
-                type="text"
-                name="aboutTask"
-                id="aboutTask"
-                className="text-start bg-[#EEF0FF] p-[10px] rounded-md shadow h-[100px]"
-              />
+              <TextEditor setValue={setAboutTask} value={aboutTask} />
             </div>
-            <p className="text-end text-[#4555BA] text-[15px] font-medium">
-              words limit/200
-            </p>
-            <div className="flex flex-col gap-2 mt-2">
-              <label htmlFor="aboutOutcome" className="text-[17px] font-medium">
+            <div className="flex flex-col gap-2 my-4">
+              <label htmlFor="aboutOutcome" className="text-[17px] font-bold">
                 Outcomes/Deliverables
               </label>
-              <textarea
-                maxLength={200}
-                placeholder="Clearly mention in a point-wise manner what is expected out of the intern. Also, mention how this task is going to contribute to the team/company's overall goal."
-                type="text"
-                name="aboutOutcome"
-                id="aboutOutcome"
-                className="text-start bg-[#EEF0FF] p-[10px] rounded-md shadow h-[100px]"
-              />
+              <TextEditor setValue={setAboutOutcome} value={aboutOutcome} />
             </div>
-            <p className="text-end text-[#4555BA] text-[15px] font-medium">
-              words limit/200
-            </p>
-            <div className="flex flex-col gap-2 mb-4">
-              <label htmlFor="taskLink" className="text-[17px] font-medium">
-                Task Explainer Video
+            <div className="flex flex-col gap-2 my-4">
+              <label htmlFor="taskLink" className="text-[17px] font-bold">
+                Task Explainer Video Link
               </label>
-              <input
-                placeholder="Upload a video/screen-recording explaining the methodology for the task "
-                type="url"
-                name="taskLink"
-                id="taskLink"
-                className="bg-[#EEF0FF] px-[10px] py-1 rounded-md shadow"
-              />
+              <div className="flex items-center">
+                <input
+                  placeholder="Upload a video/screen-recording explaining the methodology for the task "
+                  type="url"
+                  defaultValue={video}
+                  name="taskLink"
+                  id="taskLink"
+                  className="bg-[#EEF0FF] px-[10px] h-9 py-1 rounded-l-md w-full shadow"
+                />
+                <label>
+                  <div
+                    className="h-full "
+                    onDragOver={handleVideoDragOver}
+                    onDragEnter={handleVideoDragEnter}
+                    onDragLeave={handleVideoDragLeave}
+                    onDrop={handleVideoDrop}
+                  >
+                    {videoFileLoading && (
+                      <div className="border-2 rounded-r-md px-3 h-9 flex items-center justify-center">
+                        <img
+                          src={UploadIcon}
+                          className=" animate-ping w-[30px] "
+                          alt="inputImg"
+                        />
+                      </div>
+                    )}
+                    {!videoFileLoading && (
+                      <div className="border-2 rounded-r-md px-3 h-9 flex items-center justify-center">
+                        <img
+                          src={UploadIcon}
+                          className=" w-[30px]"
+                          alt="inputImg"
+                        />
+                      </div>
+                    )}
+                  </div>
+                  <input
+                    className="hidden"
+                    type="file"
+                    name="file"
+                    placeholder="upload"
+                    onChange={handleVideoFileChange}
+                  />
+                </label>
+                <span className="text-[18px] font-semibold mx-5">or</span>
+                <Link
+                  target="_blank"
+                  to="https://www.loom.com/"
+                  className="px-4 py-2 bg-blue-500 text-white w-[180px] text-center rounded-lg"
+                >
+                  Record Video
+                </Link>
+              </div>
             </div>
             <label
               htmlFor="taskSubmissionTime"
-              className="text-[18px] font-medium"
+              className="text-[18px] font-bold"
             >
               Task submission time
             </label>
@@ -474,7 +586,7 @@ const AdminCreateTask = () => {
               <div className="flex flex-col gap-2 ">
                 <label
                   htmlFor="taskTime"
-                  className="text-[16px] text-[#3F3F3F] font-medium"
+                  className="text-[16px] text-[#3F3F3F] font-bold"
                 >
                   Man hours to complete the task
                 </label>
@@ -489,7 +601,7 @@ const AdminCreateTask = () => {
               <div className="flex flex-col gap-2">
                 <label
                   htmlFor="taskDeadline"
-                  className="text-[16px] text-[#3F3F3F] font-medium"
+                  className="text-[16px] text-[#3F3F3F] font-bold"
                 >
                   Deadline To Complete The Task
                 </label>
@@ -504,7 +616,7 @@ const AdminCreateTask = () => {
               <div className="flex flex-col gap-2">
                 <label
                   htmlFor="participantLimit"
-                  className="text-[16px] text-[#3F3F3F] font-medium"
+                  className="text-[16px] text-[#3F3F3F] font-bold"
                 >
                   Maximum Number Of Applying Candidates
                 </label>
@@ -521,7 +633,7 @@ const AdminCreateTask = () => {
               type="submit"
               className="flex gap-2 mt-5 py-3 px-7 text-white bg-[#3E4DAC] items-center rounded-3xl"
             >
-              Task Create <img src={roundtask} alt="" />
+              Create Task <img src={roundtask} alt="" />
             </button>
           </form>
         </div>
