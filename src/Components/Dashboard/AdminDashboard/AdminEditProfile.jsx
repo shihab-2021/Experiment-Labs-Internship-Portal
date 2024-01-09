@@ -118,7 +118,7 @@ const AdminEditProfile = () => {
         <div>
           <div className="flex gap-10">
             <div>
-              <h1 className="font-bold text-[30px]">Hello Aman</h1>
+              <h1 className="font-bold text-[30px]">{userInfo?.firstName || ''} {userInfo?.lastName || ''}</h1>
               <p className="text-[21px] font-medium tracking-wide">
                 {formatDate()}
               </p>
