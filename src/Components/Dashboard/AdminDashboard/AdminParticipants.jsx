@@ -45,8 +45,7 @@ const AdminParticipants = ({ item }) => {
     if (item?.participantEmail)
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${
-            item?.participantEmail
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${item?.participantEmail
           }`
         )
         .then((user) => {
@@ -63,8 +62,7 @@ const AdminParticipants = ({ item }) => {
     if (item?.submissionId)
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/taskSubmissions/${
-            item?.submissionId
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/taskSubmissions/${item?.submissionId
           }`
         )
         .then((user) => {
@@ -76,8 +74,9 @@ const AdminParticipants = ({ item }) => {
   //console.log(submissionDetails)
 
   // handle select or reject
+  console.log(submissionDetails)
 
-  const updateSubmissionStatus = (status, submissionId) => {
+  const updateSubmissionStatus = async (status, submissionId) => {
     const submissionData = { ...submissionDetails };
 
     if (!submissionId) {
@@ -87,12 +86,28 @@ const AdminParticipants = ({ item }) => {
 
     axios
       .put(
-        `${
-          import.meta.env.VITE_APP_SERVER_API
+        `${import.meta.env.VITE_APP_SERVER_API
         }/api/v1/taskSubmissions/submissionId/${submissionId}/submissionStatus/${status}`
       )
       .then((response) => {
         const successMessage = `Submission status updated to ${status}`;
+        const data = {
+          fromEmail: userInfo?.email,
+          toEmail: userDetails?.email,
+          subject: "Task Result",
+          text: `${userInfo?.firstName} has evaluated your task. Please check your dashboard for result. `
+        }
+
+        axios.post(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/emails/single-email`,
+          data
+        )
+          .then((res) => {
+            console.log(res)
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+        console.log(sendMail)
 
         Swal.fire({
           icon: "success",
