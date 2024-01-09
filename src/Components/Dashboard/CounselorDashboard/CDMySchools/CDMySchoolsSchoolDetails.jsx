@@ -86,10 +86,10 @@ const CDMySchoolsSchoolDetails = () => {
     return (
 
         <div>
-            <div className="App   flex items-center justify-center">
+            <div className="App w-11/12 flex items-center justify-center mx-auto">
 
-                <div className="swiper-container flex  justify-between gap-2">
-                    <button className="btn" onClick={handlePrev}>
+                <div className="swiper-container flex  justify-between gap-6 ">
+                    <button className="" onClick={handlePrev}>
                         <img src={arrowLeft} alt="" />
                     </button>
                     {schoolDetails && schoolDetails?.slice(startIndex, startIndex + 3).map((school, index) => (

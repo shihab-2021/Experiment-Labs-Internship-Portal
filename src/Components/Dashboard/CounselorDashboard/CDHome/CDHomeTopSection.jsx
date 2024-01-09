@@ -44,7 +44,7 @@ const CDHomeTopSection = ({
     <div className="w-11/12 mx-auto mt-14">
       <div className="flex justify-between gap-2">
         <div>
-          <div
+       {/*    <div
             style={{
               borderRadius: "14px",
               border: "1px solid #DDD",
@@ -53,7 +53,7 @@ const CDHomeTopSection = ({
           >
             <FaMagnifyingGlass />
             <input className="w-full" placeholder="Search"></input>
-          </div>
+          </div> */}
           <h1 className="text-[20px] text-[#3F3F3F] font-medium tracking-widest">
             Home Page
           </h1>
