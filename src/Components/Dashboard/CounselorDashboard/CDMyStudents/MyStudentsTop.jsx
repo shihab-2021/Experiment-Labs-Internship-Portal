@@ -38,7 +38,6 @@ const MyStudentsTop = () => {
     if (!backgroundColor) {
       setBackgroundColor(getRandomColor());
     }
-
     // Your existing useEffect logic...
   }, [userInfo, backgroundColor]);
 
@@ -88,7 +87,7 @@ const MyStudentsTop = () => {
     <div className="w-11/12 mx-auto mt-14">
       <div className="flex justify-between gap-2">
         <div>
-          <div
+          {/* <div
             style={{
               borderRadius: "14px",
               border: "1px solid #DDD",
@@ -97,7 +96,7 @@ const MyStudentsTop = () => {
           >
             <FaMagnifyingGlass />
             <input className="w-full" placeholder="Search"></input>
-          </div>
+          </div> */}
           <h1 className="text-[19px] text-[#3F3F3F] font-medium tracking-widest">
             My Students Status
           </h1>
@@ -184,11 +183,9 @@ const MyStudentsTop = () => {
         </div>
       </div>
       <div className="my-3">
-        <h1 className="mt-10 text-[18px] text-[#797979] font-medium leading-4 tracking-wide">
-          Internship Success Rate
-        </h1>
-        <div className="flex justify-between">
-          <div
+        
+        <div className="flex justify-end mt-10">
+          {/* <div
             className="px-5 py-3 flex justify-between items-center mt-[11px] w-[60%]"
             style={{
               borderRadius: "7px",
@@ -202,7 +199,7 @@ const MyStudentsTop = () => {
               "The success rate of your students' internships is"
             </p>
             <p className="text-2xl font-semibold tracking-widest">20%</p>
-          </div>
+          </div> */}
           <Link
             to={"/counselorDashboard/AddStudent"}
             className="bg-[#4555BA] px-[15px] py-[10px] rounded-3xl text-white flex gap-2 items-center"

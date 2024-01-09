@@ -5,6 +5,7 @@ import SDSchoolDashboard from './SDSchoolDashboard';
 import SDSchoolList from './SDSchoolList';
 import SDDashboardMiddle from './SDDashboardMiddle';
 import SDDashboardBottom from './SDDashboardBottom';
+import { Link } from 'react-router-dom';
 
 
 const SDDashboardMain = () => {
@@ -29,9 +30,9 @@ const SDDashboardMain = () => {
                     <p className='text-[17px] text-[#8064F0] font-medium mt-6'>Students1</p>
                     <p className='text-[17px] text-[#9F9F9F] font-medium mb-6'>50</p>
                 </div>
-                <div>
+                <Link to='/schoolDashboard/schoolEdit'>
                     <img src={edit} alt='editIcon' />
-                </div>
+                </Link>
             </div>
             <h1 className='text-base font-medium text-[#3E4DAC] my-6'>School dashboard </h1>
             <SDSchoolList/>
