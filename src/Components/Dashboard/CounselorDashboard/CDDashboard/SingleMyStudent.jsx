@@ -58,10 +58,7 @@ const SingleMyStudent = ({ value, index }) => {
 
 
     return (
-        <Link
-            to={`/superAdminDashboard/taskDetails/${value?._id}`}
-            key={index}
-            className="border flex justify-between items-center gap-3 py-1 px-3 rounded-lg border-solid border-gray-300 my-2"
+        <div key={index} className="border flex justify-between items-center gap-3 py-1 px-3 rounded-lg border-solid border-gray-300 my-2"
         >
             <div
                 style={{ backgroundColor: getRandomColor(value) }}
@@ -80,7 +77,7 @@ const SingleMyStudent = ({ value, index }) => {
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/56bf546aabf544dd19969f685a8a28f7c8c71dcea03ee8ff8d6f5816fc17a7b8?"
                 className="aspect-square object-contain object-center w-6 overflow-hidden"
             /> */}
-        </Link>
+        </div>
     );
 };
 
