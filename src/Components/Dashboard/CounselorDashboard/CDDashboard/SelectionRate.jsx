@@ -65,9 +65,9 @@ const SelectionRate = (
                     ))}
                 </div>
             </div>
-            <div className="text-black text-center font-medium tracking-[2px] mb-10 ml-5 mt-5">
+            {/* <div className="text-black text-center font-medium tracking-[2px] mb-10 ml-5 mt-5">
                 Students selection rate is {((selected.length*100)/(progress.length + pending.length + selected.length)).toFixed(2)}%
-            </div>
+            </div> */}
         </div>
     );
 };
