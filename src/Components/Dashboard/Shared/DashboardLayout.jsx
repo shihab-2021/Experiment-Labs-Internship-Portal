@@ -30,7 +30,7 @@ import SchoolIconDark from "../../../assets/Dashboard/Shared/SchoolIconDark.png"
 import { AuthContext } from "../../../Contexts/AuthProvider";
 import axios from "axios";
 const DashboardLayout = ({ children }) => {
-  const { logOut } = useContext(AuthContext);
+  const { logOut, userInfo } = useContext(AuthContext);
   const [toggleButton, setToggleButton] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
@@ -54,7 +54,42 @@ const DashboardLayout = ({ children }) => {
           else localStorage.setItem("orgLogo", ExperimentLabsLogo);
         })
         .catch((error) => console.error(error));
-  }, [orgId, role]);
+    else {
+      if (role === "Counsellor") {
+        if (userInfo?.organizations)
+          axios
+            .get(
+              `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${
+                userInfo?.organizations[0]?.counsellorId
+              }`
+            )
+            .then((org) => {
+              setOrganizationInfo(org?.data);
+              if (org?.data?.orgLogo)
+                localStorage.setItem("orgLogo", org?.data?.orgLogo);
+              else localStorage.setItem("orgLogo", ExperimentLabsLogo);
+            })
+            .catch((error) => console.error(error));
+      } else if (role === "Student") {
+        if (userInfo?.counsellorId) {
+          localStorage.setItem("orgId", userInfo?.counsellorId);
+          axios
+            .get(
+              `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${
+                userInfo?.counsellorId
+              }`
+            )
+            .then((org) => {
+              setOrganizationInfo(org?.data);
+              if (org?.data?.orgLogo)
+                localStorage.setItem("orgLogo", org?.data?.orgLogo);
+              else localStorage.setItem("orgLogo", ExperimentLabsLogo);
+            })
+            .catch((error) => console.error(error));
+        }
+      } else localStorage.setItem("orgLogo", ExperimentLabsLogo);
+    }
+  }, [orgId, role, userInfo]);
   return (
     <div>
       <>

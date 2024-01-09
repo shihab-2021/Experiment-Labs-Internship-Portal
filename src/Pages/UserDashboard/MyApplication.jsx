@@ -73,6 +73,8 @@ const SingleApplicationRow = ({ submission }) => {
               ? "text-[#D4A500] bg-[#FFF8E3]"
               : submission?.submissionStatus === "Rejected"
               ? "text-[#DD2025] bg-[#FFF0F0]"
+              : submission?.submissionStatus === "Pending"
+              ? "text-[#8bdd20] bg-[#f6fff0]"
               : ""
           }`}
         >
@@ -91,31 +93,6 @@ const SingleApplicationRow = ({ submission }) => {
 const MyApplication = () => {
   const { user } = useContext(AuthContext);
   const [submissions, setSubmissions] = useState([]);
-  const data = {
-    myApplicationData: [
-      {
-        company: " Magic pin",
-        task: "UI AND UX",
-        submittedDate: "1/feb/2022",
-        hours: " 4:00",
-        status: "Processing",
-      },
-      {
-        company: " Magic pin",
-        task: "UI AND UX",
-        submittedDate: "1/feb/2022",
-        hours: " 4:00",
-        status: "Selected",
-      },
-      {
-        company: " Magic pin",
-        task: "UI AND UX",
-        submittedDate: "1/feb/2022",
-        hours: " 4:00",
-        status: "Reject",
-      },
-    ],
-  };
 
   useEffect(() => {
     axios

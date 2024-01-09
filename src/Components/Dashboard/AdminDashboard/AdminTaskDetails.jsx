@@ -196,12 +196,12 @@ const AdminTaskDetails = () => {
                         <FaEdit style={{ color: "#3E4DAC" }} />
                       </Link>
                     </div>
-                    <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
+                    {/* <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
                       {item?.aboutTask}
                     </p>
                     <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
                       {item?.description}
-                    </p>
+                    </p> */}
                     {item?.participants && item?.participants?.length > 0 ? (
                       <AvatarGroup
                         className="grid justify-end mt-[14px]"
@@ -301,12 +301,12 @@ const AdminTaskDetails = () => {
                         <FaEdit style={{ color: "#3E4DAC" }} />
                       </Link>
                     </div>
-                    <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
+                    {/* <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
                       {item?.subtitle}
                     </p>
                     <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
                       {item?.aboutTask}
-                    </p>
+                    </p> */}
                     {item?.participants && item?.participants?.length > 0 ? (
                       <AvatarGroup
                         className="grid justify-end mt-[14px]"
@@ -406,12 +406,12 @@ const AdminTaskDetails = () => {
                         <FaEdit style={{ color: "#3E4DAC" }} />
                       </Link>
                     </div>
-                    <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
+                    {/* <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
                       {item?.aboutTask}
                     </p>
                     <p className="text-[13px] w-[228px] mt-[12px] font-medium text-[#2D2D2D]">
                       {item?.description}
-                    </p>
+                    </p> */}
                     {item?.participants && item?.participants?.length > 0 ? (
                       <AvatarGroup
                         className="grid justify-end mt-[14px]"

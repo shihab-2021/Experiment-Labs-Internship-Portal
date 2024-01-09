@@ -1,6 +1,42 @@
-import React from 'react';
+import { data } from 'autoprefixer';
+import React, { useEffect, useState } from 'react';
+import SingleMyStudent from './SingleMyStudent';
 
-const MyStudents = () => {
+const MyStudents = ({ allTasks }) => {
+    const { submissionStatusCounts
+    } = allTasks;
+    const [data, setData] = useState([]);
+    useEffect(() => {
+        // Merge inner arrays into a single array
+        const mergedArray = submissionStatusCounts?.reduce((accumulator, currentObject) => {
+            return accumulator.concat(currentObject.submissions);
+        }, []);
+
+        setData(mergedArray);
+        // You can set the merged array to state if needed: setData(mergedArray);
+    }, [submissionStatusCounts]);
+
+    // console.log(data);
+    // console.log(allTasks);
+    const [startIndex, setStartIndex] = useState(0);
+    const displayItems = () => {
+        return data && data?.slice(startIndex, startIndex + 4)?.map((value, index) => (
+            <SingleMyStudent key={index} value={value} />
+        ));
+    };
+
+    const handleNext = () => {
+        if (startIndex + 4 < data.length) {
+            setStartIndex(startIndex + 4);
+        }
+    };
+
+    const handlePrev = () => {
+        if (startIndex >= 4) {
+            setStartIndex(startIndex - 4);
+        }
+    };
+
     return (
         <div className='border shadow-lg bg-white flex justify-center py-5 min-w-[330px] w-full flex-col rounded-2xl border-solid border-stone-300 px-5'>
             <div className='flex justify-between'>
@@ -16,65 +52,18 @@ const MyStudents = () => {
                 </div>
             </div>
             <div>
-                <div className="border flex justify-between items-center gap-3 px-3 rounded-lg border-solid border-gray-200 my-2">
-                    <div className="flex justify-between gap-2 mt-1 px-2.5">
-                        <img
-                            loading="lazy"
-                            srcSet="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9GKbx3SeXAYyttHK-dNvdxQFUtp6qjRelFA&usqp=CAU"
-                            className="aspect-square object-contain object-center w-[52px] overflow-hidden shrink-0 max-w-full rounded-[50%]"
-                        />
-                        <div className="items-stretch self-center flex basis-[0%] flex-col my-auto">
-                            <div className="text-neutral-700 text-lg font-medium tracking-widest whitespace-nowrap">
-                                Harshita verma
-                            </div>
-                            <div className="text-zinc-600 text-sm font-medium leading-5 tracking-widest whitespace-nowrap mt-1">
-                                UI AND UX TASK
-                            </div>
-                        </div>
-                    </div>
-                    <div className="text-zinc-600 text-center text-sm font-medium leading-5 tracking-widest">
-                        Magic pin
-                    </div>
-                    <div className="text-yellow-500 text-center text-sm font-medium leading-5 tracking-widest">
-                        Selected
-                    </div>
-                    <img
-                        loading="lazy"
-                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/56bf546aabf544dd19969f685a8a28f7c8c71dcea03ee8ff8d6f5816fc17a7b8?"
-                        className="aspect-square object-contain object-center w-6 overflow-hidden"
-                    />
-                </div>
-                <div className="border flex justify-between items-center gap-3 px-3 rounded-lg border-solid border-gray-200 my-2">
-                    <div className="flex justify-between gap-2 mt-1 px-2.5">
-                        <img
-                            loading="lazy"
-                            srcSet="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9GKbx3SeXAYyttHK-dNvdxQFUtp6qjRelFA&usqp=CAU"
-                            className="aspect-square object-contain object-center w-[52px] overflow-hidden shrink-0 max-w-full rounded-[50%]"
-                        />
-                        <div className="items-stretch self-center flex basis-[0%] flex-col my-auto">
-                            <div className="text-neutral-700 text-lg font-medium tracking-widest whitespace-nowrap">
-                                Harshita verma
-                            </div>
-                            <div className="text-zinc-600 text-sm font-medium leading-5 tracking-widest whitespace-nowrap mt-1">
-                                UI AND UX TASK
-                            </div>
-                        </div>
-                    </div>
-                    <div className="text-zinc-600 text-center text-sm font-medium leading-5 tracking-widest">
-                        Magic pin
-                    </div>
-                    <div className="text-red-500 text-center text-sm font-medium leading-5 tracking-widest">
-                        Rejected
-                    </div>
-                    <img
-                        loading="lazy"
-                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/56bf546aabf544dd19969f685a8a28f7c8c71dcea03ee8ff8d6f5816fc17a7b8?"
-                        className="aspect-square object-contain object-center w-6 overflow-hidden"
-                    />
-                </div>
+                {
+                    displayItems()
+                }
+
             </div>
-            <div className="text-sky-500 text-center text-lg font-medium tracking-widest my-1">
-                Show more
+            <div className='flex gap-6 justify-center'>
+                <div onClick={handlePrev} className="text-sky-500 text-center text-lg font-medium tracking-widest my-1 cursor-pointer">
+                    Prev
+                </div>
+                <div onClick={handleNext} className="text-sky-500 text-center text-lg font-medium tracking-widest my-1 cursor-pointer">
+                    Next
+                </div>
             </div>
         </div>
     );

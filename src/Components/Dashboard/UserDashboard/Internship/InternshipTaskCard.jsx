@@ -12,7 +12,7 @@ import Swal from "sweetalert2";
 
 const InternshipTaskCard = ({ task }) => {
   const navigate = useNavigate();
-  const { user } = useContext(AuthContext);
+  const { user, userInfo } = useContext(AuthContext);
   const [taskCreatorInfo, setTaskCreatorInfo] = useState({});
   const [organizationInfo, setOrganizationInfo] = useState({});
   const [showTaskDetails, setShowTaskDetails] = useState(false);
@@ -101,6 +101,12 @@ const InternshipTaskCard = ({ task }) => {
       participantEmail: user?.email,
       applyDateTime: new Date(),
       organizationId: organizationInfo?._id,
+      counsellorId: userInfo?.counsellorId,
+      schoolId: userInfo?.schoolId,
+      aboutSolution: "",
+      fileLink: "",
+      submissionDateTime: "",
+      submissionStatus: "Pending",
     };
 
     try {
@@ -157,7 +163,12 @@ const InternshipTaskCard = ({ task }) => {
               {task?.taskTime} hrs task
             </h2>
             <p className=" text-[#797979] text-[16px] tracking-wider ">
-              "{task?.aboutTask}"
+              <h1
+                className=""
+                dangerouslySetInnerHTML={{
+                  __html: task?.aboutTask,
+                }}
+              />
             </p>
           </div>
           <div className="bg-[#FFF7DF] p-2 rounded-md mt-4">
@@ -165,8 +176,13 @@ const InternshipTaskCard = ({ task }) => {
               <img src={OutCome} alt="OutCome" />
               Out Come
             </div>
-            <p className="text-[#3F3F3F] text-[16px] tracking-wider w-11/12 mx-auto text-center mt-[15px] ">
-              {task?.aboutOutcome}
+            <p className="text-[#3F3F3F] text-[16px] tracking-wider w-11/12 mx-auto mt-[15px] ">
+              <h1
+                className=""
+                dangerouslySetInnerHTML={{
+                  __html: task?.aboutOutcome,
+                }}
+              />
             </p>
           </div>
           <div className="flex items-center gap-1 mt-5 ">

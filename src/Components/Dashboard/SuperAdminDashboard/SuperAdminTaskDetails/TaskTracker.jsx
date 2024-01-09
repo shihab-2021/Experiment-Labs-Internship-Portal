@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../../Contexts/AuthProvider";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import LinkIcon from "../../../../assets/Dashboard/UserDashboard/LinkIcon.png";
 import User from "../../../../assets/Shared/user.svg";
@@ -417,24 +417,49 @@ const TaskTracker = () => {
                 <h1 className="mt-[12px] text-[20px] font-[700] tracking-wider ">
                   {task?.taskName}
                 </h1>
-                <h2 className="relative w-fit font-raleway font-medium text-[#4555BA] text-[15.9px] tracking-[1.59px] my-4 leading-[normal] whitespace-nowrap">
-                  {task?.taskTime} hrs task
+                <h2 className="relative w-fit font-sans font-bold text-[#5cba45] text-[15.9px] tracking-[1.59px] my-4  whitespace-nowrap">
+                  <span className=" text-[#4555BA]">
+                    Average time to complete the task:
+                  </span>{" "}
+                  {task?.taskTime}Hour
                 </h2>
-                <p className=" text-[#797979] text-[16px] tracking-wider ">
-                  "{task?.aboutTask}"
-                </p>
-                <h1 className=" mt-4 text-[16px] font-[700] tracking-wider ">
-                  Out come
+                <h1 className=" text-[#4555BA] mt-4 text-[16px] font-[700] tracking-wider ">
+                  Task Details
                 </h1>
                 <p className=" text-[#797979] text-[16px] tracking-wider ">
-                  {task?.aboutOutcome}
+                  {/* "{task?.aboutTask}" */}
+                  <h1
+                    className=""
+                    dangerouslySetInnerHTML={{
+                      __html: task?.aboutTask,
+                    }}
+                  />
+                </p>
+                <h1 className=" text-[#4555BA] mt-4 text-[16px] font-[700] tracking-wider ">
+                  Expected Outcome
+                </h1>
+                <p className=" text-[#797979] text-[16px] tracking-wider ">
+                  {/* {task?.aboutOutcome} */}
+                  <h1
+                    className=""
+                    dangerouslySetInnerHTML={{
+                      __html: task?.aboutOutcome,
+                    }}
+                  />
                 </p>
               </div>
-              <div className="flex items-center gap-1 mt-5 ">
+              <h1 className=" text-[#4555BA] text-[16px] font-[700] tracking-wider mt-5 ">
+                Explainer Video
+              </h1>
+              <div className="flex items-center gap-1 ">
                 <img src={LinkIcon} alt="LinkIcon" />
-                <p className="text-[#4555BA] text-[16px] font-[400] ">
+                <Link
+                  target="_blank"
+                  to={task?.taskLink}
+                  className="text-[#4555BA] text-[16px] font-[400] "
+                >
                   {task?.taskLink}
-                </p>
+                </Link>
               </div>
               <div className="grid grid-cols-4 gap-8 mt-4">
                 <div className="max-w-[220px] font-raleway">
