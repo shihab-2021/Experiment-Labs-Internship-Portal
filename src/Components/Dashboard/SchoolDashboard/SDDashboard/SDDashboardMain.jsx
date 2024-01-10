@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Ellipse from '../../../../assets/Dashboard/SchoolDashboard/Ellipse.svg';
 import edit from '../../../../assets/Dashboard/SchoolDashboard/edit.svg';
 import SDSchoolDashboard from './SDSchoolDashboard';
@@ -6,12 +6,30 @@ import SDSchoolList from './SDSchoolList';
 import SDDashboardMiddle from './SDDashboardMiddle';
 import SDDashboardBottom from './SDDashboardBottom';
 import { Link } from 'react-router-dom';
+import Loading from '../../../Shared/Loading/Loading';
+import axios from 'axios';
 
 
 const SDDashboardMain = () => {
+    const [schoolData, setSchoolData] = useState({});
+    const [schoolTasks, setSchoolTasks] = useState({});
+    useEffect(() => {
+        Loading();
+        axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/schools/schoolId/6596dda878cc2e1999c71c83`)
+            .then((school) => {
+
+                setSchoolData(school?.data);
+            })
+        axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/schools/tasks/schoolId/6596be5f78cc2e19999136c8`)
+            .then((tasks) => { setSchoolTasks(tasks.data) })
+            .catch((error) => console.error(error))
+            .finally(() => {
+                Loading().close();
+            })
+    }, [])
     return (
         <div className='w-11/12 mx-auto'>
-            <h1 className='text-2xl font-semibold mt-12 mb-8'>Dashboard</h1>
+            <h1 className='text-2xl font-semibold mt-12 mb-5'>Dashboard</h1>
             <div
                 style={{
                     borderRadius: "5.437px",
@@ -19,26 +37,28 @@ const SDDashboardMain = () => {
                     background: "#FFF"
                 }}
                 className='flex justify-between w-full px-2 py-5'>
-                <div>
-                    <img className='w-[92px] h-[92px] rounded-full' src={Ellipse} alt='icon' />
-                </div>
-                <div>
-                    <h1 className='text-[21px] font-semibold'>Delhi public school</h1>
-                    <p className='w-[70%] text-[17px] text-[#9F9F9F] font-medium'>Postal Address. The Delhi Public School Society F-Block, East of Kailash New Delhi 110065, India. </p>
-                    <p className='text-[17px]  font-medium'>Phone Number</p>
-                    <p className='text-[17px] text-[#9F9F9F] font-medium'>+9 8162152151</p>
-                    <p className='text-[17px] text-[#8064F0] font-medium mt-6'>Students1</p>
-                    <p className='text-[17px] text-[#9F9F9F] font-medium mb-6'>50</p>
+                <div className='flex gap-16'>
+                    <div className='px-3'>
+                        <img className='w-[92px] h-[92px] rounded-full' src={Ellipse} alt='icon' />
+                    </div>
+                    <div>
+                        <h1 className='text-[21px] font-semibold'>{schoolData?.schoolName}</h1>
+                        <p className='w-[70%] text-[17px]  font-medium'>Address : <span className='text-[#9F9F9F]'>{schoolData?.schoolAddress}</span></p>
+                        {/* <p className='text-[17px]  font-medium'>Phone Number</p>
+                    <p className='text-[17px] text-[#9F9F9F] font-medium'>+9 8162152151</p> */}
+                        <p className='text-[17px] text-[#8064F0] font-medium mt-6'>Students</p>
+                        <p className='text-[17px] text-[#9F9F9F] font-medium mb-6'>{schoolTasks?.totalStudentsCount || 0}</p>
+                    </div>
                 </div>
                 <Link to='/schoolDashboard/schoolEdit'>
                     <img src={edit} alt='editIcon' />
                 </Link>
             </div>
-            <h1 className='text-base font-medium text-[#3E4DAC] my-6'>School dashboard </h1>
-            <SDSchoolList/>
-            <SDSchoolDashboard/>
-            <SDDashboardMiddle/>
-            <SDDashboardBottom/>
+            <h1 className='text-[17px] font-medium text-[#3E4DAC] mt-7 mb-2'>School dashboard </h1>
+            <SDSchoolList lengthData={schoolTasks}/>
+            <SDSchoolDashboard lengthData={schoolTasks}/>
+            <SDDashboardMiddle />
+            <SDDashboardBottom />
         </div>
     );
 };

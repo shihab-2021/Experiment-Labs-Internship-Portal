@@ -50,8 +50,7 @@ const CDHomeMain = () => {
     (task) => task?.submissionStatus === "Rejected"
   );
   const inRejected = rejected?.submissions || [];
-  console.log(allTasks);
-
+  console.log( "All tasks", allTasks);
   return (
     <div>
       <CDHomeTopSection
