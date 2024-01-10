@@ -79,6 +79,8 @@ const AuthProvider = ({ children }) => {
             localStorage.setItem("role", user?.data?.organizations[0].role);
           else if (user?.data?.organizations[0]?.role === "Counsellor")
             localStorage.setItem("role", user?.data?.organizations[0].role);
+          else if (user?.data?.organizations[0]?.role === "SchoolAdmin")
+            localStorage.setItem("role", user?.data?.organizations[0].role);
           else {
             const role = localStorage.getItem("role");
             if (role === "SuperAdmin") localStorage.setItem("role", "Student");

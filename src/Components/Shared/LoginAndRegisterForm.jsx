@@ -44,6 +44,8 @@ const LoginAndRegisterForm = ({ showLoginForm, setShowLoginForm }) => {
                 navigate("/superAdminDashboardHome");
               else if (user?.data?.organizations[0]?.role === "Counsellor")
                 navigate("/counselorDashboard/Home");
+              else if (user?.data?.organizations[0]?.role === "SchoolAdmin")
+                navigate("/schoolDashboard/dashboard");
               else {
                 navigate(role === "Student" ? "/userDashboard" : "/dashboard");
               }
