@@ -1,7 +1,7 @@
 //SDSchoolList
 import React from 'react';
 
-const SDSchoolList = () => {
+const SDSchoolList = ({lengthData}) => {
     return (
         <div className='flex gap-5'>
             <div className="w-[160px] justify-center items-stretch shadow-sm bg-[#8064F0] flex flex-col px-2 rounded-md py-4">
@@ -16,7 +16,7 @@ const SDSchoolList = () => {
                     />
                 </div>
                 <div className="text-white text-3xl font-bold tracking-[2.96px] whitespace-nowrap mt-3">
-                    10
+                    {lengthData?.totalStudentsCount || 0}
                 </div>
             </div>
             <div className="w-[160px] justify-center items-stretch shadow-sm bg-[#6278FF] flex flex-col px-2 rounded-md py-4">
@@ -32,7 +32,7 @@ const SDSchoolList = () => {
                     />
                 </div>
                 <div className="text-white text-3xl font-bold tracking-[2.96px] whitespace-nowrap mt-3">
-                    500
+                    {lengthData?.uniqueTasksCount || 0}
                 </div>
             </div>
             <div className="w-[160px] justify-center items-stretch shadow-sm bg-[#0A98EA] flex flex-col px-2 rounded-md py-4">
@@ -47,7 +47,7 @@ const SDSchoolList = () => {
                     />
                 </div>
                 <div className="text-white text-3xl font-bold tracking-[2.96px] whitespace-nowrap mt-3">
-                    30
+                    {lengthData?.uniqueOrganizationsCount || 0}
                 </div>
             </div>
             <div className="w-[160px] justify-center items-stretch shadow-sm bg-[#E8B912] flex flex-col px-2 rounded-md py-4">
@@ -62,7 +62,7 @@ const SDSchoolList = () => {
                     />
                 </div>
                 <div className="text-white text-3xl font-bold tracking-[2.96px] whitespace-nowrap mt-3">
-                    100
+                    {lengthData?.selectedSubmissionCount || 0}
                 </div>
             </div>
             <div className="w-[160px] justify-center items-stretch shadow-sm bg-[#DD2025] flex flex-col px-2 rounded-md py-4">
@@ -77,7 +77,7 @@ const SDSchoolList = () => {
                     />
                 </div>
                 <div className="text-white text-3xl font-bold tracking-[2.96px] whitespace-nowrap mt-3">
-                    100
+                {lengthData?.rejectedSubmissionCount || 0}
                 </div>
             </div>
 

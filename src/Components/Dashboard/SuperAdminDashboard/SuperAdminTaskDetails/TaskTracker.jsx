@@ -531,11 +531,11 @@ const TaskTracker = () => {
               <h1 className=" text-[15px] font-[700] tracking-wider ">
                 {organizationInfo?.orgName}
               </h1>
-              <p className=" w-11/12 mx-auto text-[13px] text-center">
+              {/* <p className=" w-11/12 mx-auto text-[13px] text-center">
                 <span className=" font-[700] ">Headquarter: </span>Plot 379/380
                 Near IFFCO Chowk Metro Station, Sector 29, Gurugram, Haryana
                 122001
-              </p>
+              </p> */}
             </div>
           </div>
           <div className=" py-2 justify-center items-center gap-[50px] inline-flex">

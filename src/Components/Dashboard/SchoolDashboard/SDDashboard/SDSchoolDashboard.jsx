@@ -6,15 +6,15 @@ import { PieChart } from "@mui/x-charts/PieChart";
 import Person from "../../../../assets/Home/Person.png";
 import { Avatar, AvatarGroup } from '@mui/material';
 import { Link } from 'react-router-dom';
-const SDSchoolDashboard = () => {
+const SDSchoolDashboard = ({lengthData}) => {
     const data1 = [
-        { label: "Inactive Companies", value: 3, color: '#DCEFFF' },
-        { label: "Active Companies", value: 30, color: '#0A98EA' },
+        { label: "Inactive Companies", value: 0, color: '#DCEFFF' },
+        { label: "Active Companies", value: lengthData?.uniqueOrganizationsCount, color: '#0A98EA' },
     ];
 
     const data2 = [
-        { label: "Inactive Students", value: 50, color: '#DCEFFF' },
-        { label: "Active Students", value: 500, color: '#8064F0' },
+        { label: "Inactive Students", value: 0, color: '#DCEFFF' },
+        { label: "Active Students", value: lengthData?.totalStudentsCount, color: '#8064F0' },
     ];
     return (
         <div className='flex justify-between gap-5 items-center w-full'>
