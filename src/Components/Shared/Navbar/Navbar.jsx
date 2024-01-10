@@ -8,8 +8,7 @@ import { AuthContext } from "../../../Contexts/AuthProvider";
 // import DynamicFavicon from "../../../DynamicFavicon";
 
 const Navbar = () => {
-  const { userInfo } = useContext(AuthContext);
-  console.log(userInfo);
+  const { userInfo, user } = useContext(AuthContext);
   const { id } = useParams();
   const [showLoginForm, setShowLoginForm] = useState(false);
   const [organizationInfo, setOrganizationInfo] = useState({});
@@ -98,7 +97,7 @@ const Navbar = () => {
         >
           For Business
         </button>
-        {userInfo ? (
+        {user?.email ? (
           <Link
             // to="/superAdminDashboardHome"
             to={
