@@ -18,13 +18,16 @@ const Navbar = () => {
   if (!id) localStorage.setItem("orgId", "");
 
   useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${id}`)
-      .then((org) => {
-        setOrganizationInfo(org?.data);
-        if (org?.data?._id) localStorage.setItem("orgId", org?.data?._id);
-      })
-      .catch((error) => console.error(error));
+    if (id)
+      axios
+        .get(
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${id}`
+        )
+        .then((org) => {
+          setOrganizationInfo(org?.data);
+          if (org?.data?._id) localStorage.setItem("orgId", org?.data?._id);
+        })
+        .catch((error) => console.error(error));
   }, [id]);
 
   // responsive
