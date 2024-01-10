@@ -70,8 +70,7 @@ const AdminCompleteShowMore = () => {
     if (taskDetails?.creator?.email)
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${
-            taskDetails?.creator?.email
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${taskDetails?.creator?.email
           }`
         )
         .then((creator) => {
@@ -90,8 +89,7 @@ const AdminCompleteShowMore = () => {
     if (creatorDetails?.organizations[0]?.organizationId)
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${
-            creatorDetails?.organizations[0]?.organizationId
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${creatorDetails?.organizations[0]?.organizationId
           }`
         )
         .then((organization) => {
@@ -147,6 +145,22 @@ const AdminCompleteShowMore = () => {
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
+
+  // pagination
+  const itemsPerPage = 10;
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalParticipants = taskDetails?.participants?.length || 0;
+  const totalPages = Math.ceil(totalParticipants / itemsPerPage);
+
+  const handlePageChange = (event, page) => {
+    setCurrentPage(page);
+  };
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentParticipants = taskDetails?.participants?.slice(startIndex, endIndex) || [];
+
 
   return (
     <div className="w-11/12 mx-auto mt-14">
@@ -498,11 +512,10 @@ const AdminCompleteShowMore = () => {
                   <div
                     className="bg-[#3E4DAC] h-2  rounded-lg"
                     style={{
-                      width: `${
-                        (taskDetails?.participants?.length /
-                          taskDetails?.participantLimit) *
+                      width: `${(taskDetails?.participants?.length /
+                        taskDetails?.participantLimit) *
                         100
-                      }%`,
+                        }%`,
                     }}
                   ></div>
                 </div>
@@ -531,7 +544,27 @@ const AdminCompleteShowMore = () => {
         <h1 className="text-xl font-medium">Submission</h1>
         <img src={filter} alt="icon" />
       </div>
-      {taskDetails?.participants?.map((item) => (
+      <div>
+        {currentParticipants.map((item) => (
+          <AdminParticipants key={item.id} item={item} />
+        ))}
+
+        <div className="py-10 flex items-center justify-between">
+          <div className="w-full flex justify-center">
+            <Stack spacing={2}>
+              <Pagination
+                count={totalPages}
+                page={currentPage}
+                onChange={handlePageChange}
+                color="primary"
+              />
+            </Stack>
+          </div>
+        </div>
+      </div>
+
+
+   {/*       {taskDetails?.participants?.map((item) => (
         <AdminParticipants item={item} />
       ))}
 
@@ -541,19 +574,8 @@ const AdminCompleteShowMore = () => {
             <Pagination count={2} color="primary" />
           </Stack>
         </div>
-        <div className="">
-          <button
-            className="px-7 py-3 text-base font-medium text-[#fff] flex items-center gap-3"
-            style={{
-              borderRadius: "36px",
-              background: "var(--primary-coloe-2, #3E4DAC)",
-            }}
-          >
-            Next
-            <img src={arrowRight} alt="arrowIcon" />
-          </button>
-        </div>
-      </div>
+
+      </div> */}
     </div>
   );
 };
