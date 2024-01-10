@@ -990,6 +990,48 @@ const DashboardLayout = ({ children }) => {
                             </li>
                           </>
                         )}
+                        {role === "SchoolAdmin" && (
+                          <>
+                            <li>
+                              <Link
+                                style={
+                                  location.pathname ===
+                                  "/schoolDashboard/dashboard"
+                                    ? {
+                                        background:
+                                          "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
+                                      }
+                                    : {}
+                                }
+                                to="/schoolDashboard/dashboard"
+                                className={`text-white font-normal rounded-[15px] flex items-center px-[20px] py-[13px]  group`}
+                              >
+                                {location.pathname ===
+                                "/schoolDashboard/dashboard" ? (
+                                  <img
+                                    src={DashboardIconLight}
+                                    alt="DashboardIconLight"
+                                  />
+                                ) : (
+                                  <img
+                                    src={DashboardIconDark}
+                                    alt="DashboardIconDark"
+                                  />
+                                )}
+                                <span
+                                  className={`${
+                                    location.pathname ===
+                                    "/schoolDashboard/dashboard"
+                                      ? "text-white "
+                                      : "text-[#8F8F8F]"
+                                  } ml-3 text-[16px] font-[600]`}
+                                >
+                                  Dashboard
+                                </span>
+                              </Link>
+                            </li>
+                          </>
+                        )}
                       </ul>
                     </div>
                     <button
