@@ -6,7 +6,7 @@ import { PieChart } from "@mui/x-charts/PieChart";
 import Person from "../../../../assets/Home/Person.png";
 import { Avatar, AvatarGroup } from '@mui/material';
 import { Link } from 'react-router-dom';
-const SDSchoolDashboard = ({lengthData}) => {
+const SDSchoolDashboard = ({ lengthData }) => {
     const data1 = [
         { label: "Inactive Companies", value: 0, color: '#DCEFFF' },
         { label: "Active Companies", value: lengthData?.uniqueOrganizationsCount, color: '#0A98EA' },
@@ -17,10 +17,9 @@ const SDSchoolDashboard = ({lengthData}) => {
         { label: "Active Students", value: lengthData?.totalStudentsCount, color: '#8064F0' },
     ];
     return (
-        <div className='flex justify-between gap-5 items-center w-full'>
-            <div className=" h-[552px] w-[70%] border-[#E8E8E8] border-2 shadow-sm rounded-md my-8 p-1">
+        <div className='flex my-8 justify-between gap-5 items-center w-full'>
+            {/* <div className=" h-[552px] w-[70%] border-[#E8E8E8] border-2 shadow-sm rounded-md my-8 p-1">
                 <div className=" w-full ">
-                    {/* head */}
                     <div
                         style={{
                             borderRadius: "4px",
@@ -28,11 +27,9 @@ const SDSchoolDashboard = ({lengthData}) => {
                             background: "#F7F8FF"
                         }}
                         className=" flex justify-between">
-
                         <h1 className="p-2 w-[50%] text-center">Trending tasks</h1>
                         <h1 className="p-2 w-[20%] text-center">Students</h1>
                         <h1 className="p-2 w-[30%] text-center">Selected </h1>
-
                     </div>
                     <div
                         style={{
@@ -70,37 +67,26 @@ const SDSchoolDashboard = ({lengthData}) => {
                             border: "1px solid #F1F1F1",
                         }}
                         className=" flex justify-between items-center mt-1">
-
                         <div className=" w-[50%] px-2 flex items-center  gap-1 text-[15px] font-medium">
-
                             <img className='w-[56px] h-[56px] rounded-full' src={MOBIKWIK} alt="" />
                             <div className='grid items-center'>
                                 <p className='text-[18px] font-medium'>MOBIKWIKl</p>
                                 <p className='text-[16px] font-medium text-[#797979]'>Marketing task</p>
                             </div>
-
                         </div>
                         <div className=" w-[20%] text-center text-[18px] font-semibold tracking-wider">
-
                             <p>50 students</p>
-
                         </div>
                         <div className="text-center w-[30%]">
-
                             <p className='text-[#E8B912] text-lg font-medium'> 12 Students</p>
-
-
-
                         </div>
-
                     </div>
 
                 </div>
                 <div className='text-center my-4 text-[18px] text-[#797979] font-semibold tracking-wide'>
                     <button>See all</button>
                 </div>
-
-            </div>
+            </div> */}
             <div
                 style={{
                     borderRadius: "6px",

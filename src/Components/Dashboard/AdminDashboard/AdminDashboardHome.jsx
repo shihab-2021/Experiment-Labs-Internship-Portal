@@ -382,10 +382,16 @@ const AdminDashboardHome = () => {
                           <Avatar
                             key={index}
                             className="rounded-full w-[35px] h-[35px] flex items-center text-red-50 justify-center"
-                            style={{ getRandomColor }}
+                            // style={{ getRandomColor }}
+                            style={() => getRandomColor()}
                             alt="Participant"
                           >
-                            {user?.participantEmail?.charAt(0)?.toUpperCase()}
+                            <div
+                              className="rounded-full w-[45px] h-[45px] flex items-center text-red-50 justify-center"
+                              style={{ backgroundColor: getRandomColor() }}
+                            >
+                              {user?.participantEmail?.charAt(0)?.toUpperCase()}
+                            </div>
                           </Avatar>
                         ))}
                       </AvatarGroup>
@@ -404,7 +410,27 @@ const AdminDashboardHome = () => {
                       <div className="relative w-full">
                         <div className="w-full bg-gray-200 rounded-lg h-2">
                           <div
-                            className="bg-[#3E4DAC] h-2 rounded-lg"
+                            className={`${
+                              parseInt(item?.participantLimit) -
+                                item?.participants?.length >
+                              5
+                                ? "bg-green-500"
+                                : parseInt(item?.participantLimit) -
+                                    item?.participants?.length <=
+                                    5 &&
+                                  parseInt(item?.participantLimit) -
+                                    item?.participants?.length >=
+                                    3
+                                ? "bg-orange-500"
+                                : parseInt(item?.participantLimit) -
+                                    item?.participants?.length <=
+                                    2 &&
+                                  parseInt(item?.participantLimit) -
+                                    item?.participants?.length >=
+                                    1
+                                ? "bg-red-500"
+                                : "bg-gray-500"
+                            } h-2 rounded-lg`}
                             style={{
                               width: `${
                                 item?.participants?.length
