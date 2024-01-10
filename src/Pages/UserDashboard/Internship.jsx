@@ -77,6 +77,10 @@ const Internship = () => {
               ))}
             </div>
           </div>
+          <p className="text-center font-sans text-blue-400">
+            Stay tune, more internships coming soon. We will notify you via
+            email.
+          </p>
         </div>
       </DashboardLayout>
     </div>
