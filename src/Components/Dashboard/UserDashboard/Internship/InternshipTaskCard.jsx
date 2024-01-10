@@ -432,12 +432,21 @@ const InternshipTaskCard = ({ task }) => {
             <button className=" font-raleway font-bold text-white text-[15px] tracking-[1.50px] leading-[normal] whitespace-nowrap px-[29px] py-[7px] self-stretch w-full bg-green-500 rounded-[17px]">
               Applied
             </button>
-          ) : (
+          ) : task?.participants &&
+            parseInt(task?.participantLimit) - task?.participants?.length >
+              0 ? (
             <button
               onClick={() => setShowTaskDetails(true)}
               className=" font-raleway font-bold text-white text-[15px] tracking-[1.50px] leading-[normal] whitespace-nowrap px-[29px] py-[7px] self-stretch w-full bg-[#3e4dac] rounded-[17px]"
             >
               Apply
+            </button>
+          ) : (
+            <button
+              // onClick={() => setShowTaskDetails(true)}
+              className=" font-raleway font-bold text-white text-[15px]  leading-[normal] whitespace-nowrap py-[7px] self-stretch w-full bg-gray-400 rounded-[17px]"
+            >
+              You missed out : All slots booked
             </button>
           )}
         </div>
