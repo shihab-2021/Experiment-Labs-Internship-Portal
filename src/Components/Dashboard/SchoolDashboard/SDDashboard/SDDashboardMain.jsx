@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Ellipse from '../../../../assets/Dashboard/SchoolDashboard/Ellipse.svg';
 import edit from '../../../../assets/Dashboard/SchoolDashboard/edit.svg';
 import SDSchoolDashboard from './SDSchoolDashboard';
@@ -8,25 +8,36 @@ import SDDashboardBottom from './SDDashboardBottom';
 import { Link } from 'react-router-dom';
 import Loading from '../../../Shared/Loading/Loading';
 import axios from 'axios';
+import { AuthContext } from '../../../../Contexts/AuthProvider';
 
 
 const SDDashboardMain = () => {
+    const {userInfo} = useContext(AuthContext);
+    
     const [schoolData, setSchoolData] = useState({});
     const [schoolTasks, setSchoolTasks] = useState({});
+    const [counsellorData,setCounsellorData] = useState({});
     useEffect(() => {
         Loading();
-        axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/schools/schoolId/6596dda878cc2e1999c71c83`)
+        if(userInfo?.organizations)
+        {
+            axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/schools/schoolId/${userInfo?.organizations[0]?.schoolId}`)
             .then((school) => {
-
                 setSchoolData(school?.data);
             })
-        axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/schools/tasks/schoolId/6596be5f78cc2e19999136c8`)
+            axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${userInfo?.organizations[0]?.counsellorId}`)
+            .then((counsellor) => {
+                setCounsellorData(counsellor?.data);
+            })
+        axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/schools/statisticalData/schoolId/${userInfo?.organizations[0]?.schoolId}`)
             .then((tasks) => { setSchoolTasks(tasks.data) })
             .catch((error) => console.error(error))
             .finally(() => {
                 Loading().close();
             })
-    }, [])
+        }
+    }, [userInfo])
+    console.log(userInfo)
     return (
         <div className='w-11/12 mx-auto'>
             <h1 className='text-2xl font-semibold mt-12 mb-5'>Dashboard</h1>
@@ -36,14 +47,15 @@ const SDDashboardMain = () => {
                     border: "0.906px solid #D9D9D9",
                     background: "#FFF"
                 }}
-                className='flex justify-between w-full px-2 py-5'>
+                className='flex justify-between w-full px-2 py-4'>
                 <div className='flex gap-16'>
                     <div className='px-3'>
                         <img className='w-[92px] h-[92px] rounded-full' src={Ellipse} alt='icon' />
                     </div>
                     <div>
-                        <h1 className='text-[21px] font-semibold'>{schoolData?.schoolName}</h1>
-                        <p className='w-[70%] text-[17px]  font-medium'>Address : <span className='text-[#9F9F9F]'>{schoolData?.schoolAddress}</span></p>
+                        <h1 className='my-1 text-[21px] font-semibold'>{schoolData?.schoolName}</h1>
+                        <p className='my-1 text-[17px]  font-medium'>Address : <span className='text-[#9F9F9F]'>{schoolData?.schoolAddress || "Not Available"}</span></p>
+                        <p className='my-1 text-[17px]  font-medium'>Counsellor : <span className='text-[#9F9F9F]'>{counsellorData?.orgName || "Not Available"}</span></p>
                         {/* <p className='text-[17px]  font-medium'>Phone Number</p>
                     <p className='text-[17px] text-[#9F9F9F] font-medium'>+9 8162152151</p> */}
                         <p className='text-[17px] text-[#8064F0] font-medium mt-6'>Students</p>
