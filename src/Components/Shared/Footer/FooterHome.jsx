@@ -8,12 +8,15 @@ const FooterHome = () => {
   const [organizationInfo, setOrganizationInfo] = useState({});
 
   useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${id}`)
-      .then((org) => {
-        setOrganizationInfo(org?.data);
-      })
-      .catch((error) => console.error(error));
+    if (id)
+      axios
+        .get(
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${id}`
+        )
+        .then((org) => {
+          setOrganizationInfo(org?.data);
+        })
+        .catch((error) => console.error(error));
   }, [id]);
   return (
     <div className="bg-[#4250AC] mt-[90px] py-3 ">
