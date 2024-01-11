@@ -470,14 +470,14 @@ const AdminDashboardHome = () => {
         </div>
       </div>
       {/* statistics */}
-      <div className="mt-10 flex justify-between">
+      {/* <div className="mt-10 flex justify-between">
         <div className="bg-[#FFF] border border-[#E8E8E8] p-4 rounded-md w-[471px] h-[290px]">
           <div className="flex justify-between pb-4">
             <p className="flex flex-col">
               <span>Weekly Task Report</span>
               <span>{formatDate()}</span>
             </p>
-            {/* <p>Animation Task</p> */}
+            <p>Animation Task</p>
           </div>
           <LineChart
             width={382}
@@ -536,7 +536,7 @@ const AdminDashboardHome = () => {
           </PieChart>
         </div>
         <div></div>
-      </div>
+      </div> */}
       {/*companies */}
       <div className="mt-[60px]">
         <h1 className="text-[19px] font-[600]  tracking-wider text-center ">

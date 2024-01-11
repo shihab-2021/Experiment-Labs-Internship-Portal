@@ -160,14 +160,14 @@ const StudentSubmissionDetails = ({ item }) => {
                 const successMessage = `Submission status updated to ${status}`;
 
                 const counsellor = await axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${userDetails?.counsellorId}`);
-                console.log(userDetails?.counsellorId);
-                console.log(counsellor?.data?.officialEmail);
+                // console.log(userDetails?.counsellorId);
+                // console.log(counsellor?.data?.officialEmail);
 
                 const data = {
                     fromEmail: counsellor?.data?.officialEmail ? counsellor?.data?.officialEmail : 'naman.j@experimentlabs.in',
                     toEmail: userDetails?.email,
-                    subject: `Task: ${taskDetails?.taskName} ${status} by Super Admin`,
-                    text: `Super Admin has ${status} your task: ${taskDetails?.taskName}. Please check your dashboard for result.`,
+                    subject: `${taskDetails?.taskName} ${status} by Super Admin`,
+                    text: `Super Admin has ${status} your submission for ${taskDetails?.taskName}. Please check your dashboard for result.`,
                 };
 
                 const sendMail = await axios
@@ -175,8 +175,22 @@ const StudentSubmissionDetails = ({ item }) => {
                         `${import.meta.env.VITE_APP_SERVER_API}/api/v1/emails/single-email`,
                         data
                     );
-                
-                console.log(sendMail);
+
+                const dataAdmin = {
+                    fromEmail: 'naman.j@experimentlabs.in',
+                    toEmail: organizationDetails?.officialEmail,
+                    subject: `${userDetails?.firstName} submitted ${taskDetails?.taskName}`,
+                    text: `${userDetails?.firstName} submitted ${taskDetails?.taskName}. Please check your dashboard.`,
+                };
+
+
+                const sendMailToAdmin = await axios
+                    .post(
+                        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/emails/single-email`,
+                        dataAdmin
+                    );
+
+                // console.log(sendMail);
 
                 Swal.fire({
                     icon: "success",
@@ -231,7 +245,7 @@ const StudentSubmissionDetails = ({ item }) => {
                     </div>
                 </div>
                 <div className="flex justify-center w-[150px]">
-                    <img  className=" text-base font-medium text-[#737373] w-[100px]" src={organizationDetails?.orgLogo}>
+                    <img className=" text-base font-medium text-[#737373] w-[100px]" src={organizationDetails?.orgLogo}>
                     </img>
                 </div>
                 <div className="flex justify-center w-[220px]">

@@ -119,7 +119,7 @@ const SubmissionDetails = () => {
               {submissionsDetails?.length ? (
                 <div>
                   {submissionsDetails?.slice()?.reverse()?.map((item) => (
-                    <StudentSubmissionDetails item={item} />
+                    <StudentSubmissionDetails key={item._id} item={item} />
                   ))}
                 </div>
               ) : (

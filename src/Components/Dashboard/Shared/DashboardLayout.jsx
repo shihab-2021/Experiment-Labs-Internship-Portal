@@ -1179,7 +1179,7 @@ const DashboardLayout = ({ children }) => {
                           understand the product.
                         </p>
                         <p>
-                          Companies start posting by the 10th of January. We
+                          Companies have started posting. We
                           will update you via email as soon as your favourite
                           companies are live.
                         </p>
