@@ -66,29 +66,32 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     Loading();
-    axios
-      .get(
-        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${
-          user?.email
-        }`
-      )
-      .then((user) => {
-        setUserInfo(user?.data);
-        if (user?.data?.organizations) {
-          if (user?.data?.organizations[0]?.role === "SuperAdmin")
-            localStorage.setItem("role", user?.data?.organizations[0].role);
-          else if (user?.data?.organizations[0]?.role === "Counsellor")
-            localStorage.setItem("role", user?.data?.organizations[0].role);
-          else if (user?.data?.organizations[0]?.role === "SchoolAdmin")
-            localStorage.setItem("role", user?.data?.organizations[0].role);
-          else {
-            const role = localStorage.getItem("role");
-            if (role === "SuperAdmin") localStorage.setItem("role", "Student");
+    if (user?.email)
+      axios
+        .get(
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${
+            user?.email
+          }`
+        )
+        .then((user) => {
+          setUserInfo(user?.data);
+          if (user?.data?.organizations) {
+            if (user?.data?.organizations[0]?.role === "SuperAdmin")
+              localStorage.setItem("role", user?.data?.organizations[0].role);
+            else if (user?.data?.organizations[0]?.role === "Counsellor")
+              localStorage.setItem("role", user?.data?.organizations[0].role);
+            else if (user?.data?.organizations[0]?.role === "SchoolAdmin")
+              localStorage.setItem("role", user?.data?.organizations[0].role);
+            else {
+              const role = localStorage.getItem("role");
+              if (role === "SuperAdmin")
+                localStorage.setItem("role", "Student");
+            }
           }
-        }
-        Loading().close();
-      })
-      .catch((error) => console.error(error));
+          Loading().close();
+        })
+        .catch((error) => console.error(error));
+    Loading().close();
   }, [user?.email, userInfo?.email]);
 
   const authInfo = {

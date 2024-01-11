@@ -15,31 +15,6 @@ const SubmissionDetails = () => {
   const [selectedSate, setSelectedSate] = useState(states[0]);
   const [loading, setLoading] = useState(true);
 
-  const taskDetails = {
-    participants: [
-      {
-        participantEmail: "ab@gmail.com",
-        submissionId: "12121212",
-        submissionDateTime: "1/2/2024",
-      },
-      {
-        participantEmail: "ab@gmail.com",
-        submissionId: "12121212",
-        submissionDateTime: "1/2/2024",
-      },
-      {
-        participantEmail: "ab@gmail.com",
-        submissionId: "12121212",
-        submissionDateTime: "1/2/2024",
-      },
-      {
-        participantEmail: "ab@gmail.com",
-        submissionId: "12121212",
-        submissionDateTime: "1/2/2024",
-      },
-    ],
-  };
-
   // submissionsDetails data
   const [submissionsDetails, setSubmissionsDetails] = useState();
 
@@ -88,12 +63,14 @@ const SubmissionDetails = () => {
                 style={{ display: "inline-block" }}
               >
                 <p
-                  className={`${state === "All Students" ? "text-[#3E4DAC]" : ""
-                    }
-                                ${state === "Pending Decision"
-                      ? "text-[#F1511B]"
-                      : ""
-                    }
+                  className={`${
+                    state === "All Students" ? "text-[#3E4DAC]" : ""
+                  }
+                                ${
+                                  state === "Pending Decision"
+                                    ? "text-[#F1511B]"
+                                    : ""
+                                }
                                 ${state === "Approved" ? "text-[#20B15A]" : ""}
                                 ${state === "Rejected" ? "text-[#DD2025]" : ""}
                                 

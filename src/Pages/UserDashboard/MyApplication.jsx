@@ -70,15 +70,19 @@ const SingleApplicationRow = ({ submission }) => {
             submission?.submissionStatus === "Processing"
               ? "text-[#4555BA] bg-[#F1F3FF]"
               : submission?.submissionStatus === "Selected"
-              ? "text-[#D4A500] bg-[#FFF8E3]"
+              ? "text-[#46dd20] bg-[#f3fff0]"
               : submission?.submissionStatus === "Rejected"
               ? "text-[#DD2025] bg-[#FFF0F0]"
               : submission?.submissionStatus === "Pending"
-              ? "text-[#8bdd20] bg-[#f6fff0]"
+              ? "text-[#D4A500] bg-[#FFF8E3]"
+              : submission?.submissionStatus === "SuperAdminApproved"
+              ? "text-[#45ba83] bg-[#f1fff8]"
               : ""
           }`}
         >
-          {submission?.submissionStatus}
+          {submission?.submissionStatus === "SuperAdminApproved"
+            ? "Processing"
+            : submission?.submissionStatus}
         </h1>
       </div>
       <div className="text-center flex items-center justify-center text-[15px] font-semibold">
