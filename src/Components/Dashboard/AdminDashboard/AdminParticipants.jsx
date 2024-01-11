@@ -15,10 +15,9 @@ const AdminParticipants = ({ item }) => {
 
   //user details data
 
-  const { userInfo } = useContext(AuthContext);
-
   const [userDetails, setUserDetails] = useState();
   const [submissionDetails, setSubmissionDetails] = useState({});
+  const { userInfo } = useContext(AuthContext);
 
   const getInitials = (data) => {
     const firstNameInitial = data?.firstName?.charAt(0)?.toUpperCase() || "";
@@ -95,10 +94,15 @@ const AdminParticipants = ({ item }) => {
           import.meta.env.VITE_APP_SERVER_API
         }/api/v1/taskSubmissions/submissionId/${submissionId}/submissionStatus/${status}`
       )
-      .then((response) => {
+      .then(async (response) => {
         const successMessage = `Submission status updated to ${status}`;
+
+        const counsellor = await axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${userDetails?.counsellorId}`);
+        // console.log(userDetails?.counsellorId);
+        // console.log(counsellor?.data?.officialEmail);
+
         const data = {
-          fromEmail: userInfo?.email,
+          fromEmail: counsellor?.data?.officialEmail ? counsellor?.data?.officialEmail : 'naman.j@experimentlabs.in',
           toEmail: userDetails?.email,
           subject: "Task Result",
           text: `${userInfo?.firstName} has evaluated your task. Please check your dashboard for result. `,

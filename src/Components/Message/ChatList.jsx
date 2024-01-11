@@ -5,6 +5,7 @@ import axios from 'axios';
 import './style.css';
 import { getPerson } from './utils';
 import io from "socket.io-client";
+import Loading from '../Shared/Loading/Loading';
 const ENDPOINT = `${import.meta.env.VITE_APP_SERVER_API}`;
 let socket, selectedChatCompare;
 
@@ -23,14 +24,17 @@ const ChatList = ({ chats, setChats, read, setRead, setSelectedChat, selectedCha
     const fetchChat = async () => {
         const chatList = await axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/chats/userId/${userInfo?._id}`);
         setChats(chatList?.data?.userChats);
+        Loading().close();
     }
 
     useEffect(() => {
+        Loading();
         fetchChat();
-        console.log(chats);
+        // console.log(chats);
     }, [userInfo]);
 
     useEffect(() => {
+        Loading();
         fetchChat();
     }, [lastMessage]);
 
@@ -46,6 +50,21 @@ const ChatList = ({ chats, setChats, read, setRead, setSelectedChat, selectedCha
     }, [selectedChat]);
 
 
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const fetchMessage = async () => {
+                const messageList = await axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/messages/chatId/${selectedChat?._id}`);
+                setMessages(messageList?.data?.messages);
+            }
+            fetchMessage();
+            selectedChatCompare = selectedChat;
+        }, 10000); // Interval in milliseconds
+
+        // Clear the interval on component unmount to avoid memory leaks
+        return () => clearInterval(interval);
+    }, []);
+
+    console.log("Messages ====>", messages);
     useEffect(() => {
         socket.on("message received", (newMessageReceived) => {
             // console.log("New message Receive now");
@@ -86,8 +105,6 @@ const ChatList = ({ chats, setChats, read, setRead, setSelectedChat, selectedCha
             { userId: userInfo?._id }
         );
     }
-
-    console.log("Data ===>", selectedChat?.latestMessage?.readBy);
 
 
     return (

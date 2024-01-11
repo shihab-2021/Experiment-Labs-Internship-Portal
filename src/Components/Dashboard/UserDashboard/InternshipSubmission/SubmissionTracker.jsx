@@ -136,8 +136,7 @@ const SubmissionTracker = () => {
     if (task?.creator?.email) {
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${
-            task?.creator?.email
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${task?.creator?.email
           }`
         )
         .then((user) => {
@@ -148,8 +147,7 @@ const SubmissionTracker = () => {
     if (task?.creator?.organizationId) {
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${
-            task?.creator?.organizationId
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${task?.creator?.organizationId
           }`
         )
         .then((org) => {
@@ -187,7 +185,28 @@ const SubmissionTracker = () => {
       `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/submitTask`,
       submitData
     );
-    if (newSubmission.statusText === "OK") {
+    console.log(newSubmission);
+    if (newSubmission?.status === 200) {
+      // console.log("First Line Entered");
+      const data = {
+        fromEmail: userInfo?.email,
+        toEmail: "naman.j@experimentlabs.in",
+        subject: `${userInfo.firstName} Has Submitted the Task named ${task?.taskName}`,
+        text: `${userInfo?.firstName} has submitted the task of ${organizationInfo?.orgName} named ${task?.taskName}`
+      }
+
+      const sendMail = await axios.post(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/emails/single-email`,
+        data
+      );
+
+      // console.log("Entered");
+      // console.log(sendMail);
+      // console.log(userInfo?.email);
+      // console.log(userInfo.firstName);
+      // console.log(task?.taskName);
+      // console.log(organizationInfo?.orgName);
+      // console.log(task?.taskName);
+
       Swal.fire({
         icon: "success",
         title: "Task Submitted",
@@ -243,25 +262,22 @@ const SubmissionTracker = () => {
             <div>
               <div className=" grid grid-cols-3 w-3/4 mx-auto h-1 mb-[-20px]">
                 <div
-                  className={`${
-                    participationInfo?.submissionDateTime
+                  className={`${participationInfo?.submissionDateTime
                       ? "bg-[#4555BA]"
                       : "bg-[#D9D9D9]"
-                  } `}
+                    } `}
                 ></div>
                 <div
-                  className={`${
-                    participationInfo?.selectedDateTime
+                  className={`${participationInfo?.selectedDateTime
                       ? "bg-[#4555BA]"
                       : "bg-[#D9D9D9]"
-                  } `}
+                    } `}
                 ></div>
                 <div
-                  className={`${
-                    participationInfo?.prizeDateTime
+                  className={`${participationInfo?.prizeDateTime
                       ? "bg-[#4555BA]"
                       : "bg-[#D9D9D9]"
-                  } `}
+                    } `}
                 ></div>
               </div>
             </div>
@@ -295,11 +311,10 @@ const SubmissionTracker = () => {
               </div>
               <div className="flex items-center flex-col">
                 <p
-                  className={`${
-                    participationInfo?.submissionDateTime
+                  className={`${participationInfo?.submissionDateTime
                       ? "bg-[#4555BA]"
                       : "bg-[#8F8F8F]"
-                  } rounded-full  px-[10px] py-[7px]  w-[40px] h-[40px] text-white text-[16px] font-medium text-center`}
+                    } rounded-full  px-[10px] py-[7px]  w-[40px] h-[40px] text-white text-[16px] font-medium text-center`}
                 >
                   2
                 </p>
@@ -424,7 +439,7 @@ const SubmissionTracker = () => {
               <h1 className=" font-raleway font-bold text-[#007d00] text-[15px] tracking-[1.50px] px-[7px] w-fit py-[4px] bg-[#d6ffd6] rounded-[10px]">
                 {task?.participants
                   ? parseInt(task?.participantLimit) -
-                    task?.participants?.length
+                  task?.participants?.length
                   : parseInt(task?.participantLimit)}{" "}
                 spots left
               </h1>
