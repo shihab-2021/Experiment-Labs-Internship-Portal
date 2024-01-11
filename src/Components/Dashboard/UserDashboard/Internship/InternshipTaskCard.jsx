@@ -416,7 +416,28 @@ const InternshipTaskCard = ({ task }) => {
             <h1 className=" font-raleway text-[#1e1e1e] relative w-fit whitespace-nowrap">
               {task?.participantLimit} Students
             </h1>
-            <h1 className=" font-raleway font-bold text-[#007d00] text-[15px] tracking-[1.50px] relative w-fit leading-[normal] whitespace-nowrap px-[7px] py-[4px] bg-[#d6ffd6] rounded-[10px]">
+            <h1
+              className={` font-sans font-bold text-[15px] tracking-[1.50px] px-[7px] w-fit py-[4px] ${
+                parseInt(task?.participantLimit) - task?.participants?.length >
+                5
+                  ? "bg-green-200 text-green-600"
+                  : parseInt(task?.participantLimit) -
+                      task?.participants?.length <=
+                      5 &&
+                    parseInt(task?.participantLimit) -
+                      task?.participants?.length >=
+                      3
+                  ? "bg-orange-200 text-orange-600"
+                  : parseInt(task?.participantLimit) -
+                      task?.participants?.length <=
+                      2 &&
+                    parseInt(task?.participantLimit) -
+                      task?.participants?.length >=
+                      1
+                  ? "bg-red-200 text-red-600"
+                  : "bg-gray-200 text-gray-600"
+              }  rounded-[10px]`}
+            >
               {task?.participants
                 ? parseInt(task?.participantLimit) - task?.participants?.length
                 : parseInt(task?.participantLimit)}{" "}
