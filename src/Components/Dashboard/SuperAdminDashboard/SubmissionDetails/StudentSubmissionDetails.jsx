@@ -231,9 +231,8 @@ const StudentSubmissionDetails = ({ item }) => {
                     </div>
                 </div>
                 <div className="flex justify-center w-[150px]">
-                    <h1 className=" text-base font-medium text-[#737373]">
-                        {organizationDetails?.orgName}
-                    </h1>
+                    <img  className=" text-base font-medium text-[#737373] w-[100px]" src={organizationDetails?.orgLogo}>
+                    </img>
                 </div>
                 <div className="flex justify-center w-[220px]">
                     <h1 className=" text-base font-medium text-[#737373]">
