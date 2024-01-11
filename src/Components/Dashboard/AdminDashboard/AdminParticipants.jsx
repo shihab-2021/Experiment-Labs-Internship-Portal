@@ -8,6 +8,7 @@ import arrowUp from "../../../assets/Dashboard/AdminDashboard/arrowUp.svg";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { AuthContext } from "../../../Contexts/AuthProvider";
 
 const AdminParticipants = ({ item }) => {
   // console.log(item)
@@ -16,6 +17,7 @@ const AdminParticipants = ({ item }) => {
 
   const [userDetails, setUserDetails] = useState();
   const [submissionDetails, setSubmissionDetails] = useState({});
+  const { userInfo } = useContext(AuthContext);
 
   const getInitials = (data) => {
     const firstNameInitial = data?.firstName?.charAt(0)?.toUpperCase() || "";
@@ -89,10 +91,15 @@ const AdminParticipants = ({ item }) => {
         `${import.meta.env.VITE_APP_SERVER_API
         }/api/v1/taskSubmissions/submissionId/${submissionId}/submissionStatus/${status}`
       )
-      .then((response) => {
+      .then(async (response) => {
         const successMessage = `Submission status updated to ${status}`;
+
+        const counsellor = await axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${userDetails?.counsellorId}`);
+        // console.log(userDetails?.counsellorId);
+        // console.log(counsellor?.data?.officialEmail);
+
         const data = {
-          fromEmail: userInfo?.email,
+          fromEmail: counsellor?.data?.officialEmail ? counsellor?.data?.officialEmail : 'naman.j@experimentlabs.in',
           toEmail: userDetails?.email,
           subject: "Task Result",
           text: `${userInfo?.firstName} has evaluated your task. Please check your dashboard for result. `
@@ -107,7 +114,7 @@ const AdminParticipants = ({ item }) => {
           .catch((error) => {
             console.log(error)
           })
-        console.log(sendMail)
+        // console.log(sendMail)
 
         Swal.fire({
           icon: "success",

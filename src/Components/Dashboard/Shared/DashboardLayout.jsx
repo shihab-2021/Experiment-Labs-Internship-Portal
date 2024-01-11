@@ -367,7 +367,8 @@ const DashboardLayout = ({ children }) => {
                                     : "text-[#8F8F8F]"
                                     } ml-3 text-[16px] font-[600]`}
                                 >
-                                  Messages <span className="ml-3 py-[0.5px] px-1 rounded-full bg-red-600">{unread}</span>
+                                  Messages
+                                  {unread > 0 && <span className="ml-3 py-[0.5px] px-1 rounded-full bg-red-600">{unread}</span>}
                                 </span>
                               </Link>
                             </li>
@@ -573,7 +574,7 @@ const DashboardLayout = ({ children }) => {
                                     : "text-[#8F8F8F]"
                                     } ml-3 text-[16px] font-[600]`}
                                 >
-                                  Messages <span className="ml-3 py-[0.5px] px-1 rounded-full bg-red-600">{unread}</span>
+                                  Messages {unread > 0 && <span className="ml-3 py-[0.5px] px-1 rounded-full bg-red-600">{unread}</span>}
                                 </span>
                               </Link>
                             </li>
@@ -827,7 +828,7 @@ const DashboardLayout = ({ children }) => {
                                     : "text-[#8F8F8F]"
                                     } ml-3 text-[16px] font-[600]`}
                                 >
-                                  Messages <span className="ml-3 py-[0.5px] px-1 rounded-full bg-red-600">{unread}</span>
+                                  Messages {unread > 0 && <span className="ml-3 py-[0.5px] px-1 rounded-full bg-red-600">{unread}</span>}
                                 </span>
                               </Link>
                             </li>

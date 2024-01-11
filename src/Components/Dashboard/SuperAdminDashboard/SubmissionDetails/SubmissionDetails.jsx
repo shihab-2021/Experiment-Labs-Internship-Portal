@@ -142,8 +142,8 @@ const SubmissionDetails = () => {
             <>
               {submissionsDetails?.length ? (
                 <div>
-                  {submissionsDetails?.map((item) => (
-                    <StudentSubmissionDetails item={item} />
+                  {submissionsDetails?.map((index , item) => (
+                    <StudentSubmissionDetails key={index} item={item} />
                   ))}
                 </div>
               ) : (

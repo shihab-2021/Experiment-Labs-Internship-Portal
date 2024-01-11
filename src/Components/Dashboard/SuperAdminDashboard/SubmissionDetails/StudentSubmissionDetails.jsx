@@ -156,8 +156,10 @@ const StudentSubmissionDetails = ({ item }) => {
                     suggestion: rejectionSuggestion,
                 }
             )
-            .then((response) => {
+            .then(async(response) => {
                 const successMessage = `Submission status updated to ${status}`;
+
+                
 
                 Swal.fire({
                     icon: "success",
