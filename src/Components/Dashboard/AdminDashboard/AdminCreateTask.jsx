@@ -272,25 +272,25 @@ const AdminCreateTask = () => {
           : "Pending",
       postingDateTime: new Date(),
     };
-    console.log(taskData);
+    // console.log(taskData);
     const newTask = await axios.post(
       `${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks`,
       taskData
     );
-    console.log(userInfo);
+    // console.log(userInfo);
 
     if (newTask) {
       const data = {
         fromEmail: userInfo?.email,
         toEmail: "naman.j@experimentlabs.in",
-        subject: "New Task Created",
-        text: `${userInfo?.firstName} has created a new task named ${taskData?.taskName}`
+        subject: `New Task Created by ${organizationInfo?.orgName}`,
+        text: `${userInfo?.firstName} from ${organizationInfo?.orgName} has created a new task named ${taskData?.taskName}`
       }
 
       const sendMail =  await axios.post(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/emails/single-email`,
       data
       );
-      console.log(sendMail)
+      // console.log(sendMail)
 
       Swal.fire({
         title: "New task created successfully!",

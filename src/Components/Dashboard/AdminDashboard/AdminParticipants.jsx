@@ -8,6 +8,7 @@ import arrowUp from "../../../assets/Dashboard/AdminDashboard/arrowUp.svg";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { AuthContext } from "../../../Contexts/AuthProvider";
 
 const AdminParticipants = ({ item }) => {
   // console.log(item)
@@ -16,6 +17,7 @@ const AdminParticipants = ({ item }) => {
 
   const [userDetails, setUserDetails] = useState();
   const [submissionDetails, setSubmissionDetails] = useState({});
+  const { userInfo } = useContext(AuthContext);
 
   const getInitials = (data) => {
     const firstNameInitial = data?.firstName?.charAt(0)?.toUpperCase() || "";
@@ -45,7 +47,8 @@ const AdminParticipants = ({ item }) => {
     if (item?.participantEmail)
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${item?.participantEmail
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${
+            item?.participantEmail
           }`
         )
         .then((user) => {
@@ -62,7 +65,8 @@ const AdminParticipants = ({ item }) => {
     if (item?.submissionId)
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/taskSubmissions/${item?.submissionId
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/taskSubmissions/${
+            item?.submissionId
           }`
         )
         .then((user) => {
@@ -74,7 +78,7 @@ const AdminParticipants = ({ item }) => {
   //console.log(submissionDetails)
 
   // handle select or reject
-  console.log(submissionDetails)
+  console.log(submissionDetails);
 
   const updateSubmissionStatus = async (status, submissionId) => {
     const submissionData = { ...submissionDetails };
@@ -86,28 +90,36 @@ const AdminParticipants = ({ item }) => {
 
     axios
       .put(
-        `${import.meta.env.VITE_APP_SERVER_API
+        `${
+          import.meta.env.VITE_APP_SERVER_API
         }/api/v1/taskSubmissions/submissionId/${submissionId}/submissionStatus/${status}`
       )
-      .then((response) => {
+      .then(async (response) => {
         const successMessage = `Submission status updated to ${status}`;
+
+        const counsellor = await axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${userDetails?.counsellorId}`);
+        // console.log(userDetails?.counsellorId);
+        // console.log(counsellor?.data?.officialEmail);
+
         const data = {
-          fromEmail: userInfo?.email,
+          fromEmail: counsellor?.data?.officialEmail ? counsellor?.data?.officialEmail : 'naman.j@experimentlabs.in',
           toEmail: userDetails?.email,
           subject: "Task Result",
-          text: `${userInfo?.firstName} has evaluated your task. Please check your dashboard for result. `
-        }
+          text: `${userInfo?.firstName} has evaluated your task. Please check your dashboard for result. `,
+        };
 
-        axios.post(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/emails/single-email`,
-          data
-        )
+        axios
+          .post(
+            `${import.meta.env.VITE_APP_SERVER_API}/api/v1/emails/single-email`,
+            data
+          )
           .then((res) => {
-            console.log(res)
+            console.log(res);
           })
           .catch((error) => {
-            console.log(error)
-          })
-        console.log(sendMail)
+            console.log(error);
+          });
+        console.log(sendMail);
 
         Swal.fire({
           icon: "success",
@@ -188,10 +200,10 @@ const AdminParticipants = ({ item }) => {
         </Link>
         <div className="text-center">
           <h1 className="text-base font-bold">Status</h1>
-          {submissionDetails?.submissionStatus === "Processing" && (
+          {submissionDetails?.submissionStatus === "SuperAdminApproved" && (
             <button
               onClick={() =>
-                updateSubmissionStatus("AdminApproved", submissionDetails?._id)
+                updateSubmissionStatus("Selected", submissionDetails?._id)
               }
               style={{
                 borderRadius: "18px",
@@ -228,7 +240,7 @@ const AdminParticipants = ({ item }) => {
               </p>
             </div>
           )}
-          {submissionDetails?.submissionStatus === "AdminApproved" && (
+          {submissionDetails?.submissionStatus === "Processing" && (
             <div>
               <p className=" rounded-2xl text-[#66d400] bg-[#f0ffe3] text-sm font-bold px-5 py-2">
                 Approval Pending
@@ -236,7 +248,7 @@ const AdminParticipants = ({ item }) => {
             </div>
           )}
         </div>
-        {submissionDetails?.submissionStatus === "Processing" && (
+        {submissionDetails?.submissionStatus === "SuperAdminApproved" && (
           <button
             className="mt-6"
             onClick={() =>

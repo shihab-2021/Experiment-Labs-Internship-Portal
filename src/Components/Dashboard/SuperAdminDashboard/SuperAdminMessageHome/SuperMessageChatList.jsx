@@ -7,6 +7,7 @@ import './style.css';
 import { getPerson } from './SuperUtils';
 import io from "socket.io-client";
 import { AuthContext } from '../../../../Contexts/AuthProvider';
+import Loading from '../../../Shared/Loading/Loading';
 const ENDPOINT = `${import.meta.env.VITE_APP_SERVER_API}`;
 let socket, selectedChatCompare;
 
@@ -22,19 +23,22 @@ const SuperMessageChatList = ({ chats, setChats, read, setRead, setSelectedChat,
         // eslint-disable-next-line
     }, []);
 
-    console.log(chats)
+    // console.log(chats)
 
     const fetchChat = async () => {
         const SuperMessageChatList = await axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/chats`);
         setChats(SuperMessageChatList?.data?.userChats);
+        Loading().close();
     }
 
     useEffect(() => {
+        Loading();
         fetchChat();
-        console.log(chats);
+        // console.log(chats);
     }, [userInfo]);
 
     useEffect(() => {
+        Loading();
         fetchChat();
     }, [lastMessage]);
 
@@ -48,6 +52,21 @@ const SuperMessageChatList = ({ chats, setChats, read, setRead, setSelectedChat,
         selectedChatCompare = selectedChat;
 
     }, [selectedChat]);
+
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const fetchMessage = async () => {
+                const messageList = await axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/messages/chatId/${selectedChat?._id}`);
+                setMessages(messageList?.data?.messages);
+            }
+            fetchMessage();
+            selectedChatCompare = selectedChat;
+        }, 10000); // Interval in milliseconds
+
+        // Clear the interval on component unmount to avoid memory leaks
+        return () => clearInterval(interval);
+    }, []);
 
 
     useEffect(() => {
@@ -90,8 +109,6 @@ const SuperMessageChatList = ({ chats, setChats, read, setRead, setSelectedChat,
             { userId: userInfo?._id }
         );
     }
-
-    console.log("Data ===>", selectedChat?.latestMessage?.readBy);
 
 
     return (
@@ -194,7 +211,7 @@ const SuperMessageChatList = ({ chats, setChats, read, setRead, setSelectedChat,
                     {
                         !read && userNamesMap && chats && chats?.map(
                             (chat, i) =>
-                            (((chat.latestMessage.senderId !== userInfo._id) && (!chat?.latestMessage?.readBy.includes(userInfo?._id))) && <div
+                            (((chat.latestMessage.senderId !== userInfo._id) && (!chat?.latestMessage?.readBy?.includes(userInfo?._id)) && chat?.latestMessage?.senderId) && <div
                                 onClick={() => {
                                     setSelectedChat(chat),
                                         socket.emit('join chat', chat?._id),
