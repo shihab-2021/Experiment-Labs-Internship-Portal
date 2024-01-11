@@ -152,11 +152,31 @@ const TaskCard = ({ item, index }) => {
           <p className="font-medium text-[16px] text-[#1E1E1E]">
             {item?.participants?.length || 0} students
           </p>
-          <p className="text-[#007D00] text-[15px] font-bold bg-[#E9ECFF]  mt-2 py-[7px] px-[4px] rounded-[10px]">
+          <p
+            className={` text-[15px] font-bold font-sans mt-2 py-[7px] px-[4px] rounded-[10px] ${
+              parseInt(item?.participantLimit) - item?.participants?.length > 5
+                ? "bg-green-200 text-green-600"
+                : parseInt(item?.participantLimit) -
+                    item?.participants?.length <=
+                    5 &&
+                  parseInt(item?.participantLimit) -
+                    item?.participants?.length >=
+                    3
+                ? "bg-orange-200 text-orange-600"
+                : parseInt(item?.participantLimit) -
+                    item?.participants?.length <=
+                    2 &&
+                  parseInt(item?.participantLimit) -
+                    item?.participants?.length >=
+                    1
+                ? "bg-red-200 text-red-600"
+                : "bg-gray-200 text-gray-600"
+            }`}
+          >
             {item?.participants
               ? parseInt(item?.participantLimit) - item?.participants?.length
               : parseInt(item?.participantLimit)}{" "}
-            spot left
+            spots left
           </p>
         </div>
       </div>
