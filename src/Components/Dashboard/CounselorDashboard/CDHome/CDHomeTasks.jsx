@@ -72,8 +72,8 @@ const CDHomeTasks = ({ allTasks, pending, selected, rejected, progress }) => {
                 <button
                     onClick={(event) => handleTab(event, "In Progress")}
                     className={`text-[18px] font-medium py-[6px] px-[25px] rounded-3xl ${isActive("In Progress")
-                            ? "text-white bg-[#0A98EA]"
-                            : "text-[#3F3F3F] bg-transparent"
+                        ? "text-white bg-[#0A98EA]"
+                        : "text-[#3F3F3F] bg-transparent"
                         }`}
                 >
                     In Progress
@@ -81,8 +81,8 @@ const CDHomeTasks = ({ allTasks, pending, selected, rejected, progress }) => {
                 <button
                     onClick={(event) => handleTab(event, "Completed tasks")}
                     className={`text-[18px] font-medium py-[6px] px-[25px] rounded-3xl ${isActive("Completed tasks")
-                            ? "text-white bg-[#20B15A]"
-                            : "text-[#3F3F3F] bg-transparent"
+                        ? "text-white bg-[#20B15A]"
+                        : "text-[#3F3F3F] bg-transparent"
                         }`}
                 >
                     Completed tasks
@@ -90,8 +90,8 @@ const CDHomeTasks = ({ allTasks, pending, selected, rejected, progress }) => {
                 <button
                     onClick={(event) => handleTab(event, "Pending Submission")}
                     className={`text-[18px] font-medium py-[6px] px-[25px] rounded-3xl ${isActive("Pending Submission")
-                            ? "text-white bg-[#F1511B]"
-                            : "text-[#3F3F3F] bg-transparent"
+                        ? "text-white bg-[#F1511B]"
+                        : "text-[#3F3F3F] bg-transparent"
                         }`}
                 >
                     Pending Submission
@@ -99,15 +99,15 @@ const CDHomeTasks = ({ allTasks, pending, selected, rejected, progress }) => {
                 <button
                     onClick={(event) => handleTab(event, "Rejected in tasks")}
                     className={`text-[18px] font-medium py-[6px] px-[25px] rounded-3xl ${isActive("Rejected in tasks")
-                            ? "text-white bg-[#DD2025]"
-                            : "text-[#3F3F3F] bg-transparent"
+                        ? "text-white bg-[#DD2025]"
+                        : "text-[#3F3F3F] bg-transparent"
                         }`}
                 >
                     Rejected in tasks
                 </button>
             </div>
             <div className="flex flex-col gap-1">
-                {currentTasks.map((item, index) => (
+                {currentTasks.slice().reverse().map((item, index) => (
                     <CDHomeTaskCard item={item} key={index} />
                 ))}
             </div>
