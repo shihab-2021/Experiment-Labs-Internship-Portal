@@ -61,7 +61,8 @@ const StudentSubmissionDetails = ({ item }) => {
         // console.log(userDetails)
         const firstNameInitial =
             userDetails?.firstName?.charAt(0)?.toUpperCase() || "";
-        const lastNameInitial = userDetails?.lastName?.charAt(0)?.toUpperCase() || "";
+        const lastNameInitial =
+            userDetails?.lastName?.charAt(0)?.toUpperCase() || "";
         return `${firstNameInitial}${lastNameInitial}`;
     };
     const getRandomColor = () => {
@@ -140,8 +141,7 @@ const StudentSubmissionDetails = ({ item }) => {
                 .catch((error) => console.error(error));
     }, [item?.organizationId]);
 
-
- //   console.log(organizationDetails);
+    //   console.log(organizationDetails);
 
     // handle select or reject
     const updateSubmissionStatus = (status, submissionId) => {
@@ -156,10 +156,27 @@ const StudentSubmissionDetails = ({ item }) => {
                     suggestion: rejectionSuggestion,
                 }
             )
-            .then(async(response) => {
+            .then(async (response) => {
                 const successMessage = `Submission status updated to ${status}`;
 
+                const counsellor = await axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${userDetails?.counsellorId}`);
+                console.log(userDetails?.counsellorId);
+                console.log(counsellor?.data?.officialEmail);
+
+                const data = {
+                    fromEmail: counsellor?.data?.officialEmail ? counsellor?.data?.officialEmail : 'naman.j@experimentlabs.in',
+                    toEmail: userDetails?.email,
+                    subject: `Task: ${taskDetails?.taskName} ${status} by Super Admin`,
+                    text: `Super Admin has ${status} your task: ${taskDetails?.taskName}. Please check your dashboard for result.`,
+                };
+
+                const sendMail = await axios
+                    .post(
+                        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/emails/single-email`,
+                        data
+                    );
                 
+                console.log(sendMail);
 
                 Swal.fire({
                     icon: "success",
@@ -168,7 +185,7 @@ const StudentSubmissionDetails = ({ item }) => {
                     confirmButtonText: "OK",
                 });
 
-                navigate('/superAdminDashboardHome');
+                navigate("/superAdminDashboardHome");
             })
             .catch((error) => {
                 console.error(error);
@@ -197,7 +214,10 @@ const StudentSubmissionDetails = ({ item }) => {
             >
                 <div className="flex items-center gap-2  w-[220px]">
                     <div>
-                        <div className="text-white rounded-full px-3 py-2" style={{ backgroundColor: backgroundColor }}>
+                        <div
+                            className="text-white rounded-full px-3 py-2"
+                            style={{ backgroundColor: backgroundColor }}
+                        >
                             {getInitials()}
                         </div>
                     </div>
@@ -345,7 +365,7 @@ const StudentSubmissionDetails = ({ item }) => {
                                 ) : (
                                     <button
                                         onClick={() =>
-                                            updateSubmissionStatus("Selected", item?._id)
+                                            updateSubmissionStatus("SuperAdminApproved", item?._id)
                                         }
                                         className="text-[19px] font-medium px-[29px] py-[8px] text-[#fff]"
                                         style={{
