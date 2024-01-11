@@ -101,7 +101,6 @@ const SubmissionDetails = () => {
                 >
                   {state}
                 </p>
-
                 {selectedSate === state && (
                   <hr className="h-1.5 bg-blue-800 mt-1" />
                 )}
@@ -142,7 +141,7 @@ const SubmissionDetails = () => {
             <>
               {submissionsDetails?.length ? (
                 <div>
-                  {submissionsDetails?.map((item) => (
+                  {submissionsDetails?.slice()?.reverse()?.map((item) => (
                     <StudentSubmissionDetails item={item} />
                   ))}
                 </div>
@@ -158,8 +157,7 @@ const SubmissionDetails = () => {
               {submissionsDetails?.length ? (
                 <div>
                   {submissionsDetails
-                    ?.filter((item) => item?.submissionStatus === "Processing")
-                    .map((item) => (
+                    ?.filter((item) => item?.submissionStatus === "Processing")?.slice()?.reverse()?.map((item) => (
                       <StudentSubmissionDetails
                         // key={item.id}  // Assuming each item has a unique id
                         item={item}
@@ -179,8 +177,7 @@ const SubmissionDetails = () => {
               {submissionsDetails?.length ? (
                 <div>
                   {submissionsDetails
-                    ?.filter((item) => item?.submissionStatus === "Selected")
-                    .map((item) => (
+                    ?.filter((item) => item?.submissionStatus === "Selected")?.slice()?.reverse()?.map((item) => (
                       <StudentSubmissionDetails
                         // key={item.id}  // Assuming each item has a unique id
                         item={item}
@@ -199,8 +196,7 @@ const SubmissionDetails = () => {
               {submissionsDetails?.length ? (
                 <div>
                   {submissionsDetails
-                    ?.filter((item) => item?.submissionStatus === "Rejected")
-                    .map((item) => (
+                    ?.filter((item) => item?.submissionStatus === "Rejected")?.slice()?.reverse()?.map((item) => (
                       <StudentSubmissionDetails
                         // key={item.id}  // Assuming each item has a unique id
                         item={item}

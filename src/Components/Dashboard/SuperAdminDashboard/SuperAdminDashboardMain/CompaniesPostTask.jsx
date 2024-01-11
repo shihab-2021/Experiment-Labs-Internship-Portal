@@ -39,13 +39,14 @@ const CompaniesPostTask = () => {
                     className="aspect-square object-contain object-center w-[30px] overflow-hidden self-stretch shrink-0 max-w-full"
                 />
             </div>
+            <div className='mb-5'>
             {companiesPost?.map((company, i) => (
                 <div key={i} className="justify-between items-center flex  mt-4 max-md:max-w-full">
                     <div className="items-center flex gap-10 justify-between  max-md:max-w-full max-md:flex-wrap">
                         {/* <div className="w-[110px] text-black text-base font-medium tracking-widest">
                         {company?.orgName}
                     </div> */}
-                        <img className='w-[45px] h-[45px]' src={company?.organization?.orgLogo} alt="" />
+                        <img className='w-[90px]' src={company?.organization?.orgLogo} alt="" />
                         <div className="bg-inherit w-[40vw] shrink-0 max-w-full h-7 rounded-2xl" >
                             <div
                             className='bg-indigo-200 h-7 rounded-2xl'
@@ -64,9 +65,10 @@ const CompaniesPostTask = () => {
                     </div>
                 </div>
             ))}
-            <div className="text-black text-xl font-medium tracking-[2px] whitespace-nowrap text-center items-center bg-slate-50 mt-2.5 px-16 py-2.5 max-md:max-w-full max-md:px-5">
-                show more
             </div>
+            {/* <div className="text-black text-xl font-medium tracking-[2px] whitespace-nowrap text-center items-center bg-slate-50 mt-2.5 px-16 py-2.5 max-md:max-w-full max-md:px-5">
+                show more
+            </div> */}
         </div>
     );
 };
