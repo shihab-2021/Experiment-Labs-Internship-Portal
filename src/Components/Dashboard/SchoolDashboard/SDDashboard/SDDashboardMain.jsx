@@ -12,32 +12,36 @@ import { AuthContext } from '../../../../Contexts/AuthProvider';
 
 
 const SDDashboardMain = () => {
-    const {userInfo} = useContext(AuthContext);
-    
+    const { userInfo } = useContext(AuthContext);
+
     const [schoolData, setSchoolData] = useState({});
     const [schoolTasks, setSchoolTasks] = useState({});
-    const [counsellorData,setCounsellorData] = useState({});
+    const [counsellorData, setCounsellorData] = useState({});
+    const [topStudentsData, setTopStudentsData] = useState([]);
     useEffect(() => {
         Loading();
-        if(userInfo?.organizations)
-        {
+        if (userInfo?.organizations) {
             axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/schools/schoolId/${userInfo?.organizations[0]?.schoolId}`)
-            .then((school) => {
-                setSchoolData(school?.data);
-            })
+                .then((school) => {
+                    setSchoolData(school?.data);
+                })
             axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${userInfo?.organizations[0]?.counsellorId}`)
-            .then((counsellor) => {
-                setCounsellorData(counsellor?.data);
-            })
-        axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/schools/statisticalData/schoolId/${userInfo?.organizations[0]?.schoolId}`)
-            .then((tasks) => { setSchoolTasks(tasks.data) })
-            .catch((error) => console.error(error))
-            .finally(() => {
-                Loading().close();
-            })
+                .then((counsellor) => {
+                    setCounsellorData(counsellor?.data);
+                })
+            axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/taskSubmissions/leaderBoard/schoolId/${schoolData?._id}`)
+                .then((res) => {
+                    setTopStudentsData(res?.data);
+                })
+            axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/schools/statisticalData/schoolId/${userInfo?.organizations[0]?.schoolId}`)
+                .then((tasks) => { setSchoolTasks(tasks.data) })
+                .catch((error) => console.error(error))
+                .finally(() => {
+                    Loading().close();
+                })
         }
     }, [userInfo])
-    console.log(userInfo)
+   // console.log(topStudentsData)
     return (
         <div className='w-11/12 mx-auto'>
             <h1 className='text-2xl font-semibold mt-12 mb-5'>Dashboard</h1>
@@ -67,10 +71,10 @@ const SDDashboardMain = () => {
                 </Link>
             </div>
             <h1 className='text-[17px] font-medium text-[#3E4DAC] mt-7 mb-2'>School dashboard </h1>
-            <SDSchoolList lengthData={schoolTasks}/>
-            <SDSchoolDashboard lengthData={schoolTasks}/>
-            <SDDashboardMiddle />
-            <SDDashboardBottom />
+            <SDSchoolList lengthData={schoolTasks} />
+            <SDSchoolDashboard lengthData={schoolTasks} />
+            <SDDashboardMiddle topStudentsData={topStudentsData} schoolName={schoolData?.schoolName} />
+            {/* <SDDashboardBottom /> */}
         </div>
     );
 };

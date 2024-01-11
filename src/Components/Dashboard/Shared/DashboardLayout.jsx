@@ -29,8 +29,9 @@ import SchoolIconLight from "../../../assets/Dashboard/Shared/SchoolIconLight.pn
 import SchoolIconDark from "../../../assets/Dashboard/Shared/SchoolIconDark.png";
 import { AuthContext } from "../../../Contexts/AuthProvider";
 import axios from "axios";
+import TawkToWidget from "./TawkToWidget";
 const DashboardLayout = ({ children }) => {
-  const { logOut, userInfo } = useContext(AuthContext);
+  const { logOut, userInfo, user } = useContext(AuthContext);
   const [toggleButton, setToggleButton] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
@@ -1079,6 +1080,7 @@ const DashboardLayout = ({ children }) => {
                     </div>
                   )}
                   <div className="">{children}</div>
+                  {role === "Student" && user && <TawkToWidget />}
                 </main>
               </div>
             </div>
