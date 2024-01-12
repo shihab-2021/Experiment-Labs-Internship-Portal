@@ -6,185 +6,14 @@ import select from "../../../../assets/Dashboard/CounselorsDashboard/fluent_sele
 import reject from "../../../../assets/Dashboard/CounselorsDashboard/icon-park-outline_reject.svg"
 import pending from "../../../../assets/Dashboard/CounselorsDashboard/mdi_account-pending-outline.svg"
 import Pagination from '@mui/material/Pagination';
+import plusicon from "../../../../assets/Dashboard/CounselorsDashboard/iconoir_plus.svg";
 import Stack from '@mui/material/Stack';
 import { AuthContext } from '../../../../Contexts/AuthProvider';
+import { Link } from 'react-router-dom';
+import { FaMagnifyingGlass } from 'react-icons/fa6';
 const MyStudentsData = ({ students }) => {
-    
-    // console.log(students)
-    // const cardData = [
-    //     {
-    //         studentfirstName: "Harshita",
-    //         studentlastName: "Verma",
-    //         studentClass: "11th Class",
-    //         studentStream: "Science",
-    //         studentAge: 14,
-    //         studentTasks: 3,
-    //         studentTaskTime: "36 hrs 5min",
-    //         studentTaskStatus:
-    //         {
-    //             rejected: 1,
-    //             selected: 1,
-    //             pending: 1,
-    //         },
-    //         studentSchoolInfo: {
-    //             schoolImg: schoolImg,
-    //             schoolName: "Delhi Public School",
-    //         },
-    //     },
-    //     {
-    //         studentfirstName: "Naman",
-    //         studentlastName: "Sharma",
-    //         studentClass: "11th Class",
-    //         studentStream: "Science",
-    //         studentAge: 14,
-    //         studentTasks: 3,
-    //         studentTaskTime: "36 hrs 5min",
-    //         studentTaskStatus:
-    //         {
-    //             rejected: 1,
-    //             selected: 1,
-    //             pending: 1,
-    //         },
-    //         studentSchoolInfo: {
-    //             schoolImg: schoolImg,
-    //             schoolName: "Delhi Public School",
-    //         },
-    //     },
-    //     {
-    //         studentfirstName: "Al",
-    //         studentlastName: "Rafi",
-    //         studentClass: "11th Class",
-    //         studentStream: "Science",
-    //         studentAge: 14,
-    //         studentTasks: 3,
-    //         studentTaskTime: "36 hrs 5min",
-    //         studentTaskStatus:
-    //         {
-    //             rejected: 1,
-    //             selected: 1,
-    //             pending: 1,
-    //         },
-    //         studentSchoolInfo: {
-    //             schoolImg: schoolImg,
-    //             schoolName: "Delhi Public School",
-    //         },
-    //     },
-    //     {
-    //         studentfirstName: "Tanvir",
-    //         studentlastName: "Sohan",
-    //         studentClass: "11th Class",
-    //         studentStream: "Science",
-    //         studentAge: 14,
-    //         studentTasks: 3,
-    //         studentTaskTime: "36 hrs 5min",
-    //         studentTaskStatus:
-    //         {
-    //             rejected: 1,
-    //             selected: 1,
-    //             pending: 1,
-    //         },
-    //         studentSchoolInfo: {
-    //             schoolImg: schoolImg,
-    //             schoolName: "Delhi Public School",
-    //         },
-    //     },
-    //     {
-    //         studentfirstName: "Shajibul",
-    //         studentlastName: "Shihab",
-    //         studentClass: "11th Class",
-    //         studentStream: "Science",
-    //         studentAge: 14,
-    //         studentTasks: 3,
-    //         studentTaskTime: "36 hrs 5min",
-    //         studentTaskStatus:
-    //         {
-    //             rejected: 1,
-    //             selected: 1,
-    //             pending: 1,
-    //         },
-    //         studentSchoolInfo: {
-    //             schoolImg: schoolImg,
-    //             schoolName: "Delhi Public School",
-    //         },
-    //     },
-    //     {
-    //         studentfirstName: "Rakibul",
-    //         studentlastName: "Hassan",
-    //         studentClass: "11th Class",
-    //         studentStream: "Science",
-    //         studentAge: 14,
-    //         studentTasks: 3,
-    //         studentTaskTime: "36 hrs 5min",
-    //         studentTaskStatus:
-    //         {
-    //             rejected: 1,
-    //             selected: 1,
-    //             pending: 1,
-    //         },
-    //         studentSchoolInfo: {
-    //             schoolImg: schoolImg,
-    //             schoolName: "Delhi Public School",
-    //         },
-    //     },
-    //     {
-    //         studentfirstName: "Harshal",
-    //         studentlastName: "Malhotra",
-    //         studentClass: "11th Class",
-    //         studentStream: "Science",
-    //         studentAge: 14,
-    //         studentTasks: 3,
-    //         studentTaskTime: "36 hrs 5min",
-    //         studentTaskStatus:
-    //         {
-    //             rejected: 1,
-    //             selected: 1,
-    //             pending: 1,
-    //         },
-    //         studentSchoolInfo: {
-    //             schoolImg: schoolImg,
-    //             schoolName: "Delhi Public School",
-    //         },
-    //     },
-    //     {
-    //         studentfirstName: "Shahrukh",
-    //         studentlastName: "Khan",
-    //         studentClass: "11th Class",
-    //         studentStream: "Science",
-    //         studentAge: 14,
-    //         studentTasks: 3,
-    //         studentTaskTime: "36 hrs 5min",
-    //         studentTaskStatus:
-    //         {
-    //             rejected: 1,
-    //             selected: 1,
-    //             pending: 1,
-    //         },
-    //         studentSchoolInfo: {
-    //             schoolImg: schoolImg,
-    //             schoolName: "Delhi Public School",
-    //         },
-    //     },
-    //     {
-    //         studentfirstName: "Salman",
-    //         studentlastName: "Bhai",
-    //         studentClass: "11th Class",
-    //         studentStream: "Science",
-    //         studentAge: 14,
-    //         studentTasks: 3,
-    //         studentTaskTime: "36 hrs 5min",
-    //         studentTaskStatus:
-    //         {
-    //             rejected: 1,
-    //             selected: 1,
-    //             pending: 1,
-    //         },
-    //         studentSchoolInfo: {
-    //             schoolImg: schoolImg,
-    //             schoolName: "Delhi Public School",
-    //         },
-    //     },
 
-    // ];
+
     const getInitials = (user) => {
         const firstNameInitial =
             user?.firstName?.charAt(0)?.toUpperCase() || "";
@@ -243,12 +72,72 @@ const MyStudentsData = ({ students }) => {
         setDisplayedStudents(students.slice(startIndex, endIndex));
     }, [currentPage, students]);
 
+
+
+    const [searchValue, setSearchValue] = useState('');
+    const [filteredStudents, setFilteredStudents] = useState([]);
+
+    useEffect(() => {
+        // Generate random background colors for each student
+        const colors = students?.map(() => getRandomColor());
+        setBackgroundColors(colors);
+    }, [students]);
+
+    useEffect(() => {
+        // Filter students based on the search value
+        setCurrentPage(1);
+        const filtered = students.filter((student) =>
+            `${student?.user?.firstName} ${student?.user?.lastName}`
+                .toLowerCase()
+                .includes(searchValue.toLowerCase())
+        );
+        setFilteredStudents(filtered);
+    }, [searchValue, students]);
+
+    useEffect(() => {
+        // Update displayed students when pagination or filtering changes
+        const startIndex = (currentPage - 1) * studentsPerPage;
+        const endIndex = startIndex + studentsPerPage;
+        setDisplayedStudents(filteredStudents.slice(startIndex, endIndex));
+    }, [currentPage, studentsPerPage, filteredStudents]);
+
+    // Update the total number of pages based on filtered students
+    const totalFilteredPages = Math.ceil(filteredStudents.length / studentsPerPage);
+
     const handlePageChange = (event, newPage) => {
         setCurrentPage(newPage);
     };
-    
     return (
         <div className='w-11/12 mx-auto mt-4'>
+            <div className="my-3">
+
+                <div className="flex justify-between items-center mt-10">
+                    <div
+                        style={{
+                            borderRadius: "14px",
+                            border: "1px solid #DDD",
+                        }}
+                        className="mb-[40px] lg:flex hidden  items-center  px-2 text-[#929292] text-xl font-normal gap-[10px] w-[440px] h-[48px] "
+                    >
+                        <FaMagnifyingGlass />
+                        <input
+                            className="w-[90%] focus:outline-none"
+                            placeholder="Search"
+                            value={searchValue}
+                            onChange={(e) => setSearchValue(e.target.value)}
+                        />
+                    </div>
+                    <Link
+                        to={"/counselorDashboard/AddStudent"}
+                        className="bg-[#4555BA] px-[15px] py-[10px] rounded-3xl text-white flex gap-2 items-center"
+                    >
+                        <img src={plusicon} alt="" />
+                        <p className="text-[18px] font-medium tracking-wider">
+                            Add Student details
+                        </p>
+                    </Link>
+                </div>
+            </div>
             <div className="flex justify-between border-b border-[#ECECEC] pb-2">
                 <p className="text-[19px] text-[#797979] font-medium mt-3">My students</p>
                 <img src={menu} alt="" />
@@ -264,10 +153,7 @@ const MyStudentsData = ({ students }) => {
                                 <div className='font-medium '>
                                     <p className='text-[16.36px] font-medium tracking-wide'>{student?.user?.firstName} {student?.user?.lastName}</p>
                                     <p className='text-[#797979] text-[15.4px] font-medium tracking-wide'>{student?.user?.class}th Class</p>
-                                    {/* <p className='flex gap-2 items-center text-[#797979] text-[14.398px] tracking-wide'>
-                                        <img src={clock} alt="" />
-                                        <span>{student?.user?.studentTaskTime}</span>
-                                    </p> */}
+
                                     <p className='text-[15.4px] tracking-wide'>Section : <span className='text-[16.4px] text-[#797979]'>{student?.user?.section || "Not Available"}</span></p>
                                     <p className='text-[15.4px] tracking-wide'>Phone : <span className='text-[16.4px] text-[#797979]' style={{ fontFamily: 'Monospace-Font' }}>{student?.user?.phone}</span></p>
 
@@ -329,7 +215,7 @@ const MyStudentsData = ({ students }) => {
             <div className='grid justify-center my-5'>
                 <Stack spacing={2}>
                     <Pagination
-                        count={Math.ceil(students.length / studentsPerPage)}
+                        count={totalFilteredPages} // Use totalFilteredPages instead of Math.ceil(students.length / studentsPerPage)
                         page={currentPage}
                         onChange={handlePageChange}
                         size="large"

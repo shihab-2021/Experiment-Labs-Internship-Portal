@@ -111,16 +111,15 @@ const CDHomeTasks = ({ allTasks, pending, selected, rejected, progress }) => {
                     <CDHomeTaskCard item={item} key={index} />
                 ))}
             </div>
-            <div className="flex items-center justify-between my-4">
-                <div className="w-[50%] flex justify-end">
-                    <Stack spacing={2}>
-                        <Pagination
-                            count={Math.ceil(filteredTasks.length / tasksPerPage)}
-                            page={currentPage}
-                            onChange={paginate}
-                        />
-                    </Stack>
-                </div>
+            <div className="flex items-center justify-center my-4">
+
+                <Stack spacing={2}>
+                    <Pagination
+                        count={Math.ceil(filteredTasks.length / tasksPerPage)}
+                        page={currentPage}
+                        onChange={paginate}
+                    />
+                </Stack>
             </div>
         </div>
     );

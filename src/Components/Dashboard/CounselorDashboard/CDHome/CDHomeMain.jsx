@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import CDHomeBottomSection from "./CDHomeBottomSection";
 import Loading from "../../../Shared/Loading/Loading";
 import { AuthContext } from "../../../../Contexts/AuthProvider";
+import { FaMagnifyingGlass } from "react-icons/fa6";
 
 const CDHomeMain = () => {
   const [allTasks, setAllTasks] = useState([]);
@@ -17,10 +18,8 @@ const CDHomeMain = () => {
     if (userInfo?.organizations) {
       axios
         .get(
-          `${
-            import.meta.env.VITE_APP_SERVER_API
-          }/api/v1/taskSubmissions/getSubmissionStatusByCounsellorId/counsellorId/${
-            userInfo?.organizations[0]?.counsellorId
+          `${import.meta.env.VITE_APP_SERVER_API
+          }/api/v1/taskSubmissions/getSubmissionStatusByCounsellorId/counsellorId/${userInfo?.organizations[0]?.counsellorId
           }`
         )
         .then((tasks) => {
@@ -50,9 +49,25 @@ const CDHomeMain = () => {
     (task) => task?.submissionStatus === "Rejected"
   );
   const inRejected = rejected?.submissions || [];
-  console.log( "All tasks", allTasks);
+  console.log("All tasks", allTasks);
   return (
     <div>
+      {/* <div className="w-11/12 mx-auto mt-7">
+      <h1 className="text-[20px] text-[#3F3F3F] font-medium tracking-widest mb-3">
+          Home Page
+        </h1>
+        <div
+          style={{
+            borderRadius: "14px",
+            border: "1px solid #DDD",
+          }}
+          className="mb-[40px] lg:flex hidden  items-center  px-2 text-[#929292] text-xl font-normal gap-[10px] w-9/12 h-[48px] "
+        >
+          <FaMagnifyingGlass />
+          <input className="w-full" placeholder="Search"></input>
+        </div>
+        
+      </div> */}
       <CDHomeTopSection
         allTasks={allTasks}
         progress={inProgress}
