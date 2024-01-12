@@ -8,7 +8,8 @@ import { Helmet } from "react-helmet";
 
 const Internship = () => {
   const { userInfo } = useContext(AuthContext);
-  const [adminApprovedTasks, setAdminApprovedTasks] = useState([]);
+  const [superAdminApprovedTasks, setSuperAdminApprovedTasks] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     axios
@@ -18,10 +19,17 @@ const Internship = () => {
         }/api/v1/tasks/taskStatus/Processing`
       )
       .then((tasks) => {
-        setAdminApprovedTasks(tasks?.data);
+        setSuperAdminApprovedTasks(tasks?.data);
+      })
+      .catch((error) => console.error(error));
+    axios
+      .get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/categories`)
+      .then((allCategory) => {
+        setCategories(allCategory?.data);
       })
       .catch((error) => console.error(error));
   }, []);
+  console.log(categories);
   return (
     <div>
       <Helmet>
@@ -72,12 +80,12 @@ const Internship = () => {
           </div>
           <div className=" my-7 ">
             <div className="flex gap-5 flex-wrap">
-              {adminApprovedTasks?.map((task) => (
+              {superAdminApprovedTasks?.map((task) => (
                 <InternshipTaskCard task={task} />
               ))}
             </div>
           </div>
-          <p className="text-center font-sans text-blue-400">
+          <p className="text-center my-10 font-sans text-blue-400">
             Stay tune, more internships coming soon. We will notify you via
             email.
           </p>
