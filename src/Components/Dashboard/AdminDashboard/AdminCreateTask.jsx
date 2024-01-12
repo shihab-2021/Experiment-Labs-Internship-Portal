@@ -30,7 +30,8 @@ const AdminCreateTask = () => {
     if (userInfo?.organizations) {
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${userInfo?.organizations[0]?.organizationId
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${
+            userInfo?.organizations[0]?.organizationId
           }`
         )
         .then((org) => {
@@ -190,8 +191,6 @@ const AdminCreateTask = () => {
     setVideoFileLoading(false);
   };
 
-  console.log(video);
-
   const handleNext = async (event) => {
     event.preventDefault();
     const form = event?.target;
@@ -204,7 +203,8 @@ const AdminCreateTask = () => {
 
       if (organizationInfo.orgName && organizationInfo.orgLogo) {
         const updateOrganization = await axios.put(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${userInfo?.organizations[0]?.organizationId
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${
+            userInfo?.organizations[0]?.organizationId
           }`,
           organizationInfo
         );
@@ -212,12 +212,13 @@ const AdminCreateTask = () => {
         setPage(2);
       } else {
         Swal.fire({
-          title: `Please Enter ${!organizationInfo.orgName && !organizationInfo.aboutOrg
+          title: `Please Enter ${
+            !organizationInfo.orgName && !organizationInfo.aboutOrg
               ? "Company Name & Company Logo"
               : !organizationInfo.orgName
-                ? "Company Name"
-                : "Company Logo"
-            }!`,
+              ? "Company Name"
+              : "Company Logo"
+          }!`,
           icon: "error",
         });
       }
@@ -237,12 +238,13 @@ const AdminCreateTask = () => {
         setPage(2);
       } else {
         Swal.fire({
-          title: `Please Enter ${!companyData.orgName && !companyData.aboutOrg
+          title: `Please Enter ${
+            !companyData.orgName && !companyData.aboutOrg
               ? "Company Name & Company Logo"
               : !companyData.orgName
-                ? "Company Name"
-                : "Company Logo"
-            }!`,
+              ? "Company Name"
+              : "Company Logo"
+          }!`,
           icon: "error",
         });
       }
@@ -263,9 +265,10 @@ const AdminCreateTask = () => {
       participantLimit: form.participantLimit.value,
       creator: {
         email: user?.email,
-        organizationId: organizationInfo?._id,
+        organizationId: userInfo?.organizations[0]?.organizationId,
         role: userInfo?.organizations[0]?.role,
       },
+      participants: [],
       taskStatus:
         userInfo?.organizations[0]?.role === "Admin"
           ? "AdminApproved"
@@ -284,11 +287,12 @@ const AdminCreateTask = () => {
         fromEmail: userInfo?.email,
         toEmail: "naman.j@experimentlabs.in",
         subject: `New Task Created by ${organizationInfo?.orgName}`,
-        text: `${userInfo?.firstName} from ${organizationInfo?.orgName} has created a new task named ${taskData?.taskName}`
-      }
+        text: `${userInfo?.firstName} from ${organizationInfo?.orgName} has created a new task named ${taskData?.taskName}`,
+      };
 
-      const sendMail =  await axios.post(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/emails/single-email`,
-      data
+      const sendMail = await axios.post(
+        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/emails/single-email`,
+        data
       );
       // console.log(sendMail)
 
@@ -297,7 +301,7 @@ const AdminCreateTask = () => {
         icon: "success",
       });
 
-   /*    const sendMail = await axios.post(
+      /*    const sendMail = await axios.post(
         `${import.meta.env.VITE_APP_BACKEND_API}/api/v1/sendMail`,
         {
           from: `${userInfo?.email}`,

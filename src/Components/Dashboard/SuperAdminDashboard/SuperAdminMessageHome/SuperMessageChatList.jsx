@@ -148,7 +148,7 @@ const SuperMessageChatList = ({ chats, setChats, read, setRead, setSelectedChat,
                                             socket.emit('join chat', chat?._id)
                                     }}
                                     key={i}
-                                    className={`flex flex-col w-[323.7px] items-start gap-[15.56px] px-[5.93px] py-[11.11px] rounded-[5.19px] border-[0.74px] border-solid border-[#c5c5c5] relative flex-[0_0_auto] cursor-pointer ${chat?._id === selectedChat?._id && "bg-[#aec9e58a]"}`}>
+                                    className={`flex flex-col w-[323.7px] items-start gap-[15.56px] px-[5.93px] py-[11.11px] rounded-[5.19px] border-[0.74px] border-solid border-[#c5c5c5] relative flex-[0_0_auto] cursor-pointer ${chat?._id === selectedChat?._id && "bg-[#aec9e58a]"} ${((chat.latestMessage.senderId !== userInfo._id) && (!chat?.latestMessage?.readBy?.includes(userInfo?._id)) && chat?.latestMessage?.senderId) && 'bg-[#aec9e554]'}`}>
                                     <div className="inline-flex flex-col items-start gap-[7.41px] relative flex-[0_0_auto]">
                                         <div className="flex w-[266.67px] items-start gap-[58.52px] relative flex-[0_0_auto]">
                                             <p className="relative flex-1 mt-[-0.74px] [font-family:'Raleway-Medium',Helvetica] font-medium text-transparent text-[14.8px] tracking-[1.48px] leading-[normal]">
