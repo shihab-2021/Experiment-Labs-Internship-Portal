@@ -10,6 +10,8 @@ const Internship = () => {
   const { userInfo } = useContext(AuthContext);
   const [superAdminApprovedTasks, setSuperAdminApprovedTasks] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [filteredTasks, setFilteredTasks] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
   useEffect(() => {
     axios
@@ -29,7 +31,16 @@ const Internship = () => {
       })
       .catch((error) => console.error(error));
   }, []);
-  console.log(categories);
+  useEffect(() => {
+    if (selectedCategory === "All") setFilteredTasks(superAdminApprovedTasks);
+    else
+      setFilteredTasks(
+        superAdminApprovedTasks?.filter(
+          (task) => task?.taskCategory === selectedCategory
+        )
+      );
+  }, [selectedCategory]);
+  console.log(filteredTasks);
   return (
     <div>
       <Helmet>
@@ -50,37 +61,35 @@ const Internship = () => {
             <h1 className="relative w-fit font-raleway font-bold text-black text-[16px] tracking-[1.60px] leading-[normal] whitespace-nowrap">
               Explore Internships
             </h1>
-            {/* <div className="items-start gap-[22px] inline-flex relative flex-[0_0_auto]">
-              <button className="h-[39px] items-center justify-center gap-[10px] p-[10px] bg-[#deeeff] rounded-[25px] inline-flex relative flex-[0_0_auto]">
+            <div className="items-start gap-[22px] inline-flex relative flex-[0_0_auto]">
+              <button
+                onClick={() => setSelectedCategory("All")}
+                className={`h-[39px] items-center justify-center gap-[10px] p-[10px] ${
+                  selectedCategory === "All" && "bg-[#deeeff]"
+                }  rounded-[25px] inline-flex relative flex-[0_0_auto]`}
+              >
                 <p className="relative w-fit font-bold text-neutral-500 text-[16px] tracking-[1.60px] leading-[normal] whitespace-nowrap">
                   ALL
                 </p>
               </button>
-              <button className="h-[39px] items-center justify-center gap-[10px] p-[10px] rounded-[25px] inline-flex relative flex-[0_0_auto]">
-                <p className="relative w-fit font-bold text-neutral-500 text-[16px] tracking-[1.60px] leading-[normal] whitespace-nowrap">
-                  Design
-                </p>
-              </button>
-              <button className="h-[39px] items-center justify-center gap-[10px] p-[10px] rounded-[25px] inline-flex relative flex-[0_0_auto]">
-                <p className="relative w-fit font-bold text-neutral-500 text-[16px] tracking-[1.60px] leading-[normal] whitespace-nowrap">
-                  Marketing
-                </p>
-              </button>
-              <button className="h-[39px] items-center justify-center gap-[10px] p-[10px] rounded-[25px] inline-flex relative flex-[0_0_auto]">
-                <p className="relative w-fit font-bold text-neutral-500 text-[16px] tracking-[1.60px] leading-[normal] whitespace-nowrap">
-                  Content writer
-                </p>
-              </button>
-              <button className="h-[39px] items-center justify-center gap-[10px] p-[10px] rounded-[25px] inline-flex relative flex-[0_0_auto]">
-                <p className="relative w-fit font-bold text-neutral-500 text-[16px] tracking-[1.60px] leading-[normal] whitespace-nowrap">
-                  Research
-                </p>
-              </button>
-            </div> */}
+              {categories?.map((category) => (
+                <button
+                  onClick={() => setSelectedCategory(category?.categoryName)}
+                  className={`h-[39px] items-center justify-center gap-[10px] p-[10px] rounded-[25px] inline-flex ${
+                    selectedCategory === category?.categoryName &&
+                    "bg-[#deeeff]"
+                  } relative flex-[0_0_auto]`}
+                >
+                  <p className="relative w-fit font-bold text-neutral-500 text-[16px] tracking-[1.60px] leading-[normal] whitespace-nowrap">
+                    {category?.categoryName}
+                  </p>
+                </button>
+              ))}
+            </div>
           </div>
           <div className=" my-7 ">
             <div className="flex gap-5 flex-wrap">
-              {superAdminApprovedTasks?.map((task) => (
+              {filteredTasks?.map((task) => (
                 <InternshipTaskCard task={task} />
               ))}
             </div>
