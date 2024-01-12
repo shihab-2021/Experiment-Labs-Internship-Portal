@@ -19,6 +19,16 @@ const InternshipTaskCard = ({ task }) => {
   const [showWarningForApply, setShowWarningForApply] = useState(false);
   const [showStartTask, setShowStartTask] = useState(false);
 
+  const deadline = task?.taskDeadline;
+  const targetDate = new Date(deadline);
+
+  // Current date and time
+  const currentDate = new Date();
+
+  // Calculate the difference in milliseconds
+  const timeDifference = targetDate - currentDate;
+  const daysRemaining = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
   useEffect(() => {
     axios
       .get(
@@ -153,11 +163,32 @@ const InternshipTaskCard = ({ task }) => {
             <h1 className=" mt-4 font-raleway text-[16px] font-[500] text-[#1e1e1e]">
               {task?.participantLimit} Students
             </h1>
-            <h1 className=" font-raleway font-bold text-[#007d00] text-[15px] tracking-[1.50px] px-[7px] w-fit py-[4px] bg-[#d6ffd6] rounded-[10px]">
+            <h1
+              className={` font-sans font-bold text-[15px] tracking-[1.50px] px-[7px] w-fit py-[4px] ${
+                parseInt(task?.participantLimit) - task?.participants?.length >
+                5
+                  ? "bg-green-200 text-green-600"
+                  : parseInt(task?.participantLimit) -
+                      task?.participants?.length <=
+                      5 &&
+                    parseInt(task?.participantLimit) -
+                      task?.participants?.length >=
+                      3
+                  ? "bg-orange-200 text-orange-600"
+                  : parseInt(task?.participantLimit) -
+                      task?.participants?.length <=
+                      2 &&
+                    parseInt(task?.participantLimit) -
+                      task?.participants?.length >=
+                      1
+                  ? "bg-red-200 text-red-600"
+                  : "bg-gray-200 text-gray-600"
+              }  rounded-[10px]`}
+            >
               {task?.participants
                 ? parseInt(task?.participantLimit) - task?.participants?.length
                 : parseInt(task?.participantLimit)}{" "}
-              spot left
+              spots left
             </h1>
             <h2 className="relative w-fit font-raleway font-medium text-[#4555BA] text-[15.9px] tracking-[1.59px] my-4 leading-[normal] whitespace-nowrap">
               {task?.taskTime} hrs task
@@ -285,11 +316,11 @@ const InternshipTaskCard = ({ task }) => {
             <h1 className="mt-[12px] text-[20px] font-[700] tracking-wider ">
               {task?.taskName}
             </h1>
-            <p>Task no. 4</p>
             <p className=" text-[#797979] text-[16px] tracking-wider ">
-              "You have 7 days to complete this task with a flexible work
-              duration of 4 hours. Use your flexible hours to give your best
-              effort and enhance your skills. Your assistance is appreciated."
+              "You have {daysRemaining} days to complete this task with a
+              flexible work duration of {task?.taskTime} hours. Use your
+              flexible hours to give your best effort and enhance your skills.
+              Your assistance is appreciated."
             </p>
           </div>
           <div className="flex items-center gap-1 mt-5 ">
@@ -327,12 +358,34 @@ const InternshipTaskCard = ({ task }) => {
               <h1 className=" text-center font-raleway text-[16px] font-[500] text-[#1e1e1e]">
                 {task?.participantLimit} Students
               </h1>
-              <h1 className=" font-sans font-bold text-[#007d00] text-[15px] tracking-[1.50px] px-[7px] w-fit py-[4px] bg-[#d6ffd6] rounded-[10px]">
+              <h1
+                className={` font-sans font-bold text-[15px] tracking-[1.50px] px-[7px] w-fit py-[4px] ${
+                  parseInt(task?.participantLimit) -
+                    task?.participants?.length >
+                  5
+                    ? "bg-green-200 text-green-600"
+                    : parseInt(task?.participantLimit) -
+                        task?.participants?.length <=
+                        5 &&
+                      parseInt(task?.participantLimit) -
+                        task?.participants?.length >=
+                        3
+                    ? "bg-orange-200 text-orange-600"
+                    : parseInt(task?.participantLimit) -
+                        task?.participants?.length <=
+                        2 &&
+                      parseInt(task?.participantLimit) -
+                        task?.participants?.length >=
+                        1
+                    ? "bg-red-200 text-red-600"
+                    : "bg-gray-200 text-gray-600"
+                }  rounded-[10px]`}
+              >
                 {task?.participants
                   ? parseInt(task?.participantLimit) -
                     task?.participants?.length
                   : parseInt(task?.participantLimit)}{" "}
-                spot left
+                spots left
               </h1>
             </div>
           </div>
@@ -453,9 +506,10 @@ const InternshipTaskCard = ({ task }) => {
             <button className=" font-raleway font-bold text-white text-[15px] tracking-[1.50px] leading-[normal] whitespace-nowrap px-[29px] py-[7px] self-stretch w-full bg-green-500 rounded-[17px]">
               Applied
             </button>
-          ) : task?.participants &&
-            parseInt(task?.participantLimit) - task?.participants?.length >
-              0 ? (
+          ) : (task?.participants &&
+              parseInt(task?.participantLimit) - task?.participants?.length >
+                0) ||
+            !task?.participants ? (
             <button
               onClick={() => setShowTaskDetails(true)}
               className=" font-raleway font-bold text-white text-[15px] tracking-[1.50px] leading-[normal] whitespace-nowrap px-[29px] py-[7px] self-stretch w-full bg-[#3e4dac] rounded-[17px]"
