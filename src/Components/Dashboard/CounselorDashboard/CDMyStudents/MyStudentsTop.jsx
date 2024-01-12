@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import plusicon from "../../../../assets/Dashboard/CounselorsDashboard/iconoir_plus.svg";
+
 import axios from "axios";
 import { AuthContext } from "../../../../Contexts/AuthProvider";
 import { Link } from "react-router-dom";
@@ -182,35 +182,7 @@ const MyStudentsTop = () => {
           </div>
         </div>
       </div>
-      <div className="my-3">
-        
-        <div className="flex justify-end mt-10">
-          {/* <div
-            className="px-5 py-3 flex justify-between items-center mt-[11px] w-[60%]"
-            style={{
-              borderRadius: "7px",
-              border: "1px solid #F4F4F4",
-              background:
-                "linear-gradient(90deg, #EFF1FF 0%, rgba(226, 230, 253, 0.00) 117.88%)",
-              boxShadow: "0px 4px 20px 0px #F6F7FF",
-            }}
-          >
-            <p className="text-[#282828] text-[17px] font-medium tracking-wider">
-              "The success rate of your students' internships is"
-            </p>
-            <p className="text-2xl font-semibold tracking-widest">20%</p>
-          </div> */}
-          <Link
-            to={"/counselorDashboard/AddStudent"}
-            className="bg-[#4555BA] px-[15px] py-[10px] rounded-3xl text-white flex gap-2 items-center"
-          >
-            <img src={plusicon} alt="" />
-            <p className="text-[18px] font-medium tracking-wider">
-              Add Student details
-            </p>
-          </Link>
-        </div>
-      </div>
+      
     </div>
   );
 };

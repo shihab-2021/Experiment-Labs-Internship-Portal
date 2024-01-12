@@ -1,7 +1,6 @@
 //CDHomeTopSection
 
 import React, { useContext, useEffect, useState } from "react";
-import { FaMagnifyingGlass } from "react-icons/fa6";
 
 import axios from "axios";
 import { AuthContext } from "../../../../Contexts/AuthProvider";
@@ -44,19 +43,7 @@ const CDHomeTopSection = ({
     <div className="w-11/12 mx-auto mt-14">
       <div className="flex justify-between gap-2">
         <div>
-       {/*    <div
-            style={{
-              borderRadius: "14px",
-              border: "1px solid #DDD",
-            }}
-            className="mb-[40px] lg:flex hidden  items-center  px-2 text-[#929292] text-xl font-normal gap-[10px] w-9/12 h-[48px] "
-          >
-            <FaMagnifyingGlass />
-            <input className="w-full" placeholder="Search"></input>
-          </div> */}
-          <h1 className="text-[20px] text-[#3F3F3F] font-medium tracking-widest">
-            Home Page
-          </h1>
+          
           <h1 className="text-[19px] text-[#3F3F3F] font-medium tracking-widest mt-6 mb-3">
             My Students Status
           </h1>
