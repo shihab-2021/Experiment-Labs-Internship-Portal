@@ -22,6 +22,7 @@ const Internship = () => {
       )
       .then((tasks) => {
         setSuperAdminApprovedTasks(tasks?.data);
+        setFilteredTasks(tasks?.data);
       })
       .catch((error) => console.error(error));
     axios
