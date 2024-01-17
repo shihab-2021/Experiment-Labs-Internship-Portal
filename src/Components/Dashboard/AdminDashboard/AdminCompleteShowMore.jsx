@@ -1,5 +1,5 @@
 //AdminCompleteShowMore
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { BsPersonCircle } from "react-icons/bs";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import driveImage from "../../../assets/Dashboard/AdminDashboard/driveImage.svg";
@@ -70,7 +70,8 @@ const AdminCompleteShowMore = () => {
     if (taskDetails?.creator?.email)
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${taskDetails?.creator?.email
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${
+            taskDetails?.creator?.email
           }`
         )
         .then((creator) => {
@@ -89,7 +90,8 @@ const AdminCompleteShowMore = () => {
     if (creatorDetails?.organizations[0]?.organizationId)
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${creatorDetails?.organizations[0]?.organizationId
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${
+            creatorDetails?.organizations[0]?.organizationId
           }`
         )
         .then((organization) => {
@@ -159,8 +161,31 @@ const AdminCompleteShowMore = () => {
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentParticipants = taskDetails?.participants?.slice(startIndex, endIndex) || [];
+  const currentParticipants =
+    taskDetails?.participants?.slice(startIndex, endIndex) || [];
 
+  const [childWidth, setChildWidth] = useState(0);
+  const parentRef = useRef(null);
+
+  useEffect(() => {
+    const updateWidth = () => {
+      if (parentRef.current) {
+        const dynamicWidth = Math.max(0, parentRef.current.offsetWidth);
+        setChildWidth(dynamicWidth);
+      }
+    };
+
+    // Initial update
+    updateWidth();
+
+    // Event listener for resizing
+    window.addEventListener("resize", updateWidth);
+
+    return () => {
+      // Cleanup: remove the event listener when the component unmounts
+      window.removeEventListener("resize", updateWidth);
+    };
+  }, []);
 
   return (
     <div className="w-11/12 mx-auto mt-14">
@@ -273,23 +298,6 @@ const AdminCompleteShowMore = () => {
         >
           <p className="text-lg font-medium">Task Details</p>
           <h1 className="text-xl font-bold mt-3">{taskDetails?.taskName}</h1>
-          {/* <h1
-            className="mt-4 mb-[20px]"
-            dangerouslySetInnerHTML={{
-              __html: taskDetails?.aboutTask,
-            }}
-          />
-          <p className="text-base font-bold mt-4">Out come</p>
-          <h1
-            className="mt-2 mb-[20px]"
-            dangerouslySetInnerHTML={{
-              __html: taskDetails?.aboutOutcome,
-            }}
-          />
-          <p className="flex gap-2 items-center text-base font-normal text-[#4555BA] my-5">
-            <img src={driveImage} alt="image" />
-            <Link to={taskDetails?.taskLink}>{taskDetails?.taskLink}</Link>
-          </p> */}
           <h2 className="relative w-fit font-sans font-bold text-[#5cba45] text-[15.9px] tracking-[1.59px] my-4  whitespace-nowrap">
             <span className=" text-[#4555BA]">
               Average time to complete the task:
@@ -300,9 +308,9 @@ const AdminCompleteShowMore = () => {
             Task Details
           </h1>
           <p className=" text-[#797979] text-[16px] tracking-wider ">
-            {/* "{task?.aboutTask}" */}
             <h1
-              className=""
+              className=" overflow-x-auto"
+              style={{ width: `${childWidth}px` }}
               dangerouslySetInnerHTML={{
                 __html: taskDetails?.aboutTask,
               }}
@@ -311,10 +319,14 @@ const AdminCompleteShowMore = () => {
           <h1 className=" text-[#4555BA] mt-4 text-[16px] font-[700] tracking-wider ">
             Expected Outcome
           </h1>
-          <p className=" text-[#797979] text-[16px] tracking-wider ">
-            {/* {task?.aboutOutcome} */}
+          <p
+            // ref={(node) => node && setParentWidth(node.offsetWidth)}
+            ref={parentRef}
+            className="parent-container text-[#797979] text-[16px] tracking-wider "
+          >
             <h1
-              className=""
+              className=" overflow-x-auto"
+              style={{ width: `${childWidth}px` }}
               dangerouslySetInnerHTML={{
                 __html: taskDetails?.aboutOutcome,
               }}
@@ -512,10 +524,11 @@ const AdminCompleteShowMore = () => {
                   <div
                     className="bg-[#3E4DAC] h-2  rounded-lg"
                     style={{
-                      width: `${(taskDetails?.participants?.length /
-                        taskDetails?.participantLimit) *
+                      width: `${
+                        (taskDetails?.participants?.length /
+                          taskDetails?.participantLimit) *
                         100
-                        }%`,
+                      }%`,
                     }}
                   ></div>
                 </div>
@@ -563,8 +576,7 @@ const AdminCompleteShowMore = () => {
         </div>
       </div>
 
-
-   {/*       {taskDetails?.participants?.map((item) => (
+      {/*       {taskDetails?.participants?.map((item) => (
         <AdminParticipants item={item} />
       ))}
 
