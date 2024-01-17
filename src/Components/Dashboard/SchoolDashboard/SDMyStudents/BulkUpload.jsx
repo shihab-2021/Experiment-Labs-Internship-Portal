@@ -5,15 +5,7 @@ import { AuthContext } from "../../../../Contexts/AuthProvider";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-const BulkUpload = ({
-  schoolName,
-  setSchoolName,
-  schools,
-  schoolInfo,
-  setSchoolInfo,
-  schoolNameDropDown,
-  setSchoolNameDropDown,
-}) => {
+const BulkUpload = ({ schoolInfo }) => {
   const { userInfo } = useContext(AuthContext);
   const [file, setFile] = useState(null);
   const [jsonData, setJsonData] = useState(null);
@@ -145,38 +137,9 @@ const BulkUpload = ({
             required
             className="bg-[#EEF0FF] w-full focus:outline-none px-[10px] py-1 rounded-md shadow"
             type="text"
-            value={schoolName}
-            onChange={(e) => setSchoolName(e.target.value)}
-            onFocus={() => setSchoolNameDropDown(true)}
-            onBlur={() => {
-              setSchoolName(schoolName);
-              setSchoolNameDropDown(false);
-            }}
+            value={schoolInfo?.schoolName}
             placeholder="ex, delhi public school"
           />
-          {schoolNameDropDown && (
-            <div className="absolute z-10 bg-white border border-gray-300 mt-1 w-full rounded-md shadow-lg max-h-[250px] overflow-y-auto">
-              {schools
-                ?.filter((scl) =>
-                  scl?.schoolName
-                    ?.toLowerCase()
-                    ?.includes(schoolName?.toLowerCase())
-                )
-                .map((scl, index) => (
-                  <div
-                    key={index}
-                    className={` px-4 py-2 cursor-pointer hover:bg-gray-100`}
-                    onMouseDown={() => {
-                      setSchoolName(scl?.schoolName);
-                      setSchoolInfo(scl);
-                      setSchoolNameDropDown(false);
-                    }}
-                  >
-                    {scl?.schoolName}
-                  </div>
-                ))}
-            </div>
-          )}
         </div>
       </div>
       <p className="text-[17px] mt-6 mb-2 font-medium">Upload File(xlsx)</p>
