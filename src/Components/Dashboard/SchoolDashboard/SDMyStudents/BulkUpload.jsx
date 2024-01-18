@@ -143,41 +143,60 @@ const BulkUpload = ({ schoolInfo }) => {
         </div>
       </div>
       <p className="text-[17px] mt-6 mb-2 font-medium">Upload File(xlsx)</p>
-      <div
-        className="w-[220px] h-[220px] bg-[#F6F7FF] flex flex-col items-center justify-center rounded-lg "
-        onDragEnter={handleDragEnter}
-        onDragLeave={handleDragLeave}
-        onDragOver={handleDragOver}
-        onDrop={handleDrop}
-        style={{
-          border: "0.917px dashed #000",
-          background: "#F6F7FF",
-        }}
-      >
-        <>
-          <CloudUploadIcon className={` ${dragActive && "animate-ping"} `} />
-          <p className="text-[17px] font-semibold mb-3 mt-3">Drag and drop </p>
-          <p className="text-sm font-medium mb-3">Or</p>
-        </>
-        <>
-          <div className="flex gap-2 justify-center w-full">
-            <label
-              className="flex items-center px-5 py-2 rounded-lg bg-[#FFDB70] text-xs font-bold"
-              htmlFor="input-file-upload"
+      <div className="flex items-center">
+        <div
+          className="w-[220px] h-[220px] bg-[#F6F7FF] flex flex-col items-center justify-center rounded-lg "
+          onDragEnter={handleDragEnter}
+          onDragLeave={handleDragLeave}
+          onDragOver={handleDragOver}
+          onDrop={handleDrop}
+          style={{
+            border: "0.917px dashed #000",
+            background: "#F6F7FF",
+          }}
+        >
+          <>
+            <CloudUploadIcon className={` ${dragActive && "animate-ping"} `} />
+            <p className="text-[17px] font-semibold mb-3 mt-3">
+              Drag and drop{" "}
+            </p>
+            <p className="text-sm font-medium mb-3">Or</p>
+          </>
+          <>
+            <div className="flex gap-2 justify-center w-full">
+              <label
+                className="flex items-center px-5 py-2 rounded-lg bg-[#FFDB70] text-xs font-bold"
+                htmlFor="input-file-upload"
+              >
+                Browser
+              </label>
+              <input
+                className="hidden"
+                type="file"
+                name="input-file-upload"
+                id="input-file-upload"
+                onChange={handleFileChange}
+                multiple
+              />
+            </div>
+          </>
+          {file && <p className="p-1 text-center">{file?.name}</p>}
+        </div>
+        <div className=" w-auto mx-auto">
+          <p className="text-xl font-medium">
+            Please follow the the given template of xlsx file to enter student
+            data.
+          </p>
+          <div className="w-full flex justify-center">
+            <Link
+              className=" px-5 py-2 rounded-full font-bold bg-blue-400 text-white mt-5"
+              target="_blank"
+              to="https://docs.google.com/spreadsheets/d/15khae2YlLsa-lKbxpwnz9IWFyGRObGyYfUION4yOPLc/edit?usp=sharing"
             >
-              Browser
-            </label>
-            <input
-              className="hidden"
-              type="file"
-              name="input-file-upload"
-              id="input-file-upload"
-              onChange={handleFileChange}
-              multiple
-            />
+              Download Template
+            </Link>
           </div>
-        </>
-        {file && <p className="p-1 text-center">{file?.name}</p>}
+        </div>
       </div>
       {jsonData && (
         <>
