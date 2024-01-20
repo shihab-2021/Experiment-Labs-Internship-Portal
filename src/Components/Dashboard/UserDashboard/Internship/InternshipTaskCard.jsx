@@ -499,10 +499,15 @@ const InternshipTaskCard = ({ task }) => {
           </div>
         </div>
         <div className="w-full">
-          {task?.participants &&
-          task?.participants.find(
-            (participant) => participant?.participantEmail === user?.email
-          ) ? (
+          {task?.taskStatus === "AdminApproved" ||
+          task?.taskStatus === "Pending" ? (
+            <button className=" font-raleway font-bold text-white text-[15px]  leading-[normal] whitespace-nowrap py-[7px] self-stretch w-full bg-orange-500 rounded-[17px]">
+              Coming Soon
+            </button>
+          ) : task?.participants &&
+            task?.participants.find(
+              (participant) => participant?.participantEmail === user?.email
+            ) ? (
             <button className=" font-raleway font-bold text-white text-[15px] tracking-[1.50px] leading-[normal] whitespace-nowrap px-[29px] py-[7px] self-stretch w-full bg-green-500 rounded-[17px]">
               Applied
             </button>

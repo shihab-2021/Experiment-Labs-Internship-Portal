@@ -15,12 +15,9 @@ const Internship = () => {
 
   useEffect(() => {
     axios
-      .get(
-        `${
-          import.meta.env.VITE_APP_SERVER_API
-        }/api/v1/tasks/taskStatus/Processing`
-      )
+      .get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/tasks/showTasks`)
       .then((tasks) => {
+        tasks?.data?.reverse();
         setSuperAdminApprovedTasks(tasks?.data);
         setFilteredTasks(tasks?.data);
       })
