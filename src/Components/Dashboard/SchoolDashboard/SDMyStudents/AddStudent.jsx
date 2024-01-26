@@ -7,37 +7,36 @@ import axios from "axios";
 import { AuthContext } from "../../../../Contexts/AuthProvider";
 import Swal from "sweetalert2";
 import BulkUpload from "./BulkUpload";
-const MyStudentAddDetails = () => {
+import Loading from "../../../Shared/Loading/Loading";
+const AddStudent = ({ setShowAddStudent }) => {
   const navigate = useNavigate();
   const { userInfo } = useContext(AuthContext);
   const [fileLoading, setFileLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState();
-  const [page, setPage] = useState(1);
-  const [schools, setSchools] = useState([]);
   const [schoolInfo, setSchoolInfo] = useState({});
   const [orgLogo, setOrgLogo] = useState("");
-  const [schoolName, setSchoolName] = useState("");
-  const [schoolNameDropDown, setSchoolNameDropDown] = useState(false);
   const [addBulkUpload, setAddBulkUpload] = useState(false);
 
   useEffect(() => {
-    if (userInfo?.organizations) {
-      axios
-        .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/schools/counsellorId/${
-            userInfo?.organizations[0]?.counsellorId
-          }`
-        )
-        .then((org) => {
-          setSchools(org?.data);
-        })
-        .catch((error) => console.error(error));
-    }
+    Loading();
+    axios
+      .get(
+        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/schools/schoolId/${
+          userInfo?.organizations[0]?.schoolId
+        }`
+      )
+      .then((school) => {
+        setSchoolInfo(school?.data);
+      })
+      .catch((error) => console.error(error))
+      .finally(() => {
+        Loading().close();
+      });
   }, [userInfo, addBulkUpload]);
 
   const handleBack = () => {
     if (addBulkUpload) setAddBulkUpload(false);
-    else navigate("/counselorDashboard/MyStudents");
+    else setShowAddStudent(false);
   };
 
   const handleDragEnter = (e) => {
@@ -149,27 +148,9 @@ const MyStudentAddDetails = () => {
         title: "New User created successfully!",
         icon: "success",
       });
-      navigate("/counselorDashboard/MyStudents");
-      // const sendMail = await axios.post(
-      //     `${import.meta.env.VITE_APP_BACKEND_API}/api/v1/sendMail`,
-      //     {
-      //         from: `${userInfo?.email}`,
-      //         to: `naman.j@experimentlabs.in, gaurav@experimentlabs.in, shihab77023@gmail.com, rhrahi14@gmail.com`,
-      //         subject: `Submission of ${taskData?.taskName}`,
-      //         message: `${userInfo?.firstName} ${userInfo?.lastName} has Created a Task named ${taskData?.taskName}.Please review the Task.`,
-      //     }
-      // );
-
-      // if (sendMail)
+      navigate("/schoolDashboard/myStudents");
     }
     form.reset();
-  };
-
-  const handleBulkUpdate = async (event) => {
-    event.preventDefault();
-    Swal.fire({
-      title: "Bulk upload to be added within 11th Jan",
-    });
   };
 
   return (
@@ -184,15 +165,7 @@ const MyStudentAddDetails = () => {
       </div>
       {addBulkUpload && (
         <div className="w-full overflow-hidden">
-          <BulkUpload
-            schoolName={schoolName}
-            setSchoolName={setSchoolName}
-            schools={schools}
-            schoolInfo={schoolInfo}
-            setSchoolInfo={setSchoolInfo}
-            schoolNameDropDown={schoolNameDropDown}
-            setSchoolNameDropDown={setSchoolNameDropDown}
-          />
+          <BulkUpload schoolInfo={schoolInfo} />
         </div>
       )}
       {!addBulkUpload && (
@@ -331,38 +304,9 @@ const MyStudentAddDetails = () => {
                     required
                     className="bg-[#EEF0FF] w-full focus:outline-none px-[10px] py-1 rounded-md shadow"
                     type="text"
-                    value={schoolName}
-                    onChange={(e) => setSchoolName(e.target.value)}
-                    onFocus={() => setSchoolNameDropDown(true)}
-                    onBlur={() => {
-                      setSchoolName(schoolName);
-                      setSchoolNameDropDown(false);
-                    }}
+                    value={schoolInfo?.schoolName}
                     placeholder="ex, delhi public school"
                   />
-                  {schoolNameDropDown && (
-                    <div className="absolute z-10 bg-white border border-gray-300 mt-1 w-full rounded-md shadow-lg max-h-[250px] overflow-y-auto">
-                      {schools
-                        ?.filter((scl) =>
-                          scl?.schoolName
-                            ?.toLowerCase()
-                            ?.includes(schoolName?.toLowerCase())
-                        )
-                        .map((scl, index) => (
-                          <div
-                            key={index}
-                            className={` px-4 py-2 cursor-pointer hover:bg-gray-100`}
-                            onMouseDown={() => {
-                              setSchoolName(scl?.schoolName);
-                              setSchoolInfo(scl);
-                              setSchoolNameDropDown(false);
-                            }}
-                          >
-                            {scl?.schoolName}
-                          </div>
-                        ))}
-                    </div>
-                  )}
                 </div>
               </div>
               <div className="flex flex-col gap-2 my-4">
@@ -441,4 +385,4 @@ const MyStudentAddDetails = () => {
   );
 };
 
-export default MyStudentAddDetails;
+export default AddStudent;

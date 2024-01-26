@@ -1137,6 +1137,79 @@ const DashboardLayout = ({ children }) => {
                                 </span>
                               </Link>
                             </li>
+                            <li>
+                              <Link
+                                style={
+                                  location.pathname ===
+                                  "/schoolDashboard/myStudents"
+                                    ? {
+                                        background:
+                                          "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
+                                      }
+                                    : {}
+                                }
+                                to="/schoolDashboard/myStudents"
+                                className={`text-white font-normal rounded-[15px] flex items-center px-[20px] py-[13px]  group`}
+                              >
+                                {location.pathname ===
+                                "/schoolDashboard/myStudents" ? (
+                                  <img
+                                    src={StudentIconLight}
+                                    alt="StudentIconLight"
+                                  />
+                                ) : (
+                                  <img
+                                    src={StudentIconDark}
+                                    alt="StudentIconDark"
+                                  />
+                                )}
+                                <span
+                                  className={`${
+                                    location.pathname ===
+                                    "/schoolDashboard/myStudents"
+                                      ? "text-white "
+                                      : "text-[#8F8F8F]"
+                                  } ml-3 text-[16px] font-[600]`}
+                                >
+                                  My Students
+                                </span>
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                style={
+                                  location.pathname === "/internship"
+                                    ? {
+                                        background:
+                                          "linear-gradient(270deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.274309) 35.55%, rgba(0, 0, 0, 0) 100%), #6278FF",
+                                      }
+                                    : {}
+                                }
+                                to="/internship"
+                                className={`text-white font-normal rounded-[15px] flex items-center px-[20px] py-[13px]  group`}
+                              >
+                                {location.pathname === "/internship" ? (
+                                  <img
+                                    src={InternshipIconLight}
+                                    alt="InternshipIconLight"
+                                  />
+                                ) : (
+                                  <img
+                                    src={InternshipIconDark}
+                                    alt="InternshipIconDark"
+                                  />
+                                )}
+                                <span
+                                  className={`${
+                                    location.pathname === "/internship"
+                                      ? "text-white "
+                                      : "text-[#8F8F8F]"
+                                  } ml-3 text-[16px] font-[600]`}
+                                >
+                                  Internships
+                                </span>
+                              </Link>
+                            </li>
                           </>
                         )}
                       </ul>
@@ -1179,9 +1252,8 @@ const DashboardLayout = ({ children }) => {
                           understand the product.
                         </p>
                         <p>
-                          Companies have started posting. We
-                          will update you via email as soon as your favourite
-                          companies are live.
+                          Companies have started posting. We will update you via
+                          email as soon as your favourite companies are live.
                         </p>
                         <p>Happy interning!🎉</p>
                       </div>

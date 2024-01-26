@@ -20,7 +20,6 @@ import SuperAdminDashboardSubmissionDetails from "../Pages/SuperAdminDashboard/S
 import SuperAdminDashboardCreateTask from "../Pages/SuperAdminDashboard/SuperAdminDashboardCreateTask";
 import SuperAdminDashboardTaskAccess from "../Pages/SuperAdminDashboard/SuperAdminDashboardTaskAccess";
 import EditTaskDetails from "../Pages/Dashboard/EditTaskDetails";
-
 import SuperAdminDashboardTaskDetails from "../Pages/SuperAdminDashboard/SuperAdminDashboardTaskDetails";
 import SuperAdminMessage from "../Pages/SuperAdminDashboard/SuperAdminMessage";
 import CDHome from "../Pages/CourselorDashboard/CDHome";
@@ -31,6 +30,7 @@ import CDAddStudent from "../Pages/CourselorDashboard/CDAddStudent";
 import SDDashboard from "../Pages/SchoolDashboard/SDDashboard";
 import SDSchoolEdit from "../Components/Dashboard/SchoolDashboard/SDDashboard/SDSchoolEdit";
 import SDDashboardSchoolEdit from "../Pages/SchoolDashboard/SDDashboardSchoolEdit";
+import SDMyStudents from "../Pages/SchoolDashboard/SDMyStudents";
 
 export const router = createBrowserRouter([
   {
@@ -155,6 +155,10 @@ export const router = createBrowserRouter([
   },
   {
     path: "/schoolDashboard/schoolEdit",
-    element: <SDDashboardSchoolEdit/>,
+    element: <SDDashboardSchoolEdit />,
+  },
+  {
+    path: "/schoolDashboard/myStudents",
+    element: <SDMyStudents />,
   },
 ]);

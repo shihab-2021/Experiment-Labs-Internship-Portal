@@ -5,7 +5,7 @@ import { AuthContext } from "../../../../Contexts/AuthProvider";
 import axios from "axios";
 import Loading from "../../../Shared/Loading/Loading";
 
-const CDMyStudentsMain = () => {
+const SDMyStudentsMain = ({ setShowAddStudent }) => {
   const [myStudents, setmyStudents] = useState([]);
   const { userInfo } = useContext(AuthContext);
   useEffect(() => {
@@ -13,11 +13,9 @@ const CDMyStudentsMain = () => {
     if (userInfo?.organizations) {
       axios
         .get(
-          `${
-            import.meta.env.VITE_APP_SERVER_API
-          }/api/v1/taskSubmissions/counsellorId/${
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users/counsellorId/${
             userInfo?.organizations[0]?.counsellorId
-          }`
+          }/schoolId/${userInfo?.organizations[0]?.schoolId}`
         )
         .then((students) => {
           setmyStudents(students?.data);
@@ -33,9 +31,12 @@ const CDMyStudentsMain = () => {
   return (
     <div>
       <MyStudentsTop></MyStudentsTop>
-      <MyStudentsData students={myStudents}></MyStudentsData>
+      <MyStudentsData
+        setShowAddStudent={setShowAddStudent}
+        students={myStudents}
+      ></MyStudentsData>
     </div>
   );
 };
 
-export default CDMyStudentsMain;
+export default SDMyStudentsMain;
