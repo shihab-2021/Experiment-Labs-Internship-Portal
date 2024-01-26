@@ -143,13 +143,12 @@ const SuperAdminCreateTaskForms = () => {
         setPage(2);
       } else {
         Swal.fire({
-          title: `Please Enter ${
-            !organizationInfo.orgName && !organizationInfo.aboutOrg
-              ? "Company Name & Company Logo"
-              : !organizationInfo.orgName
+          title: `Please Enter ${!organizationInfo.orgName && !organizationInfo.aboutOrg
+            ? "Company Name & Company Logo"
+            : !organizationInfo.orgName
               ? "Company Name"
               : "Company Logo"
-          }!`,
+            }!`,
           icon: "error",
         });
         form.reset();
@@ -171,13 +170,12 @@ const SuperAdminCreateTaskForms = () => {
         setPage(2);
       } else {
         Swal.fire({
-          title: `Please Enter ${
-            !companyData.orgName && !companyData.aboutOrg
-              ? "Company Name & Company Logo"
-              : !companyData.orgName
+          title: `Please Enter ${!companyData.orgName && !companyData.aboutOrg
+            ? "Company Name & Company Logo"
+            : !companyData.orgName
               ? "Company Name"
               : "Company Logo"
-          }!`,
+            }!`,
           icon: "error",
         });
         form.reset();
@@ -310,7 +308,19 @@ const SuperAdminCreateTaskForms = () => {
       //   }
       // );
       // if (sendMail)
-      navigate("/dashboard");
+
+      const bulkData = {
+        subject: `${taskInfo?.taskName} is now live`,
+        text: `${taskInfo?.taskName} is now live. Please check your dashboard.`,
+      };
+
+      axios.post(
+        `${import.meta.env.VITE_APP_SERVER_API
+        }/api/v1/emails/send-bulk-emails`,
+        bulkData
+      );
+
+      // navigate("/dashboard");
     }
   };
 
