@@ -195,6 +195,49 @@ const TaskTracker = () => {
         console.error(error);
       });
   };
+
+
+  const handleCreateChat = async () => {
+    const data =
+    {
+      chatName: "",
+      isGroupChat: false,
+      users: [
+        {
+          "_id": userInfo._id
+        },
+        {
+          "_id": taskCreatorInfo._id
+        }
+      ],
+      latestMessage: {},
+      groupAdmin: ""
+    }
+
+    const createChat = await axios.post(
+      `${import.meta.env.VITE_APP_SERVER_API}/api/v1/chats`,
+      data
+    );
+
+    if (createChat?.data?.isSendMessage) {
+      const data = {
+        fromEmail: "naman.j@experimentlabs.in",
+        toEmail: taskCreatorInfo?.email,
+        subject: `New Message`,
+        text: `You have received a message from Super Admin`,
+      };
+
+      const sendEmail = await axios.post(
+        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/emails/single-email`,
+        data
+      );
+    }
+
+    if(createChat?.data?.success){
+      navigate('/superAdminDashboard/messages')
+    }
+  }
+
   return (
     <div className="p-4">
       <DialogLayout
@@ -559,7 +602,7 @@ const TaskTracker = () => {
                         </h1>
                       </div>
                     </div>
-                    <button className="w-[136px] h-9 px-[26px] py-2.5 bg-white rounded-[26px] border border-sky-500 justify-center items-center gap-2.5 inline-flex text-sky-500 text-xl font-normal font-raleway leading-[15.08px]">
+                    <button onClick={handleCreateChat} className="w-[136px] h-9 px-[26px] py-2.5 bg-white rounded-[26px] border border-sky-500 justify-center items-center gap-2.5 inline-flex text-sky-500 text-xl font-normal font-raleway leading-[15.08px]">
                       Message
                     </button>
                   </div>

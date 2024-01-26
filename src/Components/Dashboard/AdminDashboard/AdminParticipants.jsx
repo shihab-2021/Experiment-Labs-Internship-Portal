@@ -47,8 +47,7 @@ const AdminParticipants = ({ item }) => {
     if (item?.participantEmail)
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${
-            item?.participantEmail
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${item?.participantEmail
           }`
         )
         .then((user) => {
@@ -65,8 +64,7 @@ const AdminParticipants = ({ item }) => {
     if (item?.submissionId)
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/taskSubmissions/${
-            item?.submissionId
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/taskSubmissions/${item?.submissionId
           }`
         )
         .then((user) => {
@@ -78,7 +76,7 @@ const AdminParticipants = ({ item }) => {
   //console.log(submissionDetails)
 
   // handle select or reject
-  console.log(submissionDetails);
+  // console.log(submissionDetails);
 
   const updateSubmissionStatus = async (status, submissionId) => {
     const submissionData = { ...submissionDetails };
@@ -90,8 +88,7 @@ const AdminParticipants = ({ item }) => {
 
     axios
       .put(
-        `${
-          import.meta.env.VITE_APP_SERVER_API
+        `${import.meta.env.VITE_APP_SERVER_API
         }/api/v1/taskSubmissions/submissionId/${submissionId}/submissionStatus/${status}`
       )
       .then(async (response) => {
@@ -135,6 +132,49 @@ const AdminParticipants = ({ item }) => {
         // Handle error, show an error message to the user
       });
   };
+
+
+  const handleCreateChat = async () => {
+    const counsellor = await axios.get(`${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${userDetails?.counsellorId}`);
+    const data =
+    {
+      chatName: "",
+      isGroupChat: false,
+      users: [
+        {
+          "_id": userInfo._id
+        },
+        {
+          "_id": userDetails._id
+        }
+      ],
+      latestMessage: {},
+      groupAdmin: ""
+    }
+
+    const createChat = await axios.post(
+      `${import.meta.env.VITE_APP_SERVER_API}/api/v1/chats`,
+      data
+    );
+
+    if (createChat?.data?.isSendMessage) {
+      const data = {
+        fromEmail: counsellor?.data?.officialEmail ? counsellor?.data?.officialEmail : 'naman.j@experimentlabs.in',
+        toEmail: userDetails?.email,
+        subject: `New Message`,
+        text: `You have received a message`,
+      };
+
+      const sendEmail = await axios.post(
+        `${import.meta.env.VITE_APP_SERVER_API}/api/v1/emails/single-email`,
+        data
+      );
+    }
+
+    if (createChat?.data?.success) {
+      navigate('/superAdminDashboard/messages')
+    }
+  }
 
   const [isDivVisible, setDivVisibility] = useState(false);
   const [details, setDetails] = useState("");
@@ -189,7 +229,7 @@ const AdminParticipants = ({ item }) => {
           </h1>
         </div>
         <Link
-          to="/message"
+          onClick={handleCreateChat}
           className=""
           style={{
             borderRadius: "18px",
