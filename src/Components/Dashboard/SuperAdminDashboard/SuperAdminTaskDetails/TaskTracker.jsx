@@ -94,8 +94,7 @@ const TaskTracker = () => {
     if (task?.creator?.email) {
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${
-            task?.creator?.email
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${task?.creator?.email
           }`
         )
         .then((user) => {
@@ -106,8 +105,7 @@ const TaskTracker = () => {
     if (task?.creator?.organizationId) {
       axios
         .get(
-          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${
-            task?.creator?.organizationId
+          `${import.meta.env.VITE_APP_SERVER_API}/api/v1/organizations/${task?.creator?.organizationId
           }`
         )
         .then((org) => {
@@ -151,8 +149,7 @@ const TaskTracker = () => {
 
     const update = axios
       .put(
-        `${
-          import.meta.env.VITE_APP_SERVER_API
+        `${import.meta.env.VITE_APP_SERVER_API
         }/api/v1/tasks/taskId/${taskId}/taskStatus/${status}`,
         decisionInfo
       )
@@ -163,9 +160,8 @@ const TaskTracker = () => {
           fromEmail: "naman.j@experimentlabs.in",
           toEmail: taskCreatorInfo?.email,
           subject: `${task?.taskName} is now live`,
-          text: `Super Admin has ${
-            status === "Rejected" ? status : "Approved"
-          } ${task?.taskName}. Please check your dashboard.`,
+          text: `Super Admin has ${status === "Rejected" ? status : "Approved"
+            } ${task?.taskName}. Please check your dashboard.`,
         };
 
         // console.log(taskCreatorInfo?.email);
@@ -188,12 +184,12 @@ const TaskTracker = () => {
           text: `${task?.taskName} is now live. Please check your dashboard.`,
         };
 
-        axios.post(
-          `${
-            import.meta.env.VITE_APP_SERVER_API
-          }/api/v1/emails/send-bulk-emails`,
-          bulkData
-        );
+        if (status !== "Rejected")
+          axios.post(
+            `${import.meta.env.VITE_APP_SERVER_API
+            }/api/v1/emails/send-bulk-emails`,
+            bulkData
+          );
 
         // navigate("/superAdminSubmissionDetails");
       })
@@ -239,7 +235,7 @@ const TaskTracker = () => {
       );
     }
 
-    if(createChat?.data?.success){
+    if (createChat?.data?.success) {
       navigate('/superAdminDashboard/messages')
     }
   }
@@ -325,8 +321,8 @@ const TaskTracker = () => {
       </DialogLayout>
       <div className=" flex items-center justify-between ">
         {task?.taskStatus !== "Pending" &&
-        task?.taskStatus !== "AdminApproved" &&
-        task?.taskStatus !== "Rejected" ? (
+          task?.taskStatus !== "AdminApproved" &&
+          task?.taskStatus !== "Rejected" ? (
           <h1 className="font-bold text-[20px] text-green-400">Approved</h1>
         ) : task?.taskStatus === "Rejected" ? (
           <h1 className="font-bold text-[20px] text-red-500">Rejected</h1>
@@ -336,8 +332,8 @@ const TaskTracker = () => {
           </h1>
         )}
         {task?.taskStatus !== "Pending" &&
-        task?.taskStatus !== "AdminApproved" &&
-        task?.taskStatus !== "Rejected" ? (
+          task?.taskStatus !== "AdminApproved" &&
+          task?.taskStatus !== "Rejected" ? (
           <button
             onClick={() => setShowSubmissionDetails(true)}
             className="flex items-center gap-1 py-2 px-3 text-[16px] font-medium rounded-full bg-[#4555BA] text-white"
@@ -369,21 +365,18 @@ const TaskTracker = () => {
             <div>
               <div className=" grid grid-cols-3 w-3/4 mx-auto h-1 mb-[-20px]">
                 <div
-                  className={`${
-                    task?.superAdminDecisionInfo
+                  className={`${task?.superAdminDecisionInfo
                       ? "bg-[#4555BA]"
                       : "bg-[#D9D9D9]"
-                  } `}
+                    } `}
                 ></div>
                 <div
-                  className={`${
-                    task?.selectedDateTime ? "bg-[#4555BA]" : "bg-[#D9D9D9]"
-                  } `}
+                  className={`${task?.selectedDateTime ? "bg-[#4555BA]" : "bg-[#D9D9D9]"
+                    } `}
                 ></div>
                 <div
-                  className={`${
-                    task?.prizeDateTime ? "bg-[#4555BA]" : "bg-[#D9D9D9]"
-                  } `}
+                  className={`${task?.prizeDateTime ? "bg-[#4555BA]" : "bg-[#D9D9D9]"
+                    } `}
                 ></div>
               </div>
             </div>
@@ -416,21 +409,20 @@ const TaskTracker = () => {
               </div>
               <div className="flex items-center flex-col">
                 <p
-                  className={`${
-                    task?.taskStatus !== "Pending" &&
-                    task?.taskStatus !== "AdminApproved" &&
-                    task?.taskStatus !== "Rejected"
+                  className={`${task?.taskStatus !== "Pending" &&
+                      task?.taskStatus !== "AdminApproved" &&
+                      task?.taskStatus !== "Rejected"
                       ? "bg-[#4555BA]"
                       : task?.taskStatus === "Rejected"
-                      ? "bg-[#DD2025]"
-                      : "bg-[#8F8F8F]"
-                  } rounded-full  px-[10px] py-[7px]  w-[40px] h-[40px] text-white text-[16px] font-medium text-center`}
+                        ? "bg-[#DD2025]"
+                        : "bg-[#8F8F8F]"
+                    } rounded-full  px-[10px] py-[7px]  w-[40px] h-[40px] text-white text-[16px] font-medium text-center`}
                 >
                   2
                 </p>
                 {task?.taskStatus !== "Pending" &&
-                task?.taskStatus !== "AdminApproved" &&
-                task?.taskStatus !== "Rejected" ? (
+                  task?.taskStatus !== "AdminApproved" &&
+                  task?.taskStatus !== "Rejected" ? (
                   <p>Approved</p>
                 ) : task?.taskStatus === "Rejected" ? (
                   <p>Rejected</p>
@@ -561,31 +553,30 @@ const TaskTracker = () => {
                     {task?.participantLimit} Students
                   </h1>
                   <h1
-                    className={` font-sans font-bold text-[15px] tracking-[1.50px] px-[7px] w-fit py-[4px] ${
-                      parseInt(task?.participantLimit) -
+                    className={` font-sans font-bold text-[15px] tracking-[1.50px] px-[7px] w-fit py-[4px] ${parseInt(task?.participantLimit) -
                         task?.participants?.length >
-                      5
+                        5
                         ? "bg-green-200 text-green-600"
                         : parseInt(task?.participantLimit) -
-                            task?.participants?.length <=
-                            5 &&
+                          task?.participants?.length <=
+                          5 &&
                           parseInt(task?.participantLimit) -
-                            task?.participants?.length >=
-                            3
-                        ? "bg-orange-200 text-orange-600"
-                        : parseInt(task?.participantLimit) -
+                          task?.participants?.length >=
+                          3
+                          ? "bg-orange-200 text-orange-600"
+                          : parseInt(task?.participantLimit) -
                             task?.participants?.length <=
                             2 &&
-                          parseInt(task?.participantLimit) -
+                            parseInt(task?.participantLimit) -
                             task?.participants?.length >=
                             1
-                        ? "bg-red-200 text-red-600"
-                        : "bg-gray-200 text-gray-600"
-                    }  rounded-[10px]`}
+                            ? "bg-red-200 text-red-600"
+                            : "bg-gray-200 text-gray-600"
+                      }  rounded-[10px]`}
                   >
                     {task?.participants
                       ? parseInt(task?.participantLimit) -
-                        task?.participants?.length
+                      task?.participants?.length
                       : parseInt(task?.participantLimit)}{" "}
                     spots left
                   </h1>
