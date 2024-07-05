@@ -31,6 +31,7 @@ import SDDashboard from "../Pages/SchoolDashboard/SDDashboard";
 import SDSchoolEdit from "../Components/Dashboard/SchoolDashboard/SDDashboard/SDSchoolEdit";
 import SDDashboardSchoolEdit from "../Pages/SchoolDashboard/SDDashboardSchoolEdit";
 import SDMyStudents from "../Pages/SchoolDashboard/SDMyStudents";
+import PreDashboard from "../Components/Dashboard/Shared/PreDashboard";
 
 export const router = createBrowserRouter([
   {
@@ -132,6 +133,10 @@ export const router = createBrowserRouter([
   {
     path: "/counselorDashboard/Home",
     element: <CDHome />,
+  },
+  {
+    path: "/preDashboard",
+    element: <PreDashboard />,
   },
   {
     path: "/counselorDashboard/Dashboard",
