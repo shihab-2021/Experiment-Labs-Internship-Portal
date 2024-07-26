@@ -13,54 +13,50 @@ function PreDashboard() {
   const sidebarRef = useRef();
   const query = useQuery();
   const token = query.get("token");
+  const requestedBy = query.get("org");
   const navigate = useNavigate();
-  const {signIn , userInfo} = useContext(AuthContext)
+  const { signIn } = useContext(AuthContext);
 
   useEffect(() => {
-    const getTokenData = async () => {
-      const newSecret = import.meta.env.VITE_SECRET_LOGIN_KEY;
-      const secret = new TextEncoder().encode(newSecret);
+    const handleAuthentication = async () => {
       try {
-        if (secret && token) {
-          const { payload } = await jwtVerify(token, secret);
-          if (!payload.isProviderLogin) {
-            if (!userInfo.email) {
-              await signIn(payload.email, payload.password).then((result) => {
-                console.log({result});
-                Loading();
-                axios
-                  .get(
-                    `${
-                      import.meta.env.VITE_APP_SERVER_API
-                    }/api/v1/users?email=${payload.email}`
-                  )
-                  .then((user) => {
-                    console.log({user});
-                    if (user?.data?.organizations) {
-                      if (user?.data?.organizations[0]?.role === "SuperAdmin")
-                        navigate("/superAdminDashboardHome");
-                      else if (
-                        user?.data?.organizations[0]?.role === "Counsellor"
-                      )
-                        navigate("/counselorDashboard/Home");
-                      else if (
-                        user?.data?.organizations[0]?.role === "SchoolAdmin"
-                      )
-                        navigate("/schoolDashboard/dashboard");
-                      else {
-                        navigate(
-                          role === "Student" ? "/userDashboard" : "/dashboard"
-                        );
-                      }
-                    } else {
-                      localStorage.setItem("role", "Student");
+        if (token && requestedBy) {
+          const authData = await axios.post(
+            `${import.meta.env.VITE_APP_SERVER_API}/api/v1/auth`,
+            { token, requestedBy }
+          );
+          if (authData.data.success) {
+            signIn(
+              authData.data.credentials.email,
+              authData.data.credentials.password
+            ).then((result) => {
+              axios
+                .get(
+                  `${import.meta.env.VITE_APP_SERVER_API}/api/v1/users?email=${
+                    authData.data.credentials.email
+                  }`
+                )
+                .then((user) => {
+                  if (user?.data?.organizations) {
+                    if (user?.data?.organizations[0]?.role === "SuperAdmin")
+                      navigate("/superAdminDashboardHome");
+                    else if (
+                      user?.data?.organizations[0]?.role === "Counsellor"
+                    )
+                      navigate("/counselorDashboard/Home");
+                    else if (
+                      user?.data?.organizations[0]?.role === "SchoolAdmin"
+                    )
+                      navigate("/schoolDashboard/dashboard");
+                    else {
                       navigate("/userDashboard");
                     }
-                  })
-                  .catch((error) => console.error(error));
-                Loading().close();
-              });
-            }
+                  } else {
+                    navigate("/userDashboard");
+                  }
+                })
+                .catch((error) => console.error(error));
+            });
           }
         }
       } catch (error) {
@@ -69,7 +65,7 @@ function PreDashboard() {
       }
     };
 
-    getTokenData();
+    handleAuthentication();
   }, [token]);
 
   useEffect(() => {
