@@ -43,6 +43,10 @@ export const router = createBrowserRouter([
     element: <Home />,
   },
   {
+    path: "/organization/:id/preDashboard",
+    element: <PreDashboard />,
+  },
+  {
     path: "/dashboard",
     element: <DashboardHome />,
   },
