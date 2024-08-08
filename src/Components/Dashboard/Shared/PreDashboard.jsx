@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { jwtVerify } from "jose";
 import { AuthContext } from "../../../Contexts/AuthProvider";
-import Loading from "../../Shared/Loading/Loading";
 import axios from "axios";
+import LoadingComponent from "../../Shared/Loading/LoadingComponent";
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
@@ -37,6 +36,7 @@ function PreDashboard() {
                   }`
                 )
                 .then((user) => {
+                  // Loading().close()
                   if (user?.data?.organizations) {
                     if (user?.data?.organizations[0]?.role === "SuperAdmin")
                       navigate("/superAdminDashboardHome");
@@ -60,9 +60,11 @@ function PreDashboard() {
           }
         }
       } catch (error) {
+        // Loading().close()
         console.log({ error });
         throw new Error(error);
       }
+      // Loading().close()
     };
 
     handleAuthentication();
@@ -160,7 +162,9 @@ function PreDashboard() {
             className="h-full w-full relative lg:ml-[324px]"
           >
             <main className="min-h-[100vh]">
-              <div className="container mx-auto px-4"></div>
+              <div className="container mx-auto px-4">
+                <LoadingComponent />
+              </div>
             </main>
           </div>
         </div>
